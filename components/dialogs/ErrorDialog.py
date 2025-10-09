@@ -1,0 +1,24 @@
+import flet as ft
+
+
+class ErrorDialog(ft.AlertDialog):
+    text = ft.Text("")
+
+    def __init__(self):
+        super().__init__()
+
+        self.title = ft.Text("Ein Fehler ist aufgetreten!")
+        self.content = self.text
+        self.modal = True
+        self.actions = [ft.FilledButton("Ok", on_click=lambda e: self.close_dialog())]
+        self.actions_alignment = ft.MainAxisAlignment.END
+
+    def open_dialog(self, msg):
+        self.text.value = msg
+        self.text.update()
+        self.open = True
+        self.update()
+
+    def close_dialog(self):
+        self.open = False
+        self.update()
