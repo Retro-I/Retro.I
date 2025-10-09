@@ -1,4 +1,5 @@
 import threading
+import subprocess
 import time
 
 import flet as ft
@@ -81,6 +82,5 @@ def main(page: ft.Page):
 
     process = threading.Thread(target=background_processes)
     process.start()
-
 
 ft.app(main)

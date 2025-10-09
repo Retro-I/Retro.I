@@ -128,6 +128,7 @@ User=pi
 Group=pi
 WorkingDirectory=$RETROI_DIR
 ExecStart=$RETROI_DIR/scripts/start.sh
+ExecStopPost=$RETROI_DIR/scripts/force_restart.sh
 Restart=no
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/pi/.Xauthority
