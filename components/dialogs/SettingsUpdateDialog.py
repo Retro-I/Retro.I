@@ -5,6 +5,7 @@ import flet as ft
 
 from components.dialogs.DownloadDialog import DownloadDialog
 from components.dialogs.ErrorDialog import ErrorDialog
+from helper.PageState import PageState
 from helper.RevisionHelper import RevisionHelper
 from helper.SystemHelper import SystemHelper
 
@@ -25,6 +26,10 @@ class SettingsUpdateDialog(ft.AlertDialog):
         super().__init__()
         self.download_dialog = DownloadDialog()
         self.error_dialog = ErrorDialog()
+
+        PageState.page.add(self.download_dialog)
+        PageState.page.add(self.error_dialog)
+
         self.title = ft.Text(
             spans=[
                 ft.TextSpan("Aktueller Stand: "),
