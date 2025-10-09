@@ -127,7 +127,7 @@ Type=simple
 User=pi
 Group=pi
 WorkingDirectory=$RETROI_DIR
-ExecStart=$RETROI_DIR/.venv/bin/python $RETROI_DIR/main.py
+ExecStart=$RETROI_DIR/scripts/start.sh
 Restart=no
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/pi/.Xauthority
