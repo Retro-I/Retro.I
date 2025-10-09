@@ -5,7 +5,7 @@ class RevisionHelper:
     def get_branches(self) -> list[str]:
         remote = subprocess.check_output(["git", "branch", "-r", "--format=%(refname:short)"], text=True).splitlines()
 
-        remote = [r.split("/", 1)[1] for r in remote if "HEAD" not in r and r.startswith("origin/")]
+        remote = [r.split("/", 1)[1] for r in remote if not "HEAD" in r and r.startswith("origin/")]
 
         def branch_sort_key(branch: str):
             if branch in ("main", "master"):
