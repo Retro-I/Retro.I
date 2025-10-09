@@ -8,10 +8,9 @@ class DownloadDialog(ft.AlertDialog):
         super().__init__()
 
         self.title = ft.Text(
-            spans=[ft.TextSpan("Update für Version "), self.text, ft.TextSpan(" wird heruntergeladen...")]
+            spans=[ft.TextSpan("Update für Version "), self.text, ft.TextSpan(" werden heruntergeladen...")]
         )
-        self.actions = [ft.FilledButton("Ok", on_click=lambda e: self.close_dialog())]
-        self.actions_alignment = ft.MainAxisAlignment.END
+        self.modal = True
 
     def open_dialog(self, revision):
         self.text.value = revision

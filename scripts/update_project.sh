@@ -36,13 +36,13 @@ fi
 
 echo "Checked out '$REF' successfully."
 
-if [ -f requirements.txt ]; then
+if [ -f ../requirements.txt ]; then
     echo "Installing dependencies (force reinstall)..."
-    pip install --upgrade pip || { echo "❌ pip upgrade failed." >&2; exit 1; }
-    pip install --force-reinstall --upgrade -r requirements.txt || { echo "❌ pip install failed." >&2; exit 1; }
+    pip install --upgrade pip || { echo "pip upgrade failed." >&2; exit 1; }
+    pip install --upgrade -r ../requirements.txt || { echo "pip install failed." >&2; exit 1; }
     echo "Dependencies installed."
 else
-    echo "No requirements.txt found — skipping pip install."
+    echo "No requirements.txt found — skipping pip install." >&2; exit 1;
 fi
 
 echo "Update complete."

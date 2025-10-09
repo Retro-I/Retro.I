@@ -99,20 +99,19 @@ class SettingsUpdateDialog(ft.AlertDialog):
         self.download_dialog.open_dialog(revision)
         try:
             result = subprocess.run(
-                ["bash", "./scripts/update_project.sh", revision],
+                ["bash", "scripts/update_project.sh", revision],
                 capture_output=True,
                 text=True,
-                check=True,  # raises CalledProcessError if script exits non-zero
+                check=True,
             )
             print("✅ Script output:\n", result.stdout)
-            self.download_dialog.close_dialog()
         except subprocess.CalledProcessError as e:
             print("Script failed!")
             print("Exit code:", e.returncode)
             print("STDOUT:\n", e.stdout)
             print("STDERR:\n", e.stderr)
-            self.download_dialog.close_dialog()
-            self.error_dialog.open_dialog(e.stdout)
+            self.error_dialog.open_dialog(e.stderr)
+        self.download_dialog.close_dialog()
 
     def get_current_revision(self):
         return revision_helper.get_current_revision()

@@ -7,7 +7,9 @@ class ErrorDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
 
-        self.title = self.text
+        self.title = ft.Text("Ein Fehler ist aufgetreten!")
+        self.content = self.text
+        self.modal = True
         self.actions = [ft.FilledButton("Ok", on_click=lambda e: self.close_dialog())]
         self.actions_alignment = ft.MainAxisAlignment.END
 
