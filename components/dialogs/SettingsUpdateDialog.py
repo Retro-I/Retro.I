@@ -21,7 +21,12 @@ class SettingsUpdateDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
         # TODO - bold title (or maybe only bold revision)
-        self.title = ft.Text(f"Aktueller Stand: {self.get_current_revision()}")
+        self.title = ft.Text(
+            spans=[
+                ft.TextSpan("Aktueller Stand:"),
+                ft.TextSpan(self.get_current_revision(), style=ft.TextStyle(weight=ft.FontWeight.BOLD)),
+            ]
+        )
         # TODO - check if scrolling works with more items
         self.content = ft.Column(
             width=500,
@@ -66,19 +71,14 @@ class SettingsUpdateDialog(ft.AlertDialog):
         self.tags_list.controls = self._get_items(tags, RevisionType.TAG)
         self.tags_list.update()
 
-    def _get_items(self, revisions: list, revision_type: RevisionType):
+    def _get_items(self, revisions: [str], revision_type: RevisionType):
         return [
             ft.TextButton(
                 content=ft.Container(
                     content=ft.Row(
                         [
                             ft.Icon(ft.icons.DONE, visible=(r == self.get_current_revision())),
-                            ft.Text(
-                                r,
-                                size=18,
-                                # TODO - remove BOLD
-                                weight=ft.FontWeight.BOLD,
-                            ),
+                            ft.Text(r, size=18),
                         ],
                     ),
                 ),
