@@ -18,6 +18,7 @@ class SettingsShutdownDialog(ft.AlertDialog):
                     alignment=ft.MainAxisAlignment.CENTER,
                     spacing=75,
                     controls=[
+                        ft.Text("System", weight=ft.FontWeight.BOLD, size=28),
                         ft.Column(
                             [
                                 ft.IconButton(
@@ -55,6 +56,7 @@ class SettingsShutdownDialog(ft.AlertDialog):
                     alignment=ft.MainAxisAlignment.CENTER,
                     spacing=75,
                     controls=[
+                        ft.Text("System", weight=ft.FontWeight.BOLD, size=28),
                         ft.Column(
                             [
                                 ft.IconButton(
