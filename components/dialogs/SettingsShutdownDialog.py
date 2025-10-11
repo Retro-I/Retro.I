@@ -86,7 +86,7 @@ class SettingsShutdownDialog(ft.AlertDialog):
                             alignment=ft.MainAxisAlignment.CENTER,
                         ),
                     ],
-                )
+                ),
             ],
         )
 

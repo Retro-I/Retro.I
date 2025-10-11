@@ -7,8 +7,14 @@ class DownloadDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
 
-        self.title = ft.Text(
-            spans=[ft.TextSpan("Update für Version "), self.text, ft.TextSpan(" werden heruntergeladen...")]
+        self.content = ft.Column(
+            [
+                ft.ProgressRing(),
+                ft.Text(
+                    spans=[ft.TextSpan("Updates für Version "), self.text, ft.TextSpan(" werden heruntergeladen...")]
+                ),
+            ],
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
         self.modal = True
 
