@@ -13,7 +13,7 @@ class DownloadDialog(ft.AlertDialog):
         self.modal = True
 
     def open_dialog(self, revision):
-        self.text.value = revision
+        self.text.text = revision
         self.text.update()
         self.open = True
         self.update()

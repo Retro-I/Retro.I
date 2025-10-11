@@ -26,7 +26,7 @@ class SettingsShutdownDialog(ft.AlertDialog):
                                     on_click=system_helper.shutdown_system,
                                 ),
                                 ft.Text(
-                                    "Ausschalten",
+                                    "Herunterfahren",
                                     text_align=ft.TextAlign.CENTER,
                                     style=ft.TextStyle(size=16),
                                 ),
@@ -48,6 +48,13 @@ class SettingsShutdownDialog(ft.AlertDialog):
                             ],
                             alignment=ft.MainAxisAlignment.CENTER,
                         ),
+                    ],
+                ),
+                ft.Divider(),
+                ft.Row(
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    spacing=75,
+                    controls=[
                         ft.Column(
                             [
                                 ft.IconButton(
@@ -57,6 +64,21 @@ class SettingsShutdownDialog(ft.AlertDialog):
                                 ),
                                 ft.Text(
                                     "App beenden",
+                                    text_align=ft.TextAlign.CENTER,
+                                    style=ft.TextStyle(size=16),
+                                ),
+                            ],
+                            alignment=ft.MainAxisAlignment.CENTER,
+                        ),
+                        ft.Column(
+                            [
+                                ft.IconButton(
+                                    ft.icons.REFRESH,
+                                    icon_size=75,
+                                    on_click=system_helper.restart_app,
+                                ),
+                                ft.Text(
+                                    "App neustarten",
                                     text_align=ft.TextAlign.CENTER,
                                     style=ft.TextStyle(size=16),
                                 ),

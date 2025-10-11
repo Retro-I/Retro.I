@@ -36,9 +36,10 @@ class SystemHelper:
         os.system("sudo reboot")
 
     def stop_app(self, _):
-        PageState.page.window_destroy()
-        time.sleep(0.5)
-        os._exit(0)
+        os.system("sudo systemctl stop retroi")
+
+    def restart_app(self, _):
+        os.system("sudo systemctl restart retroi")
 
     def get_cpu_temp(self):
         line = subprocess.run(["vcgencmd", "measure_temp"], stdout=subprocess.PIPE).stdout.decode("utf-8")
