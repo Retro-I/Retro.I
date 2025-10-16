@@ -24,7 +24,7 @@ class BluetoothHelper:
         else:
             self.bluetooth_discovery_on()
 
-        PageState.page.update()  # TODO - Update needed here?
+        PageState.page.update()
         return self.discovery_on
 
     def turn_on(self):
