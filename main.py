@@ -53,8 +53,8 @@ def main(page: ft.Page):
 
     page.navigation_bar = theme.navbar
     page.appbar = taskbar
-    page.window.maximized = True
-    page.window.frameless = True
+    page.window_maximized = True
+    page.window_frameless = True
     page.spacing = 0
     page.theme = theme.get()
     page.title = "Retro.I"
