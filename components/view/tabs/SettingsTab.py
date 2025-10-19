@@ -66,7 +66,7 @@ class SettingsTab(ft.Column):
                     ),
                     SettingsButton(ft.icons.INFO, "Info", lambda e: self.info_dialog.open_dialog()),
                     SettingsButton(
-                            ft.icons.FILE_DOWNLOAD_OUTLINED,
+                        ft.icons.FILE_DOWNLOAD_OUTLINED,
                         "Updates",
                         lambda e: self.update_dialog.open_dialog(),
                     ),

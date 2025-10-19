@@ -102,12 +102,7 @@ class SettingsUpdateDialog(ft.AlertDialog):
     def on_revision_click(self, revision):
         self.download_dialog.open_dialog(revision)
         try:
-            subprocess.run(
-                ["bash", "scripts/update_project.sh", revision],
-                capture_output=True,
-                text=True,
-                check=True,
-            )
+            system_helper.change_revision(revision)
             self.success_dialog.open_dialog(
                 "Updates", f'Updates für "{revision}" erfolgreich heruntergeladen!', show_icon=True
             )

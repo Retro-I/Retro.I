@@ -23,7 +23,7 @@ class SettingsShutdownDialog(ft.AlertDialog):
                                 ft.IconButton(
                                     ft.icons.LOGOUT,
                                     icon_size=75,
-                                    on_click=system_helper.shutdown_system,
+                                    on_click=lambda e: system_helper.shutdown_system(),
                                 ),
                                 ft.Text(
                                     "Herunterfahren",
@@ -38,7 +38,7 @@ class SettingsShutdownDialog(ft.AlertDialog):
                                 ft.IconButton(
                                     ft.icons.RESTART_ALT,
                                     icon_size=75,
-                                    on_click=system_helper.restart_system,
+                                    on_click=lambda e: system_helper.restart_system(),
                                 ),
                                 ft.Text(
                                     "Neustarten",

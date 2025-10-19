@@ -23,7 +23,7 @@ class SettingsAppControlDialog(ft.AlertDialog):
                                 ft.IconButton(
                                     ft.icons.HIGHLIGHT_OFF,
                                     icon_size=75,
-                                    on_click=system_helper.stop_app,
+                                    on_click=lambda e: system_helper.stop_app(),
                                 ),
                                 ft.Text(
                                     "App beenden",
@@ -38,7 +38,7 @@ class SettingsAppControlDialog(ft.AlertDialog):
                                 ft.IconButton(
                                     ft.icons.REFRESH,
                                     icon_size=75,
-                                    on_click=system_helper.restart_app,
+                                    on_click=lambda e: system_helper.restart_app(),
                                 ),
                                 ft.Text(
                                     "App neustarten",

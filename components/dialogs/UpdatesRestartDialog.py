@@ -23,7 +23,7 @@ class UpdatesRestartDialog(ft.AlertDialog):
                                 ft.IconButton(
                                     ft.icons.RESTART_ALT,
                                     icon_size=75,
-                                    on_click=system_helper.restart_system,
+                                    on_click=lambda e: system_helper.restart_system(),
                                 ),
                                 ft.Text(
                                     "System neustarten",
@@ -38,7 +38,7 @@ class UpdatesRestartDialog(ft.AlertDialog):
                                 ft.IconButton(
                                     ft.icons.REFRESH,
                                     icon_size=75,
-                                    on_click=system_helper.restart_app,
+                                    on_click=lambda e: system_helper.restart_app(),
                                 ),
                                 ft.Text(
                                     "App neustarten",

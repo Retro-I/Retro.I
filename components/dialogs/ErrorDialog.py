@@ -10,10 +10,7 @@ class ErrorDialog(ft.AlertDialog):
 
         self.title = ft.Text("Ein Fehler ist aufgetreten!")
         self.content = ft.Column(
-            [
-                self.display_icon,
-                self.text
-            ],
+            [self.display_icon, self.text],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             tight=True,
         )
