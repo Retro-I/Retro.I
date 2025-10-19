@@ -114,12 +114,14 @@ apply_audio_group() {
 
 create_systemd_service() {
   systemd_path="/etc/systemd/system/retroi.service"
+  systemd_failure_path="/etc/systemd/system/retroi-failure@.service"
 
   user_id=$(id -u)
 
   sudo tee "$systemd_path" > /dev/null <<EOF
 [Unit]
 Description=Retro.I Desktop App
+OnFailure=retroi-failure@%n.service
 After=graphical.target
 
 [Service]
@@ -128,8 +130,7 @@ User=pi
 Group=pi
 WorkingDirectory=$RETROI_DIR
 ExecStart=$RETROI_DIR/scripts/start.sh
-ExecStopPost=$RETROI_DIR/scripts/update_project.sh main
-Restart=no
+Restart=on-failure
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/pi/.Xauthority
 Environment=XDG_RUNTIME_DIR=/run/user/$user_id
@@ -142,11 +143,25 @@ KillMode=control-group
 WantedBy=graphical.target
 EOF
 
+  sudo tee "$systemd_failure_path" > /dev/null <<EOF
+[Unit]
+Description=Failure handler for %i
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c '$RETROI_DIR/scripts/update_project.sh main'
+EOF
+
   # Verify creation
   if ! grep -q -- "^\[Service\]" "$systemd_path"; then
     echo "Systemd file could not be created correctly!" >&2
     return 1
   fi
+
+    if ! grep -q -- "^\[Service\]" "$systemd_failure_path"; then
+      echo "Failure-Systemd file could not be created correctly!" >&2
+      return 1
+    fi
 
   sudo systemctl enable retroi.service
 }
