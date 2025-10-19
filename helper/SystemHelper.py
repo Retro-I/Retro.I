@@ -50,7 +50,7 @@ class SystemHelper:
 
         is_error, error_message = line.split(";")
 
-        if is_error == 1:
+        if int(is_error) == 1:
             return error_message
 
         return None

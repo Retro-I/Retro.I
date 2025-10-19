@@ -33,9 +33,6 @@ class Theme:
     def __init__(self, taskbar: Taskbar, on_strip_run_color):
         self.page = PageState.page
         self.taskbar = taskbar
-        self.startup_error_dialog = StartupErrorDialog()
-
-        self.page.add(self.startup_error_dialog)
 
         self.theme = ft.Theme(
             color_scheme_seed="green",
@@ -78,9 +75,6 @@ class Theme:
         tabs.append(self.settings_tab)
 
         return tabs
-
-    def show_startup_error_dialog(self):
-        self.startup_error_dialog.open_dialog()
 
     def get(self):
         return self.theme
