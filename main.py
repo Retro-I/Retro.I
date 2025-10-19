@@ -32,6 +32,7 @@ audio_helper = Audio()
 page_helper = PageState()
 audio_effects = AudioEffects()
 
+
 def on_error(e):
     system_helper.write_startup_error(e)
     system_helper.change_revision("main")

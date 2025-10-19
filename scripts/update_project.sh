@@ -52,6 +52,5 @@ else
 fi
 
 echo "Update complete."
-read -p "Press Enter to continue..."
 
 exit 0

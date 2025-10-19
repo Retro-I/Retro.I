@@ -35,7 +35,7 @@ class Theme:
         self.taskbar = taskbar
         self.startup_error_dialog = StartupErrorDialog()
 
-        self.page.page.add(self.startup_error_dialog)
+        self.page.add(self.startup_error_dialog)
 
         self.theme = ft.Theme(
             color_scheme_seed="green",
