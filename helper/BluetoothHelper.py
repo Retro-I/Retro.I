@@ -73,7 +73,9 @@ class BluetoothHelper:
         subprocess.run(["bluetoothctl", "remove", address])
 
     def get_connected_device(self):
-        return subprocess.run(["bluetoothctl", "devices", "Connected"], stdout=subprocess.PIPE).stdout.decode("utf-8")
+        return subprocess.run(
+            ["bluetoothctl", "devices", "Connected"], stdout=subprocess.PIPE
+        ).stdout.decode("utf-8")
 
     def get_connected_device_name(self):
         result = self.get_connected_device()

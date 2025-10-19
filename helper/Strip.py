@@ -23,7 +23,9 @@ class Strip:
     wait_proc = WaiterProcess(None)
 
     def __init__(self):
-        self.pixels = neopixel.NeoPixel(pin=board.D10, n=self.get_led_length(), brightness=0, auto_write=True)
+        self.pixels = neopixel.NeoPixel(
+            pin=board.D10, n=self.get_led_length(), brightness=0, auto_write=True
+        )
         self.animation = Pulse(self.pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK)
 
         self.pixels.fill(GREEN)

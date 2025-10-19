@@ -5,7 +5,7 @@ from helper.SystemHelper import SystemHelper
 system_helper = SystemHelper()
 
 
-class SettingsShutdownDialog(ft.AlertDialog):
+class UpdatesRestartDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
 
@@ -21,12 +21,12 @@ class SettingsShutdownDialog(ft.AlertDialog):
                         ft.Column(
                             [
                                 ft.IconButton(
-                                    ft.icons.LOGOUT,
+                                    ft.icons.RESTART_ALT,
                                     icon_size=75,
-                                    on_click=system_helper.shutdown_system,
+                                    on_click=system_helper.restart_system,
                                 ),
                                 ft.Text(
-                                    "Herunterfahren",
+                                    "System neustarten",
                                     text_align=ft.TextAlign.CENTER,
                                     style=ft.TextStyle(size=18),
                                 ),
@@ -36,12 +36,12 @@ class SettingsShutdownDialog(ft.AlertDialog):
                         ft.Column(
                             [
                                 ft.IconButton(
-                                    ft.icons.RESTART_ALT,
+                                    ft.icons.REFRESH,
                                     icon_size=75,
-                                    on_click=system_helper.restart_system,
+                                    on_click=system_helper.restart_app,
                                 ),
                                 ft.Text(
-                                    "Neustarten",
+                                    "App neustarten",
                                     text_align=ft.TextAlign.CENTER,
                                     style=ft.TextStyle(size=18),
                                 ),

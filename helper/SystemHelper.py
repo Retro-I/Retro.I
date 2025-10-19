@@ -42,7 +42,9 @@ class SystemHelper:
         os.system("sudo systemctl restart retroi")
 
     def get_cpu_temp(self):
-        line = subprocess.run(["vcgencmd", "measure_temp"], stdout=subprocess.PIPE).stdout.decode("utf-8")
+        line = subprocess.run(["vcgencmd", "measure_temp"], stdout=subprocess.PIPE).stdout.decode(
+            "utf-8"
+        )
         temp = line[5:].strip()
         return temp
 
@@ -78,7 +80,9 @@ class SystemHelper:
         return netifaces.gateways()["default"][netifaces.AF_INET][1]
 
     def get_current_ssid(self):
-        ssid = subprocess.run(["iwgetid", "-r"], stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
+        ssid = (
+            subprocess.run(["iwgetid", "-r"], stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
+        )
         return ssid
 
     def get_ip_address(self):
@@ -90,7 +94,9 @@ class SystemHelper:
 
     def get_netmask(self):
         ifname = self.get_default_interface()
-        return "" if ifname is None else netifaces.ifaddresses(ifname)[netifaces.AF_INET][0]["netmask"]
+        return (
+            "" if ifname is None else netifaces.ifaddresses(ifname)[netifaces.AF_INET][0]["netmask"]
+        )
 
     def get_mac_address(self):
         ifname = self.get_default_interface()

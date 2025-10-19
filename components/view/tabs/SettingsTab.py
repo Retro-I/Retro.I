@@ -1,5 +1,6 @@
 import flet as ft
 
+from components.dialogs.SettingsAppControlDialog import SettingsAppControlDialog
 from components.dialogs.SettingsBrightnessDialog import SettingsBrightnessDialog
 from components.dialogs.SettingsCreditsDialog import SettingsCreditsDialog
 from components.dialogs.SettingsInfoDialog import SettingsInfoDialog
@@ -24,6 +25,7 @@ class SettingsTab(ft.Column):
         super().__init__()
 
         self.shutdown_dialog = SettingsShutdownDialog()
+        self.app_control_dialog = SettingsAppControlDialog()
         self.led_dialog = SettingsLedDialog()
         self.brightness_dialog = SettingsBrightnessDialog()
         self.info_dialog = SettingsInfoDialog()
@@ -48,6 +50,11 @@ class SettingsTab(ft.Column):
                         lambda e: self.shutdown_dialog.open_dialog(),
                     ),
                     SettingsButton(
+                        ft.icons.EXIT_TO_APP,
+                        "App",
+                        lambda e: self.app_control_dialog.open_dialog(),
+                    ),
+                    SettingsButton(
                         ft.icons.COLOR_LENS,
                         "LED-Streifen",
                         lambda e: self.led_dialog.open_dialog(),
@@ -59,7 +66,7 @@ class SettingsTab(ft.Column):
                     ),
                     SettingsButton(ft.icons.INFO, "Info", lambda e: self.info_dialog.open_dialog()),
                     SettingsButton(
-                        ft.icons.BROWSER_UPDATED,
+                            ft.icons.FILE_DOWNLOAD_OUTLINED,
                         "Updates",
                         lambda e: self.update_dialog.open_dialog(),
                     ),
@@ -73,6 +80,7 @@ class SettingsTab(ft.Column):
         ]
 
         PageState.page.add(self.shutdown_dialog)
+        PageState.page.add(self.app_control_dialog)
         PageState.page.add(self.led_dialog)
         PageState.page.add(self.brightness_dialog)
         PageState.page.add(self.info_dialog)

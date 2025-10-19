@@ -3,7 +3,9 @@ import subprocess
 
 class RevisionHelper:
     def get_branches(self) -> list[str]:
-        remote = subprocess.check_output(["git", "branch", "-r", "--format=%(refname:short)"], text=True).splitlines()
+        remote = subprocess.check_output(
+            ["git", "branch", "-r", "--format=%(refname:short)"], text=True
+        ).splitlines()
 
         remote = [r.split("/", 1)[1] for r in remote if "HEAD" not in r and r.startswith("origin/")]
 
@@ -19,7 +21,14 @@ class RevisionHelper:
 
     def get_tags(self) -> list[str]:
         tags = subprocess.check_output(
-            ["git", "for-each-ref", "--sort=-creatordate", "--format=%(refname:short)", "refs/tags"], text=True
+            [
+                "git",
+                "for-each-ref",
+                "--sort=-creatordate",
+                "--format=%(refname:short)",
+                "refs/tags",
+            ],
+            text=True,
         ).splitlines()
         return tags
 
@@ -27,7 +36,9 @@ class RevisionHelper:
         try:
             # try with tag
             tag = subprocess.check_output(
-                ["git", "describe", "--tags", "--exact-match"], text=True, stderr=subprocess.DEVNULL
+                ["git", "describe", "--tags", "--exact-match"],
+                text=True,
+                stderr=subprocess.DEVNULL,
             ).strip()
             if tag:
                 return tag
@@ -35,7 +46,9 @@ class RevisionHelper:
             pass
 
         # try with branch
-        branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], text=True).strip()
+        branch = subprocess.check_output(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"], text=True
+        ).strip()
         if branch != "HEAD":
             return branch
 

@@ -15,7 +15,9 @@ class WifiConnectionDialog(ft.AlertDialog):
         on_focus=lambda e: system_helper.open_keyboard(),
         on_blur=lambda e: system_helper.close_keyboard(),
     )
-    btn_connect = ft.FilledButton("Verbinden", style=ft.ButtonStyle(text_style=ft.TextStyle(size=16)))
+    btn_connect = ft.FilledButton(
+        "Verbinden", style=ft.ButtonStyle(text_style=ft.TextStyle(size=16))
+    )
 
     def __init__(self, on_connect):
         super().__init__()

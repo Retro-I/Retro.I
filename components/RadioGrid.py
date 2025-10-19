@@ -72,9 +72,13 @@ class RadioGrid(ft.GridView):
                         ),
                         ft.Container(
                             ref=Constants.indicator_refs[i],
-                            on_click=lambda e: self.stop_radio_station(self.on_theme_stop_radio_station),
+                            on_click=lambda e: self.stop_radio_station(
+                                self.on_theme_stop_radio_station
+                            ),
                             visible=False,
-                            content=ft.Image(src=f"{constants.pwd()}/assets/party.gif", opacity=0.7),
+                            content=ft.Image(
+                                src=f"{constants.pwd()}/assets/party.gif", opacity=0.7
+                            ),
                         ),
                     ],
                 )

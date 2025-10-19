@@ -1,11 +1,10 @@
 import subprocess
-from enum import Enum
 
 import flet as ft
 
 from components.dialogs.DownloadDialog import DownloadDialog
 from components.dialogs.ErrorDialog import ErrorDialog
-from components.dialogs.SettingsShutdownDialog import SettingsShutdownDialog
+from components.dialogs.SuccessDialog import SuccessDialog
 from helper.PageState import PageState
 from helper.RevisionHelper import RevisionHelper
 from helper.SystemHelper import SystemHelper
@@ -24,11 +23,11 @@ class SettingsUpdateDialog(ft.AlertDialog):
         super().__init__()
         self.download_dialog = DownloadDialog()
         self.error_dialog = ErrorDialog()
-        self.settings_shutdown_dialog = SettingsShutdownDialog()
+        self.success_dialog = SuccessDialog()
 
         PageState.page.add(self.download_dialog)
         PageState.page.add(self.error_dialog)
-        PageState.page.add(self.settings_shutdown_dialog)
+        PageState.page.add(self.success_dialog)
 
         self.title = ft.Text(
             spans=[
@@ -87,7 +86,10 @@ class SettingsUpdateDialog(ft.AlertDialog):
                 content=ft.Container(
                     content=ft.Row(
                         [
-                            ft.Icon(ft.icons.DONE, visible=(r == self._get_current_revision())),
+                            ft.Icon(
+                                ft.icons.DONE,
+                                visible=(r == self._get_current_revision()),
+                            ),
                             ft.Text(r, size=18),
                         ],
                     ),
@@ -106,13 +108,15 @@ class SettingsUpdateDialog(ft.AlertDialog):
                 text=True,
                 check=True,
             )
-            self.settings_shutdown_dialog.open_dialog()
+            self.success_dialog.open_dialog(
+                "Updates", f'Updates für "{revision}" erfolgreich heruntergeladen!', show_icon=True
+            )
         except subprocess.CalledProcessError as e:
             print("Script failed!")
             print("Exit code:", e.returncode)
             print("STDOUT:\n", e.stdout)
             print("STDERR:\n", e.stderr)
-            self.error_dialog.open_dialog(e.stderr)
+            self.error_dialog.open_dialog(e.stderr, show_icon=True)
         self.download_dialog.close_dialog()
 
     def _get_current_revision(self):

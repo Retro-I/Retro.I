@@ -32,7 +32,9 @@ class StationAddDialog(ft.AlertDialog):
         PageState.page.add(self.duplicate_dialog)
 
         self.btn_play = ft.FilledButton("Abspielen", on_click=lambda e: self.play(), disabled=False)
-        self.btn_add = ft.FilledButton("Zu Liste hinzufügen", on_click=lambda e: self.add_to_list(), disabled=False)
+        self.btn_add = ft.FilledButton(
+            "Zu Liste hinzufügen", on_click=lambda e: self.add_to_list(), disabled=False
+        )
 
         self.content = ft.Column(width=500, tight=True, alignment=ft.MainAxisAlignment.CENTER)
         self.title = self.text
