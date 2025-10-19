@@ -3,6 +3,7 @@ import time
 
 import flet as ft
 
+from components.dialogs.StartupErrorDialog import StartupErrorDialog
 from components.GpioButton import GpioButton
 from components.RotaryBass import RotaryBass
 from components.RotaryPitch import RotaryPitch
@@ -66,6 +67,14 @@ def main(page: ft.Page):
         page.add(item)
 
     theme.radio_tab.radio_grid.reload()
+
+    if system_helper.startup_error() is not None:
+        startup_error_dialog = StartupErrorDialog()
+        page.add(startup_error_dialog)
+        startup_error_dialog.open_dialog()
+
+        system_helper.reset_startup_error()
+
     page.update()
 
     RotaryVolume(
@@ -80,10 +89,6 @@ def main(page: ft.Page):
     audio_helper.startup_sound()
 
     end = time.time()
-
-    if system_helper.startup_error() is not None:
-        theme.show_startup_error_dialog()
-        system_helper.reset_startup_error()
 
     page.on_error = None
 
