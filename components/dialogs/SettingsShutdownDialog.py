@@ -32,6 +32,7 @@ class SettingsShutdownDialog(ft.AlertDialog):
                                 ),
                             ],
                             alignment=ft.MainAxisAlignment.CENTER,
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                         ),
                         ft.Column(
                             [
@@ -47,6 +48,7 @@ class SettingsShutdownDialog(ft.AlertDialog):
                                 ),
                             ],
                             alignment=ft.MainAxisAlignment.CENTER,
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                         ),
                     ],
                 ),

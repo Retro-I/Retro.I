@@ -29,7 +29,6 @@ class SuccessDialog(ft.AlertDialog):
             ft.FilledButton("Ok", on_click=lambda e: self.close_dialog()),
         ]
         self.actions_alignment = ft.MainAxisAlignment.SPACE_BETWEEN
-        self.actions_alignment = ft.MainAxisAlignment.END
 
     def open_dialog(self, title: str, msg: str, show_icon: bool = False):
         self.title.value = title
