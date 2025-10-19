@@ -14,11 +14,11 @@ class SettingsShutdownDialog(ft.AlertDialog):
             width=500,
             tight=True,
             controls=[
+                ft.Text("System", weight=ft.FontWeight.BOLD, size=28),
                 ft.Row(
                     alignment=ft.MainAxisAlignment.CENTER,
                     spacing=75,
                     controls=[
-                        ft.Text("System", weight=ft.FontWeight.BOLD, size=28),
                         ft.Column(
                             [
                                 ft.IconButton(
@@ -52,11 +52,11 @@ class SettingsShutdownDialog(ft.AlertDialog):
                     ],
                 ),
                 ft.Divider(),
+                ft.Text("App", weight=ft.FontWeight.BOLD, size=28),
                 ft.Row(
                     alignment=ft.MainAxisAlignment.CENTER,
                     spacing=75,
                     controls=[
-                        ft.Text("System", weight=ft.FontWeight.BOLD, size=28),
                         ft.Column(
                             [
                                 ft.IconButton(
