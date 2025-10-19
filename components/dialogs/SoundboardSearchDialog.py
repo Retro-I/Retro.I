@@ -83,7 +83,9 @@ class SoundboardSearchDialog(ft.AlertDialog):
 
         self.listview.controls = []
         for el in sounds:
-            fav_btn = ft.IconButton(icon=ft.icons.PLAYLIST_ADD, on_click=lambda e, item=el: on_add(item))
+            fav_btn = ft.IconButton(
+                icon=ft.icons.PLAYLIST_ADD, on_click=lambda e, item=el: on_add(item)
+            )
 
             def on_add(item):
                 self.on_favorite_add(item)

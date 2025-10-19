@@ -65,7 +65,9 @@ class Taskbar(ft.AppBar):
         super().update()
 
     def update_wifi(self):
-        self.ico_wifi.name = ft.icons.WIFI if wifi_helper.is_connected() else ft.icons.WIFI_OFF_ROUNDED
+        self.ico_wifi.name = (
+            ft.icons.WIFI if wifi_helper.is_connected() else ft.icons.WIFI_OFF_ROUNDED
+        )
         self.ico_wifi.color = ft.colors.GREEN if wifi_helper.is_connected() else ft.colors.BLACK
         self.ico_wifi.update()
 
@@ -90,10 +92,14 @@ class Taskbar(ft.AppBar):
         self.ico_bluetooth.update()
 
     def update_volume_icon(self):
-        self.ico_volume.name = ft.icons.VOLUME_OFF_ROUNDED if audio_helper.is_mute() else ft.icons.VOLUME_UP_ROUNDED
+        self.ico_volume.name = (
+            ft.icons.VOLUME_OFF_ROUNDED if audio_helper.is_mute() else ft.icons.VOLUME_UP_ROUNDED
+        )
         self.ico_volume.color = ft.colors.RED if audio_helper.is_mute() else ft.colors.BLACK
         self.ico_volume.update()
-        self.txt_volume.value = f"{audio_helper.get_volume()}%" if not audio_helper.is_mute() else ""
+        self.txt_volume.value = (
+            f"{audio_helper.get_volume()}%" if not audio_helper.is_mute() else ""
+        )
         self.txt_volume.update()
 
     def update_bass(self):

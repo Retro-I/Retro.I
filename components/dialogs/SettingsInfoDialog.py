@@ -1,11 +1,14 @@
 import flet as ft
 
+from helper.RevisionHelper import RevisionHelper
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
+revision_helper = RevisionHelper()
 
 
 class SettingsInfoDialog(ft.AlertDialog):
+    version_text = ft.TextSpan("")
     cpu_temp_text = ft.TextSpan("")
     ssid_text = ft.TextSpan("")
     ip_text = ft.TextSpan("")
@@ -24,7 +27,11 @@ class SettingsInfoDialog(ft.AlertDialog):
             controls=[
                 ft.ListView(
                     controls=[
-                        ft.Text("Allgemein", weight=ft.FontWeight.BOLD, size=28),
+                        ft.Text("System", weight=ft.FontWeight.BOLD, size=28),
+                        ft.Text(
+                            spans=[ft.TextSpan("Version: "), self.version_text],
+                            size=20,
+                        ),
                         ft.Text(
                             spans=[
                                 ft.TextSpan("Datum: "),
@@ -64,8 +71,12 @@ class SettingsInfoDialog(ft.AlertDialog):
         )
 
     def open_dialog(self):
+        self.version_text.text = revision_helper.get_current_revision()
+        self.version_text.update()
+
         self.cpu_temp_text.text = system_helper.get_cpu_temp()
         self.cpu_temp_text.update()
+
         self.update_ip_config()
         self.open = True
         self.update()

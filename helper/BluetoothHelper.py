@@ -24,7 +24,7 @@ class BluetoothHelper:
         else:
             self.bluetooth_discovery_on()
 
-        PageState.page.update()  # TODO - Update needed here?
+        PageState.page.update()
         return self.discovery_on
 
     def turn_on(self):
@@ -73,7 +73,9 @@ class BluetoothHelper:
         subprocess.run(["bluetoothctl", "remove", address])
 
     def get_connected_device(self):
-        return subprocess.run(["bluetoothctl", "devices", "Connected"], stdout=subprocess.PIPE).stdout.decode("utf-8")
+        return subprocess.run(
+            ["bluetoothctl", "devices", "Connected"], stdout=subprocess.PIPE
+        ).stdout.decode("utf-8")
 
     def get_connected_device_name(self):
         result = self.get_connected_device()

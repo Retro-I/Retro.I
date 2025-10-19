@@ -19,10 +19,10 @@ class SoundDeleteDialog(ft.AlertDialog):
         self.close()
 
     def open_dialog(self, submit_callback):
-        self.open = True  # TODO - test with "self.open(True)" or remove function
+        self.open = True
         self.submit_callback = submit_callback
         self.update()
 
     def close(self):
-        self.open = False  # TODO - test with "self.open(False)" or remove function
+        self.open = False
         self.update()

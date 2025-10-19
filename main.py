@@ -33,7 +33,15 @@ page_helper = PageState()
 audio_effects = AudioEffects()
 
 
+def on_error(e):
+    system_helper.write_startup_error(e)
+    system_helper.change_revision("main")
+    system_helper.restart_app()
+
+
 def main(page: ft.Page):
+    page.on_error = on_error
+
     start = time.time()
     PageState.page = page
 
@@ -72,6 +80,13 @@ def main(page: ft.Page):
     audio_helper.startup_sound()
 
     end = time.time()
+
+    if system_helper.startup_error() is not None:
+        theme.show_startup_error_dialog()
+        system_helper.reset_startup_error()
+
+    page.on_error = None
+
     print(f"Startup took: {end-start}")
 
     def background_processes():
@@ -83,4 +98,7 @@ def main(page: ft.Page):
     process.start()
 
 
-ft.app(main)
+try:
+    ft.app(main)
+except Exception as e:
+    on_error(e)

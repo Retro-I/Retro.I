@@ -1,3 +1,4 @@
+import csv
 import os
 import socket
 import subprocess
@@ -23,25 +24,59 @@ class SystemHelper:
     def __init__(self):
         self.init_party_mode()
 
-    def shutdown_system(self, _):
+    def shutdown_system(self):
         audio_helper.shutdown_sound()
         self.strip.disable()
         time.sleep(3)
         os.system("sudo shutdown -h 0")
 
-    def restart_system(self, _):
+    def restart_system(self):
         audio_helper.shutdown_sound()
         self.strip.disable()
         time.sleep(3)
         os.system("sudo reboot")
 
-    def stop_app(self, _):
-        PageState.page.window_destroy()
-        time.sleep(0.5)
-        os._exit(0)
+    def stop_app(self):
+        os.system("sudo systemctl stop retroi")
+
+    def restart_app(self):
+        os.system("sudo systemctl restart retroi")
+
+    def startup_error(self):
+        line = subprocess.run(
+            ["sudo", "cat", f"{c.pwd()}/settings/startup-error.csv"],
+            stdout=subprocess.PIPE,
+        ).stdout.decode("utf-8")
+
+        is_error, error_message = line.split(";")
+
+        if is_error == 1:
+            return error_message
+
+        return None
+
+    def write_startup_error(self, message):
+        with open(f"{c.pwd()}/settings/startup-error.csv", "w", newline="") as csvfile:
+            writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([1, message])
+
+    def reset_startup_error(self):
+        with open(f"{c.pwd()}/settings/startup-error.csv", "w", newline="") as csvfile:
+            writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([0, ""])
+
+    def change_revision(self, revision):
+        subprocess.run(
+            ["bash", "scripts/update_project.sh", revision],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
 
     def get_cpu_temp(self):
-        line = subprocess.run(["vcgencmd", "measure_temp"], stdout=subprocess.PIPE).stdout.decode("utf-8")
+        line = subprocess.run(["vcgencmd", "measure_temp"], stdout=subprocess.PIPE).stdout.decode(
+            "utf-8"
+        )
         temp = line[5:].strip()
         return temp
 
@@ -77,7 +112,9 @@ class SystemHelper:
         return netifaces.gateways()["default"][netifaces.AF_INET][1]
 
     def get_current_ssid(self):
-        ssid = subprocess.run(["iwgetid", "-r"], stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
+        ssid = (
+            subprocess.run(["iwgetid", "-r"], stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
+        )
         return ssid
 
     def get_ip_address(self):
@@ -89,7 +126,9 @@ class SystemHelper:
 
     def get_netmask(self):
         ifname = self.get_default_interface()
-        return "" if ifname is None else netifaces.ifaddresses(ifname)[netifaces.AF_INET][0]["netmask"]
+        return (
+            "" if ifname is None else netifaces.ifaddresses(ifname)[netifaces.AF_INET][0]["netmask"]
+        )
 
     def get_mac_address(self):
         ifname = self.get_default_interface()

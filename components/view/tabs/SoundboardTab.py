@@ -50,7 +50,9 @@ class SoundboardTab(ft.Column):
         self.soundboard_grid.controls = controls
 
     def open_delete_dialog(self, sound):
-        self.sound_delete_dialog.open_dialog(submit_callback=lambda s=sound: self.on_delete_favorite_sound(s))
+        self.sound_delete_dialog.open_dialog(
+            submit_callback=lambda s=sound: self.on_delete_favorite_sound(s)
+        )
 
     def on_add_favorite_sound(self, sound):
         result = sounds.add_favorite_sound(sound)

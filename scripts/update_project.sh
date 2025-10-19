@@ -12,6 +12,8 @@ set -euo pipefail
 # Trap any unexpected error
 trap 'echo "Error on line $LINENO while executing: $BASH_COMMAND" >&2; exit 1' ERR
 
+git stash
+
 REF=${1:-}
 
 if [ -z "$REF" ]; then
@@ -34,6 +36,10 @@ else
     git reset --hard "origin/$REF" || { echo "Failed to reset branch $REF." >&2; exit 1; }
 fi
 
+if git stash list | grep -q .; then
+  git stash pop
+fi
+
 echo "Checked out '$REF' successfully."
 
 if [ -f ../requirements.txt ]; then
@@ -46,4 +52,5 @@ else
 fi
 
 echo "Update complete."
+
 exit 0

@@ -32,12 +32,16 @@ class NavigationBar(ft.NavigationBar):
         destinations = [
             ft.NavigationDestination(
                 label="Radiosender",
-                icon_content=ft.Icon(ft.icons.RADIO_OUTLINED, size=ICON_SIZE, color=self.icon_color),
+                icon_content=ft.Icon(
+                    ft.icons.RADIO_OUTLINED, size=ICON_SIZE, color=self.icon_color
+                ),
                 selected_icon_content=ft.Icon(ft.icons.RADIO, size=ICON_SIZE),
             ),
             ft.NavigationDestination(
                 label="Bluetooth",
-                icon_content=ft.Icon(ft.icons.BLUETOOTH_OUTLINED, size=ICON_SIZE, color=self.icon_color),
+                icon_content=ft.Icon(
+                    ft.icons.BLUETOOTH_OUTLINED, size=ICON_SIZE, color=self.icon_color
+                ),
                 selected_icon_content=ft.Icon(ft.icons.BLUETOOTH, size=ICON_SIZE),
             ),
         ]
@@ -58,7 +62,9 @@ class NavigationBar(ft.NavigationBar):
         destinations.append(
             ft.NavigationDestination(
                 label="Einstellungen",
-                icon_content=ft.Icon(ft.icons.SETTINGS_OUTLINED, size=ICON_SIZE, color=self.icon_color),
+                icon_content=ft.Icon(
+                    ft.icons.SETTINGS_OUTLINED, size=ICON_SIZE, color=self.icon_color
+                ),
                 selected_icon_content=ft.Icon(ft.icons.SETTINGS, size=ICON_SIZE),
             )
         )
