@@ -397,6 +397,27 @@ enter_led_length() {
   done
 }
 
+enter_enable_scrollbar() {
+  settings_file="settings/scrollbar-settings.csv"
+
+  while true; do
+    read -p "Möchtest du die Scrollbar nutzen? Evtl., weil du mit deinem Display nicht scrollen kannst? [J]a, [N]ein: " choice
+    case "$choice" in
+      j|J )
+        printf "1" > "$settings_file"
+        break
+        ;;
+      n|N )
+        printf "0" > "$settings_file"
+        break
+        ;;
+      * )
+        echo "Bitte gib entweder \"J\" oder \"N\" ein!"
+        ;;
+      esac
+  done
+}
+
 print_ascii_art() {
   echo "
  _______  _______  _________ _______  _______    _________
@@ -417,6 +438,8 @@ echo -e "Sollte dieses Setup-Script bei einem Schritt fehlschlagen, kannst du im
 read -p "Drücke <ENTER> um das Setup zu beginnen..."
 
 set_project_path
+enter_led_length
+enter_enable_scrollbar
 run_step "Entferne Splashscreen" remove_splashscreen
 run_step "System-Splashscreen ändern" sudo -E bash -c "$RETROI_DIR/update-system-splash.sh"
 run_step "User zur \"audio\" Gruppe hinzufügen" apply_audio_group
@@ -439,8 +462,6 @@ run_step "Installiere Pakete für alsaaudio" setup_alsaaudio
 run_step "Installiere Pakete für flet-ui" setup_fletui
 
 run_step "Installiere Python-Pakete" install_python_packages
-
-enter_led_length
 
 success "Setup erfolgreich abgeschlossen!\n\n"
 
