@@ -73,6 +73,13 @@ class SystemHelper:
 
         return int(line) == 1
 
+    def toggle_scrollbar_enabled(self):
+        val = int(not self.is_scrollbar_enabled())
+
+        with open(f"{c.pwd()}/settings/scrollbar-settings.csv", "w", newline="") as csvfile:
+            writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([val])
+
     def change_revision(self, revision):
         subprocess.run(
             ["bash", "scripts/update_project.sh", revision],
