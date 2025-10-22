@@ -20,6 +20,14 @@ Dies kann der Fall sein, wenn das Touch-Display kein Scrollen unterstützt. \
 Wählt der User "Ja (J)" aus, dann wird eine dicke Scrollbar für die jeweiligen Inhalte angezeigt und mit dieser kann dann gescrollt werden. \
 Die Auswahl wird in die Datei `$RETROI_DIR/settings/scrollbar-settings.csv` geschrieben. \
 
+### Eingabe abgesicherter Modus
+In diesem Schritt muss entschieden werden, ob der abgesicherte Modus für den Radio verwendet werden möchte. \
+Dieser kann vor allem zu offiziellen Anlässen wie z.B. Infotage, "Tag der offenen Tür", etc. von Vorteil sein. \
+Ist der gesicherte Modus aktiviert, wird das Soundboard ausgeblendet, um eventuelle unangenehme Rückfragen zu vermeiden ;) \
+Wählt der User "Ja (J)" aus, dann kann das Soundboard nur über eine __geheime__ Kombination gestartet werden. \
+Wählt der User "Nein (N)" aus, wird das Soundboard immer angezeigt. \
+Die Auswahl wird in die Datei `$RETROI_DIR/settings/secured-mode-settings.csv` geschrieben. \
+
 ### Entferne Splashscreen
 Hier wird in der Datei `/boot/firmware/config.txt`, wenn noch nicht vorhanden, die Zeile `disable_splash=1` hinzugefügt!
 
