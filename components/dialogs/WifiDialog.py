@@ -1,6 +1,7 @@
 import flet as ft
 
 from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
+from components.Scrollbar import with_scrollbar_space
 from helper.SystemHelper import SystemHelper
 from helper.WifiHelper import WifiHelper
 
@@ -11,7 +12,7 @@ wifi_helper = WifiHelper()
 class WifiDialog(ft.AlertDialog):
     loading = ft.ProgressRing(visible=False)
     not_found = ft.Text("Keine Netzwerke gefunden", visible=False)
-    listview = ft.ListView(spacing=10, padding=20, expand=True, visible=False)
+    listview = with_scrollbar_space(ft.ListView(spacing=10, padding=20, expand=True, visible=False))
 
     connection_dialog: WifiConnectionDialog = None
 

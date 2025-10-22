@@ -8,6 +8,18 @@ Hier findest du Informationen zum Setup-Skript (`setup.sh`)
 In der Datei `/etc/environment` wird die Variable `RETROI_DIR` auf den Pfad des geklonten Projekts gesetzt.
 mit dem Befehl `source "/etc/environment"` wird die Umgebungsvariable global gesetzt und für die folgenden Schritte verwendet!
 
+### Eingabe Länge LED-Streifen
+In diesem Schritt wird die Anzahl der LED's des LED-Streifens eingegeben. \
+Die eingegebene Zahl wird in die Datei `$RETROI_DIR/settings/strip-settings.csv` an Stelle 3 (Index 2) geschrieben. \
+Die genaue Angabe ist für verschiedene Animationen mit dem Streifen notwendig. \
+Sollte kein LED-Streifen verbaut sein, kann die Zahl beliebig gewählt werden.
+
+### Eingabe Nutzung Scrollbar
+In diesem Schritt muss entschieden werden, ob die Scrollbar genutzt werden möchte. \
+Dies kann der Fall sein, wenn das Touch-Display kein Scrollen unterstützt. \
+Wählt der User "Ja (J)" aus, dann wird eine dicke Scrollbar für die jeweiligen Inhalte angezeigt und mit dieser kann dann gescrollt werden. \
+Die Auswahl wird in die Datei `$RETROI_DIR/settings/scrollbar-settings.csv` geschrieben. \
+
 ### Entferne Splashscreen
 Hier wird in der Datei `/boot/firmware/config.txt`, wenn noch nicht vorhanden, die Zeile `disable_splash=1` hinzugefügt!
 
@@ -141,9 +153,3 @@ Zuletzt müssen alle Python-Pakete aus der `requirements.txt` **in venv** instal
 ```
 source "$RETROI_DIR/.venv/bin/activate" && pip install -r requirements.txt -q
 ```
-
-### Eingabe Länge LED-Streifen
-In diesem Schritt wird die Anzahl der LED's des LED-Streifens eingegeben. \
-Die eingegebene Zahl wird in die Datei `$RETROI_DIR/settings/strip-settings.csv` an Stelle 3 (Index 2) geschrieben. \
-Die genaue Angabe ist für verschiedene Animationen mit dem Streifen notwendig. \
-Sollte kein LED-Streifen verbaut sein, kann die Zahl beliebig gewählt werden.

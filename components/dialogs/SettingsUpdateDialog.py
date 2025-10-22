@@ -5,6 +5,7 @@ import flet as ft
 from components.dialogs.DownloadDialog import DownloadDialog
 from components.dialogs.ErrorDialog import ErrorDialog
 from components.dialogs.SuccessDialog import SuccessDialog
+from components.Scrollbar import with_scrollbar_space
 from helper.PageState import PageState
 from helper.RevisionHelper import RevisionHelper
 from helper.SystemHelper import SystemHelper
@@ -14,8 +15,8 @@ revision_helper = RevisionHelper()
 
 
 class SettingsUpdateDialog(ft.AlertDialog):
-    branches_list = ft.ListView()
-    tags_list = ft.ListView()
+    branches_list = with_scrollbar_space(ft.ListView())
+    tags_list = with_scrollbar_space(ft.ListView())
 
     curr_revision_span = ft.TextSpan("", style=ft.TextStyle(weight=ft.FontWeight.BOLD))
 

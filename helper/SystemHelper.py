@@ -65,6 +65,21 @@ class SystemHelper:
             writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
             writer.writerow([0, ""])
 
+    def is_scrollbar_enabled(self) -> bool:
+        line = subprocess.run(
+            ["sudo", "cat", f"{c.pwd()}/settings/scrollbar-settings.csv"],
+            stdout=subprocess.PIPE,
+        ).stdout.decode("utf-8")
+
+        return int(line) == 1
+
+    def toggle_scrollbar_enabled(self):
+        val = int(not self.is_scrollbar_enabled())
+
+        with open(f"{c.pwd()}/settings/scrollbar-settings.csv", "w", newline="") as csvfile:
+            writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([val])
+
     def change_revision(self, revision):
         subprocess.run(
             ["bash", "scripts/update_project.sh", revision],

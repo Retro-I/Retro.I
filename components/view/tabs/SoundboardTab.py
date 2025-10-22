@@ -1,6 +1,7 @@
 import flet as ft
 
 from components.dialogs.SoundDeleteDialog import SoundDeleteDialog
+from components.Scrollbar import with_scrollbar_space
 from components.SoundboardSearchBar import SoundboardSearchBar
 from components.SoundCard import SoundCard
 from components.ToastCard import ToastCard
@@ -20,14 +21,16 @@ class SoundboardTab(ft.Column):
         self.sound_delete_dialog = SoundDeleteDialog()
         PageState.page.add(self.sound_delete_dialog)
 
-        self.soundboard_grid = ft.GridView(
-            [],
-            expand=True,
-            runs_count=5,
-            run_spacing=50,
-            max_extent=150,
-            spacing=80,
-            padding=ft.padding.only(bottom=80),
+        self.soundboard_grid = with_scrollbar_space(
+            ft.GridView(
+                [],
+                expand=True,
+                runs_count=5,
+                run_spacing=50,
+                max_extent=150,
+                spacing=80,
+                padding=ft.padding.only(bottom=80),
+            )
         )
         self.reload()
 

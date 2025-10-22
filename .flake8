@@ -1,4 +1,4 @@
 [flake8]
-exclude = .venv build
+exclude = .venv build components/dialogs/SettingsCreditsDialog.py
 max-line-length = 120
 per-file-ignores = */Theme.py: F401
