@@ -418,6 +418,27 @@ enter_enable_scrollbar() {
   done
 }
 
+enter_secured_mode() {
+  settings_file="settings/secured-mode-settings.csv"
+
+  while true; do
+    read -p "Möchtest du den abgesicherten Modus des Radios nutzen? z.B. für offizielle Anlässe (Infotag, etc.) [J]a, [N]ein: " choice
+    case "$choice" in
+      j|J )
+        printf "1" > "$settings_file"
+        break
+        ;;
+      n|N )
+        printf "0" > "$settings_file"
+        break
+        ;;
+      * )
+        echo "Bitte gib entweder \"J\" oder \"N\" ein!"
+        ;;
+      esac
+  done
+}
+
 print_ascii_art() {
   echo "
  _______  _______  _________ _______  _______    _________
@@ -440,6 +461,7 @@ read -p "Drücke <ENTER> um das Setup zu beginnen..."
 set_project_path
 enter_led_length
 enter_enable_scrollbar
+enter_secured_mode
 run_step "Entferne Splashscreen" remove_splashscreen
 run_step "System-Splashscreen ändern" sudo -E bash -c "$RETROI_DIR/update-system-splash.sh"
 run_step "User zur \"audio\" Gruppe hinzufügen" apply_audio_group
