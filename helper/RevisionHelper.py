@@ -3,7 +3,7 @@ import subprocess
 
 class RevisionHelper:
     def get_branches(self) -> list[str]:
-        subprocess.run(["git", "pull"])
+        subprocess.run(["git", "fetch", "--prune"])
 
         remote = subprocess.check_output(
             ["git", "branch", "-r", "--format=%(refname:short)"], text=True
@@ -22,6 +22,8 @@ class RevisionHelper:
         return sorted(remote, key=branch_sort_key)
 
     def get_tags(self) -> list[str]:
+        subprocess.run(["git", "fetch", "--prune"])
+
         tags = subprocess.check_output(
             [
                 "git",
