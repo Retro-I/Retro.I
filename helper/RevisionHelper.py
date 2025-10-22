@@ -3,6 +3,8 @@ import subprocess
 
 class RevisionHelper:
     def get_branches(self) -> list[str]:
+        subprocess.run(["git", "pull"])
+
         remote = subprocess.check_output(
             ["git", "branch", "-r", "--format=%(refname:short)"], text=True
         ).splitlines()
