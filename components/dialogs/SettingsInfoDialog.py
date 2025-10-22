@@ -1,5 +1,6 @@
 import flet as ft
 
+from components.Scrollbar import with_scrollbar_space
 from helper.RevisionHelper import RevisionHelper
 from helper.SystemHelper import SystemHelper
 
@@ -25,47 +26,49 @@ class SettingsInfoDialog(ft.AlertDialog):
             width=500,
             tight=True,
             controls=[
-                ft.ListView(
-                    controls=[
-                        ft.Text("System", weight=ft.FontWeight.BOLD, size=28),
-                        ft.Text(
-                            spans=[ft.TextSpan("Version: "), self.version_text],
-                            size=20,
-                        ),
-                        ft.Text(
-                            spans=[
-                                ft.TextSpan("Datum: "),
-                                ft.TextSpan(system_helper.get_curr_date()),
-                            ],
-                            size=20,
-                        ),
-                        ft.Text(
-                            spans=[ft.TextSpan("CPU-Temperatur: "), self.cpu_temp_text],
-                            size=20,
-                        ),
-                        ft.Divider(),
-                        ft.Text("IP-Config", weight=ft.FontWeight.BOLD, size=28),
-                        ft.Text(spans=[ft.TextSpan("SSID: "), self.ssid_text], size=20),
-                        ft.Text(spans=[ft.TextSpan("IP-Adresse: "), self.ip_text], size=20),
-                        ft.Text(
-                            spans=[ft.TextSpan("Hostname: "), self.hostname_text],
-                            size=20,
-                        ),
-                        ft.Text(
-                            spans=[ft.TextSpan("Subnetzmaske: "), self.subnetmask_text],
-                            size=20,
-                        ),
-                        ft.Text(spans=[ft.TextSpan("MAC-Adresse: "), self.mac_text], size=20),
-                        ft.Text(spans=[ft.TextSpan("Gateway: "), self.gateway_text], size=20),
-                        ft.Text(
-                            spans=[ft.TextSpan("DNS Primär: "), self.dns_pri_text],
-                            size=20,
-                        ),
-                        ft.Text(
-                            spans=[ft.TextSpan("DNS Sekundär: "), self.dns_sec_text],
-                            size=20,
-                        ),
-                    ]
+                with_scrollbar_space(
+                    ft.ListView(
+                        controls=[
+                            ft.Text("System", weight=ft.FontWeight.BOLD, size=28),
+                            ft.Text(
+                                spans=[ft.TextSpan("Version: "), self.version_text],
+                                size=20,
+                            ),
+                            ft.Text(
+                                spans=[
+                                    ft.TextSpan("Datum: "),
+                                    ft.TextSpan(system_helper.get_curr_date()),
+                                ],
+                                size=20,
+                            ),
+                            ft.Text(
+                                spans=[ft.TextSpan("CPU-Temperatur: "), self.cpu_temp_text],
+                                size=20,
+                            ),
+                            ft.Divider(),
+                            ft.Text("IP-Config", weight=ft.FontWeight.BOLD, size=28),
+                            ft.Text(spans=[ft.TextSpan("SSID: "), self.ssid_text], size=20),
+                            ft.Text(spans=[ft.TextSpan("IP-Adresse: "), self.ip_text], size=20),
+                            ft.Text(
+                                spans=[ft.TextSpan("Hostname: "), self.hostname_text],
+                                size=20,
+                            ),
+                            ft.Text(
+                                spans=[ft.TextSpan("Subnetzmaske: "), self.subnetmask_text],
+                                size=20,
+                            ),
+                            ft.Text(spans=[ft.TextSpan("MAC-Adresse: "), self.mac_text], size=20),
+                            ft.Text(spans=[ft.TextSpan("Gateway: "), self.gateway_text], size=20),
+                            ft.Text(
+                                spans=[ft.TextSpan("DNS Primär: "), self.dns_pri_text],
+                                size=20,
+                            ),
+                            ft.Text(
+                                spans=[ft.TextSpan("DNS Sekundär: "), self.dns_sec_text],
+                                size=20,
+                            ),
+                        ]
+                    )
                 )
             ],
         )

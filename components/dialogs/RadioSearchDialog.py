@@ -2,6 +2,7 @@ import flet as ft
 
 from components.dialogs.StationAddDialog import StationAddDialog
 from components.RadioGrid import RadioGrid
+from components.Scrollbar import with_scrollbar_space
 from helper.Constants import Constants
 from helper.RadioHelper import RadioHelper
 from helper.SystemHelper import SystemHelper
@@ -16,7 +17,7 @@ class RadioSearchDialog(ft.AlertDialog):
 
     loading = ft.ProgressRing(visible=False)
     not_found_text = ft.Text("Kein Radiosender gefunden!", visible=False)
-    listview = ft.ListView(spacing=10, expand=True, visible=False)
+    listview = with_scrollbar_space(ft.ListView(spacing=10, expand=True, visible=False))
     search_textfield = ft.TextField(
         label="Radiosender",
         expand=True,

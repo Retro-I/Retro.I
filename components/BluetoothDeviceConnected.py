@@ -3,6 +3,7 @@ import time
 import flet as ft
 
 from components.dialogs.BluetoothDeviceEditDialog import BluetoothDeviceEditDialog
+from components.Scrollbar import with_scrollbar_space
 from components.view.Taskbar import Taskbar
 from helper.Audio import Audio
 from helper.BluetoothHelper import BluetoothHelper
@@ -13,7 +14,7 @@ audio_helper = Audio()
 
 
 class BluetoothDeviceConnected:
-    listview = ft.ListView(spacing=10, expand=True)
+    listview = with_scrollbar_space(ft.ListView(spacing=10, expand=True))
     taskbar = None
     paired_devices = []
     bluetooth_device_edit_dialog: BluetoothDeviceEditDialog = None

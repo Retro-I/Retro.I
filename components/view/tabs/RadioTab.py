@@ -1,6 +1,7 @@
 import flet as ft
 
 from components.RadioGrid import RadioGrid
+from components.Scrollbar import with_scrollbar_space
 from components.SongInfoRow import SongInfoRow
 
 
@@ -25,7 +26,7 @@ class RadioTab(ft.Column):
 
         self.controls = [
             self.song_info_row,
-            self.radio_grid,
+            with_scrollbar_space(self.radio_grid),
         ]
         self.expand = True
 
