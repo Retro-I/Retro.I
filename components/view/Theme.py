@@ -1,6 +1,5 @@
 import flet as ft
 
-from components.dialogs.StartupErrorDialog import StartupErrorDialog
 from scripts import button
 from components.NavigationBar import NavigationBar
 from components.view.Tabs import Tabs

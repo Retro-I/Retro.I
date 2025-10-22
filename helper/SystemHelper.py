@@ -113,6 +113,14 @@ class SystemHelper:
     def is_party_mode(self):
         return self.is_party == "1"
 
+    def is_secured_mode_enabled(self):
+        line = subprocess.run(
+            ["sudo", "cat", f"{c.pwd()}/settings/secured-mode-settings.csv"],
+            stdout=subprocess.PIPE,
+        ).stdout.decode("utf-8")
+
+        return int(line) == 1
+
     def open_keyboard(self):
         self.close_keyboard()
         os.system("wvkbd-mobintl -L 230")
