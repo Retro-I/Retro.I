@@ -1,6 +1,6 @@
 import flet as ft
 
-from components.dialogs.StationDeleteDialog import StationDeleteDialog
+from components.dialogs.StationModifyDialog import StationModifyDialog
 from helper.Audio import Audio
 from helper.Constants import Constants
 from helper.PageState import PageState
@@ -16,7 +16,7 @@ radio_helper = RadioHelper()
 
 
 class RadioGrid(ft.GridView):
-    delete_dialog: StationDeleteDialog = None
+    station_modify_dialog: StationModifyDialog = None
     on_strip_run_color = None
     on_theme_change_radio_station = None
     on_theme_stop_radio_station = None
@@ -29,12 +29,12 @@ class RadioGrid(ft.GridView):
     ):
         super().__init__()
 
-        self.delete_dialog = StationDeleteDialog()
+        self.station_modify_dialog = StationModifyDialog()
         self.on_strip_run_color = on_strip_run_color
         self.on_theme_change_radio_station = on_theme_change_radio_station
         self.on_theme_stop_radio_station = on_theme_stop_radio_station
 
-        PageState.page.add(self.delete_dialog)
+        PageState.page.add(self.station_modify_dialog)
 
         # Gridview attributes
         self.expand = True
@@ -44,13 +44,14 @@ class RadioGrid(ft.GridView):
         self.spacing = 20
         self.run_spacing = 50
 
-    def open_delete_station_dialog(self, index):
+    def open_modify_station_dialog(self, station, index):
         Constants.current_station_index_to_delete = index
-        self.delete_dialog.open_dialog(self.delete_station)
+        self.station_modify_dialog.open_dialog(station, self.reload)
 
     def reload(self):
         self.controls.clear()
         Constants.indicator_refs = []
+        favorite_station: object | None = stations_helper.get_favorite_station()
 
         for i, station in enumerate(stations_helper.load_radio_stations()):
             Constants.indicator_refs.append(ft.Ref[ft.Container]())
@@ -63,18 +64,36 @@ class RadioGrid(ft.GridView):
                             alignment=ft.alignment.center,
                             bgcolor=ft.colors.GREY_200,
                             on_click=lambda e, src=station, index=i: self.change_radio_station(
-                                src, self.on_theme_change_radio_station, index
+                                src, index
                             ),
-                            on_long_press=lambda e, index=i: self.open_delete_station_dialog(index),
+                            on_long_press=lambda e, src=station, index=i: self.open_modify_station_dialog(
+                                src, index
+                            ),
                             border_radius=10,
                             content=self.get_content(station),
                             padding=10,
                         ),
                         ft.Container(
-                            ref=Constants.indicator_refs[i],
-                            on_click=lambda e: self.stop_radio_station(
-                                self.on_theme_stop_radio_station
+                            alignment=ft.alignment.top_right,
+                            on_click=lambda e, src=station, index=i: self.change_radio_station(
+                                src, index
                             ),
+                            on_long_press=lambda e, index=i: self.open_modify_station_dialog(index),
+                            border_radius=10,
+                            visible=(
+                                favorite_station is not None
+                                and favorite_station["id"] == station["id"]
+                            ),
+                            content=ft.Icon(
+                                name=ft.icons.FAVORITE,
+                                color=ft.colors.RED,
+                                size=36,
+                            ),
+                            padding=10,
+                        ),
+                        ft.Container(
+                            ref=Constants.indicator_refs[i],
+                            on_click=lambda e: self.stop_radio_station(),
                             visible=False,
                             content=ft.Image(
                                 src=f"{constants.pwd()}/assets/party.gif", opacity=0.7
@@ -85,28 +104,24 @@ class RadioGrid(ft.GridView):
             )
         self.update()
 
-    def delete_station(self):
-        stations_helper.delete_station(Constants.current_station_index_to_delete)
-        self.reload()
-
-    def change_radio_station(self, station, on_theme_change_radio_station=None, index=-1):
+    def change_radio_station(self, station, index=-1):
         color = station["color"]
         Constants.current_radio_station = station
 
         self.toggle_indicator(index)
 
-        if on_theme_change_radio_station is not None:
-            on_theme_change_radio_station(color)
+        if self.on_theme_change_radio_station is not None:
+            self.on_theme_change_radio_station(color)
 
         audio_helper.play_src(station["src"])
 
         self.on_strip_run_color(color)
 
-    def stop_radio_station(self, on_theme_stop_radio_station):
+    def stop_radio_station(self):
         Constants.current_radio_station = {}
         self.toggle_indicator()
         audio_helper.pause()
-        on_theme_stop_radio_station()
+        self.on_theme_stop_radio_station()
 
     def disable_indicator(self):
         for ref in Constants.indicator_refs:

@@ -16,7 +16,7 @@ class AudioEffects:
         self.stop()
         self.load_start_effects()
         command = ["easyeffects", "--gapplication-service"]
-        subprocess.run(command, stdout=subprocess.DEVNULL)
+        subprocess.Popen(command, stdout=subprocess.DEVNULL)
 
     def stop(self):
         command = ["pkill", "-f", "easyeffects"]

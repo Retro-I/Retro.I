@@ -85,14 +85,25 @@ def main(page: ft.Page):
     RotaryBass(on_taskbar_update=taskbar.update)
     RotaryPitch(on_taskbar_update=taskbar.update)
 
-    audio_effects.start()
     audio_helper.startup_sound()
+    audio_effects.start()
 
     end = time.time()
 
     page.on_error = None
 
     print(f"Startup took: {end-start}")
+
+    if (
+        stations_helper.is_default_station_autoplay_enabled()
+        and stations_helper.get_favorite_station() is not None
+    ):
+        theme.radio_tab.radio_grid.change_radio_station(
+            station=stations_helper.get_favorite_station(),
+            index=stations_helper.load_radio_stations().index(
+                stations_helper.get_favorite_station()
+            ),
+        )
 
     def background_processes():
         while True:
