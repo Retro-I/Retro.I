@@ -26,7 +26,6 @@ class SettingsFavoriteStationDialog(ft.AlertDialog):
 
     def toggle_enable_autoplay(self):
         stations_helper.toggle_default_station_autoplay()
-        self.close_dialog()
 
     def open_dialog(self):
         self.open = True
