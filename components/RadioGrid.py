@@ -62,7 +62,9 @@ class RadioGrid(ft.GridView):
                         ft.Container(
                             alignment=ft.alignment.center,
                             bgcolor=ft.colors.GREY_200,
-                            on_click=lambda e, src=station, index=i: self.change_radio_station(src, index),
+                            on_click=lambda e, src=station, index=i: self.change_radio_station(
+                                src, index
+                            ),
                             on_long_press=lambda e, index=i: self.open_delete_station_dialog(index),
                             border_radius=10,
                             content=self.get_content(station),
