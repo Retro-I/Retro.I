@@ -51,6 +51,7 @@ class RadioGrid(ft.GridView):
     def reload(self):
         self.controls.clear()
         Constants.indicator_refs = []
+        favorite_station: object | None = stations_helper.get_favorite_station()
 
         for i, station in enumerate(stations_helper.load_radio_stations()):
             Constants.indicator_refs.append(ft.Ref[ft.Container]())
@@ -71,10 +72,26 @@ class RadioGrid(ft.GridView):
                             padding=10,
                         ),
                         ft.Container(
-                            ref=Constants.indicator_refs[i],
-                            on_click=lambda e: self.stop_radio_station(
-                                self.on_theme_stop_radio_station
+                            alignment=ft.alignment.top_right,
+                            on_click=lambda e, src=station, index=i: self.change_radio_station(
+                                src, index
                             ),
+                            on_long_press=lambda e, index=i: self.open_delete_station_dialog(index),
+                            border_radius=10,
+                            visible=(
+                                favorite_station is not None
+                                and favorite_station["id"] == station["id"]
+                            ),
+                            content=ft.Icon(
+                                name=ft.icons.FAVORITE,
+                                color=ft.colors.RED,
+                                size=32,
+                            ),
+                            padding=10,
+                        ),
+                        ft.Container(
+                            ref=Constants.indicator_refs[i],
+                            on_click=lambda e: self.stop_radio_station(),
                             visible=False,
                             content=ft.Image(
                                 src=f"{constants.pwd()}/assets/party.gif", opacity=0.7
@@ -102,11 +119,11 @@ class RadioGrid(ft.GridView):
 
         self.on_strip_run_color(color)
 
-    def stop_radio_station(self, on_theme_stop_radio_station):
+    def stop_radio_station(self):
         Constants.current_radio_station = {}
         self.toggle_indicator()
         audio_helper.pause()
-        on_theme_stop_radio_station()
+        self.on_theme_stop_radio_station()
 
     def disable_indicator(self):
         for ref in Constants.indicator_refs:
