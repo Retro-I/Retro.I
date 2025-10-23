@@ -62,9 +62,7 @@ class RadioGrid(ft.GridView):
                         ft.Container(
                             alignment=ft.alignment.center,
                             bgcolor=ft.colors.GREY_200,
-                            on_click=lambda e, src=station, index=i: self.change_radio_station(
-                                src, self.on_theme_change_radio_station, index
-                            ),
+                            on_click=lambda e, src=station, index=i: self.change_radio_station(src, index),
                             on_long_press=lambda e, index=i: self.open_delete_station_dialog(index),
                             border_radius=10,
                             content=self.get_content(station),
@@ -89,14 +87,14 @@ class RadioGrid(ft.GridView):
         stations_helper.delete_station(Constants.current_station_index_to_delete)
         self.reload()
 
-    def change_radio_station(self, station, on_theme_change_radio_station=None, index=-1):
+    def change_radio_station(self, station, index=-1):
         color = station["color"]
         Constants.current_radio_station = station
 
         self.toggle_indicator(index)
 
-        if on_theme_change_radio_station is not None:
-            on_theme_change_radio_station(color)
+        if self.on_theme_change_radio_station is not None:
+            self.on_theme_change_radio_station(color)
 
         audio_helper.play_src(station["src"])
 
