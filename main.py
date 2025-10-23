@@ -94,6 +94,19 @@ def main(page: ft.Page):
 
     print(f"Startup took: {end-start}")
 
+    time.sleep(5)
+
+    if (
+        stations_helper.is_default_station_autoplay_enabled()
+        and stations_helper.get_favorite_station() is not None
+    ):
+        theme.radio_tab.radio_grid.change_radio_station(
+            station=stations_helper.get_favorite_station(),
+            index=stations_helper.load_radio_stations().index(
+                stations_helper.get_favorite_station()
+            ),
+        )
+
     def background_processes():
         while True:
             taskbar.update()
