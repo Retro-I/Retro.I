@@ -85,16 +85,14 @@ def main(page: ft.Page):
     RotaryBass(on_taskbar_update=taskbar.update)
     RotaryPitch(on_taskbar_update=taskbar.update)
 
-    audio_effects.start()
     audio_helper.startup_sound()
+    audio_effects.start()
 
     end = time.time()
 
     page.on_error = None
 
     print(f"Startup took: {end-start}")
-
-    time.sleep(5)
 
     if (
         stations_helper.is_default_station_autoplay_enabled()
