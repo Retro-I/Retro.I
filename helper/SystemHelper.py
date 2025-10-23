@@ -18,6 +18,10 @@ c = Constants()
 
 
 class SystemHelper:
+    SCROLLBAR_SETTINGS_PATH = f"{c.pwd()}/settings/scrollbar-settings.csv"
+    STARTUP_ERROR_PATH = f"{c.pwd()}/settings/startup-error.csv"
+    SECURED_MODE_ERROR_PATH = f"{c.pwd()}/settings/secured-mode-settings.csv"
+
     strip = Strip()
     is_party = "0"
 
@@ -50,33 +54,29 @@ class SystemHelper:
 
         is_error, error_message = line.split(";")
 
-        if int(is_error) == 1:
+        if is_error == 1:
             return error_message
 
         return None
 
     def write_startup_error(self, message):
-        with open(f"{c.pwd()}/settings/startup-error.csv", "w", newline="") as csvfile:
+        with open(self.STARTUP_ERROR_PATH, "w", newline="") as csvfile:
             writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
             writer.writerow([1, message])
 
     def reset_startup_error(self):
-        with open(f"{c.pwd()}/settings/startup-error.csv", "w", newline="") as csvfile:
+        with open(self.STARTUP_ERROR_PATH, "w", newline="") as csvfile:
             writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
             writer.writerow([0, ""])
 
     def is_scrollbar_enabled(self) -> bool:
-        line = subprocess.run(
-            ["sudo", "cat", f"{c.pwd()}/settings/scrollbar-settings.csv"],
-            stdout=subprocess.PIPE,
-        ).stdout.decode("utf-8")
-
-        return int(line) == 1
+        with open(self.SCROLLBAR_SETTINGS_PATH) as file:
+            return bool(int(file.read()))
 
     def toggle_scrollbar_enabled(self):
         val = int(not self.is_scrollbar_enabled())
 
-        with open(f"{c.pwd()}/settings/scrollbar-settings.csv", "w", newline="") as csvfile:
+        with open(self.SCROLLBAR_SETTINGS_PATH, "w", newline="") as csvfile:
             writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
             writer.writerow([val])
 
@@ -115,7 +115,7 @@ class SystemHelper:
 
     def is_secured_mode_enabled(self):
         line = subprocess.run(
-            ["sudo", "cat", f"{c.pwd()}/settings/secured-mode-settings.csv"],
+            ["sudo", "cat", self.SECURED_MODE_ERROR_PATH],
             stdout=subprocess.PIPE,
         ).stdout.decode("utf-8")
 

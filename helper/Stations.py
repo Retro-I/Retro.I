@@ -11,7 +11,7 @@ color_helper = ColorHelper()
 
 class Stations:
     STATIONS_FILE_PATH = f"{c.pwd()}/assets/radio-stations.json"
-    SETTINGS_FILE_PATH = f"{c.pwd()}/assets/default-station-settings.csv"
+    SETTINGS_FILE_PATH = f"{c.pwd()}/settings/default-station-settings.csv"
 
     def load_radio_stations(self):
         with open(self.STATIONS_FILE_PATH) as file:
