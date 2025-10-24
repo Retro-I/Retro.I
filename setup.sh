@@ -118,11 +118,8 @@ EOF
   success "ERFOLGREICH"
 }
 
-export $(grep '^SETTINGS_PATH=' "/etc/environment" | xargs)
-export $(grep '^RETROI_DIR=' "/etc/environment" | xargs)
-
 install_jq() {
-  if ! sudo apt-get install libmpv-dev mpv -y -qqq; then
+  if ! sudo apt-get install jq -y -qqq; then
     echo "Installation von jq fehlgeschlagen!" >&2
     return 1
   fi
@@ -495,6 +492,8 @@ read -p "Drücke <ENTER> um das Setup zu beginnen..."
 
 run_step "Projektpfad setzen" set_project_path
 run_step "Settings-Pfad setzen" set_settings_path
+export $(grep '^SETTINGS_PATH=' "/etc/environment" | xargs)
+export $(grep '^RETROI_DIR=' "/etc/environment" | xargs)
 run_step "JQ installieren" install_jq
 run_step "Settings kopieren" copy_settings_files
 enter_led_length
