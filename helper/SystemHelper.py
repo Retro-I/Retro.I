@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import socket
 import subprocess
 import time
@@ -189,9 +190,54 @@ class SystemHelper:
             "dns": self.get_dns_servers(),
         }
 
-    def change_screen_brightness(self, value):
-        brightness = int(value / 100 * 255)
-        os.system(f"sudo echo {brightness} > /sys/class/backlight/10-0045/brightness")
+    def change_screen_brightness(self, value: float):
+        percent = max(0.0, min(value, 100.0))
+
+        # ---- 1. Touchscreen brightness (0-255) ----
+        try:
+            config_file = "/boot/config.txt"
+            ts_value = int((percent / 100) * 255)
+            changed = False
+
+            # Read current config
+            with open(config_file, "r") as f:
+                lines = f.readlines()
+
+            # Update or append max_brightness
+            for i, line in enumerate(lines):
+                if line.strip().startswith("max_brightness"):
+                    lines[i] = f"max_brightness={ts_value}\n"
+                    changed = True
+                    break
+
+            if not changed:
+                lines.append(f"\n# Set touchscreen brightness\nmax_brightness={ts_value}\n")
+
+            # Write back
+            with open(config_file, "w") as f:
+                f.writelines(lines)
+
+            print(f"[Touchscreen] Set max_brightness={ts_value} in /boot/config.txt")
+        except PermissionError:
+            print("[Touchscreen] Permission denied. Run script as root to edit /boot/config.txt.")
+        except Exception as e:
+            print(f"[Touchscreen] Error: {e}")
+
+        # ---- 2. HDMI / Xrandr brightness (0.0-1.0) ----
+        try:
+            # List connected displays
+            result = subprocess.run(["xrandr", "--verbose"], capture_output=True, text=True)
+            outputs = re.findall(r"(\S+) connected", result.stdout)
+
+            hdmi_value = percent / 100.0  # scale 0-100 -> 0.0-1.0
+
+            for output in outputs:
+                subprocess.run(["xrandr", "--output", output, "--brightness", str(hdmi_value)])
+                print(f"[HDMI/Xrandr] Set {output} brightness={hdmi_value:.2f}")
+        except FileNotFoundError:
+            print("[HDMI/Xrandr] xrandr not found. Install x11-xserver-utils or run in GUI session.")
+        except Exception as e:
+            print(f"[HDMI/Xrandr] Error: {e}")
 
     def get_curr_brightness(self):
         try:
