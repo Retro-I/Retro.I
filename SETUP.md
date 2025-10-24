@@ -8,9 +8,14 @@ Hier findest du Informationen zum Setup-Skript (`setup.sh`)
 In der Datei `/etc/environment` wird die Variable `RETROI_DIR` auf den Pfad des geklonten Projekts gesetzt.
 mit dem Befehl `source "/etc/environment"` wird die Umgebungsvariable global gesetzt und für die folgenden Schritte verwendet!
 
+### Settings kopieren
+Damit der Radio je nach Benutzer konfiguriert werden kann, gibt es user-eigene `settings`. \
+Die Vorlagen (Default Settings) liegen unter `settings` und werden in diesem Schritt nach `~/.config/retroi-settings` kopiert. \
+Dies ist notwendig, damit durch Updates die Settings nicht verloren gehen.
+
 ### Eingabe Länge LED-Streifen
 In diesem Schritt wird die Anzahl der LED's des LED-Streifens eingegeben. \
-Die eingegebene Zahl wird in die Datei `$RETROI_DIR/settings/strip-settings.csv` an Stelle 3 (Index 2) geschrieben. \
+Die eingegebene Zahl wird in die Settings-Datei `strip-settings.json` an Stelle 3 (Index 2) geschrieben. \
 Die genaue Angabe ist für verschiedene Animationen mit dem Streifen notwendig. \
 Sollte kein LED-Streifen verbaut sein, kann die Zahl beliebig gewählt werden.
 
@@ -18,7 +23,7 @@ Sollte kein LED-Streifen verbaut sein, kann die Zahl beliebig gewählt werden.
 In diesem Schritt muss entschieden werden, ob die Scrollbar genutzt werden möchte. \
 Dies kann der Fall sein, wenn das Touch-Display kein Scrollen unterstützt. \
 Wählt der User "Ja (J)" aus, dann wird eine dicke Scrollbar für die jeweiligen Inhalte angezeigt und mit dieser kann dann gescrollt werden. \
-Die Auswahl wird in die Datei `$RETROI_DIR/settings/scrollbar-settings.csv` geschrieben. \
+Die Auswahl wird in die Settings-Datei `scrollbar-settings.json` geschrieben. \
 
 ### Eingabe abgesicherter Modus
 In diesem Schritt muss entschieden werden, ob der abgesicherte Modus für den Radio verwendet werden möchte. \
@@ -26,7 +31,7 @@ Dieser kann vor allem zu offiziellen Anlässen wie z.B. Infotage, "Tag der offen
 Ist der gesicherte Modus aktiviert, wird das Soundboard ausgeblendet, um eventuelle unangenehme Rückfragen zu vermeiden ;) \
 Wählt der User "Ja (J)" aus, dann kann das Soundboard nur über eine __geheime__ Kombination gestartet werden. \
 Wählt der User "Nein (N)" aus, wird das Soundboard immer angezeigt. \
-Die Auswahl wird in die Datei `$RETROI_DIR/settings/secured-mode-settings.csv` geschrieben. \
+Die Auswahl wird in die Settings-Datei `secured-mode-settings.json` geschrieben. \
 
 ### Entferne Splashscreen
 Hier wird in der Datei `/boot/firmware/config.txt`, wenn noch nicht vorhanden, die Zeile `disable_splash=1` hinzugefügt!
