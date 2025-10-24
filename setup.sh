@@ -122,7 +122,7 @@ export $(grep '^SETTINGS_PATH=' "/etc/environment" | xargs)
 export $(grep '^RETROI_DIR=' "/etc/environment" | xargs)
 
 install_jq() {
-  if ! sudo apt-get install libmpv-dev mpv -y -qqq; then
+  if ! sudo apt-get install jq -y -qqq; then
     echo "Installation von jq fehlgeschlagen!" >&2
     return 1
   fi
