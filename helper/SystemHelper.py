@@ -1,4 +1,4 @@
-import csv
+import json
 import os
 import socket
 import subprocess
@@ -18,9 +18,9 @@ c = Constants()
 
 
 class SystemHelper:
-    SCROLLBAR_SETTINGS_PATH = f"{c.pwd()}/settings/scrollbar-settings.csv"
-    STARTUP_ERROR_PATH = f"{c.pwd()}/settings/startup-error.csv"
-    SECURED_MODE_ERROR_PATH = f"{c.pwd()}/settings/secured-mode-settings.csv"
+    SCROLLBAR_SETTINGS_PATH = f"{c.settings_path()}/scrollbar-settings.json"
+    STARTUP_ERROR_PATH = f"{c.settings_path()}/startup-error.json"
+    SECURED_MODE_ERROR_PATH = f"{c.settings_path()}/secured-mode-settings.json"
 
     strip = Strip()
     is_party = "0"
@@ -46,39 +46,40 @@ class SystemHelper:
     def restart_app(self):
         os.system("sudo systemctl restart retroi")
 
-    def startup_error(self):
-        line = subprocess.run(
-            ["sudo", "cat", f"{c.pwd()}/settings/startup-error.csv"],
-            stdout=subprocess.PIPE,
-        ).stdout.decode("utf-8")
+    def startup_error(self) -> str | None:
+        with open(self.STARTUP_ERROR_PATH) as file:
+            file_data = json.load(file)
 
-        is_error, error_message = line.split(";")
+            if file_data["isStartupError"]:
+                return file_data["startupErrorMessage"]
 
-        if is_error == 1:
-            return error_message
-
-        return None
+            return None
 
     def write_startup_error(self, message):
-        with open(self.STARTUP_ERROR_PATH, "w", newline="") as csvfile:
-            writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
-            writer.writerow([1, message])
+        with open(self.STARTUP_ERROR_PATH, "w") as file:
+            data = {
+                "isStartupError": True,
+                "startupErroMessage": message,
+            }
+
+            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
 
     def reset_startup_error(self):
-        with open(self.STARTUP_ERROR_PATH, "w", newline="") as csvfile:
-            writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
-            writer.writerow([0, ""])
+        data = {"isStartupError": False, "startupErrorMessage": ""}
+
+        with open(self.STARTUP_ERROR_PATH, "w") as file:
+            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
 
     def is_scrollbar_enabled(self) -> bool:
         with open(self.SCROLLBAR_SETTINGS_PATH) as file:
-            return bool(int(file.read()))
+            file_data = json.load(file)
+            return file_data["showScrollbar"]
 
     def toggle_scrollbar_enabled(self):
-        val = int(not self.is_scrollbar_enabled())
+        data = {"showScrollbar": not self.is_scrollbar_enabled()}
 
-        with open(self.SCROLLBAR_SETTINGS_PATH, "w", newline="") as csvfile:
-            writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
-            writer.writerow([val])
+        with open(self.SCROLLBAR_SETTINGS_PATH, "w") as file:
+            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
 
     def change_revision(self, revision):
         subprocess.run(
@@ -113,13 +114,10 @@ class SystemHelper:
     def is_party_mode(self):
         return self.is_party == "1"
 
-    def is_secured_mode_enabled(self):
-        line = subprocess.run(
-            ["sudo", "cat", self.SECURED_MODE_ERROR_PATH],
-            stdout=subprocess.PIPE,
-        ).stdout.decode("utf-8")
-
-        return int(line) == 1
+    def is_secured_mode_enabled(self) -> bool:
+        with open(self.SECURED_MODE_ERROR_PATH) as file:
+            file_data = json.load(file)
+            return file_data["securedModeEnabled"]
 
     def open_keyboard(self):
         self.close_keyboard()

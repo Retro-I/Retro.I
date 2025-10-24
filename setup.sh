@@ -55,7 +55,6 @@ run_step() {
 
 # System-Einrichtung
 set_project_path() {
-  printf "Projektpfad setzen ... "
   BASHRC_PATH="$HOME/.bashrc"
   ENV_PATH="/etc/environment"
   current_path=$(pwd)
@@ -86,8 +85,131 @@ EOF
     echo "Pfad-Variablen konnten nicht gesetzt werden" >&2
     return 1
   fi
+}
+
+set_settings_path() {
+  BASHRC_PATH="$HOME/.bashrc"
+  ENV_PATH="/etc/environment"
+  current_path=$(pwd)
+
+  export SETTINGS_PATH="/home/$(whoami)/.local/share/retroi"
+
+  # Append venv activation to .bashrc if not already present
+  if ! grep -q 'export SETTINGS_PATH="$SETTINGS_PATH"' "$BASHRC_PATH"; then
+    cat <<EOF >> "$BASHRC_PATH"
+export SETTINGS_PATH="$SETTINGS_PATH"
+EOF
+  fi
+
+  if grep -q '^SETTINGS_PATH=' "$ENV_PATH" 2>/dev/null; then
+    sudo sed -i "s|^SETTINGS_PATH=.*|SETTINGS_PATH=\"$SETTINGS_PATH\"|" "$ENV_PATH"
+  else
+    echo "SETTINGS_PATH=\"$SETTINGS_PATH\"" | sudo tee -a "$ENV_PATH" > /dev/null
+  fi
+
+  source "$ENV_PATH"
+
+  if [ -z "$SETTINGS_PATH" ]; then
+    error "FEHLGESCHLAGEN"
+    echo "Pfad-Variablen konnten nicht gesetzt werden" >&2
+    return 1
+  fi
 
   success "ERFOLGREICH"
+}
+
+export $(grep '^SETTINGS_PATH=' "/etc/environment" | xargs)
+export $(grep '^RETROI_DIR=' "/etc/environment" | xargs)
+
+install_jq() {
+  if ! sudo apt-get install libmpv-dev mpv -y -qqq; then
+    echo "Installation von jq fehlgeschlagen!" >&2
+    return 1
+  fi
+}
+
+copy_settings_files() {
+  cp -rf "$RETROI_DIR/settings/." "$SETTINGS_PATH"/
+
+  if [ ! -d "$SETTINGS_PATH" ] || [ -z "$(ls -A "$SETTINGS_PATH")" ]; then
+    echo "Keine Dateien in $SETTINGS_PATH gefunden!" >&2
+    return 1
+  fi
+}
+
+enter_led_length() {
+  settings_file="$SETTINGS_PATH/strip-settings.json"
+
+  while true; do
+    amount_leds=$(jq -r '.amountLeds' "$settings_file")
+
+    read -p "Anzahl der LED's des LED-Streifens ($amount_leds): " led_input
+
+    if [ -z "$led_input" ]; then
+      echo "LED count bleibt bei $amount_leds."
+      break
+    fi
+
+    if [[ "$led_input" =~ ^[0-9]+$ ]]; then
+      tmp_file=$(mktemp)
+      jq --argjson new_count "$led_input" '.amountLeds = $new_count' "$settings_file" > "$tmp_file" \
+        && mv "$tmp_file" "$settings_file"
+      echo "LED count auf $led_input gesetzt."
+      break
+    else
+      echo "Bitte eine gültige Zahl eingeben!"
+    fi
+  done
+}
+
+enter_enable_scrollbar() {
+  settings_file="$SETTINGS_PATH/scrollbar-settings.json"
+
+  while true; do
+    read -p "Möchtest du die Scrollbar nutzen? Evtl., weil du mit deinem Display nicht scrollen kannst? [J]a / [N]ein: " choice
+    case "$choice" in
+      j|J )
+        tmp_file=$(mktemp)
+        jq '.showScrollbar = true' "$settings_file" > "$tmp_file" && mv "$tmp_file" "$settings_file"
+        echo "Scrollbar aktiviert."
+        break
+        ;;
+      n|N )
+        tmp_file=$(mktemp)
+        jq '.showScrollbar = false' "$settings_file" > "$tmp_file" && mv "$tmp_file" "$settings_file"
+        echo "Scrollbar deaktiviert."
+        break
+        ;;
+      * )
+        echo 'Bitte gib entweder "J" oder "N" ein!'
+        ;;
+    esac
+  done
+}
+
+enter_secured_mode() {
+  settings_file="$SETTINGS_PATH/secured-mode-settings.json"
+
+  while true; do
+    read -p "Möchtest du den abgesicherten Modus des Radios nutzen? z.B. für offizielle Anlässe (Infotag, etc.) [J]a, [N]ein: " choice
+    case "$choice" in
+      j|J )
+        tmp_file=$(mktemp)
+        jq '.securedModeEnabled = true' "$settings_file" > "$tmp_file" && mv "$tmp_file" "$settings_file"
+        echo "Abgesicherter Modus aktiviert."
+        break
+        ;;
+      n|N )
+        tmp_file=$(mktemp)
+        jq '.securedModeEnabled = false' "$settings_file" > "$tmp_file" && mv "$tmp_file" "$settings_file"
+        echo "Abgesicherter Modus deaktiviert."
+        break
+        ;;
+      * )
+        echo 'Bitte gib entweder "J" oder "N" ein!'
+        ;;
+    esac
+  done
 }
 
 remove_splashscreen() {
@@ -292,6 +414,7 @@ install_screen_keyboard() {
   pkill wvkbd-mobintl
 }
 
+# App Einrichtung
 setup_venv() {
   VENV_PATH="$RETROI_DIR/.venv"
   BASHRC_PATH="$HOME/.bashrc"
@@ -355,90 +478,6 @@ install_python_packages() {
   source "$RETROI_DIR/.venv/bin/activate" && pip install -r requirements.txt -q
 }
 
-enter_led_length() {
-  while true; do
-    settings_file="$RETROI_DIR/settings/strip-settings.csv"
-    IFS=';' read -r is_active brightness count_led < "$settings_file"
-
-    read -p "Anzahl der LED's des LED-Streifens ($count_led): " led_input
-
-    if [ "$led_input" == "" ]; then
-      printf "%s;%s;%s" "$is_active" "$brightness" "$count_led" > "$settings_file"
-      break
-    fi
-
-    if [[ "$led_input" =~ ^[0-9]+$ ]]; then
-      printf "%s;%s;%s" "$is_active" "$brightness" "$led_input" > "$settings_file"
-      break
-    else
-      echo "Bitte eine gültige Zahl eingeben!"
-    fi
-  done
-}
-
-enter_led_length() {
-  while true; do
-    settings_file="settings/strip-settings.csv"
-    IFS=';' read -r is_active brightness count_led < "$settings_file"
-
-    read -p "Anzahl der LED's des LED-Streifens ($count_led): " led_input
-
-    if [ "$led_input" == "" ]; then
-      printf "%s;%s;%s" "$is_active" "$brightness" "$count_led" > "$settings_file"
-      break
-    fi
-
-    if [[ "$led_input" =~ ^[0-9]+$ ]]; then
-      printf "%s;%s;%s" "$is_active" "$brightness" "$led_input" > "$settings_file"
-      break
-    else
-      echo "Bitte eine gültige Zahl eingeben!"
-    fi
-  done
-}
-
-enter_enable_scrollbar() {
-  settings_file="settings/scrollbar-settings.csv"
-
-  while true; do
-    read -p "Möchtest du die Scrollbar nutzen? Evtl., weil du mit deinem Display nicht scrollen kannst? [J]a, [N]ein: " choice
-    case "$choice" in
-      j|J )
-        printf "1" > "$settings_file"
-        break
-        ;;
-      n|N )
-        printf "0" > "$settings_file"
-        break
-        ;;
-      * )
-        echo "Bitte gib entweder \"J\" oder \"N\" ein!"
-        ;;
-      esac
-  done
-}
-
-enter_secured_mode() {
-  settings_file="settings/secured-mode-settings.csv"
-
-  while true; do
-    read -p "Möchtest du den abgesicherten Modus des Radios nutzen? z.B. für offizielle Anlässe (Infotag, etc.) [J]a, [N]ein: " choice
-    case "$choice" in
-      j|J )
-        printf "1" > "$settings_file"
-        break
-        ;;
-      n|N )
-        printf "0" > "$settings_file"
-        break
-        ;;
-      * )
-        echo "Bitte gib entweder \"J\" oder \"N\" ein!"
-        ;;
-      esac
-  done
-}
-
 print_ascii_art() {
   echo "
  _______  _______  _________ _______  _______    _________
@@ -458,7 +497,10 @@ print_ascii_art
 echo -e "Sollte dieses Setup-Script bei einem Schritt fehlschlagen, kannst du im Projekt in der SETUP.md nachschlagen.\n\n"
 read -p "Drücke <ENTER> um das Setup zu beginnen..."
 
-set_project_path
+run_step "Projektpfad setzen" set_project_path
+run_step "Settings-Pfad setzen" set_settings_path
+run_step "JQ installieren" install_jq
+run_step "Settings kopieren" copy_settings_files
 enter_led_length
 enter_enable_scrollbar
 enter_secured_mode

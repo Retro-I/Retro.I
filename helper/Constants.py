@@ -2,6 +2,8 @@ import os
 import random
 from pathlib import Path
 
+from appdirs import user_data_dir
+
 
 class Constants:
     current_radio_station = {}
@@ -14,6 +16,9 @@ class Constants:
             return retroi_dir
 
         return str(Path(__file__).resolve().parent.parent)
+
+    def settings_path(self) -> str:
+        return str(os.path.join(user_data_dir("retroi")))
 
     def sound_path(self):
         return f"{self.pwd()}/assets/sounds"

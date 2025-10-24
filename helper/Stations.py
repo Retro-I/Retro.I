@@ -1,4 +1,3 @@
-import csv
 import json
 import uuid
 
@@ -10,8 +9,8 @@ color_helper = ColorHelper()
 
 
 class Stations:
-    STATIONS_FILE_PATH = f"{c.pwd()}/assets/radio-stations.json"
-    SETTINGS_FILE_PATH = f"{c.pwd()}/settings/default-station-settings.csv"
+    STATIONS_FILE_PATH = f"{c.settings_path()}/radio-stations.json"
+    SETTINGS_FILE_PATH = f"{c.settings_path()}/default-station-settings.json"
 
     def load_radio_stations(self):
         with open(self.STATIONS_FILE_PATH) as file:
@@ -36,7 +35,7 @@ class Stations:
             file_data = json.load(file)
             file_data.pop(index)
 
-        self._write_to_file(file_data)
+        self._write_to_file(file_data, self.STATIONS_FILE_PATH)
 
     def set_favorite_station(self, fav_station):
         stations = self.load_radio_stations()
@@ -49,7 +48,7 @@ class Stations:
                 station["favorite"] = True
                 break
 
-        self._write_to_file(stations)
+        self._write_to_file(stations, self.STATIONS_FILE_PATH)
 
     def get_favorite_station(self) -> object | None:
         stations = self.load_radio_stations()
@@ -61,15 +60,14 @@ class Stations:
 
     def is_default_station_autoplay_enabled(self) -> bool:
         with open(self.SETTINGS_FILE_PATH) as file:
-            return bool(int(file.read()))
+            file_data = json.load(file)
+            return file_data["enableAutoplay"]
 
     def toggle_default_station_autoplay(self):
-        val = int(not self.is_default_station_autoplay_enabled())
+        data = {"enableAutoplay": not self.is_default_station_autoplay_enabled()}
 
-        with open(self.SETTINGS_FILE_PATH, "w", newline="") as csvfile:
-            writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
-            writer.writerow([val])
+        self._write_to_file(data, self.SETTINGS_FILE_PATH)
 
-    def _write_to_file(self, data):
-        with open(self.STATIONS_FILE_PATH, "w") as file:
+    def _write_to_file(self, data, path):
+        with open(path, "w") as file:
             file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))

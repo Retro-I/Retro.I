@@ -11,7 +11,7 @@ c = Constants()
 
 class Sounds:
     last_toast = ""
-    fav_sounds_path = f"{c.pwd()}/assets/favorite-sounds.json"
+    fav_sounds_path = f"{c.settings_path()}/favorite-sounds.json"
 
     def search_sounds(self, query):
         response = requests.get(f"https://myinstants-api.vercel.app/search?q={query}").json()

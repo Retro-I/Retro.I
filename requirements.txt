@@ -19,3 +19,4 @@ rpi-ws281x==5.0.0
 isort==7.0.0
 flake8==7.3.0
 black==25.9.0
+appdirs==1.4.4

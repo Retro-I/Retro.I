@@ -1,4 +1,4 @@
-import csv
+import json
 import math
 import threading
 
@@ -15,6 +15,8 @@ c = Constants()
 
 
 class Strip:
+    STRIP_SETTINGS_PATH = f"{c.settings_path()}/strip-settings.json"
+
     counter = 0
     curr_color = GREEN
 
@@ -83,13 +85,13 @@ class Strip:
 
         self.kill_proc()
 
-    def is_strip_active(self):
-        lines = self.get_strip_settings()
-        return bool(int(lines[0]))
+    def is_strip_active(self) -> bool:
+        settings = self.get_strip_settings()
+        return settings["isStripEnabled"]
 
-    def get_led_length(self):
-        lines = self.get_strip_settings()
-        return int(lines[2])
+    def get_led_length(self) -> int:
+        settings = self.get_strip_settings()
+        return settings["amountLeds"]
 
     def toggle_strip(self):
         if self.is_strip_active():
@@ -102,9 +104,9 @@ class Strip:
             self.update_settings(is_active=1)
         self.pixels.show()
 
-    def get_curr_brightness(self):
-        lines = self.get_strip_settings()
-        return float(lines[1])
+    def get_curr_brightness(self) -> float:
+        settings = self.get_strip_settings()
+        return settings["brightness"]
 
     def change_brightness(self, e):
         value = e.control.value
@@ -130,19 +132,19 @@ class Strip:
         self.pixels.show()
 
     def get_strip_settings(self):
-        with open(f"{c.pwd()}/settings/strip-settings.csv", newline="") as csvfile:
-            reader = csv.reader(csvfile, delimiter=";", quotechar=" ")
-            for row in reader:
-                return row
+        with open(self.STRIP_SETTINGS_PATH, newline="") as file:
+            return json.load(file)
 
     def update_settings(self, is_active=None, brightness=None, length=None):
         _is_active = is_active if is_active is not None else self.is_strip_active()
         _brightness = brightness if brightness is not None else self.get_curr_brightness()
         _length = length if length is not None else self.get_led_length()
 
-        with open(f"{c.pwd()}/settings/strip-settings.csv", "w", newline="") as csvfile:
-            writer = csv.writer(csvfile, delimiter=";", quotechar=" ", quoting=csv.QUOTE_MINIMAL)
-            writer.writerow([int(_is_active), _brightness, _length])
+        data = {
+            "isStripEnabled": _is_active,
+            "brightness": _brightness,
+            "amountLeds": _length,
+        }
 
-        with open(f"{c.pwd()}/settings/strip-settings.csv", "w") as file:
-            file.write(f"{int(is_active)};{brightness}")
+        with open(self.STRIP_SETTINGS_PATH, "w") as file:
+            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
