@@ -1,3 +1,4 @@
+import glob
 import json
 import os
 import socket
@@ -183,8 +184,20 @@ class SystemHelper:
         }
 
     def change_screen_brightness(self, value):
-        brightness = int(value / 100 * 255)
-        os.system(f"sudo echo {brightness} > /sys/class/backlight/10-0045/brightness")
+        factor = value / 100
+        brightness = int(factor * 255)
+
+        def try_dsi_screens():
+            paths = glob.glob("/sys/class/backlight/*/brightness")
+            for path in paths:
+                subprocess.run(["sudo", "tee", path], input=str(brightness).encode(), check=True)
+
+        def try_hdmi_screens():
+            os.system(f"xrandr --output HDMI-0 --brightness {factor}")
+            os.system(f"xrandr --output HDMI-1 --brightness {factor}")
+
+        try_dsi_screens()
+        try_hdmi_screens()
 
     def get_curr_brightness(self):
         try:
