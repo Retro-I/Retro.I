@@ -1,7 +1,6 @@
 import flet as ft
 
 from components.dialogs.SettingsAppControlDialog import SettingsAppControlDialog
-from components.dialogs.SettingsBrightnessDialog import SettingsBrightnessDialog
 from components.dialogs.SettingsCreditsDialog import SettingsCreditsDialog
 from components.dialogs.SettingsDisplayDialog import SettingsDisplayDialog
 from components.dialogs.SettingsFavoriteStationDialog import SettingsFavoriteStationDialog
@@ -26,7 +25,6 @@ class SettingsTab(ft.Column):
         self.display_dialog = SettingsDisplayDialog()
         self.led_dialog = SettingsLedDialog()
         self.favorite_station_dialog = SettingsFavoriteStationDialog()
-        self.brightness_dialog = SettingsBrightnessDialog()
         self.info_dialog = SettingsInfoDialog()
         self.credits_dialog = SettingsCreditsDialog()
         self.update_dialog = SettingsUpdateDialog()
@@ -70,11 +68,6 @@ class SettingsTab(ft.Column):
                             lambda e: self.favorite_station_dialog.open_dialog(),
                         ),
                         SettingsButton(
-                            ft.icons.SETTINGS_DISPLAY_ROUNDED,
-                            "Helligkeit",
-                            lambda e: self.brightness_dialog.open_dialog(),
-                        ),
-                        SettingsButton(
                             ft.icons.INFO, "Info", lambda e: self.info_dialog.open_dialog()
                         ),
                         SettingsButton(
@@ -97,7 +90,6 @@ class SettingsTab(ft.Column):
         PageState.page.add(self.display_dialog)
         PageState.page.add(self.led_dialog)
         PageState.page.add(self.favorite_station_dialog)
-        PageState.page.add(self.brightness_dialog)
         PageState.page.add(self.info_dialog)
         PageState.page.add(self.update_dialog)
         PageState.page.add(self.credits_dialog)
