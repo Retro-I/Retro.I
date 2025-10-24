@@ -5,8 +5,3 @@ venv
 
 # JetBrains-IDE's
 .idea
-
-# Custom Assets
-assets/favorite-sounds.json
-assets/radio-stations.json
-settings
