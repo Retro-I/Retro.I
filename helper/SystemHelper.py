@@ -119,13 +119,6 @@ class SystemHelper:
             file_data = json.load(file)
             return file_data["securedModeEnabled"]
 
-    def open_keyboard(self):
-        self.close_keyboard()
-        os.system("wvkbd-mobintl -L 230")
-
-    def close_keyboard(self):
-        os.system("pkill wvkbd-mobintl")
-
     def get_default_interface(self):
         if netifaces.gateways()["default"] == {}:
             return None

@@ -12,8 +12,6 @@ class WifiConnectionDialog(ft.AlertDialog):
     password = ft.TextField(
         password=True,
         autofocus=True,
-        on_focus=lambda e: system_helper.open_keyboard(),
-        on_blur=lambda e: system_helper.close_keyboard(),
     )
     btn_connect = ft.FilledButton(
         "Verbinden", style=ft.ButtonStyle(text_style=ft.TextStyle(size=16))

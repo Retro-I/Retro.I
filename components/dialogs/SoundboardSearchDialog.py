@@ -21,8 +21,6 @@ class SoundboardSearchDialog(ft.AlertDialog):
     search_textfield = ft.TextField(
         label="Sounds",
         expand=True,
-        on_focus=lambda e: system_helper.open_keyboard(),
-        on_blur=lambda e: system_helper.close_keyboard(),
     )
 
     on_favorite_add = None

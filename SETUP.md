@@ -122,13 +122,16 @@ Diese wird nach erfolgreicher Installation nach `$HOME/.config/easyeffects/outpu
 Das Programm passt diese Datei entsprechend eingestellten Bass und Höhen an und lädt die Konfigurationen neu.
 
 ### Installiere Bildschirmtastatur
-Für die Verwendung eines Touch-Displays wird eine Bildschirmtastatur benötigt.
-Diese wird mit folgendem dem Befehl
+Raspberry PI verwendet ab `bookworm` `squeekboard` als virtuelle Tastatur. \
+Mit dem Befehl
 ```
-sudo apt-get install wvkbd -y -qqq
+sudo apt-get install squeekboard
 ```
-Gestartet wird die Tastatur mit folgendem Befehl `wvkbd-mobintl`
-Mit Strg+C wird die Tastatur geschlossen.
+wird diese installiert. \
+Das richtige Aktivieren/einstellen der Tastatur kann nicht automatisch vorgenommen werden. \
+Dazu ist folgendes zu beachten: \
+Unter `sudo raspi-config` in den Einstellungen `Display Options -> Onscreen Keyboard -> S2 Autodetect` kann die Tastatur aktiviert / richtig eingestellt werden. \
+Es ist möglich, dass erst nach einem Reboot diese Einstellungen zu sehen sind.
 
 ## App-Einrichtung
 ### VENV einrichten
