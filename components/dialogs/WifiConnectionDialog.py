@@ -22,6 +22,7 @@ class WifiConnectionDialog(ft.AlertDialog):
 
         self.btn_connect.on_click = lambda e: self.connect(on_connect)
 
+        self.modal = True
         self.actions = [self.btn_connect]
         self.content = ft.Column(
             width=400,

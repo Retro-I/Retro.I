@@ -19,8 +19,8 @@ class WifiHelper:
 
     def connect_to_wifi(self, ssid, password):
         if password == "":
-            command = ["nmcli", "d", "wifi", "connect", ssid]
+            command = ["sudo", "nmcli", "d", "wifi", "connect", ssid]
         else:
-            command = ["nmcli", "d", "wifi", "connect", ssid, "password", password]
+            command = ["sudo", "nmcli", "d", "wifi", "connect", ssid, "password", password]
 
         subprocess.run(command, stdout=subprocess.PIPE).stdout.decode("utf-8").strip()

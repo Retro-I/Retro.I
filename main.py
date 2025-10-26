@@ -94,6 +94,15 @@ def main(page: ft.Page):
 
     print(f"Startup took: {end-start}")
 
+    def background_processes():
+        while True:
+            theme.radio_tab.song_info_row.reload()
+            taskbar.update()
+            time.sleep(5)
+
+    process = threading.Thread(target=background_processes)
+    process.start()
+
     if (
         stations_helper.is_default_station_autoplay_enabled()
         and stations_helper.get_favorite_station() is not None
@@ -104,14 +113,6 @@ def main(page: ft.Page):
                 stations_helper.get_favorite_station()
             ),
         )
-
-    def background_processes():
-        while True:
-            taskbar.update()
-            time.sleep(5)
-
-    process = threading.Thread(target=background_processes)
-    process.start()
 
 
 try:
