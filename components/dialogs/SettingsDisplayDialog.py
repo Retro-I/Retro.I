@@ -26,6 +26,21 @@ class SettingsDisplayDialog(ft.AlertDialog):
                     on_change=lambda e: self.toggle_enable_scrollbar(),
                     value=system_helper.is_scrollbar_enabled(),
                 ),
+                ft.Divider(),
+                ft.Row(
+                    [
+                        ft.Text("Bildschirm-Helligkeit", style=ft.TextStyle(size=20)),
+                        ft.Slider(
+                            min=10,
+                            max=100,
+                            divisions=19,
+                            label="{value}%",
+                            value=system_helper.get_curr_brightness(),
+                            on_change=self.slider_changed,
+                            expand=True,
+                        ),
+                    ]
+                ),
             ],
         )
 
@@ -33,6 +48,9 @@ class SettingsDisplayDialog(ft.AlertDialog):
         system_helper.toggle_scrollbar_enabled()
         self.close_dialog()
         self.updates_restart_dialog.open_dialog()
+
+    def slider_changed(self, e):
+        system_helper.change_screen_brightness(e.control.value)
 
     def open_dialog(self):
         self.open = True
