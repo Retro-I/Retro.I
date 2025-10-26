@@ -407,11 +407,7 @@ install_easyeffects() {
 }
 
 install_screen_keyboard() {
-  sudo apt-get install wvkbd -y -qqq
-
-  # Verify installation
-  wvkbd-mobintl -L 1&
-  pkill wvkbd-mobintl
+  sudo apt-get install squeekboard -y -qqq
 }
 
 # App Einrichtung

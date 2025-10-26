@@ -21,8 +21,6 @@ class RadioSearchDialog(ft.AlertDialog):
     search_textfield = ft.TextField(
         label="Radiosender",
         expand=True,
-        on_focus=lambda e: system_helper.open_keyboard(),
-        on_blur=lambda e: system_helper.close_keyboard(),
     )
 
     station_add_dialog: StationAddDialog = None
