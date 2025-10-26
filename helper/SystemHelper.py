@@ -88,13 +88,16 @@ class SystemHelper:
 
             file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
 
-    def change_revision(self, revision):
+    def change_revision(self, revision: dict):
         self._update_process = subprocess.Popen(
-            ["bash", "scripts/update_project.sh", revision],
+            ["bash", "scripts/update_project.sh", revision["name"]],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
         )
+        stdout, stderr = self._update_process.communicate()
+        if self._update_process.returncode != 0:
+            print("Error:", stderr)
 
     def cancel_revision_update(self):
         if self._update_process and self._update_process.poll() is None:
@@ -104,6 +107,7 @@ class SystemHelper:
             except subprocess.TimeoutExpired:
                 self._update_process.kill()  # Force kill with SIGKILL
 
+        self.write_startup_error("Letztes Update abgebrochen!")
         self._update_process = None
 
     def get_cpu_temp(self):
