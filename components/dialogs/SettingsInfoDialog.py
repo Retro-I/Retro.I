@@ -28,6 +28,7 @@ class SettingsInfoDialog(ft.AlertDialog):
             controls=[
                 with_scrollbar_space(
                     ft.ListView(
+                        expand=True,
                         controls=[
                             ft.Text("System", weight=ft.FontWeight.BOLD, size=28),
                             ft.Text(
@@ -67,7 +68,7 @@ class SettingsInfoDialog(ft.AlertDialog):
                                 spans=[ft.TextSpan("DNS Sekundär: "), self.dns_sec_text],
                                 size=20,
                             ),
-                        ]
+                        ],
                     )
                 )
             ],
