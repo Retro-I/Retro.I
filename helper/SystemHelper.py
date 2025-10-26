@@ -60,15 +60,18 @@ class SystemHelper:
         with open(self.STARTUP_ERROR_PATH, "w") as file:
             data = {
                 "isStartupError": True,
-                "startupErroMessage": message,
+                "startupErrorMessage": message,
             }
 
             file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
 
     def reset_startup_error(self):
-        data = {"isStartupError": False, "startupErrorMessage": ""}
-
         with open(self.STARTUP_ERROR_PATH, "w") as file:
+            data = {
+                "isStartupError": False,
+                "startupErrorMessage": "",
+            }
+
             file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
 
     def is_scrollbar_enabled(self) -> bool:
@@ -77,9 +80,11 @@ class SystemHelper:
             return file_data["showScrollbar"]
 
     def toggle_scrollbar_enabled(self):
-        data = {"showScrollbar": not self.is_scrollbar_enabled()}
-
         with open(self.SCROLLBAR_SETTINGS_PATH, "w") as file:
+            data = {
+                "showScrollbar": not self.is_scrollbar_enabled(),
+            }
+
             file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
 
     def change_revision(self, revision):
