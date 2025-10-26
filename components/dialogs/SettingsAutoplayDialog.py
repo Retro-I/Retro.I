@@ -9,6 +9,7 @@ class SettingsFavoriteStationDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
 
+        self.title = ft.Text("Autoplay")
         self.content = ft.Column(
             alignment=ft.MainAxisAlignment.CENTER,
             width=500,
@@ -16,7 +17,6 @@ class SettingsFavoriteStationDialog(ft.AlertDialog):
             controls=[
                 ft.Switch(
                     "Lieblingsradiosender nach Systemstart abspielen",
-                    label_position=ft.LabelPosition.LEFT,
                     label_style=ft.TextStyle(size=20),
                     on_change=lambda e: self.toggle_enable_autoplay(),
                     value=stations_helper.is_default_station_autoplay_enabled(),

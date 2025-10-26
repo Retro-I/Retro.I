@@ -14,6 +14,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
 
         PageState.page.add(self.updates_restart_dialog)
 
+        self.title = ft.Text("Anzeige")
         self.content = ft.Column(
             alignment=ft.MainAxisAlignment.CENTER,
             width=500,
@@ -21,15 +22,14 @@ class SettingsDisplayDialog(ft.AlertDialog):
             controls=[
                 ft.Switch(
                     "Scrollbar anzeigen",
-                    label_position=ft.LabelPosition.LEFT,
                     label_style=ft.TextStyle(size=20),
                     on_change=lambda e: self.toggle_enable_scrollbar(),
                     value=system_helper.is_scrollbar_enabled(),
                 ),
                 ft.Divider(),
-                ft.Row(
+                ft.Column(
                     [
-                        ft.Text("Bildschirm-Helligkeit", style=ft.TextStyle(size=20)),
+                        ft.Text("Bildschirm-Helligkeit:", style=ft.TextStyle(size=20)),
                         ft.Slider(
                             min=10,
                             max=100,

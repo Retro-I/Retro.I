@@ -25,7 +25,7 @@ class Taskbar(ft.AppBar):
     txt_volume = ft.Text(f"{audio_helper.get_volume()}%", size=18)
 
     ico_bass = ft.Icon(name=ft.icons.SURROUND_SOUND, size=25)
-    txt_bass = ft.Text(f"+{audio_effects.get_bass_value()} dB", size=18)
+    txt_bass = ft.Text(f"{audio_effects.get_bass_value()} dB", size=18)
 
     ico_pitch = ft.Icon(name=ft.icons.HEIGHT, size=25)
     txt_pitch = ft.Text(audio_effects.get_pitch_value(), size=18)

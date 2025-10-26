@@ -12,8 +12,6 @@ set -euo pipefail
 # Trap any unexpected error
 trap 'echo "Error on line $LINENO while executing: $BASH_COMMAND" >&2; exit 1' ERR
 
-git stash
-
 REF=${1:-}
 
 if [ -z "$REF" ]; then
@@ -28,16 +26,12 @@ echo "Fetching all branches and tags..."
 git fetch --all --tags || { echo "Git fetch failed." >&2; exit 1; }
 
 if git rev-parse "refs/tags/$REF" >/dev/null 2>&1; then
-    echo "🏷️  Checking out tag: $REF"
+    echo "Checking out tag: $REF"
     git checkout "tags/$REF" -f || { echo "Failed to checkout tag $REF." >&2; exit 1; }
 else
     echo "Checking out branch: $REF"
     git checkout "$REF" || { echo "Failed to checkout branch $REF." >&2; exit 1; }
     git reset --hard "origin/$REF" || { echo "Failed to reset branch $REF." >&2; exit 1; }
-fi
-
-if git stash list | grep -q .; then
-  git stash pop
 fi
 
 echo "Checked out '$REF' successfully."
