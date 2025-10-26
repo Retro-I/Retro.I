@@ -40,7 +40,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
                             expand=True,
                         ),
                     ]
-                )
+                ),
             ],
         )
 
