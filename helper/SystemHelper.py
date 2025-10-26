@@ -28,6 +28,7 @@ class SystemHelper:
 
     def __init__(self):
         self.init_party_mode()
+        self._update_process: subprocess.Popen | None = None
 
     def shutdown_system(self):
         audio_helper.shutdown_sound()
@@ -88,12 +89,22 @@ class SystemHelper:
             file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
 
     def change_revision(self, revision):
-        subprocess.run(
+        self._update_process = subprocess.Popen(
             ["bash", "scripts/update_project.sh", revision],
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             text=True,
-            check=True,
         )
+
+    def cancel_revision_update(self):
+        if self._update_process and self._update_process.poll() is None:
+            self._update_process.terminate()
+            try:
+                self._update_process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                self._update_process.kill()  # Force kill with SIGKILL
+
+        self._update_process = None
 
     def get_cpu_temp(self):
         line = subprocess.run(["vcgencmd", "measure_temp"], stdout=subprocess.PIPE).stdout.decode(
