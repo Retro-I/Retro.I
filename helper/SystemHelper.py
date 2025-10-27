@@ -88,9 +88,9 @@ class SystemHelper:
 
             file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
 
-    def change_revision(self, revision: dict):
+    def change_revision(self, revision: str):
         self._update_process = subprocess.Popen(
-            ["bash", "scripts/update_project.sh", revision["name"]],
+            ["bash", "scripts/update_project.sh", revision],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,

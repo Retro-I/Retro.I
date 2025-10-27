@@ -1,12 +1,12 @@
 import flet as ft
 
 from components.dialogs.SettingsAppControlDialog import SettingsAppControlDialog
-from components.dialogs.SettingsAutoplayDialog import SettingsFavoriteStationDialog
 from components.dialogs.SettingsCreditsDialog import SettingsCreditsDialog
 from components.dialogs.SettingsDisplayDialog import SettingsDisplayDialog
 from components.dialogs.SettingsInfoDialog import SettingsInfoDialog
 from components.dialogs.SettingsLedDialog import SettingsLedDialog
 from components.dialogs.SettingsShutdownDialog import SettingsShutdownDialog
+from components.dialogs.SettingsSystemDialog import SettingsSystemDialog
 from components.dialogs.SettingsUpdateDialog import SettingsUpdateDialog
 from components.Scrollbar import with_scrollbar_space
 from components.SettingsButton import SettingsButton
@@ -22,9 +22,9 @@ class SettingsTab(ft.Column):
 
         self.shutdown_dialog = SettingsShutdownDialog()
         self.app_control_dialog = SettingsAppControlDialog()
+        self.system_dialog = SettingsSystemDialog()
         self.display_dialog = SettingsDisplayDialog()
         self.led_dialog = SettingsLedDialog()
-        self.autoplay_dialog = SettingsFavoriteStationDialog()
         self.info_dialog = SettingsInfoDialog()
         self.credits_dialog = SettingsCreditsDialog()
         self.update_dialog = SettingsUpdateDialog()
@@ -53,6 +53,11 @@ class SettingsTab(ft.Column):
                             lambda e: self.app_control_dialog.open_dialog(),
                         ),
                         SettingsButton(
+                            ft.icons.DEVICES,
+                            "System",
+                            lambda e: self.system_dialog.open_dialog(),
+                        ),
+                        SettingsButton(
                             ft.icons.DISPLAY_SETTINGS,
                             "Anzeige",
                             lambda e: self.display_dialog.open_dialog(),
@@ -61,11 +66,6 @@ class SettingsTab(ft.Column):
                             ft.icons.COLOR_LENS,
                             "LED-Streifen",
                             lambda e: self.led_dialog.open_dialog(),
-                        ),
-                        SettingsButton(
-                            ft.icons.FAVORITE,
-                            "Autoplay",
-                            lambda e: self.autoplay_dialog.open_dialog(),
                         ),
                         SettingsButton(
                             ft.icons.INFO, "Info", lambda e: self.info_dialog.open_dialog()
@@ -87,9 +87,9 @@ class SettingsTab(ft.Column):
 
         PageState.page.add(self.shutdown_dialog)
         PageState.page.add(self.app_control_dialog)
+        PageState.page.add(self.system_dialog)
         PageState.page.add(self.display_dialog)
         PageState.page.add(self.led_dialog)
-        PageState.page.add(self.autoplay_dialog)
         PageState.page.add(self.info_dialog)
         PageState.page.add(self.update_dialog)
         PageState.page.add(self.credits_dialog)

@@ -22,7 +22,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
             controls=[
                 ft.Switch(
                     "Scrollbar anzeigen",
-                    label_style=ft.TextStyle(size=20),
+                    label_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_scrollbar(),
                     value=system_helper.is_scrollbar_enabled(),
                 ),
