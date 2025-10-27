@@ -139,8 +139,7 @@ class SettingsUpdateDialog(ft.AlertDialog):
     def on_revision_click(self, revision):
         self.download_dialog.open_dialog(revision)
         try:
-            system_helper.change_revision(revision)
-            # TODO - success_dialog wird nicht mehr gezeigt, was machen sachen?
+            system_helper.change_revision(revision["name"])
             self.success_dialog.open_dialog(
                 "Updates",
                 f'Updates für "{revision["name"]}" erfolgreich heruntergeladen!',
