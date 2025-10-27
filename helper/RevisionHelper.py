@@ -1,39 +1,83 @@
 import subprocess
+from datetime import datetime
 
 
 class RevisionHelper:
-    def get_branches(self) -> list[str]:
-        subprocess.run(["git", "fetch", "--prune"])
+    def get_branches(self) -> list[dict]:
+        # Update remote branches
+        subprocess.run(["git", "fetch", "--prune"], check=True)
 
+        # Get all remote branch names
         remote = subprocess.check_output(
             ["git", "branch", "-r", "--format=%(refname:short)"], text=True
         ).splitlines()
 
-        remote = [r.split("/", 1)[1] for r in remote if "HEAD" not in r and r.startswith("origin/")]
+        branches = [
+            r.split("/", 1)[1] for r in remote if "HEAD" not in r and r.startswith("origin/")
+        ]
 
-        def branch_sort_key(branch: str):
-            if branch in ("main", "master"):
-                return 0, branch
-            elif branch.startswith("renovate/"):
-                return 2, branch
+        results = []
+
+        for branch in branches:
+            date_str = subprocess.check_output(
+                ["git", "log", "-1", "--format=%ci", f"origin/{branch}"], text=True
+            ).strip()
+
+            commit_date = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S %z")
+            date = commit_date.strftime("%d.%m.%Y")
+
+            results.append(
+                {
+                    "name": branch,
+                    "date": date,
+                }
+            )
+
+        def branch_sort_key(branch_obj: dict):
+            name = branch_obj["name"]
+            if name in ("main", "master"):
+                return 0, name
+            elif name.startswith("renovate/"):
+                return 2, name
             else:
-                return 1, branch
+                return 1, name
 
-        return sorted(remote, key=branch_sort_key)
+        results.sort(key=branch_sort_key)
 
-    def get_tags(self) -> list[str]:
-        subprocess.run(["git", "fetch", "--prune"])
+        return results
 
-        tags = subprocess.check_output(
+    def get_tags(self) -> list[dict]:
+        # Update remote tags
+        subprocess.run(["git", "fetch", "--prune"], check=True)
+
+        # Get tag names and creation dates
+        output = subprocess.check_output(
             [
                 "git",
                 "for-each-ref",
                 "--sort=-creatordate",
-                "--format=%(refname:short)",
+                "--format=%(refname:short)|%(creatordate:iso8601)",
                 "refs/tags",
             ],
             text=True,
         ).splitlines()
+
+        tags = []
+        for line in output:
+            if "|" not in line:
+                continue
+            name, date_str = line.split("|", 1)
+            date_result = datetime.strptime(date_str.strip(), "%Y-%m-%d %H:%M:%S %z")
+
+            date = date_result.strftime("%d.%m.%Y")
+
+            tags.append(
+                {
+                    "name": name,
+                    "date": date,
+                }
+            )
+
         return tags
 
     def get_current_revision(self) -> str:

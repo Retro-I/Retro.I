@@ -15,8 +15,11 @@ revision_helper = RevisionHelper()
 
 
 class SettingsUpdateDialog(ft.AlertDialog):
-    branches_list = with_scrollbar_space(ft.ListView())
-    tags_list = with_scrollbar_space(ft.ListView())
+    branches_list = with_scrollbar_space(ft.ListView(visible=False, expand=True))
+    tags_list = with_scrollbar_space(ft.ListView(visible=False, expand=True))
+
+    branches_loading_spinner = ft.ProgressRing()
+    tags_loading_spinner = ft.ProgressRing()
 
     curr_revision_span = ft.TextSpan("", style=ft.TextStyle(weight=ft.FontWeight.BOLD))
 
@@ -47,11 +50,25 @@ class SettingsUpdateDialog(ft.AlertDialog):
                     tabs=[
                         ft.Tab(
                             text="          Branches          ",  # TODO - Workaround :D
-                            content=self.branches_list,
+                            content=ft.Column(
+                                alignment=ft.MainAxisAlignment.CENTER,
+                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                controls=[
+                                    self.branches_list,
+                                    self.branches_loading_spinner,
+                                ],
+                            ),
                         ),
                         ft.Tab(
                             text="            Tags            ",  # TODO - Workaround :D
-                            content=self.tags_list,
+                            content=ft.Column(
+                                alignment=ft.MainAxisAlignment.CENTER,
+                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                controls=[
+                                    self.tags_list,
+                                    self.tags_loading_spinner,
+                                ],
+                            ),
                         ),
                     ],
                     expand=True,
@@ -60,28 +77,44 @@ class SettingsUpdateDialog(ft.AlertDialog):
         )
 
     def open_dialog(self):
+        self.open = True
+        self.update()
+
+        self.reload()
+
         self.fill_branches_list()
         self.fill_tags_list()
         self.curr_revision_span.text = self._get_current_revision()
         self.curr_revision_span.update()
-        self.open = True
-        self.update()
+
+        self.reload(show_spinner=False)
 
     def fill_branches_list(self):
         branches = revision_helper.get_branches()
 
         self.branches_list.controls.clear()
         self.branches_list.controls = self._get_items(branches)
-        self.branches_list.update()
 
     def fill_tags_list(self):
         tags = revision_helper.get_tags()
 
         self.tags_list.controls.clear()
         self.tags_list.controls = self._get_items(tags)
+
+    def reload(self, show_spinner: bool = True):
+        self.branches_loading_spinner.visible = show_spinner
+        self.branches_loading_spinner.update()
+
+        self.branches_list.visible = not show_spinner
+        self.branches_list.update()
+
+        self.tags_loading_spinner.visible = show_spinner
+        self.tags_loading_spinner.update()
+
+        self.tags_list.visible = not show_spinner
         self.tags_list.update()
 
-    def _get_items(self, revisions: list[str]):
+    def _get_items(self, revisions: list[dict]):
         return [
             ft.TextButton(
                 content=ft.Container(
@@ -89,9 +122,12 @@ class SettingsUpdateDialog(ft.AlertDialog):
                         [
                             ft.Icon(
                                 ft.icons.DONE,
-                                visible=(r == self._get_current_revision()),
+                                visible=(r["name"] == self._get_current_revision()),
                             ),
-                            ft.Text(r, size=18),
+                            ft.Text(
+                                r["name"], size=18, overflow=ft.TextOverflow.ELLIPSIS, expand=True
+                            ),
+                            ft.Text(r["date"], size=16),
                         ],
                     ),
                 ),
@@ -104,8 +140,11 @@ class SettingsUpdateDialog(ft.AlertDialog):
         self.download_dialog.open_dialog(revision)
         try:
             system_helper.change_revision(revision)
+            # TODO - success_dialog wird nicht mehr gezeigt, was machen sachen?
             self.success_dialog.open_dialog(
-                "Updates", f'Updates für "{revision}" erfolgreich heruntergeladen!', show_icon=True
+                "Updates",
+                f'Updates für "{revision["name"]}" erfolgreich heruntergeladen!',
+                show_icon=True,
             )
         except subprocess.CalledProcessError as e:
             print("Script failed!")
