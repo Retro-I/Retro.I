@@ -142,7 +142,9 @@ class SettingsUpdateDialog(ft.AlertDialog):
             system_helper.change_revision(revision)
             # TODO - success_dialog wird nicht mehr gezeigt, was machen sachen?
             self.success_dialog.open_dialog(
-                "Updates", f'Updates für "{revision["name"]}" erfolgreich heruntergeladen!', show_icon=True
+                "Updates",
+                f'Updates für "{revision["name"]}" erfolgreich heruntergeladen!',
+                show_icon=True,
             )
         except subprocess.CalledProcessError as e:
             print("Script failed!")

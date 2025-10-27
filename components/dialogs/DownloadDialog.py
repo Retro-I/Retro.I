@@ -25,9 +25,7 @@ class DownloadDialog(ft.AlertDialog):
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             tight=True,
         )
-        self.actions = [
-            ft.TextButton("Abbrechen", on_click=lambda e: self.cancel())
-        ]
+        self.actions = [ft.TextButton("Abbrechen", on_click=lambda e: self.cancel())]
         self.modal = True
 
     def open_dialog(self, revision):
