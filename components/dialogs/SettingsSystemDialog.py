@@ -1,23 +1,26 @@
 import flet as ft
 
+from components.VolumeInputField import VolumeInputField
 from helper.Stations import Stations
 
 stations_helper = Stations()
 
 
-class SettingsFavoriteStationDialog(ft.AlertDialog):
+class SettingsSystemDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
 
-        self.title = ft.Text("Autoplay")
+        self.title = ft.Text("System")
         self.content = ft.Column(
             alignment=ft.MainAxisAlignment.CENTER,
             width=500,
             tight=True,
             controls=[
+                VolumeInputField(),
+                ft.Divider(),
                 ft.Switch(
                     "Lieblingsradiosender nach Systemstart abspielen",
-                    label_style=ft.TextStyle(size=20),
+                    label_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_autoplay(),
                     value=stations_helper.is_default_station_autoplay_enabled(),
                 ),

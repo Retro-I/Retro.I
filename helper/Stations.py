@@ -9,11 +9,11 @@ color_helper = ColorHelper()
 
 
 class Stations:
-    STATIONS_FILE_PATH = f"{c.settings_path()}/radio-stations.json"
-    SETTINGS_FILE_PATH = f"{c.settings_path()}/default-station-settings.json"
+    STATIONS_SETTINGS_PATH = f"{c.settings_path()}/radio-stations.json"
+    AUDIO_SETTINGS_PATH = f"{c.settings_path()}/audio-settings.json"
 
     def load_radio_stations(self):
-        with open(self.STATIONS_FILE_PATH) as file:
+        with open(self.STATIONS_SETTINGS_PATH) as file:
             data = json.load(file)
             return data
 
@@ -24,18 +24,18 @@ class Stations:
         if station["name"] != "":
             station["color"] = color_helper.extract_color(station["logo"])
 
-        with open(self.STATIONS_FILE_PATH, "r+") as file:
+        with open(self.STATIONS_SETTINGS_PATH, "r+") as file:
             file_data = json.load(file)
             file_data.append(station)
             file.seek(0)
             json.dump(file_data, file, indent=4)
 
     def delete_station(self, index):
-        with open(self.STATIONS_FILE_PATH, "r+") as file:
+        with open(self.STATIONS_SETTINGS_PATH, "r+") as file:
             file_data = json.load(file)
             file_data.pop(index)
 
-        self._write_to_file(file_data, self.STATIONS_FILE_PATH)
+        self._write_to_file(file_data, self.STATIONS_SETTINGS_PATH)
 
     def set_favorite_station(self, fav_station):
         stations = self.load_radio_stations()
@@ -48,7 +48,7 @@ class Stations:
                 station["favorite"] = True
                 break
 
-        self._write_to_file(stations, self.STATIONS_FILE_PATH)
+        self._write_to_file(stations, self.STATIONS_SETTINGS_PATH)
 
     def get_favorite_station(self) -> object | None:
         stations = self.load_radio_stations()
@@ -59,14 +59,15 @@ class Stations:
         return None
 
     def is_default_station_autoplay_enabled(self) -> bool:
-        with open(self.SETTINGS_FILE_PATH) as file:
+        with open(self.AUDIO_SETTINGS_PATH) as file:
             file_data = json.load(file)
             return file_data["enableAutoplay"]
 
     def toggle_default_station_autoplay(self):
-        data = {"enableAutoplay": not self.is_default_station_autoplay_enabled()}
-
-        self._write_to_file(data, self.SETTINGS_FILE_PATH)
+        with open(self.AUDIO_SETTINGS_PATH, "w") as file:
+            data = json.load(file)
+            data["enableAutoplay"] = not self.is_default_station_autoplay_enabled()
+            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
 
     def _write_to_file(self, data, path):
         with open(path, "w") as file:

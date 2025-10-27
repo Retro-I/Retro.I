@@ -1,3 +1,4 @@
+import json
 import os
 import time
 
@@ -15,6 +16,8 @@ sounds = Sounds()
 
 
 class Audio:
+    AUDIO_SETTINGS_PATH = f"{c.settings_path()}/audio-settings.json"
+
     audio = vlc.MediaPlayer("")
     toast_playing = False
 
@@ -25,7 +28,7 @@ class Audio:
         self.init_sound()
 
     def init_sound(self):
-        self.update_sound(30)
+        self.update_sound(self.get_default_volume())
 
     def mixer(self):
         with open(self.mixers_path, "w") as f:
@@ -102,6 +105,21 @@ class Audio:
             playsound(src)
         else:
             playsound(f"{c.sound_path()}/{src}")
+
+    def get_default_sound_settings(self) -> dict:
+        with open(self.AUDIO_SETTINGS_PATH) as file:
+            return json.load(file)
+
+    def get_default_volume(self) -> int:
+        data = self.get_default_sound_settings()
+        return int(data["defaultVolume"])
+
+    def set_default_volume(self, volume: int):
+        data = self.get_default_sound_settings()
+        data["defaultVolume"] = volume
+
+        with open(self.AUDIO_SETTINGS_PATH, "w") as file:
+            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
 
     def wait(self):
         time.sleep(0.5)
