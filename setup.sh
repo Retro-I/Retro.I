@@ -236,6 +236,7 @@ create_systemd_service() {
   systemd_failure_path="/etc/systemd/system/retroi-failure@.service"
 
   user_id=$(id -u)
+  username=$(whoami)
 
   sudo tee "$systemd_path" > /dev/null <<EOF
 [Unit]
@@ -245,13 +246,13 @@ After=graphical.target
 
 [Service]
 Type=simple
-User=pi
-Group=pi
+User=$username
+Group=$username
 WorkingDirectory=$RETROI_DIR
 ExecStart=$RETROI_DIR/scripts/start.sh
 Restart=on-failure
 Environment=DISPLAY=:0
-Environment=XAUTHORITY=/home/pi/.Xauthority
+Environment=XAUTHORITY=/home/$username/.Xauthority
 Environment=XDG_RUNTIME_DIR=/run/user/$user_id
 Environment=PULSE_SERVER=unix:/run/user/$user_id/pulse/native
 TimeoutStopSec=1
