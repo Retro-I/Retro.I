@@ -3,10 +3,10 @@
         "bass_enhancer#0": {
             "amount": 0.0,
             "blend": 0.0,
-            "bypass": false,
-            "floor": 20.0,
+            "bypass": true,
+            "floor": 0.0,
             "floor-active": false,
-            "harmonics": 8.5,
+            "harmonics": 0.0,
             "input-gain": 0.0,
             "output-gain": 0.0,
             "scope": 100.0
@@ -24,7 +24,7 @@
             "octaves": 0,
             "output-gain": 0.0,
             "phase": "Laminar",
-            "semitones": -9,
+            "semitones": 0,
             "transients": "Crisp"
         },
         "plugins_order": [
