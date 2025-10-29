@@ -108,18 +108,20 @@ class Audio:
 
     def get_default_sound_settings(self) -> dict:
         with open(self.AUDIO_SETTINGS_PATH) as file:
-            return json.load(file)
+            data = json.load(file)
+            return data
 
     def get_default_volume(self) -> int:
         data = self.get_default_sound_settings()
         return int(data["defaultVolume"])
 
     def set_default_volume(self, volume: int):
-        data = self.get_default_sound_settings()
-        data["defaultVolume"] = volume
-
-        with open(self.AUDIO_SETTINGS_PATH, "w") as file:
-            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
+        with open(self.AUDIO_SETTINGS_PATH, "r+") as file:
+            data = json.load(file)
+            data["defaultVolume"] = volume
+            file.seek(0)
+            json.dump(data, file, indent=4)
+            file.truncate()
 
     def wait(self):
         time.sleep(0.5)

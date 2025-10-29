@@ -132,7 +132,7 @@ class Strip:
         self.pixels.show()
 
     def get_strip_settings(self):
-        with open(self.STRIP_SETTINGS_PATH, newline="") as file:
+        with open(self.STRIP_SETTINGS_PATH) as file:
             return json.load(file)
 
     def update_settings(self, is_active=None, brightness=None, length=None):
@@ -140,11 +140,11 @@ class Strip:
         _brightness = brightness if brightness is not None else self.get_curr_brightness()
         _length = length if length is not None else self.get_led_length()
 
-        data = {
-            "isStripEnabled": _is_active,
-            "brightness": _brightness,
-            "amountLeds": _length,
-        }
-
-        with open(self.STRIP_SETTINGS_PATH, "w") as file:
-            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
+        with open(self.STRIP_SETTINGS_PATH, "r+") as file:
+            data = json.load(file)
+            data["isStripEnabled"] = _is_active
+            data["brightness"] = _brightness
+            data["amountLeds"] = _length
+            file.seek(0)
+            json.dump(data, file, indent=4)
+            file.truncate()

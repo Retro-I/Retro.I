@@ -31,6 +31,7 @@ class Sounds:
             file_data.append(item)
             file.seek(0)
             json.dump(file_data, file, indent=4)
+            file.truncate()
 
         return 0
 
