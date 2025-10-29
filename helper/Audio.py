@@ -4,7 +4,7 @@ import time
 
 import alsaaudio as a
 import vlc
-from playsound3 import playsound
+from playsound import playsound
 
 from helper.Constants import Constants
 from helper.Sounds import Sounds
