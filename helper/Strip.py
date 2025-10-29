@@ -97,11 +97,11 @@ class Strip:
         if self.is_strip_active():
             self.animation.fill(BLACK)
             self.animation.freeze()
-            self.update_settings(is_active=0)
+            self.update_settings(is_active=True)
         else:
             self.animation.fill(self.curr_color)
             self.animation.resume()
-            self.update_settings(is_active=1)
+            self.update_settings(is_active=False)
         self.pixels.show()
 
     def get_curr_brightness(self) -> float:
@@ -132,19 +132,21 @@ class Strip:
         self.pixels.show()
 
     def get_strip_settings(self):
-        with open(self.STRIP_SETTINGS_PATH, newline="") as file:
+        with open(self.STRIP_SETTINGS_PATH) as file:
             return json.load(file)
 
-    def update_settings(self, is_active=None, brightness=None, length=None):
+    def update_settings(
+        self, is_active: bool | None = None, brightness: float | None = None, length: int = None
+    ):
         _is_active = is_active if is_active is not None else self.is_strip_active()
         _brightness = brightness if brightness is not None else self.get_curr_brightness()
         _length = length if length is not None else self.get_led_length()
 
-        data = {
-            "isStripEnabled": _is_active,
-            "brightness": _brightness,
-            "amountLeds": _length,
-        }
-
-        with open(self.STRIP_SETTINGS_PATH, "w") as file:
-            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
+        with open(self.STRIP_SETTINGS_PATH, "r+") as file:
+            data = json.load(file)
+            data["isStripEnabled"] = _is_active
+            data["brightness"] = _brightness
+            data["amountLeds"] = _length
+            file.seek(0)
+            json.dump(data, file, indent=4)
+            file.truncate()

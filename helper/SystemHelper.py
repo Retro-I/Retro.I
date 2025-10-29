@@ -58,35 +58,35 @@ class SystemHelper:
             return None
 
     def write_startup_error(self, message):
-        with open(self.STARTUP_ERROR_PATH, "w") as file:
-            data = {
-                "isStartupError": True,
-                "startupErrorMessage": message,
-            }
-
-            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
+        with open(self.STARTUP_ERROR_PATH, "r+") as file:
+            data = json.load(file)
+            data["isStartupError"] = True
+            data["startupErrorMessage"] = message
+            file.seek(0)
+            json.dump(data, file, indent=4)
+            file.truncate()
 
     def reset_startup_error(self):
-        with open(self.STARTUP_ERROR_PATH, "w") as file:
-            data = {
-                "isStartupError": False,
-                "startupErrorMessage": "",
-            }
-
-            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
+        with open(self.STARTUP_ERROR_PATH, "r+") as file:
+            data = json.load(file)
+            data["isStartupError"] = False
+            data["startupErrorMessage"] = ""
+            file.seek(0)
+            json.dump(data, file, indent=4)
+            file.truncate()
 
     def is_scrollbar_enabled(self) -> bool:
         with open(self.SCROLLBAR_SETTINGS_PATH) as file:
-            file_data = json.load(file)
-            return file_data["showScrollbar"]
+            data = json.load(file)
+            return bool(data["showScrollbar"])
 
     def toggle_scrollbar_enabled(self):
-        with open(self.SCROLLBAR_SETTINGS_PATH, "w") as file:
-            data = {
-                "showScrollbar": not self.is_scrollbar_enabled(),
-            }
-
-            file.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
+        with open(self.SCROLLBAR_SETTINGS_PATH, "r+") as file:
+            data = json.load(file)
+            data["showScrollbar"] = not self.is_scrollbar_enabled()
+            file.seek(0)
+            json.dump(data, file, indent=4)
+            file.truncate()
 
     def change_revision(self, revision: str):
         self._update_process = subprocess.Popen(
