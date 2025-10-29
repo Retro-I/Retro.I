@@ -57,7 +57,7 @@ class SystemHelper:
 
             return None
 
-    def write_startup_error(self, message):
+    def write_startup_error(self, message: str = ""):
         with open(self.STARTUP_ERROR_PATH, "r+") as file:
             data = json.load(file)
             data["isStartupError"] = True
