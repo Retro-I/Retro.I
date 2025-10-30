@@ -4,8 +4,9 @@ import RPi.GPIO as GPIO
 
 from helper.SystemHelper import SystemHelper
 
-# Hierbei handelt es sich um ein Überbleibsel aus Zeiten des Radio's des BSZ Wiesau, um bei offiziellen Veranstaltungen
-# das Soundboard zu verstecken. Dabei muss dieses Skript in der main.py importiert werden.
+# Hierbei handelt es sich um ein Überbleibsel aus Zeiten des Radio's des BSZ Wiesau, um bei
+# offiziellen Veranstaltungen das Soundboard zu verstecken. Dabei muss dieses Skript in der
+# main.py importiert werden.
 # Um das Soundboard zu aktivieren, ...
 
 GPIO.setmode(GPIO.BCM)
