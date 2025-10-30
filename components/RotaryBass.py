@@ -15,11 +15,11 @@ class RotaryBass:
     COUNTER = 0
     BASS_STEP = 2
 
-    CLK_PIN = gpio_helper.rotary_bass_up()
-    DT_PIN = gpio_helper.rotary_bass_down()
+    BASS_UP_PIN = gpio_helper.rotary_bass_up()
+    BASS_DOWN_PIN = gpio_helper.rotary_bass_down()
 
     def __init__(self, on_taskbar_update):
-        rotary = pyky040.Encoder(CLK=self.CLK_PIN, DT=self.DT_PIN)
+        rotary = pyky040.Encoder(CLK=self.BASS_UP_PIN, DT=self.BASS_DOWN_PIN)
         rotary.setup(
             inc_callback=lambda e: self.inc_bass_boost(on_taskbar_update),
             dec_callback=lambda e: self.dec_bass_boost(on_taskbar_update),
