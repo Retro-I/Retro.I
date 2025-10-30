@@ -49,7 +49,7 @@ class Strip:
 
         self.wait_proc.set_variable(value)
 
-        amount_pixels = math.floor((self.pixel_num) * (value / 100))
+        amount_pixels = math.floor(self.get_led_length() * (value / 100))
         self.pixels.fill(BLACK)
         if amount_pixels == 0 and value > 0:
             self.pixels[0] = GREEN
