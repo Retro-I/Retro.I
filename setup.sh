@@ -501,7 +501,7 @@ enter_led_length
 enter_enable_scrollbar
 enter_secured_mode
 run_step "Entferne Splashscreen" remove_splashscreen
-run_step "System-Splashscreen ändern" sudo -E bash -c "$RETROI_DIR/update-system-splash.sh"
+run_step "System-Splashscreen ändern" sudo -E bash -c "$RETROI_DIR/scripts/update_system_splash.sh"
 run_step "User zur \"audio\" Gruppe hinzufügen" apply_audio_group
 run_step "Systemd-Datei für Systemstart erstellen" create_systemd_service
 run_step "Taskbar ausblenden" hide_taskbar

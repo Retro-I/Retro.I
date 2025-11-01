@@ -37,8 +37,10 @@ Die Auswahl wird in die Settings-Datei `secured-mode-settings.json` geschrieben.
 Hier wird in der Datei `/boot/firmware/config.txt`, wenn noch nicht vorhanden, die Zeile `disable_splash=1` hinzugefügt!
 
 ### System-Splashscreen ändern
-Hierfür gibt es ein eigenes Skript, solltest du den System-Splashscreen ändern wollen.
-Allerdings ist es zu empfehlen, dass du das gleiche Bild unter `$RETROI_DIR/assets/splashscreen/splash.png` ablegst, damit das Skript das Bild an die richtige Stelle kopieren kann.\
+Hierfür gibt es ein eigenes Skript, solltest du den System-Splashscreen ändern wollen. \
+Dieses Skript liegt unter `scripts/update_system_splash.sh`. \
+
+Damit das Skript den Splashscreen richtig setzen kann, muss dein neues Bild unter `$RETROI_DIR/assets/splashscreen/splash.png` abgelegt werden.\
 Das Bild wird nach `/usr/share/plymouth/themes/pix/splash.png` kopiert.\
 Durch den Befehl
 ```
