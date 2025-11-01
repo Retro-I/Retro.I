@@ -1,17 +1,17 @@
 # Retro.I
 ![Radio](./assets/splashscreen/splash.png) \
-Ein Projekt der FWI1 des BSZ-Wiesau\
+Ein Projekt der Klasse "FWI1" des BSZ-Wiesau\
 Einem **Grundig Type 5088**, Baujahr **1957/1958**, wird neues Leben eingehaucht!\
 Dazu werden folgende Technologien verwendet:
 * Raspberry PI 4 (4GB)
 * Python
 * Flet
-* easyeffects
+* EasyEffects
 
 Folgende Hardware wurde verwendet:
 * WS2812B LED-Streifen
 * Rotary Drehregler
-* 4 Passiv-Lautsprecher
+* 4 Passive-Lautsprecher
 * Touch-Display
 * Verstärker-Platine
 * 24V Schaltnetzteil
@@ -58,7 +58,7 @@ Ist ein neues Update für die Anwendung verfügbar wird der neueste Tag herunter
 
 ### Lautstärke
 Die Lautstärkenregelung erfolgt über den original Drehknopf des Radios!\
-Der Rotary Drehregler gibt sein Signal an den Raspberry weiter und dieser steuert die Lautstärke des Geräts.
+Der Rotary Drehregler gibt sein Signal an den Raspberry weiter und steuert somit die Lautstärke des Geräts.
 
 ### Stummschaltung
 Der Wechsel von Stummschaltung/Aufhebung erfolgt über Drücken des gleichen Drehreglers wie zur Veränderung der Lautstärke.
@@ -80,14 +80,14 @@ Solltest du die Software manuell starten wollen, sollest du folgendes beachten
 ### Radio
 ![Radio](./assets/doc/readme-images/radio_page.png) \
 Auf dieser Seite können die voreingestellten Radiosender abgespielt, gelöscht und neu hinzugefügt werden.\
-Um einen Sender von der Favoriten-Seite zu entfernen, muss lange auf den Sender getippt werden.\
-Um neue Sender zu suchen und hinzuzufügen, muss nach diesem im Such-Dialog (oben rechts) gesucht werden
+Um einen Sender von der Favoriten-Seite zu entfernen, muss lange auf den Sender gedrückt werden.\
+Um neue Sender zu suchen und hinzuzufügen, muss nach diesem im Such-Dialog (Sendersuche, oben rechts) gesucht werden
 
 ### Bluetooth
 ![Bluetooth](./assets/doc/readme-images/bluetooth_page.png) \
 Möchte man den Radio als **Bluetooth-Box** verwenden, ist dies in diesem Tab möglich.\
 Dabei stoppt der aktuell spielende Radiosender und Bluetooth wird aktiviert.\
-Wechselt man wieder zurück zum Radio-Tab, werden alle Bluetooth-Verbindungen gekappt und Bluetooth systemweit deaktiviert. Das verhindert das ungewollte Verbinden, während des Radio-Betriebs!
+Wechselt man wieder zurück zum Radio-Tab, werden alle Bluetooth-Verbindungen gekappt und Bluetooth systemweit deaktiviert. Dies verhindert das ungewollte Verbinden, während des Radio-Betriebs!
 
 Wenn du ein neues Gerät mit dem Radio verbinden möchtest, musst du **Bluetooth-Discovery** aktivieren! (Bluetooth sichtbar/nicht sichbar)
 
@@ -110,7 +110,7 @@ Nicht zuletzt, werden die Personen aufgeführt, dank Ihnen dieses Projekt zu ein
 Die Lautstärke wird über einen Rotary-Drehregler gesteuert.\
 Durch den verbauten LED-Streifen wird bei Änderung der Lautstärke eine Animation angezeigt.\
 Bei Stummschaltung (durch Druck des Drehreglers) erscheint der LED-Streifen in der Farbe Rot.\
-Beides wird ebenfalls in der oberen Taskleiste dargestellt.
+Beides wird ebenfalls in der oberen Taskleiste als Icon dargestellt.
 
 ### Auswahl WLAN-Netzwerk
 Ebenfalls ist über das WLAN-Icon in der oberen Taskleiste die Auswahl des WLAN-Netzwerks möglich:
@@ -125,16 +125,16 @@ Wie im Beispiel zu sehen "Bayern 1" wird mit der Farbe Hellblau dargestellt.
 ## Verwendung der GPIO-Pin's
 ### Rotary Drehregler (Lautstärke)
 * `5` - SW-PIN: Stummschaltung/Aufhebung Stummschaltung
-* `6` - DT-PIN: Verringerung der Lautstärke
-* `13` - CLK-PIN: Erhöhung der Lautstärke
+* `6` - DT-PIN: Leiser
+* `13` - CLK-PIN: Lauter
 
-### Rotary Drehregler (Bass)
-* `8` - DT-PIN: Verringerung des Bass'
-* `7` - CLK-PIN: Erhöhung des Bass'
+### Rotary Drehregler (Bass Anhebung/Absenkung Frequenzbereich ##hz - ##hz)
+* `8` - DT-PIN: weniger Bass'
+* `7` - CLK-PIN: mehr Bass'
 
-### Rotary Drehregler (Pitch/Höhen)
-* `24` - DT-PIN: Verringerung der Höhen
-* `23` - CLK-PIN: Erhöhung der Höhen
+### Rotary Drehregler (Höhen Anhebung/Absenkung Frequenzbereich ##hz - ##hz)
+* `24` - DT-PIN: weniger Höhen
+* `23` - CLK-PIN: mehr Höhen
 
 ### LED-Streifen
 * `10` - Datenpin für Ansteuerung des WS2812B LED-Streifens
