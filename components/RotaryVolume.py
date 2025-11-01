@@ -3,16 +3,18 @@ import threading
 from pyky040 import pyky040
 
 from helper.Audio import Audio
+from helper.GpioHelper import GpioHelper
 
 audio_helper = Audio()
+gpio_helper = GpioHelper()
 
 
 class RotaryVolume:
     COUNTER = 0
     VOLUME_STEP = 6
-    SW_PIN = 13  # PIN 33
-    DT_PIN = 12  # PIN 32
-    CLK_PIN = 6  # PIN 31
+    SW_PIN = gpio_helper.rotary_volume_up()
+    DT_PIN = gpio_helper.rotary_volume_down()
+    CLK_PIN = gpio_helper.rotary_volume_press()
 
     def __init__(self, on_taskbar_update, on_strip_toggle_mute, on_strip_update_sound):
         rotary = pyky040.Encoder(CLK=self.CLK_PIN, DT=self.DT_PIN, SW=self.SW_PIN)

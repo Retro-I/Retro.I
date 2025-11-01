@@ -4,17 +4,19 @@ from pyky040 import pyky040
 
 from helper.Audio import Audio
 from helper.AudioEffects import AudioEffects
+from helper.GpioHelper import GpioHelper
 
 audio_helper = Audio()
 audio_effects = AudioEffects()
+gpio_helper = GpioHelper()
 
 
 class RotaryBass:
     COUNTER = 0
     BASS_STEP = 2
 
-    CLK_PIN = 4  # PIN 7
-    DT_PIN = 14  # PIN 8
+    CLK_PIN = gpio_helper.rotary_bass_up()
+    DT_PIN = gpio_helper.rotary_bass_down()
 
     def __init__(self, on_taskbar_update):
         rotary = pyky040.Encoder(CLK=self.CLK_PIN, DT=self.DT_PIN)

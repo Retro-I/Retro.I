@@ -2,7 +2,10 @@ import os
 
 import RPi.GPIO as GPIO
 
+from helper.GpioHelper import GpioHelper
 from helper.SystemHelper import SystemHelper
+
+gpio_helper = GpioHelper()
 
 # Hierbei handelt es sich um ein Überbleibsel aus Zeiten des Radio's des BSZ Wiesau, um bei offiziellen Veranstaltungen
 # das Soundboard zu verstecken. Dabei muss dieses Skript in der main.py importiert werden.
@@ -10,7 +13,7 @@ from helper.SystemHelper import SystemHelper
 
 GPIO.setmode(GPIO.BCM)
 
-PIN = 21
+PIN = gpio_helper.start_party_button()
 
 GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 

@@ -33,3 +33,6 @@ class GpioHelper:
 
     def rotary_pitch_down(self) -> int:
         return self.get_mappings()["ROTARY_PITCH_DOWN"]
+
+    def start_party_button(self) -> int:
+        return self.get_mappings()["START_PARTY_MODE_BUTTON"]

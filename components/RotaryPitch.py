@@ -3,15 +3,17 @@ import threading
 from pyky040 import pyky040
 
 from helper.AudioEffects import AudioEffects
+from helper.GpioHelper import GpioHelper
 
 audio_effects = AudioEffects()
+gpio_helper = GpioHelper()
 
 
 class RotaryPitch:
     COUNTER = 0
     PITCH_STEP = 1
-    CLK_PIN = 11  # PIN 23
-    DT_PIN = 8  # PIN 24
+    CLK_PIN = gpio_helper.rotary_pitch_up()
+    DT_PIN = gpio_helper.rotary_pitch_down()
 
     taskbar = None
 
