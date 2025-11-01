@@ -45,6 +45,13 @@ else
     echo "No requirements.txt found — skipping pip install." >&2; exit 1;
 fi
 
+echo "Cleaning up unused branches..."
+
+git fetch --prune
+
+git branch -vv | awk '/: gone]/{print $1}' | xargs --no-run-if-empty git branch -D
+git for-each-ref --format='%(refname:short) %(upstream:short)' refs/heads | awk '$2=="" {print $1}' | xargs --no-run-if-empty git branch -D
+
 echo "Update complete."
 
 exit 0
