@@ -58,6 +58,7 @@ def main(page: ft.Page):
     page.window_frameless = True
     page.spacing = 0
     page.theme = theme.get()
+    page.dark_theme = theme.get()
     page.title = "Retro.I"
 
     button = GpioButton(21, audio_helper.play_toast)
