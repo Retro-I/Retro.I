@@ -91,24 +91,24 @@ class Taskbar(ft.AppBar):
         self.ico_wifi.icon = (
             ft.icons.WIFI if wifi_helper.is_connected() else ft.icons.WIFI_OFF_ROUNDED
         )
-        self.ico_wifi.color = ft.colors.GREEN if wifi_helper.is_connected() else ft.colors.BLACK
+        self.ico_wifi.color = (
+            ft.colors.GREEN if wifi_helper.is_connected() else ft.colors.ON_SURFACE
+        )
         self.ico_wifi.update()
 
     def update_bluetooth_icon(self):
         if bluetooth_helper.is_bluetooth_on():
             self.ico_bluetooth.name = ft.icons.BLUETOOTH_ROUNDED
-            self.ico_bluetooth.color = (
-                ft.colors.BLACK
-            )  # TODO - set color to something like "default"???
+            self.ico_bluetooth.color = ft.colors.ON_SURFACE
 
             if bluetooth_helper.is_discovery_on():
                 self.ico_bluetooth.color = ft.colors.GREEN
             else:
-                self.ico_bluetooth.color = ft.colors.BLACK
+                self.ico_bluetooth.color = ft.colors.ON_SURFACE
 
         else:
             self.ico_bluetooth.name = ft.icons.BLUETOOTH_DISABLED_ROUNDED
-            self.ico_bluetooth.color = ft.colors.BLACK
+            self.ico_bluetooth.color = ft.colors.ON_SURFACE
 
         if bluetooth_helper.is_connected():
             self.ico_bluetooth.name = ft.icons.BLUETOOTH_CONNECTED_ROUNDED
@@ -120,7 +120,7 @@ class Taskbar(ft.AppBar):
         self.ico_volume.name = (
             ft.icons.VOLUME_OFF_ROUNDED if audio_helper.is_mute() else ft.icons.VOLUME_UP_ROUNDED
         )
-        self.ico_volume.color = ft.colors.RED if audio_helper.is_mute() else ft.colors.BLACK
+        self.ico_volume.color = ft.colors.RED if audio_helper.is_mute() else ft.colors.ON_SURFACE
         self.ico_volume.update()
         self.txt_volume.value = (
             f"{audio_helper.get_volume()}%" if not audio_helper.is_mute() else ""
