@@ -20,6 +20,7 @@ from helper.Sounds import Sounds
 from helper.Stations import Stations
 from helper.Strip import Strip
 from helper.SystemHelper import SystemHelper
+from helper.ThemeHelper import ThemeHelper
 from helper.WifiHelper import WifiHelper
 
 wifi_helper = WifiHelper()
@@ -32,6 +33,7 @@ sounds = Sounds()
 audio_helper = Audio()
 page_helper = PageState()
 audio_effects = AudioEffects()
+theme_helper = ThemeHelper()
 
 
 def on_error(e):
@@ -42,6 +44,8 @@ def on_error(e):
 
 def main(page: ft.Page):
     page.on_error = on_error
+    page.theme_mode = theme_helper.get_theme()
+    page.update()
 
     start = time.time()
     PageState.page = page
