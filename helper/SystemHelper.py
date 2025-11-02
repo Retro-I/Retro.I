@@ -140,6 +140,13 @@ class SystemHelper:
             file_data = json.load(file)
             return file_data["securedModeEnabled"]
 
+    def open_keyboard(self):
+        self.close_keyboard()
+        os.system("squeekboard &")
+
+    def close_keyboard(self):
+        os.system("pkill squeekboard")
+
     def get_default_interface(self):
         if netifaces.gateways()["default"] == {}:
             return None

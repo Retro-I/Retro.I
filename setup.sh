@@ -49,7 +49,7 @@ run_step() {
   else
     printf "\r%s ... " "$DESCRIPTION"
     error "FEHLGESCHLAGEN"
-    echo "❌ $OUTPUT" >&2
+    echo "$OUTPUT" >&2
   fi
 }
 
