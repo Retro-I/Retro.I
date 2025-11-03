@@ -16,6 +16,9 @@ Folgende Hardware wurde verwendet:
 * Verstärker-Platine
 * 24V Schaltnetzteil
 
+## Pipeline
+[![Retro.I Pipeline](https://github.com/Retro-I/Retro.I/actions/workflows/pipeline.yml/badge.svg)](https://github.com/Retro-I/Retro.I/actions/workflows/pipeline.yml)
+
 ## Setup
 Zum Aufsetzen des Radio's wird ein vollautomatisches Setup-Skript verwendet!\
 Es sind dabei folgende Schritte zu beachten:

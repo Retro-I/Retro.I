@@ -48,3 +48,24 @@ jobs:
       - name: Final linter check
         if: steps.black.outcome == 'failure' || steps.isort.outcome == 'failure' || steps.flake8.outcome == 'failure'
         run: exit 1
+
+  test:
+    runs-on: ubuntu-24.04-arm
+    needs: qualitygate
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Set up venv
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install --upgrade pip
+          .venv/bin/pip install -r test-requirements.txt
+          source .venv/bin/activate
+
+      - name: Run unittests
+        run: source .venv/bin/activate && python -m unittest
