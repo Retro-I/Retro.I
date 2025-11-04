@@ -8,11 +8,14 @@ from components.view.Taskbar import Taskbar
 from helper.Audio import Audio
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
+from helper.PageState import PageState
 from helper.SystemHelper import SystemHelper
+from helper.ThemeHelper import ThemeHelper
 
 bluetooth_helper = BluetoothHelper()
 system_helper = SystemHelper()
 audio_helper = Audio()
+theme_helper = ThemeHelper()
 
 
 class Tabs:
@@ -36,6 +39,9 @@ class Tabs:
         self.settings_tab = settings_tab
 
     def change_tab(self, e):
+        PageState.page.theme_mode = theme_helper.get_theme()
+        PageState.page.update()
+
         new_tab_index = e.control.selected_index
         self.radio_tab.get_song_info().reset()
 
