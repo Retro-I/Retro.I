@@ -126,12 +126,26 @@ install_jq() {
 }
 
 copy_settings_files() {
-  cp -rf "$RETROI_DIR/settings/." "$SETTINGS_PATH"/
+  while true; do
+    read -p "Möchtest du, dass deine Einstellungen überschrieben werden? [J]a / [N]ein: " choice
+    case "$choice" in
+      j|J )
+        cp -rf "$RETROI_DIR/settings/." "$SETTINGS_PATH"/
 
-  if [ ! -d "$SETTINGS_PATH" ] || [ -z "$(ls -A "$SETTINGS_PATH")" ]; then
-    echo "Keine Dateien in $SETTINGS_PATH gefunden!" >&2
-    return 1
-  fi
+        if [ ! -d "$SETTINGS_PATH" ] || [ -z "$(ls -A "$SETTINGS_PATH")" ]; then
+          echo "Keine Dateien in $SETTINGS_PATH gefunden!" >&2
+          return 1
+        fi
+        break
+        ;;
+      n|N )
+        break
+        ;;
+      * )
+        echo 'Bitte gib entweder "J" oder "N" ein!'
+        ;;
+    esac
+  done
 }
 
 enter_led_length() {
@@ -496,7 +510,7 @@ run_step "Settings-Pfad setzen" set_settings_path
 export $(grep '^SETTINGS_PATH=' "/etc/environment" | xargs)
 export $(grep '^RETROI_DIR=' "/etc/environment" | xargs)
 run_step "JQ installieren" install_jq
-run_step "Settings kopieren" copy_settings_files
+copy_settings_files
 enter_led_length
 enter_enable_scrollbar
 enter_secured_mode
