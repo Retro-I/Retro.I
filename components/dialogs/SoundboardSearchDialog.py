@@ -1,5 +1,6 @@
 import flet as ft
 
+from components.BaseTextField import BaseTextField
 from components.Scrollbar import with_scrollbar_space
 from helper.Audio import Audio
 from helper.Constants import Constants
@@ -18,10 +19,7 @@ class SoundboardSearchDialog(ft.AlertDialog):
     loading = ft.ProgressRing(visible=False)
     not_found_text = ft.Text("Keine Sounds gefunden!", visible=False)
     listview = with_scrollbar_space(ft.ListView(spacing=10, expand=True, visible=False))
-    search_textfield = ft.TextField(
-        label="Sounds",
-        expand=True,
-    )
+    search_textfield = BaseTextField(label="Sounds", expand=True)
 
     on_favorite_add = None
 
@@ -63,6 +61,9 @@ class SoundboardSearchDialog(ft.AlertDialog):
     def search_sounds(self):
         self.listview.visible = False
         self.listview.update()
+
+        self.not_found_text.visble = False
+        self.not_found_text.update()
 
         self.loading.visible = True
         self.loading.update()

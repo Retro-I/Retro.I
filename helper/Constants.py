@@ -30,5 +30,8 @@ class Constants:
         return f"{self.pwd()}/assets/toasts"
 
     def get_button_img(self):
-        ls = os.listdir(f"{self.pwd()}/assets/buttons")
-        return f"{self.pwd()}/assets/buttons/{random.choice(ls)}"
+        buttons_path = f"{self.pwd()}/assets/buttons"
+        files = [
+            f for f in os.listdir(buttons_path) if os.path.isfile(os.path.join(buttons_path, f))
+        ]
+        return os.path.join(buttons_path, random.choice(files))

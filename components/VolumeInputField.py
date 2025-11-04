@@ -1,11 +1,12 @@
 import flet as ft
 
+from components.BaseTextField import BaseTextField
 from helper.Audio import Audio
 
 audio_helper = Audio()
 
 
-class VolumeInputField(ft.TextField):
+class VolumeInputField(BaseTextField):
     def __init__(self):
         super().__init__()
 

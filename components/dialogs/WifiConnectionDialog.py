@@ -1,5 +1,6 @@
 import flet as ft
 
+from components.BaseTextField import BaseTextField
 from helper.SystemHelper import SystemHelper
 from helper.WifiHelper import WifiHelper
 
@@ -9,10 +10,8 @@ wifi_helper = WifiHelper()
 
 class WifiConnectionDialog(ft.AlertDialog):
     ssid = ft.Text("", size=24, weight=ft.FontWeight.BOLD)
-    password = ft.TextField(
-        password=True,
-        autofocus=True,
-    )
+    password = BaseTextField(password=True, autofocus=True)
+
     btn_connect = ft.FilledButton(
         "Verbinden", style=ft.ButtonStyle(text_style=ft.TextStyle(size=16))
     )
