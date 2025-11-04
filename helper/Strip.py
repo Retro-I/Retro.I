@@ -97,11 +97,11 @@ class Strip:
         if self.is_strip_active():
             self.animation.fill(BLACK)
             self.animation.freeze()
-            self.update_settings(is_active=True)
+            self.update_settings(is_active=False)
         else:
             self.animation.fill(self.curr_color)
             self.animation.resume()
-            self.update_settings(is_active=False)
+            self.update_settings(is_active=True)
         self.pixels.show()
 
     def get_curr_brightness(self) -> float:
