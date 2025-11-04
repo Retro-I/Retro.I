@@ -1,3 +1,6 @@
+import threading
+import time
+
 import flet as ft
 
 from components.Scrollbar import with_scrollbar_space
@@ -11,6 +14,7 @@ revision_helper = RevisionHelper()
 class SettingsInfoDialog(ft.AlertDialog):
     version_text = ft.TextSpan("")
     cpu_temp_text = ft.TextSpan("")
+    download_rate_text = ft.TextSpan("")
     ssid_text = ft.TextSpan("")
     ip_text = ft.TextSpan("")
     hostname_text = ft.TextSpan("")
@@ -46,6 +50,14 @@ class SettingsInfoDialog(ft.AlertDialog):
                                 spans=[ft.TextSpan("CPU-Temperatur: "), self.cpu_temp_text],
                                 size=20,
                             ),
+                            ft.Text(
+                                spans=[
+                                    ft.TextSpan("Downloadrate: "),
+                                    self.download_rate_text,
+                                    ft.TextSpan(" kB/s"),
+                                ],
+                                size=20,
+                            ),
                             ft.Divider(),
                             ft.Text("IP-Config", weight=ft.FontWeight.BOLD, size=28),
                             ft.Text(spans=[ft.TextSpan("SSID: "), self.ssid_text], size=20),
@@ -75,15 +87,26 @@ class SettingsInfoDialog(ft.AlertDialog):
         )
 
     def open_dialog(self):
-        self.version_text.text = revision_helper.get_current_revision()
-        self.version_text.update()
-
-        self.cpu_temp_text.text = system_helper.get_cpu_temp()
-        self.cpu_temp_text.update()
-
-        self.update_ip_config()
         self.open = True
         self.update()
+
+        def _retrieve_system_info():
+            while self.open:
+                self.version_text.text = revision_helper.get_current_revision()
+                self.version_text.update()
+
+                self.cpu_temp_text.text = system_helper.get_cpu_temp()
+                self.cpu_temp_text.update()
+
+                self.download_rate_text.text = round(system_helper.get_download_rate(), 2)
+                self.download_rate_text.update()
+
+                self.update_ip_config()
+
+                time.sleep(0.5)
+
+        process = threading.Thread(target=_retrieve_system_info)
+        process.start()
 
     def update_ip_config(self):
         ip_config = system_helper.get_network_config()

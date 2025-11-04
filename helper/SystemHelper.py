@@ -7,6 +7,7 @@ import time
 from datetime import datetime
 
 import netifaces
+import psutil
 
 from helper.Audio import Audio
 from helper.Constants import Constants
@@ -110,15 +111,24 @@ class SystemHelper:
         self.write_startup_error("Letztes Update abgebrochen!")
         self._update_process = None
 
-    def get_cpu_temp(self):
+    def get_cpu_temp(self) -> str:
         line = subprocess.run(["vcgencmd", "measure_temp"], stdout=subprocess.PIPE).stdout.decode(
             "utf-8"
         )
         temp = line[5:].strip()
         return temp
 
-    def get_curr_date(self):
+    def get_curr_date(self) -> str:
         return datetime.today().strftime("%d.%m.%Y")
+
+    def get_download_rate(self) -> float:
+        old_value = psutil.net_io_counters()
+        old_recv = old_value.bytes_recv
+
+        new_value = psutil.net_io_counters()
+        download_speed = (new_value.bytes_recv - old_recv) / 1024  # KB/s
+
+        return download_speed
 
     def get_img_path(self, img_src):
         if "http" in img_src:
