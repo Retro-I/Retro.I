@@ -11,7 +11,7 @@ c = Constants()
 
 class Sounds:
     last_toast = ""
-    fav_sounds_path = f"{c.settings_path()}/favorite-sounds.json"
+    FAV_SOUNDS_PATH = f"{c.settings_path()}/favorite-sounds.json"
 
     def search_sounds(self, query):
         response = requests.get(f"https://myinstants-api.vercel.app/search?q={query}").json()
@@ -26,7 +26,7 @@ class Sounds:
             if sound["id"] == item["id"]:
                 return 1
 
-        with open(self.fav_sounds_path, "r+") as file:
+        with open(self.FAV_SOUNDS_PATH, "r+") as file:
             file_data = json.load(file)
             file_data.append(item)
             file.seek(0)
@@ -36,7 +36,7 @@ class Sounds:
         return 0
 
     def delete_favorite_sound(self, item):
-        with open(self.fav_sounds_path, "r+") as file:
+        with open(self.FAV_SOUNDS_PATH, "r+") as file:
             file_data = json.load(file)
             index = next(
                 (i for i, station in enumerate(file_data) if station.get("id") == item.get("id")),
@@ -48,7 +48,7 @@ class Sounds:
             file.truncate()
 
     def load_favorite_sounds(self):
-        with open(self.fav_sounds_path) as file:
+        with open(self.FAV_SOUNDS_PATH) as file:
             data = json.load(file)
             return data
 
