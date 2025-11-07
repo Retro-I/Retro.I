@@ -28,9 +28,12 @@ class RadioHelper:
             return ""
 
     def get_stations_by_name(self, name: str):
-        url = f"https://de2.api.radio-browser.info/json/stations/byname/{name}?order=votes&reverse=true"
+        url = (
+            f"https://de2.api.radio-browser.info/json/stations/byname/{name}?order=votes"
+            f"&reverse=true"
+        )
         response = requests.get(url)
-        response.raise_for_status()  # ✅ will raise an error if the request failed
+        response.raise_for_status()
 
         stations = [
             {

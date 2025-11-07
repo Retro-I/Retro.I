@@ -12,13 +12,13 @@ gpio_helper = GpioHelper()
 class RotaryPitch:
     COUNTER = 0
     PITCH_STEP = 1
-    CLK_PIN = gpio_helper.rotary_pitch_up()
-    DT_PIN = gpio_helper.rotary_pitch_down()
+    PITCH_UP_PIN = gpio_helper.rotary_pitch_up()
+    PITCH_DOWN_PIN = gpio_helper.rotary_pitch_down()
 
     taskbar = None
 
     def __init__(self, on_taskbar_update):
-        rotary = pyky040.Encoder(CLK=self.CLK_PIN, DT=self.DT_PIN)
+        rotary = pyky040.Encoder(CLK=self.PITCH_UP_PIN, DT=self.PITCH_DOWN_PIN)
         rotary.setup(
             step=self.PITCH_STEP,
             inc_callback=lambda e: self.inc_pitch(on_taskbar_update),

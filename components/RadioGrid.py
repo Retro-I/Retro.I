@@ -66,8 +66,10 @@ class RadioGrid(ft.GridView):
                             on_click=lambda e, src=station, index=i: self.change_radio_station(
                                 src, index
                             ),
-                            on_long_press=lambda e, src=station, index=i: self.open_modify_station_dialog(
-                                src, index
+                            on_long_press=(
+                                lambda e, src=station, index=i: self.open_modify_station_dialog(
+                                    src, index
+                                )
                             ),
                             border_radius=10,
                             content=self.get_content(station),
