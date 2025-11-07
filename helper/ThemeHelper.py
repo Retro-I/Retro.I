@@ -2,16 +2,13 @@ import json
 
 import flet as ft
 
-from helper.ColorHelper import ColorHelper
 from helper.Constants import Constants
 
 c = Constants()
-color_helper = ColorHelper()
 
 
 class ThemeHelper:
     THEME_SETTINGS_PATH = f"{c.settings_path()}/theme-mode-settings.json"
-    AUDIO_SETTINGS_PATH = f"{c.settings_path()}/audio-settings.json"
 
     def load_theme_settings(self) -> dict:
         with open(self.THEME_SETTINGS_PATH) as file:

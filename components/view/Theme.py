@@ -9,7 +9,6 @@ from components.view.tabs.SettingsTab import SettingsTab
 from components.view.tabs.SoundboardTab import SoundboardTab
 from components.view.Taskbar import Taskbar
 from helper.PageState import PageState
-from helper.Strip import Strip
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
@@ -17,7 +16,6 @@ system_helper = SystemHelper()
 
 class Theme:
     theme = None
-    strip: Strip = None
     taskbar: Taskbar = None
 
     radio_tab = None
