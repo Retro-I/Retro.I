@@ -56,6 +56,6 @@ class RotaryVolume:
 
     def update(self, value, on_taskbar_update, on_strip_update_sound):
         if not audio_helper.is_mute():
-            audio_helper.update_sound(value)
+            audio_helper.set_volume(value)
             on_strip_update_sound(value)
             on_taskbar_update()
