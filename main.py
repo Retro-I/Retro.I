@@ -53,7 +53,7 @@ def main(page: ft.Page):
     bluetooth_helper.on_startup()
 
     strip = Strip()
-    taskbar = Taskbar()
+    taskbar = Taskbar(on_volume_update=strip.update_sound_strip, on_mute_update=strip.toggle_mute)
     theme = Theme(taskbar, strip.run_color)
 
     page.navigation_bar = theme.navbar
