@@ -1,5 +1,6 @@
 import flet as ft
 
+from components.dialogs.VolumeDialog import VolumeDialog
 from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
 from components.dialogs.WifiDialog import WifiDialog
 from helper.Audio import Audio
@@ -40,12 +41,23 @@ class Taskbar(ft.AppBar):
     ico_pitch = ft.Icon(name=ft.icons.HEIGHT, size=25)
     txt_pitch = ft.Text(audio_effects.get_pitch_value(), size=18)
 
-    def __init__(self):
+    def __init__(self, on_volume_update, on_mute_update):
         super().__init__()
+
+        self.volume_dialog = VolumeDialog(
+            on_update=self.update_volume_icon,
+            on_volume_update=on_volume_update,
+            on_mute_update=on_mute_update,
+        )
+
+        PageState.page.add(self.volume_dialog)
 
         self.leading = ft.Row(
             [
-                ft.Row([self.ico_volume, self.txt_volume]),
+                ft.Container(
+                    content=ft.Row([self.ico_volume, self.txt_volume]),
+                    on_click=lambda e: self.volume_dialog.open_dialog(),
+                ),
                 ft.VerticalDivider(),
                 ft.Row([self.ico_bass, self.txt_bass]),
                 ft.VerticalDivider(),
@@ -70,6 +82,7 @@ class Taskbar(ft.AppBar):
 
     def update(self):
         self.update_volume_icon()
+        self.volume_dialog.update_content()
         self.update_bass()
         self.update_pitch()
         self.update_wifi()

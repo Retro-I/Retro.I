@@ -1,8 +1,10 @@
 import flet as ft
 
 from helper.Strip import Strip
+from helper.StripSettingsHelper import StripSettingsHelper
 
 strip = Strip()
+settings_helper = StripSettingsHelper()
 
 
 class SettingsLedDialog(ft.AlertDialog):
@@ -19,7 +21,7 @@ class SettingsLedDialog(ft.AlertDialog):
                     "LED-Streifen einschalten",
                     label_style=ft.TextStyle(size=18),
                     on_change=lambda e: strip.toggle_strip(),
-                    value=strip.is_strip_active(),
+                    value=settings_helper.is_strip_active(),
                 ),
                 ft.Divider(),
                 ft.Column(
@@ -29,7 +31,7 @@ class SettingsLedDialog(ft.AlertDialog):
                             on_change=strip.change_brightness,
                             min=0,
                             max=100,
-                            value=strip.get_curr_brightness(),
+                            value=settings_helper.get_curr_brightness(),
                             expand=True,
                         ),
                     ]

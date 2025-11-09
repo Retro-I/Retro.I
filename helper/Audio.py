@@ -28,14 +28,14 @@ class Audio:
         self.init_sound()
 
     def init_sound(self):
-        self.update_sound(self.get_default_volume())
+        self.set_volume(self.get_default_volume())
 
     def mixer(self):
         with open(self.mixers_path, "w") as f:
             f.write(str(a.mixers()))
         return a.Mixer("Master")
 
-    def update_sound(self, value):
+    def set_volume(self, value):
         if 0 <= value <= 100:
             self.mixer().setvolume(value)
 
