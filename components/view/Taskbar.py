@@ -1,5 +1,6 @@
 import flet as ft
 
+from components.dialogs.BassDialog import BassDialog
 from components.dialogs.VolumeDialog import VolumeDialog
 from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
 from components.dialogs.WifiDialog import WifiDialog
@@ -50,7 +51,13 @@ class Taskbar(ft.AppBar):
             on_mute_update=on_mute_update,
         )
 
+        self.bass_dialog = BassDialog(
+            on_update=self.update_volume_icon,
+            on_volume_update=on_volume_update,
+        )
+
         PageState.page.add(self.volume_dialog)
+        PageState.page.add(self.bass_dialog)
 
         self.leading = ft.Row(
             [
@@ -59,7 +66,10 @@ class Taskbar(ft.AppBar):
                     on_click=lambda e: self.volume_dialog.open_dialog(),
                 ),
                 ft.VerticalDivider(),
-                ft.Row([self.ico_bass, self.txt_bass]),
+                ft.Container(
+                    content=ft.Row([self.ico_bass, self.txt_bass]),
+                    on_click=lambda e: self.bass_dialog.open_dialog(),
+                ),
                 ft.VerticalDivider(),
                 ft.Row([self.ico_pitch, self.txt_pitch]),
                 ft.VerticalDivider(),
