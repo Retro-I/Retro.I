@@ -1,5 +1,6 @@
 import flet as ft
 
+from components.dialogs.AudioEffectsDialog import AudioEffectsDialog
 from components.dialogs.SettingsShutdownDialog import SettingsShutdownDialog
 from components.dialogs.VolumeDialog import VolumeDialog
 from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
@@ -7,6 +8,7 @@ from components.dialogs.WifiDialog import WifiDialog
 from helper.Audio import Audio
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
+from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.ThemeHelper import ThemeHelper
 from helper.WifiHelper import WifiHelper
@@ -47,10 +49,10 @@ class Taskbar(ft.AppBar):
     txt_volume = ft.Text(f"{audio_helper.get_volume()}%", size=18)
 
     ico_bass = ft.Icon(name=ft.Icons.SURROUND_SOUND, size=taskbar_icon_size)
-    txt_bass = ft.Text(f"{audio_effects.get_bass_value()} dB", size=18)
+    txt_bass = ft.Text(f"{Constants.current_bass_step}", size=18)
 
-    ico_pitch = ft.Icon(name=ft.Icons.HEIGHT, size=taskbar_icon_size)
-    txt_pitch = ft.Text(audio_effects.get_pitch_value(), size=18)
+    ico_treble = ft.Icon(name=ft.Icons.HEIGHT, size=taskbar_icon_size)
+    txt_treble = ft.Text(f"{Constants.current_treble_step}", size=18)
 
     def __init__(self, on_volume_update, on_mute_update):
         super().__init__()
@@ -60,26 +62,32 @@ class Taskbar(ft.AppBar):
             on_volume_update=on_volume_update,
             on_mute_update=on_mute_update,
         )
+        self.audio_effects_dialog = AudioEffectsDialog(
+            on_update_bass=self.update_bass_icon,
+            on_update_treble=self.update_treble_icon,
+        )
         self.shutdown_dialog = SettingsShutdownDialog()
 
         PageState.page.add(self.volume_dialog)
+        PageState.page.add(self.audio_effects_dialog)
         PageState.page.add(self.shutdown_dialog)
 
-        self.leading = ft.Row(
-            [
+        self.title = ft.Row(
+            controls=[
                 ft.Container(
                     content=ft.Row([self.ico_volume, self.txt_volume]),
                     on_click=lambda e: self.volume_dialog.open_dialog(),
                 ),
-                ft.VerticalDivider(),
-                ft.Row([self.ico_bass, self.txt_bass]),
-                ft.VerticalDivider(),
-                ft.Row([self.ico_pitch, self.txt_pitch]),
-                ft.VerticalDivider(),
+                ft.Container(
+                    content=ft.Row([self.ico_bass, self.txt_bass]),
+                    on_click=lambda e: self.audio_effects_dialog.open_dialog(),
+                ),
+                ft.Container(
+                    content=ft.Row([self.ico_treble, self.txt_treble]),
+                    on_click=lambda e: self.audio_effects_dialog.open_dialog(),
+                ),
             ]
         )
-        self.title = ft.Text("Retro.I")
-        self.center_title = True
         self.bgcolor = ft.Colors.SURFACE_CONTAINER_HIGHEST
         self.toolbar_height = 50
         self.actions = [
@@ -112,8 +120,9 @@ class Taskbar(ft.AppBar):
     def update(self):
         self.update_volume_icon()
         self.volume_dialog.update_content()
-        self.update_bass()
-        self.update_pitch()
+        self.update_bass_icon()
+        self.update_treble_icon()
+        self.audio_effects_dialog.update_content()
         self.update_wifi()
         self.update_bluetooth_icon()
         super().update()
@@ -169,17 +178,13 @@ class Taskbar(ft.AppBar):
         )
         self.txt_volume.update()
 
-    def update_bass(self):
-        self.txt_bass.value = (
-            f"+{audio_effects.get_bass_value()} dB"
-            if audio_effects.get_bass_value() > 0
-            else f"{audio_effects.get_bass_value()} dB"
-        )
+    def update_bass_icon(self):
+        self.txt_bass.value = Constants.current_bass_step
         self.txt_bass.update()
 
-    def update_pitch(self):
-        self.txt_pitch.value = audio_effects.get_pitch_value()
-        self.txt_pitch.update()
+    def update_treble_icon(self):
+        self.txt_treble.value = Constants.current_treble_step
+        self.txt_treble.update()
 
     def open_shutdown_dialog(self):
         self.shutdown_dialog.open_dialog()
