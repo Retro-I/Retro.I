@@ -22,9 +22,10 @@ class BassDialog(ft.AlertDialog):
             width=350,
             value=audio_helper.get_volume(),
             rotate=ft.Rotate(angle=0.5 * math.pi, alignment=ft.alignment.center),
-            active_color=ft.colors.ON_SURFACE,
-            inactive_color=ft.colors.ON_SURFACE,
+            # active_color=ft.colors.ON_SURFACE,
+            # inactive_color=ft.colors.ON_SURFACE,
         )
+        self.volume_slider.active_color = self.volume_slider.inactive_color
         self.volume_text = ft.Text(f"{audio_helper.get_volume()}%")
 
         self.title = ft.Text("Bass")
