@@ -47,7 +47,7 @@ class BluetoothDeviceConnected:
         self.paired_devices = devices
         self.listview.controls = []
         for device in devices:
-            ico = ft.Icon(ft.icons.DONE, visible=False)
+            ico = ft.Icon(ft.Icons.DONE, visible=False)
             btn = ft.TextButton(
                 content=ft.Container(
                     content=ft.Row(

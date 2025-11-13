@@ -83,7 +83,7 @@ class RadioSearchDialog(ft.AlertDialog):
 
         self.listview.controls = []
         for el in stations:
-            img = ft.Container(ft.Icon(ft.icons.MUSIC_NOTE), width=60, height=60)
+            img = ft.Container(ft.Icon(ft.Icons.MUSIC_NOTE), width=60, height=60)
             if el["logo"] != "":
                 img = ft.Image(
                     el["logo"],

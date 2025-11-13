@@ -121,7 +121,7 @@ class SettingsUpdateDialog(ft.AlertDialog):
                     content=ft.Row(
                         [
                             ft.Icon(
-                                ft.icons.DONE,
+                                ft.Icons.DONE,
                                 visible=(r["name"] == self._get_current_revision()),
                             ),
                             ft.Text(

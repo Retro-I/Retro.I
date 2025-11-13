@@ -6,7 +6,7 @@ bluetooth_helper = BluetoothHelper()
 
 
 class BluetoothDiscoveryToggle(ft.FilledButton):
-    ico_discovery_status = ft.Icon(ft.icons.BLUETOOTH_DISABLED)
+    ico_discovery_status = ft.Icon(ft.Icons.BLUETOOTH_DISABLED)
     txt_discovery_status = ft.Text("Bluetooth nicht sichtbar", style=ft.TextStyle(size=20))
 
     on_discovery_enabled = None
@@ -22,7 +22,7 @@ class BluetoothDiscoveryToggle(ft.FilledButton):
             alignment=ft.MainAxisAlignment.CENTER,
             controls=[self.ico_discovery_status, self.txt_discovery_status],
         )
-        self.style = ft.ButtonStyle(bgcolor=ft.colors.RED)
+        self.style = ft.ButtonStyle(bgcolor=ft.Colors.RED)
         self.width = 500
         self.height = 80
         self.on_click = lambda e: self.toggle_bluetooth_discovery()
@@ -30,8 +30,8 @@ class BluetoothDiscoveryToggle(ft.FilledButton):
     def enable_discovery(self):
         bluetooth_helper.bluetooth_discovery_on()
         self.txt_discovery_status.value = "Bluetooth sichtbar"
-        self.ico_discovery_status.name = ft.icons.BLUETOOTH
-        self.style.bgcolor = ft.colors.GREEN
+        self.ico_discovery_status.name = ft.Icons.BLUETOOTH
+        self.style.bgcolor = ft.Colors.GREEN
 
         self.txt_discovery_status.update()
         self.ico_discovery_status.update()
@@ -42,8 +42,8 @@ class BluetoothDiscoveryToggle(ft.FilledButton):
     def disable_discovery(self):
         bluetooth_helper.bluetooth_discovery_off()
         self.txt_discovery_status.value = "Bluetooth nicht sichtbar"
-        self.ico_discovery_status.name = ft.icons.BLUETOOTH_DISABLED
-        self.style.bgcolor = ft.colors.RED
+        self.ico_discovery_status.name = ft.Icons.BLUETOOTH_DISABLED
+        self.style.bgcolor = ft.Colors.RED
 
         self.txt_discovery_status.update()
         self.ico_discovery_status.update()
