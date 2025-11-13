@@ -19,7 +19,7 @@ class BassDialog(ft.AlertDialog):
             min=0,
             max=100,
             divisions=20,
-            width=500,
+            width=350,
             value=audio_helper.get_volume(),
             rotate=ft.Rotate(angle=0.5 * math.pi, alignment=ft.alignment.center),
             active_color=ft.colors.ON_SURFACE,
@@ -31,7 +31,7 @@ class BassDialog(ft.AlertDialog):
         self.content = ft.Column(
             alignment=ft.MainAxisAlignment.CENTER,
             width=500,
-            tight=True,
+            expand=True,
             controls=[
                 self.volume_text,
                 self.volume_slider,
