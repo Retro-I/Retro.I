@@ -65,14 +65,12 @@ class Taskbar(ft.AppBar):
                     content=ft.Row([self.ico_volume, self.txt_volume]),
                     on_click=lambda e: self.volume_dialog.open_dialog(),
                 ),
-                ft.VerticalDivider(color=ft.colors.ON_SURFACE),
                 ft.Container(
-                    content=ft.Row([self.ico_bass, self.txt_bass]),
+                    content=ft.Row([ft.VerticalDivider(), self.ico_bass, self.txt_bass]),
                     on_click=lambda e: self.bass_dialog.open_dialog(),
                 ),
-                ft.VerticalDivider(color=ft.colors.ON_SURFACE),
                 ft.Container(
-                    content=ft.Row([self.ico_pitch, self.txt_pitch]),
+                    content=ft.Row([ft.VerticalDivider(), self.ico_pitch, self.txt_pitch]),
                     on_click=lambda e: self.bass_dialog.open_dialog(),
                 ),
             ]
