@@ -83,7 +83,6 @@ class Taskbar(ft.AppBar):
                 padding=5,
             ),
             ft.VerticalDivider(),
-            ft.VerticalDivider(),
             self.ico_toggle_theme,
             self.ico_wifi,
             self.ico_bluetooth
