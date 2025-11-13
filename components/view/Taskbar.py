@@ -60,26 +60,19 @@ class Taskbar(ft.AppBar):
         PageState.page.add(self.bass_dialog)
 
         self.title = ft.Row(
-            [
-                ft.VerticalDivider(),
+            controls=[
                 ft.Container(
                     content=ft.Row([self.ico_volume, self.txt_volume]),
                     on_click=lambda e: self.volume_dialog.open_dialog(),
-                    padding=5,
                 ),
-                ft.VerticalDivider(),
                 ft.Container(
                     content=ft.Row([self.ico_bass, self.txt_bass]),
                     on_click=lambda e: self.bass_dialog.open_dialog(),
-                    padding=5,
                 ),
-                ft.VerticalDivider(),
                 ft.Container(
                     content=ft.Row([self.ico_pitch, self.txt_pitch]),
                     on_click=lambda e: self.bass_dialog.open_dialog(),
-                    padding=5,
                 ),
-                ft.VerticalDivider(),
             ]
         )
         #self.center_title = True
