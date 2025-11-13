@@ -22,6 +22,8 @@ class BassDialog(ft.AlertDialog):
             width=500,
             value=audio_helper.get_volume(),
             rotate=ft.Rotate(angle=0.5 * math.pi, alignment=ft.alignment.center),
+            active_color=ft.colors.ON_SURFACE,
+            inactive_color=ft.colors.ON_SURFACE,
         )
         self.volume_text = ft.Text(f"{audio_helper.get_volume()}%")
 
