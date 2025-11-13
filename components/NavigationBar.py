@@ -27,42 +27,42 @@ class NavigationBar(ft.NavigationBar):
 
     def get_destinations(self):
         destinations = [
-            ft.NavigationDestination(
+            ft.NavigationBarDestination(
                 label="Radiosender",
-                icon_content=ft.Icon(
+                icon=ft.Icon(
                     ft.Icons.RADIO_OUTLINED, size=ICON_SIZE, color=ft.Colors.ON_SURFACE
                 ),
-                selected_icon_content=ft.Icon(ft.Icons.RADIO, size=ICON_SIZE),
+                selected_icon=ft.Icon(ft.Icons.RADIO, size=ICON_SIZE),
             ),
-            ft.NavigationDestination(
+            ft.NavigationBarDestination(
                 label="Bluetooth",
-                icon_content=ft.Icon(
+                icon=ft.Icon(
                     ft.Icons.BLUETOOTH_OUTLINED, size=ICON_SIZE, color=ft.Colors.ON_SURFACE
                 ),
-                selected_icon_content=ft.Icon(ft.Icons.BLUETOOTH, size=ICON_SIZE),
+                selected_icon=ft.Icon(ft.Icons.BLUETOOTH, size=ICON_SIZE),
             ),
         ]
 
         if system_helper.is_party_mode():
             destinations.append(
-                ft.NavigationDestination(
+                ft.NavigationBarDestination(
                     label="Soundboard",
-                    icon_content=ft.Icon(
+                    icon=ft.Icon(
                         ft.Icons.SPACE_DASHBOARD_OUTLINED,
                         size=ICON_SIZE,
                         color=ft.Colors.ON_SURFACE,
                     ),
-                    selected_icon_content=ft.Icon(ft.Icons.SPACE_DASHBOARD, size=ICON_SIZE),
+                    selected_icon=ft.Icon(ft.Icons.SPACE_DASHBOARD, size=ICON_SIZE),
                 ),
             )
 
         destinations.append(
-            ft.NavigationDestination(
+            ft.NavigationBarDestination(
                 label="Einstellungen",
-                icon_content=ft.Icon(
+                icon=ft.Icon(
                     ft.Icons.SETTINGS_OUTLINED, size=ICON_SIZE, color=ft.Colors.ON_SURFACE
                 ),
-                selected_icon_content=ft.Icon(ft.Icons.SETTINGS, size=ICON_SIZE),
+                selected_icon=ft.Icon(ft.Icons.SETTINGS, size=ICON_SIZE),
             )
         )
 
