@@ -19,13 +19,13 @@ class BassDialog(ft.AlertDialog):
             min=0,
             max=100,
             divisions=20,
+            width=500,
             value=audio_helper.get_volume(),
             rotate=ft.Rotate(angle=0.5 * math.pi, alignment=ft.alignment.center),
-            expand=True,
         )
         self.volume_text = ft.Text(f"{audio_helper.get_volume()}%")
 
-        self.title = ft.Text("Lautstärke")
+        self.title = ft.Text("Bass")
         self.content = ft.Column(
             alignment=ft.MainAxisAlignment.CENTER,
             width=500,

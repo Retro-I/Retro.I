@@ -66,12 +66,12 @@ class Taskbar(ft.AppBar):
                     on_click=lambda e: self.volume_dialog.open_dialog(),
                 ),
                 ft.Container(
-                    content=ft.Row([ft.VerticalDivider(), self.ico_bass, self.txt_bass]),
+                    content=ft.Row([self.ico_bass, self.txt_bass]),
                     on_click=lambda e: self.bass_dialog.open_dialog(),
                 ),
                 ft.Container(
-                    content=ft.Row([ft.VerticalDivider(), self.ico_pitch, self.txt_pitch]),
-                    on_click=lambda e: self.bass_dialog.open_dialog(),
+                    content=ft.Row([self.ico_pitch, self.txt_pitch]),
+                    # on_click=lambda e: self.bass_dialog.open_dialog(),
                 ),
             ]
         )
