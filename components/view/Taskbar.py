@@ -2,6 +2,7 @@ import flet as ft
 
 from components.dialogs.AudioEffectsDialog import AudioEffectsDialog
 from components.dialogs.SettingsShutdownDialog import SettingsShutdownDialog
+from components.dialogs.BassDialog import BassDialog
 from components.dialogs.VolumeDialog import VolumeDialog
 from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
 from components.dialogs.WifiDialog import WifiDialog
