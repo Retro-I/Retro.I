@@ -29,9 +29,7 @@ class NavigationBar(ft.NavigationBar):
         destinations = [
             ft.NavigationBarDestination(
                 label="Radiosender",
-                icon=ft.Icon(
-                    ft.Icons.RADIO_OUTLINED, size=ICON_SIZE, color=ft.Colors.ON_SURFACE
-                ),
+                icon=ft.Icon(ft.Icons.RADIO_OUTLINED, size=ICON_SIZE, color=ft.Colors.ON_SURFACE),
                 selected_icon=ft.Icon(ft.Icons.RADIO, size=ICON_SIZE),
             ),
             ft.NavigationBarDestination(
