@@ -23,22 +23,22 @@ class Taskbar(ft.AppBar):
 
     ico_toggle_theme = ft.IconButton(
         icon=(
-            ft.icons.LIGHT_MODE
+            ft.Icons.LIGHT_MODE
             if theme_helper.get_theme() == ft.ThemeMode.LIGHT
-            else ft.icons.DARK_MODE
+            else ft.Icons.DARK_MODE
         ),
         icon_size=25,
     )
-    ico_wifi = ft.IconButton(icon=ft.icons.WIFI, icon_size=25, icon_color=ft.colors.GREEN)
-    ico_bluetooth = ft.Icon(name=ft.icons.BLUETOOTH, size=25)
+    ico_wifi = ft.IconButton(icon=ft.Icons.WIFI, icon_size=25, icon_color=ft.Colors.GREEN)
+    ico_bluetooth = ft.Icon(name=ft.Icons.BLUETOOTH, size=25)
 
-    ico_volume = ft.Icon(name=ft.icons.VOLUME_UP_ROUNDED, size=25)
+    ico_volume = ft.Icon(name=ft.Icons.VOLUME_UP_ROUNDED, size=25)
     txt_volume = ft.Text(f"{audio_helper.get_volume()}%", size=18)
 
-    ico_bass = ft.Icon(name=ft.icons.SURROUND_SOUND, size=25)
+    ico_bass = ft.Icon(name=ft.Icons.SURROUND_SOUND, size=25)
     txt_bass = ft.Text(f"{audio_effects.get_bass_value()} dB", size=18)
 
-    ico_pitch = ft.Icon(name=ft.icons.HEIGHT, size=25)
+    ico_pitch = ft.Icon(name=ft.Icons.HEIGHT, size=25)
     txt_pitch = ft.Text(audio_effects.get_pitch_value(), size=18)
 
     def __init__(self, on_volume_update, on_mute_update):
@@ -67,7 +67,7 @@ class Taskbar(ft.AppBar):
         )
         self.title = ft.Text("Retro.I")
         self.center_title = True
-        self.bgcolor = ft.colors.SURFACE_VARIANT
+        self.bgcolor = ft.Colors.SURFACE_CONTAINER_HIGHEST
         self.toolbar_height = 40
         self.actions = [self.ico_toggle_theme, self.ico_wifi, self.ico_bluetooth]
 
@@ -92,9 +92,9 @@ class Taskbar(ft.AppBar):
     def toggle_theme(self):
         theme_helper.toggle_theme()
         self.ico_toggle_theme.icon = (
-            ft.icons.LIGHT_MODE
+            ft.Icons.LIGHT_MODE
             if theme_helper.get_theme() == ft.ThemeMode.LIGHT
-            else ft.icons.DARK_MODE
+            else ft.Icons.DARK_MODE
         )
         self.ico_toggle_theme.update()
         PageState.page.theme_mode = theme_helper.get_theme()
@@ -102,38 +102,38 @@ class Taskbar(ft.AppBar):
 
     def update_wifi(self):
         self.ico_wifi.icon = (
-            ft.icons.WIFI if wifi_helper.is_connected() else ft.icons.WIFI_OFF_ROUNDED
+            ft.Icons.WIFI if wifi_helper.is_connected() else ft.Icons.WIFI_OFF_ROUNDED
         )
         self.ico_wifi.color = (
-            ft.colors.GREEN if wifi_helper.is_connected() else ft.colors.ON_SURFACE
+            ft.Colors.GREEN if wifi_helper.is_connected() else ft.Colors.ON_SURFACE
         )
         self.ico_wifi.update()
 
     def update_bluetooth_icon(self):
         if bluetooth_helper.is_bluetooth_on():
-            self.ico_bluetooth.name = ft.icons.BLUETOOTH_ROUNDED
-            self.ico_bluetooth.color = ft.colors.ON_SURFACE
+            self.ico_bluetooth.name = ft.Icons.BLUETOOTH_ROUNDED
+            self.ico_bluetooth.color = ft.Colors.ON_SURFACE
 
             if bluetooth_helper.is_discovery_on():
-                self.ico_bluetooth.color = ft.colors.GREEN
+                self.ico_bluetooth.color = ft.Colors.GREEN
             else:
-                self.ico_bluetooth.color = ft.colors.ON_SURFACE
+                self.ico_bluetooth.color = ft.Colors.ON_SURFACE
 
         else:
-            self.ico_bluetooth.name = ft.icons.BLUETOOTH_DISABLED_ROUNDED
-            self.ico_bluetooth.color = ft.colors.ON_SURFACE
+            self.ico_bluetooth.name = ft.Icons.BLUETOOTH_DISABLED_ROUNDED
+            self.ico_bluetooth.color = ft.Colors.ON_SURFACE
 
         if bluetooth_helper.is_connected():
-            self.ico_bluetooth.name = ft.icons.BLUETOOTH_CONNECTED_ROUNDED
-            self.ico_bluetooth.color = ft.colors.GREEN
+            self.ico_bluetooth.name = ft.Icons.BLUETOOTH_CONNECTED_ROUNDED
+            self.ico_bluetooth.color = ft.Colors.GREEN
 
         self.ico_bluetooth.update()
 
     def update_volume_icon(self):
         self.ico_volume.name = (
-            ft.icons.VOLUME_OFF_ROUNDED if audio_helper.is_mute() else ft.icons.VOLUME_UP_ROUNDED
+            ft.Icons.VOLUME_OFF_ROUNDED if audio_helper.is_mute() else ft.Icons.VOLUME_UP_ROUNDED
         )
-        self.ico_volume.color = ft.colors.RED if audio_helper.is_mute() else ft.colors.ON_SURFACE
+        self.ico_volume.color = ft.Colors.RED if audio_helper.is_mute() else ft.Colors.ON_SURFACE
         self.ico_volume.update()
         self.txt_volume.value = (
             f"{audio_helper.get_volume()}%" if not audio_helper.is_mute() else ""

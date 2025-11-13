@@ -21,7 +21,7 @@ class SettingsShutdownDialog(ft.AlertDialog):
                         ft.Column(
                             [
                                 ft.IconButton(
-                                    ft.icons.LOGOUT,
+                                    ft.Icons.LOGOUT,
                                     icon_size=75,
                                     on_click=lambda e: system_helper.shutdown_system(),
                                 ),
@@ -37,7 +37,7 @@ class SettingsShutdownDialog(ft.AlertDialog):
                         ft.Column(
                             [
                                 ft.IconButton(
-                                    ft.icons.RESTART_ALT,
+                                    ft.Icons.RESTART_ALT,
                                     icon_size=75,
                                     on_click=lambda e: system_helper.restart_system(),
                                 ),

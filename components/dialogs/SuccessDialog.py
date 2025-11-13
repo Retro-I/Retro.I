@@ -6,7 +6,7 @@ from helper.PageState import PageState
 
 class SuccessDialog(ft.AlertDialog):
     text = ft.Text("")
-    display_icon = ft.Icon(ft.icons.DOWNLOAD_DONE, size=36, visible=False)
+    display_icon = ft.Icon(ft.Icons.DOWNLOAD_DONE, size=36, visible=False)
 
     def __init__(self):
         super().__init__()

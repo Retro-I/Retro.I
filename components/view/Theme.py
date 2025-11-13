@@ -76,12 +76,12 @@ class Theme:
         if system_helper.is_scrollbar_enabled():
             scrollbar_theme = ft.ScrollbarTheme(
                 track_color={
-                    ft.MaterialState.DEFAULT: ft.colors.TRANSPARENT,
+                    ft.MaterialState.DEFAULT: ft.Colors.TRANSPARENT,
                 },
                 thumb_visibility=True,
                 thumb_color={
-                    ft.MaterialState.HOVERED: ft.colors.GREY_500,
-                    ft.MaterialState.DEFAULT: ft.colors.GREY_400,
+                    ft.MaterialState.HOVERED: ft.Colors.GREY_500,
+                    ft.MaterialState.DEFAULT: ft.Colors.GREY_400,
                 },
                 thickness=40,
                 radius=20,

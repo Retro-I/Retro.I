@@ -58,8 +58,8 @@ def main(page: ft.Page):
 
     page.navigation_bar = theme.navbar
     page.appbar = taskbar
-    page.window_maximized = True
-    page.window_frameless = True
+    page.window.maximized = True
+    page.window.frameless = True
     page.spacing = 0
     page.theme = theme.get()
     page.dark_theme = theme.get()

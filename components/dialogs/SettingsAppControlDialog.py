@@ -21,7 +21,7 @@ class SettingsAppControlDialog(ft.AlertDialog):
                         ft.Column(
                             [
                                 ft.IconButton(
-                                    ft.icons.HIGHLIGHT_OFF,
+                                    ft.Icons.HIGHLIGHT_OFF,
                                     icon_size=75,
                                     on_click=lambda e: system_helper.stop_app(),
                                 ),
@@ -37,7 +37,7 @@ class SettingsAppControlDialog(ft.AlertDialog):
                         ft.Column(
                             [
                                 ft.IconButton(
-                                    ft.icons.REFRESH,
+                                    ft.Icons.REFRESH,
                                     icon_size=75,
                                     on_click=lambda e: system_helper.restart_app(),
                                 ),

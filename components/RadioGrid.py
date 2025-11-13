@@ -62,7 +62,7 @@ class RadioGrid(ft.GridView):
                     controls=[
                         ft.Container(
                             alignment=ft.alignment.center,
-                            bgcolor=ft.colors.SURFACE_VARIANT,
+                            bgcolor=ft.Colors.SURFACE_CONTAINER_HIGHEST,
                             on_click=lambda e, src=station, index=i: self.change_radio_station(
                                 src, index
                             ),
@@ -87,8 +87,8 @@ class RadioGrid(ft.GridView):
                                 and favorite_station["id"] == station["id"]
                             ),
                             content=ft.Icon(
-                                name=ft.icons.FAVORITE,
-                                color=ft.colors.RED,
+                                name=ft.Icons.FAVORITE,
+                                color=ft.Colors.RED,
                                 size=36,
                             ),
                             padding=10,

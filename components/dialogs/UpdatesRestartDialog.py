@@ -21,7 +21,7 @@ class UpdatesRestartDialog(ft.AlertDialog):
                         ft.Column(
                             [
                                 ft.IconButton(
-                                    ft.icons.RESTART_ALT,
+                                    ft.Icons.RESTART_ALT,
                                     icon_size=75,
                                     on_click=lambda e: system_helper.restart_system(),
                                 ),
@@ -37,7 +37,7 @@ class UpdatesRestartDialog(ft.AlertDialog):
                         ft.Column(
                             [
                                 ft.IconButton(
-                                    ft.icons.REFRESH,
+                                    ft.Icons.REFRESH,
                                     icon_size=75,
                                     on_click=lambda e: system_helper.restart_app(),
                                 ),

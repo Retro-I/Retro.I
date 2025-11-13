@@ -3,7 +3,7 @@ import flet as ft
 
 class ErrorDialog(ft.AlertDialog):
     text = ft.Text("")
-    display_icon = ft.Icon(ft.icons.ERROR, size=36, visible=False)
+    display_icon = ft.Icon(ft.Icons.ERROR, size=36, visible=False)
 
     def __init__(self):
         super().__init__()

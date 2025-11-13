@@ -43,40 +43,40 @@ class SettingsTab(ft.Column):
                     run_spacing=50,
                     controls=[
                         SettingsButton(
-                            ft.icons.POWER_SETTINGS_NEW,
+                            ft.Icons.POWER_SETTINGS_NEW,
                             "Ausschalten",
                             lambda e: self.shutdown_dialog.open_dialog(),
                         ),
                         SettingsButton(
-                            ft.icons.EXIT_TO_APP,
+                            ft.Icons.EXIT_TO_APP,
                             "App",
                             lambda e: self.app_control_dialog.open_dialog(),
                         ),
                         SettingsButton(
-                            ft.icons.DEVICES,
+                            ft.Icons.DEVICES,
                             "System",
                             lambda e: self.system_dialog.open_dialog(),
                         ),
                         SettingsButton(
-                            ft.icons.DISPLAY_SETTINGS,
+                            ft.Icons.DISPLAY_SETTINGS,
                             "Anzeige",
                             lambda e: self.display_dialog.open_dialog(),
                         ),
                         SettingsButton(
-                            ft.icons.COLOR_LENS,
+                            ft.Icons.COLOR_LENS,
                             "LED-Streifen",
                             lambda e: self.led_dialog.open_dialog(),
                         ),
                         SettingsButton(
-                            ft.icons.INFO, "Info", lambda e: self.info_dialog.open_dialog()
+                            ft.Icons.INFO, "Info", lambda e: self.info_dialog.open_dialog()
                         ),
                         SettingsButton(
-                            ft.icons.FILE_DOWNLOAD_OUTLINED,
+                            ft.Icons.FILE_DOWNLOAD_OUTLINED,
                             "Updates",
                             lambda e: self.update_dialog.open_dialog(),
                         ),
                         SettingsButton(
-                            ft.icons.STAR,
+                            ft.Icons.STAR,
                             "Credits",
                             lambda e: self.credits_dialog.open_dialog(),
                         ),

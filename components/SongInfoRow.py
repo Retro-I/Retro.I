@@ -22,12 +22,12 @@ class SongInfoRow(ft.Container):
         self.radio_search_dialog = RadioSearchDialog(radio_grid)
         self.content = ft.Row(
             [
-                ft.Icon(ft.icons.MUSIC_NOTE, size=28),
+                ft.Icon(ft.Icons.MUSIC_NOTE, size=28),
                 self.song_info_station,
                 self.song_info_title,
                 ft.TextButton(
                     text="Sendersuche",
-                    icon=ft.icons.SEARCH,
+                    icon=ft.Icons.SEARCH,
                     on_click=lambda e: self.radio_search_dialog.open_dialog(),
                 ),
             ]
