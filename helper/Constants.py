@@ -20,6 +20,9 @@ class Constants:
     def settings_path(self) -> str:
         return str(os.path.join(user_data_dir("retroi")))
 
+    def default_settings_path(self) -> str:
+        return str(os.path.join(self.pwd(), "settings"))
+
     def sound_path(self):
         return f"{self.pwd()}/assets/sounds"
 

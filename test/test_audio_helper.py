@@ -4,11 +4,11 @@ import shutil
 import sys
 import tempfile
 import unittest
-from test.base_test import BaseTest
 from unittest import mock
 from unittest.mock import patch
 
 from helper.Constants import Constants
+from test.base_test import BaseTest
 
 constants = Constants()
 
