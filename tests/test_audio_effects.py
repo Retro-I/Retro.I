@@ -1,5 +1,5 @@
 import unittest
-from test.base_test import BaseTest
+from tests.base_test import BaseTest
 
 
 # TODO - fix and enable this with Issue #79

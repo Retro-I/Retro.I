@@ -1,5 +1,5 @@
 import unittest
-from test.base_test import BaseTest
+from tests.base_test import BaseTest
 
 from helper.Constants import Constants
 

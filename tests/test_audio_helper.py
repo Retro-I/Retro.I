@@ -4,7 +4,7 @@ import shutil
 import sys
 import tempfile
 import unittest
-from test.base_test import BaseTest
+from tests.base_test import BaseTest
 from unittest import mock
 from unittest.mock import patch
 
@@ -156,8 +156,8 @@ class TestAudioSounds(unittest.TestCase):
 
     @mock.patch("helper.Audio.playsound")
     def test_local_sound(self, mock_playsound):
-        self.audio_helper.play_sound_board("test.mp3")
-        mock_playsound.assert_called_once_with(f"{constants.sound_path()}/test.mp3")
+        self.audio_helper.play_sound_board("tests.mp3")
+        mock_playsound.assert_called_once_with(f"{constants.sound_path()}/tests.mp3")
 
     @mock.patch("helper.Audio.playsound")
     def test_remote_https_sound(self, mock_playsound):

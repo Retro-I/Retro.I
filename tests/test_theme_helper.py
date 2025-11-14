@@ -1,4 +1,4 @@
-from test.base_test import BaseTest
+from tests.base_test import BaseTest
 
 import flet as ft
 
