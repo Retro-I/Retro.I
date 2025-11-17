@@ -33,8 +33,8 @@ class BaseTest(unittest.TestCase):
     def setUp(self):
         from helper.Audio import Audio
         from helper.GpioHelper import GpioHelper
-        from helper.Stations import Stations
         from helper.SettingsSyncHelper import SettingsSyncHelper
+        from helper.Stations import Stations
 
         self.gpio_helper = GpioHelper()
         self.settings_sync_helper = SettingsSyncHelper()
@@ -44,13 +44,20 @@ class BaseTest(unittest.TestCase):
         self.theme_helper = ThemeHelper()
 
         self.test_dir = tempfile.mkdtemp()
-        self.patcher = patch(
-            "helper.Constants.Constants.default_settings_path",
-            return_value=self.test_dir
+        self.base_dir = self._create_temp_files(
+            src_dir="./settings", dst_dir=f"{self.test_dir}/settings"
         )
-        self.patcher.start()
 
-        self.base_dir = self._create_temp_files(src_dir="./settings", dst_dir=f"{self.test_dir}/settings")
+        self.default_settings_patcher = patch(
+            "helper.Constants.Constants.default_settings_path", return_value="./settings"
+        )
+        self.default_settings_patcher.start()
+
+        self.settings_patcher = patch(
+            "helper.Constants.Constants.settings_path", return_value=self.base_dir
+        )
+
+        self.settings_patcher.start()
         self.assertTrue(os.path.exists(self.base_dir))
         self.assertTrue(os.path.exists(f"{self.base_dir}/templates"))
 
@@ -89,7 +96,7 @@ class BaseTest(unittest.TestCase):
 
             # Compute relative path inside the tree
             rel_path = os.path.relpath(root, src_dir)
-            target_root = os.path.join(dst_dir, rel_path) if rel_path != '.' else dst_dir
+            target_root = os.path.join(dst_dir, rel_path) if rel_path != "." else dst_dir
 
             # Create missing directories
             os.makedirs(target_root, exist_ok=True)
