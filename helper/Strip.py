@@ -1,5 +1,6 @@
 import math
 import threading
+import time
 
 import board
 import neopixel
@@ -24,10 +25,11 @@ class Strip:
     wait_proc = WaiterProcess(None)
 
     def __init__(self):
+        self.sound_mode_active = False
         self.pixels = neopixel.NeoPixel(
             pin=board.D10, n=settings_helper.get_led_length(), brightness=0, auto_write=True
         )
-        self.animation = Pulse(self.pixels, min_intensity=0.4, speed=0.1, period=5, color=BLACK)
+        self.animation = Pulse(self.pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK)
 
         self.pixels.fill(GREEN)
         self.pixels.brightness = settings_helper.get_curr_brightness() / 100
@@ -36,17 +38,15 @@ class Strip:
         self.wait_proc = WaiterProcess(self.callback)
         self.animation.color = self.curr_color
 
+        self.anim_thread = threading.Thread(target=self.animation_loop, daemon=True)
+        self.anim_thread.start()
+
     def callback(self):
-        if not settings_helper.is_strip_active():
-            self.animation.fill(BLACK)
-        else:
-            self.animation.resume()
-        self.pixels.show()
+        if settings_helper.is_strip_active():
+            self.sound_mode_active = True
 
     def update_sound_strip(self, value):
-        self.animation.freeze()
-
-        self.wait_proc.set_variable(value)
+        self.sound_mode_active = False
 
         amount_pixels = math.floor(settings_helper.get_led_length() * (value / 100))
         self.pixels.fill(BLACK)
@@ -57,6 +57,8 @@ class Strip:
             self.pixels[i] = GREEN
 
         self.pixels.show()
+
+        self.wait_proc.set_variable()
 
     def toggle_mute(self, is_mute):
         if settings_helper.is_strip_active():
@@ -70,19 +72,10 @@ class Strip:
                 self.pixels.show()
 
     def update_strip(self, color):
-        self.counter = self.counter + 1
-
+        self.sound_mode_active = True
         strip_color = self.color_helper.toRgb(color)
         self.curr_color = strip_color
         self.animation.color = strip_color
-        self.pixels.show()
-        while self.counter <= 1:
-            try:
-                self.animation.animate()
-            except Exception:
-                pass
-
-        self.kill_proc()
 
     def toggle_strip(self):
         if settings_helper.is_strip_active():
@@ -105,14 +98,13 @@ class Strip:
         if not settings_helper.is_strip_active():
             self.pixels.fill(color)
 
-    def run_color(self, color):
-        proc = threading.Thread(target=self.update_strip, args=(color,), daemon=True)
-        proc.start()
-
-    def kill_proc(self):
-        self.counter -= 1
+    def animation_loop(self):
+        while True:
+            if settings_helper.is_strip_active() and self.sound_mode_active:
+                self.animation.animate()
+            else:
+                time.sleep(0.05)
+            time.sleep(0.01)
 
     def disable(self):
-        self.animation.fill(BLACK)
-        self.pixels.fill(BLACK)
-        self.pixels.show()
+        self.fill(BLACK)
