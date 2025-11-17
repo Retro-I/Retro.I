@@ -27,7 +27,7 @@ class Strip:
         self.pixels = neopixel.NeoPixel(
             pin=board.D10, n=settings_helper.get_led_length(), brightness=0, auto_write=True
         )
-        self.animation = Pulse(self.pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK)
+        self.animation = Pulse(self.pixels, min_intensity=0.4, speed=0.1, period=5, color=BLACK)
 
         self.pixels.fill(GREEN)
         self.pixels.brightness = settings_helper.get_curr_brightness() / 100
@@ -113,7 +113,6 @@ class Strip:
         self.counter -= 1
 
     def disable(self):
+        self.animation.fill(BLACK)
         self.pixels.fill(BLACK)
-        self.animation.color = BLACK
-        self.animation.reset()
         self.pixels.show()
