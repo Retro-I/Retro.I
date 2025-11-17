@@ -44,9 +44,11 @@ class SystemHelper:
         os.system("sudo reboot")
 
     def stop_app(self):
+        self.strip.disable()
         os.system("sudo systemctl stop retroi")
 
     def restart_app(self):
+        self.strip.disable()
         os.system("sudo systemctl restart retroi")
 
     def startup_error(self) -> str | None:
