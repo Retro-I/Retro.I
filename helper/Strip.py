@@ -47,6 +47,7 @@ class Strip:
 
     def update_sound_strip(self, value):
         self.sound_mode_active = False
+        self.wait_proc.set_wait()
 
         amount_pixels = math.floor(settings_helper.get_led_length() * (value / 100))
         self.pixels.fill(BLACK)
@@ -57,8 +58,6 @@ class Strip:
             self.pixels[i] = GREEN
 
         self.pixels.show()
-
-        self.wait_proc.set_variable()
 
     def toggle_mute(self, is_mute):
         if settings_helper.is_strip_active():
