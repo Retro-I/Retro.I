@@ -87,8 +87,7 @@ class Strip:
             settings_helper.update_settings(is_active=True)
         self.pixels.show()
 
-    def change_brightness(self, e):
-        value = e.control.value
+    def change_brightness(self, value, save=True):
         self.pixels.brightness = value / 100
         self.pixels.show()
         settings_helper.update_settings(brightness=float(round(value, 2)))
