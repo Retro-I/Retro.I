@@ -30,7 +30,8 @@ class RadioTab(ft.Column):
         ]
         self.expand = True
 
-    def update(self):
+    def update_tab(self):
+        self.radio_grid.update()
         self.song_info_row.reload()
         super().update()
 
