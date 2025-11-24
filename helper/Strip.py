@@ -105,4 +105,7 @@ class Strip:
             time.sleep(0.01)
 
     def disable(self):
-        self.fill(BLACK)
+        self.pixels.fill(BLACK)
+        self.animation.color=BLACK
+        self.animation.reset()
+        self.pixels.show()
