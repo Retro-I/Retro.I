@@ -54,7 +54,7 @@ def main(page: ft.Page):
 
     strip = Strip()
     taskbar = Taskbar(on_volume_update=strip.update_sound_strip, on_mute_update=strip.toggle_mute)
-    theme = Theme(taskbar, strip.run_color)
+    theme = Theme(taskbar, strip.update_strip)
 
     page.navigation_bar = theme.navbar
     page.appbar = taskbar

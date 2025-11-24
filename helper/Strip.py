@@ -4,34 +4,33 @@ import time
 
 import board
 import neopixel
+import math
 from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.color import BLACK, GREEN, RED
-
 from helper.ColorHelper import ColorHelper
-from helper.Constants import Constants
 from helper.StripSettingsHelper import StripSettingsHelper
 from utils.WaiterProcess import WaiterProcess
+from helper.Constants import Constants
 
 c = Constants()
 settings_helper = StripSettingsHelper()
-
+color_helper = ColorHelper()
 
 class Strip:
-    counter = 0
+    is_active = True
+    sound_mode_active = False
     curr_color = GREEN
 
-    color_helper = ColorHelper()
+    pixel_pin = board.D10
+    pixel_num = 38
 
-    wait_proc = WaiterProcess(None)
+    pixels = neopixel.NeoPixel(pixel_pin, pixel_num, brightness=0)
+    animation = Pulse(pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK)
 
     def __init__(self):
-        self.sound_mode_active = False
-        self.pixels = neopixel.NeoPixel(
-            pin=board.D10, n=settings_helper.get_led_length(), brightness=0, auto_write=True
-        )
-        self.animation = Pulse(self.pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK)
+        if settings_helper.is_strip_active():
+            self.pixels.fill(GREEN)
 
-        self.pixels.fill(GREEN)
         self.pixels.brightness = settings_helper.get_curr_brightness() / 100
         self.pixels.show()
 
