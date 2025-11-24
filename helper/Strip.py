@@ -76,13 +76,15 @@ class Strip:
             else:
                 self.pixels.fill(self.curr_color)
                 self.animation.resume()
-                self.pixels.show()
+            self.pixels.show()
 
     def update_strip(self, color):
         self.sound_mode_active = True
-        strip_color = self.color_helper.toRgb(color)
+        strip_color = color_helper.toRgb(color)
         self.curr_color = strip_color
         self.animation.color = strip_color
+        self.pixels.fill(strip_color)
+        self.pixels.show()
 
     def toggle_strip(self):
         if settings_helper.is_strip_active():
@@ -106,17 +108,10 @@ class Strip:
                 float(round(value, 2)),
             )
 
-    def fill(self, color):
-        if not settings_helper.is_strip_active():
-            self.pixels.fill(color)
-
-    def animation_loop(self):
+    def run_color_loop(self):
         while True:
-            if settings_helper.is_strip_active() and self.sound_mode_active:
+            if self.is_active and self.sound_mode_active:
                 self.animation.animate()
-            else:
-                time.sleep(0.05)
-            time.sleep(0.01)
 
     def disable(self):
         self.pixels.fill(BLACK)
