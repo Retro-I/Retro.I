@@ -78,19 +78,25 @@ class Strip:
 
     def toggle_strip(self):
         if settings_helper.is_strip_active():
-            self.animation.fill(BLACK)
             self.animation.freeze()
+            self.change_brightness(0, save=False)
+            self.is_active = False
             settings_helper.update_settings(is_active=False)
         else:
-            self.animation.fill(self.curr_color)
+            self.change_brightness(settings_helper.get_curr_brightness(), save=False)
             self.animation.resume()
+            self.pixels.show()
+            self.is_active = True
             settings_helper.update_settings(is_active=True)
-        self.pixels.show()
 
     def change_brightness(self, value, save=True):
         self.pixels.brightness = value / 100
         self.pixels.show()
-        settings_helper.update_settings(brightness=float(round(value, 2)))
+        if save:
+            settings_helper.update_settings(
+                settings_helper.is_strip_active(),
+                float(round(value, 2)),
+            )
 
     def fill(self, color):
         if not settings_helper.is_strip_active():
