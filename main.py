@@ -103,7 +103,7 @@ def main(page: ft.Page):
         while True:
             theme.radio_tab.song_info_row.reload()
             taskbar.update()
-            time.sleep(5)
+            time.sleep(2)
 
     process = threading.Thread(target=background_processes)
     process.start()
@@ -121,6 +121,6 @@ def main(page: ft.Page):
 
 
 try:
-    ft.app(main)
+    ft.app(main, assets_dir="assets")
 except Exception as e:
     on_error(e)
