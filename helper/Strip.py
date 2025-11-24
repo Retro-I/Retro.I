@@ -1,20 +1,19 @@
 import math
-import threading
-import time
 
 import board
 import neopixel
-import math
 from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.color import BLACK, GREEN, RED
+
 from helper.ColorHelper import ColorHelper
+from helper.Constants import Constants
 from helper.StripSettingsHelper import StripSettingsHelper
 from utils.WaiterProcess import WaiterProcess
-from helper.Constants import Constants
 
 c = Constants()
 settings_helper = StripSettingsHelper()
 color_helper = ColorHelper()
+
 
 class Strip:
     is_active = True
@@ -115,6 +114,6 @@ class Strip:
 
     def disable(self):
         self.pixels.fill(BLACK)
-        self.animation.color=BLACK
+        self.animation.color = BLACK
         self.animation.reset()
         self.pixels.show()
