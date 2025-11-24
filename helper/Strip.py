@@ -37,12 +37,22 @@ class Strip:
         self.wait_proc = WaiterProcess(self.callback)
         self.animation.color = self.curr_color
 
-        self.anim_thread = threading.Thread(target=self.animation_loop, daemon=True)
-        self.anim_thread.start()
+        # TODO - find better solution
+        # anim_thread = threading.Thread(target=self.run_color_loop)
+        # anim_thread.start()
 
     def callback(self):
         if settings_helper.is_strip_active():
             self.sound_mode_active = True
+
+            # TODO - find better solution
+            self.pixels.fill(self.curr_color)
+        else:
+            self.animation.fill(BLACK)
+
+            # TODO - find better solution
+            self.pixels.fill(BLACK)
+        self.pixels.show()
 
     def update_sound_strip(self, value):
         self.sound_mode_active = False
@@ -63,7 +73,6 @@ class Strip:
             if is_mute:
                 self.animation.freeze()
                 self.pixels.fill(RED)
-                self.pixels.show()
             else:
                 self.pixels.fill(self.curr_color)
                 self.animation.resume()
