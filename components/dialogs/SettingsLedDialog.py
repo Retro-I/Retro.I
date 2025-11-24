@@ -28,7 +28,7 @@ class SettingsLedDialog(ft.AlertDialog):
                     [
                         ft.Text("Helligkeit:", style=ft.TextStyle(size=20)),
                         ft.Slider(
-                            on_change=strip.change_brightness,
+                            on_change=lambda e: strip.change_brightness(e.control.value),
                             min=0,
                             max=100,
                             value=settings_helper.get_curr_brightness(),

@@ -16,11 +16,6 @@ radio_helper = RadioHelper()
 
 
 class RadioGrid(ft.GridView):
-    station_modify_dialog: StationModifyDialog = None
-    on_strip_run_color = None
-    on_theme_change_radio_station = None
-    on_theme_stop_radio_station = None
-
     def __init__(
         self,
         on_strip_run_color,
@@ -80,7 +75,11 @@ class RadioGrid(ft.GridView):
                             on_click=lambda e, src=station, index=i: self.change_radio_station(
                                 src, index
                             ),
-                            on_long_press=lambda e, index=i: self.open_modify_station_dialog(index),
+                            on_long_press=(
+                                lambda e, src=station, index=i: self.open_modify_station_dialog(
+                                    src, index
+                                )
+                            ),
                             border_radius=10,
                             visible=(
                                 favorite_station is not None
@@ -97,8 +96,11 @@ class RadioGrid(ft.GridView):
                             ref=Constants.indicator_refs[i],
                             on_click=lambda e: self.stop_radio_station(),
                             visible=False,
-                            content=ft.Image(
-                                src=f"{constants.pwd()}/assets/party.gif", opacity=0.7
+                            alignment=ft.alignment.top_left,
+                            padding=-10,
+                            content=ft.Icon(
+                                name=ft.Icons.PLAY_CIRCLE,
+                                size=42,
                             ),
                         ),
                     ],
@@ -112,12 +114,12 @@ class RadioGrid(ft.GridView):
 
         self.toggle_indicator(index)
 
-        if self.on_theme_change_radio_station is not None:
-            self.on_theme_change_radio_station(color)
-
         audio_helper.play_src(station["src"])
 
         self.on_strip_run_color(color)
+
+        if self.on_theme_change_radio_station is not None:
+            self.on_theme_change_radio_station(color)
 
     def stop_radio_station(self):
         Constants.current_radio_station = {}

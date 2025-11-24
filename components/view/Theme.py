@@ -25,10 +25,8 @@ class Theme:
 
     tabs = None
     navbar = None
-    page: ft.Page = None
 
     def __init__(self, taskbar: Taskbar, on_strip_run_color):
-        self.page = PageState.page
         self.taskbar = taskbar
 
         self.theme = ft.Theme(
@@ -50,13 +48,13 @@ class Theme:
         self.navbar = NavigationBar(self.tabs)
 
     def update(self):
-        self.page.update()
+        PageState.page.update()
 
     def on_updated_radio_station(self, color):
         self.theme.color_scheme_seed = color
         self.navbar.update_color(color)
         self.radio_tab.update()
-        self.page.update()
+        PageState.page.update()
 
     def get_tabs(self):
         tabs = []
