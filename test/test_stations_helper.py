@@ -65,17 +65,17 @@ class TestStationsHelper(BaseTest):
         self.assertTrue(1, len([s for s in stations if s["favorite"]]))
 
     def test_default_station_autoplay_enabled(self):
-        enabled = self.stations.is_default_station_autoplay_enabled()
+        enabled = self.audio_helper.is_default_station_autoplay_enabled()
         self.assertTrue(enabled)
 
     def test_toggle_default_station_autoplay(self):
-        enabled = self.stations.is_default_station_autoplay_enabled()
+        enabled = self.audio_helper.is_default_station_autoplay_enabled()
         self.assertTrue(enabled)
 
-        self.stations.toggle_default_station_autoplay()
-        enabled = self.stations.is_default_station_autoplay_enabled()
+        self.audio_helper.toggle_default_station_autoplay()
+        enabled = self.audio_helper.is_default_station_autoplay_enabled()
         self.assertFalse(enabled)
 
-        self.stations.toggle_default_station_autoplay()
-        enabled = self.stations.is_default_station_autoplay_enabled()
+        self.audio_helper.toggle_default_station_autoplay()
+        enabled = self.audio_helper.is_default_station_autoplay_enabled()
         self.assertTrue(enabled)

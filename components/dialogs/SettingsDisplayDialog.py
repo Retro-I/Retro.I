@@ -2,9 +2,11 @@ import flet as ft
 
 from components.dialogs.UpdatesRestartDialog import UpdatesRestartDialog
 from helper.PageState import PageState
+from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
+scrollbar_settings_helper = ScrollbarSettingsHelper()
 
 
 class SettingsDisplayDialog(ft.AlertDialog):
@@ -24,7 +26,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
                     "Scrollbar anzeigen",
                     label_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_scrollbar(),
-                    value=system_helper.is_scrollbar_enabled(),
+                    value=scrollbar_settings_helper.is_scrollbar_enabled(),
                 ),
                 ft.Divider(),
                 ft.Column(
@@ -45,7 +47,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
         )
 
     def toggle_enable_scrollbar(self):
-        system_helper.toggle_scrollbar_enabled()
+        scrollbar_settings_helper.toggle_scrollbar_enabled()
         self.close_dialog()
         self.updates_restart_dialog.open_dialog()
 

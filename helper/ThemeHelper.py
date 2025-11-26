@@ -3,17 +3,27 @@ import json
 import flet as ft
 
 from helper.Constants import Constants
+from helper.SettingsSyncHelper import SettingsSyncHelper
 
 c = Constants()
+settings_sync_helper = SettingsSyncHelper()
 
 
 class ThemeHelper:
-    THEME_SETTINGS_PATH = f"{c.settings_path()}/theme-mode-settings.json"
+    SETTING = "theme-mode-settings.json"
+    THEME_SETTINGS_PATH = f"{c.settings_path()}/{SETTING}"
 
     def load_theme_settings(self) -> dict:
-        with open(self.THEME_SETTINGS_PATH) as file:
-            data = json.load(file)
-            return data
+        def _get_data():
+            with open(self.THEME_SETTINGS_PATH) as file:
+                data = json.load(file)
+                return data
+
+        try:
+            return _get_data()
+        except Exception:
+            settings_sync_helper.repair_settings_file(self.SETTING)
+            return _get_data()
 
     def get_theme(self) -> ft.ThemeMode:
         theme = self.load_theme_settings()["theme"]

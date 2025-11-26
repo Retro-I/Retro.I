@@ -1,7 +1,5 @@
-from unittest.mock import patch
-from unittest.mock import call
-
 from tests.base_test import BaseTest
+from unittest.mock import call, patch
 
 
 class TestSyncValues(BaseTest):
@@ -9,9 +7,15 @@ class TestSyncValues(BaseTest):
         super().setUp()
 
     def test_sync_one_file(self):
-        source = {"enableAutoplay": True, "defaultVolume": 20,}
+        source = {
+            "enableAutoplay": True,
+            "defaultVolume": 20,
+        }
 
-        target = {"enableAutoplay": False, "defaultVolume": 55,}
+        target = {
+            "enableAutoplay": False,
+            "defaultVolume": 55,
+        }
 
         result = self.settings_sync_helper.sync_values(
             source=source, target=target, template_source=""
@@ -20,11 +24,22 @@ class TestSyncValues(BaseTest):
         self.assertCountEqual(result, target)
 
     def test_sync_one_differed_file(self):
-        source = {"enableAutoplay": True, "defaultVolume": 20, "newField": "asdf",}
+        source = {
+            "enableAutoplay": True,
+            "defaultVolume": 20,
+            "newField": "asdf",
+        }
 
-        target = {"enableAutoplay": False, "defaultVolume": 55,}
+        target = {
+            "enableAutoplay": False,
+            "defaultVolume": 55,
+        }
 
-        expected = {"enableAutoplay": False, "defaultVolume": 55, "newField": "asdf",}
+        expected = {
+            "enableAutoplay": False,
+            "defaultVolume": 55,
+            "newField": "asdf",
+        }
 
         result = self.settings_sync_helper.sync_values(
             source=source, target=target, template_source=""
@@ -101,8 +116,7 @@ class TestSyncValues(BaseTest):
             "enableAutoplay": True,
         }
 
-        target = {
-        }
+        target = {}
 
         expected = {
             "enableAutoplay": True,

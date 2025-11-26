@@ -5,13 +5,16 @@ import random
 import requests
 
 from helper.Constants import Constants
+from helper.SettingsSyncHelper import SettingsSyncHelper
 
 c = Constants()
+settings_sync_helper = SettingsSyncHelper()
 
 
 class Sounds:
     last_toast = ""
-    FAV_SOUNDS_PATH = f"{c.settings_path()}/favorite-sounds.json"
+    SETTING = "favorite-sounds.json"
+    FAV_SOUNDS_PATH = f"{c.settings_path()}/{SETTING}"
 
     def search_sounds(self, query):
         response = requests.get(f"https://myinstants-api.vercel.app/search?q={query}").json()
@@ -48,9 +51,16 @@ class Sounds:
             file.truncate()
 
     def load_favorite_sounds(self):
-        with open(self.FAV_SOUNDS_PATH) as file:
-            data = json.load(file)
-            return data
+        def _get_data():
+            with open(self.FAV_SOUNDS_PATH) as file:
+                data = json.load(file)
+                return data
+
+        try:
+            return _get_data()
+        except Exception:
+            settings_sync_helper.repair_settings_file(self.SETTING)
+            return _get_data()
 
     def load_toasts(self):
         directory = c.toast_path()

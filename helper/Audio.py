@@ -7,16 +7,17 @@ import vlc
 from playsound3 import playsound
 
 from helper.Constants import Constants
+from helper.SettingsSyncHelper import SettingsSyncHelper
 from helper.Sounds import Sounds
-from helper.Stations import Stations
 
-stations_helper = Stations()
 c = Constants()
 sounds = Sounds()
+settings_sync_helper = SettingsSyncHelper()
 
 
 class Audio:
-    AUDIO_SETTINGS_PATH = f"{c.settings_path()}/audio-settings.json"
+    SETTING = "audio-settings.json"
+    AUDIO_SETTINGS_PATH = f"{c.settings_path()}/{SETTING}"
 
     audio = vlc.MediaPlayer("")
     toast_playing = False
@@ -24,8 +25,6 @@ class Audio:
     def __init__(self):
         home_dir = os.environ.get("HOME")
         self.mixers_path = f"{home_dir}/mixers.txt"
-
-        self.init_sound()
 
     def init_sound(self):
         self.set_volume(self.get_default_volume())
@@ -107,9 +106,29 @@ class Audio:
             playsound(f"{c.sound_path()}/{src}")
 
     def get_default_sound_settings(self) -> dict:
-        with open(self.AUDIO_SETTINGS_PATH) as file:
-            data = json.load(file)
-            return data
+        def _get_data():
+            with open(self.AUDIO_SETTINGS_PATH) as file:
+                data = json.load(file)
+                return data
+
+        try:
+            return _get_data()
+        except Exception:
+            settings_sync_helper.repair_settings_file(self.SETTING)
+            return _get_data()
+
+    def is_default_station_autoplay_enabled(self) -> bool:
+        data = self.get_default_sound_settings()
+        return data["enableAutoplay"]
+
+    def toggle_default_station_autoplay(self):
+        data = self.get_default_sound_settings()
+        data["enableAutoplay"] = not self.is_default_station_autoplay_enabled()
+
+        with open(self.AUDIO_SETTINGS_PATH, "r+") as file:
+            file.seek(0)
+            json.dump(data, file, indent=4)
+            file.truncate()
 
     def get_default_volume(self) -> int:
         data = self.get_default_sound_settings()

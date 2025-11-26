@@ -6,7 +6,10 @@ import unittest
 from unittest import mock
 from unittest.mock import patch
 
+from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
+from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
 from helper.Sounds import Sounds
+from helper.StartupErrorHelper import StartupErrorHelper
 from helper.StripSettingsHelper import StripSettingsHelper
 from helper.ThemeHelper import ThemeHelper
 
@@ -36,12 +39,19 @@ class BaseTest(unittest.TestCase):
         from helper.SettingsSyncHelper import SettingsSyncHelper
         from helper.Stations import Stations
 
+        self.audio_settings_dispatcher = patch("helper.Audio.Audio.init_sound", return_value=None)
+        self.audio_settings_dispatcher.start()
+
+        self.audio_helper = Audio()
         self.gpio_helper = GpioHelper()
         self.settings_sync_helper = SettingsSyncHelper()
         self.sounds_helper = Sounds()
         self.stations = Stations()
         self.strip_settings_helper = StripSettingsHelper()
         self.theme_helper = ThemeHelper()
+        self.scrollbar_settings_helper = ScrollbarSettingsHelper()
+        self.secured_mode_settings = SecuredModeSettingsHelper()
+        self.startup_error_helper = StartupErrorHelper()
 
         self.test_dir = tempfile.mkdtemp()
         self.base_dir = self._create_temp_files(
@@ -56,7 +66,6 @@ class BaseTest(unittest.TestCase):
         self.settings_patcher = patch(
             "helper.Constants.Constants.settings_path", return_value=self.base_dir
         )
-
         self.settings_patcher.start()
         self.assertTrue(os.path.exists(self.base_dir))
         self.assertTrue(os.path.exists(f"{self.base_dir}/templates"))
@@ -67,18 +76,19 @@ class BaseTest(unittest.TestCase):
         audio_settings_path = f"{self.base_dir}/audio-settings.json"
         strip_settings_path = f"{self.base_dir}/strip-settings.json"
         theme_settings_path = f"{self.base_dir}/theme-mode-settings.json"
+        scrollbar_settings_path = f"{self.base_dir}/scrollbar-settings.json"
+        secured_mode_settings_path = f"{self.base_dir}/secured-mode-settings.json"
+        startup_error_helper = f"{self.base_dir}/startup-error.json"
 
+        self.audio_helper.AUDIO_SETTINGS_PATH = audio_settings_path
         self.gpio_helper.GPIO_SETTINGS_PATH = gpio_settings_path
         self.sounds_helper.FAV_SOUNDS_PATH = sounds_settings_path
         self.stations.STATIONS_SETTINGS_PATH = radio_stations_path
-        self.stations.AUDIO_SETTINGS_PATH = audio_settings_path
         self.strip_settings_helper.STRIP_SETTINGS_PATH = strip_settings_path
         self.theme_helper.THEME_SETTINGS_PATH = theme_settings_path
-
-        with patch.object(Audio, "AUDIO_SETTINGS_PATH", audio_settings_path):
-            with mock.patch.object(Audio, "init_sound"):
-                self.audio_helper = Audio()
-                self.audio_helper.AUDIO_SETTINGS_PATH = audio_settings_path
+        self.scrollbar_settings_helper.SCROLLBAR_SETTINGS_PATH = scrollbar_settings_path
+        self.secured_mode_settings.SECURED_MODE_PATH = secured_mode_settings_path
+        self.startup_error_helper.STARTUP_ERROR_PATH = startup_error_helper
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)

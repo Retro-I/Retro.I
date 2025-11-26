@@ -1,17 +1,27 @@
 import json
 
 from helper.Constants import Constants
+from helper.SettingsSyncHelper import SettingsSyncHelper
 
 c = Constants()
+settings_sync_helper = SettingsSyncHelper()
 
 
 class GpioHelper:
-    GPIO_SETTINGS_PATH = f"{c.settings_path()}/gpio-pin-mapping.json"
+    SETTING = "gpio-pin-mapping.json"
+    GPIO_SETTINGS_PATH = f"{c.settings_path()}/{SETTING}"
 
     def get_mappings(self) -> dict:
-        with open(self.GPIO_SETTINGS_PATH) as file:
-            data = json.load(file)
-            return data
+        def _get_data():
+            with open(self.GPIO_SETTINGS_PATH) as file:
+                data = json.load(file)
+                return data
+
+        try:
+            return _get_data()
+        except Exception:
+            settings_sync_helper.repair_settings_file(self.SETTING)
+            return _get_data()
 
     def rotary_volume_up(self) -> int:
         return self.get_mappings()["ROTARY_VOLUME_UP"]

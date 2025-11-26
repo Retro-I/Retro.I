@@ -1,8 +1,8 @@
 import flet as ft
 
-from helper.SystemHelper import SystemHelper
+from helper.StartupErrorHelper import StartupErrorHelper
 
-system_helper = SystemHelper()
+startup_error_helper = StartupErrorHelper()
 
 
 class StartupErrorDialog(ft.AlertDialog):
@@ -18,7 +18,7 @@ class StartupErrorDialog(ft.AlertDialog):
         self.actions_alignment = ft.MainAxisAlignment.END
 
     def open_dialog(self):
-        err = system_helper.startup_error()
+        err = startup_error_helper.startup_error()
         self.text.value = err if err is not None else "Unbekannter Fehler"
         self.text.update()
         self.open = True

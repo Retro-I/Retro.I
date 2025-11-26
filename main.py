@@ -17,6 +17,7 @@ from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
 from helper.Sounds import Sounds
+from helper.StartupErrorHelper import StartupErrorHelper
 from helper.Stations import Stations
 from helper.Strip import Strip
 from helper.SystemHelper import SystemHelper
@@ -27,17 +28,19 @@ wifi_helper = WifiHelper()
 radio_helper = RadioHelper()
 bluetooth_helper = BluetoothHelper()
 system_helper = SystemHelper()
+startup_error_helper = StartupErrorHelper()
 stations_helper = Stations()
 constants = Constants()
 sounds = Sounds()
 audio_helper = Audio()
+audio_helper.init_sound()
 page_helper = PageState()
 audio_effects = AudioEffects()
 theme_helper = ThemeHelper()
 
 
 def on_error(e):
-    system_helper.write_startup_error(e)
+    startup_error_helper.write_startup_error(e)
     system_helper.change_revision("main")
     system_helper.restart_app()
 
@@ -73,12 +76,12 @@ def main(page: ft.Page):
 
     theme.radio_tab.radio_grid.reload()
 
-    if system_helper.startup_error() is not None:
+    if startup_error_helper.startup_error() is not None:
         startup_error_dialog = StartupErrorDialog()
         page.add(startup_error_dialog)
         startup_error_dialog.open_dialog()
 
-        system_helper.reset_startup_error()
+        startup_error_helper.reset_startup_error()
 
     page.update()
 
@@ -109,7 +112,7 @@ def main(page: ft.Page):
     process.start()
 
     if (
-        stations_helper.is_default_station_autoplay_enabled()
+        audio_helper.is_default_station_autoplay_enabled()
         and stations_helper.get_favorite_station() is not None
     ):
         theme.radio_tab.radio_grid.change_radio_station(
