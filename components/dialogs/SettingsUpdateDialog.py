@@ -8,9 +8,11 @@ from components.dialogs.SuccessDialog import SuccessDialog
 from components.Scrollbar import with_scrollbar_space
 from helper.PageState import PageState
 from helper.RevisionHelper import RevisionHelper
+from helper.SettingsSyncHelper import SettingsSyncHelper
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
+settings_sync_helper = SettingsSyncHelper()
 revision_helper = RevisionHelper()
 
 
@@ -140,6 +142,7 @@ class SettingsUpdateDialog(ft.AlertDialog):
         self.download_dialog.open_dialog(revision)
         try:
             system_helper.change_revision(revision["name"])
+            settings_sync_helper.repair_all_settings_files()
             self.success_dialog.open_dialog(
                 "Updates",
                 f'Updates für "{revision["name"]}" erfolgreich heruntergeladen!',

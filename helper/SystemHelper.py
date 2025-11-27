@@ -1,5 +1,4 @@
 import glob
-import json
 import os
 import socket
 import subprocess
@@ -12,18 +11,16 @@ import psutil
 from helper.Audio import Audio
 from helper.Constants import Constants
 from helper.PageState import PageState
+from helper.StartupErrorHelper import StartupErrorHelper
 from helper.Strip import Strip
 
 audio_helper = Audio()
 page_helper = PageState()
 c = Constants()
+startup_error_helper = StartupErrorHelper()
 
 
 class SystemHelper:
-    SCROLLBAR_SETTINGS_PATH = f"{c.settings_path()}/scrollbar-settings.json"
-    STARTUP_ERROR_PATH = f"{c.settings_path()}/startup-error.json"
-    SECURED_MODE_ERROR_PATH = f"{c.settings_path()}/secured-mode-settings.json"
-
     strip = Strip()
     is_party = "0"
 
@@ -51,46 +48,6 @@ class SystemHelper:
         self.strip.disable()
         os.system("sudo systemctl restart retroi")
 
-    def startup_error(self) -> str | None:
-        with open(self.STARTUP_ERROR_PATH) as file:
-            file_data = json.load(file)
-
-            if file_data["isStartupError"]:
-                return file_data["startupErrorMessage"]
-
-            return None
-
-    def write_startup_error(self, message: str = ""):
-        with open(self.STARTUP_ERROR_PATH, "r+") as file:
-            data = json.load(file)
-            data["isStartupError"] = True
-            data["startupErrorMessage"] = message
-            file.seek(0)
-            json.dump(data, file, indent=4)
-            file.truncate()
-
-    def reset_startup_error(self):
-        with open(self.STARTUP_ERROR_PATH, "r+") as file:
-            data = json.load(file)
-            data["isStartupError"] = False
-            data["startupErrorMessage"] = ""
-            file.seek(0)
-            json.dump(data, file, indent=4)
-            file.truncate()
-
-    def is_scrollbar_enabled(self) -> bool:
-        with open(self.SCROLLBAR_SETTINGS_PATH) as file:
-            data = json.load(file)
-            return bool(data["showScrollbar"])
-
-    def toggle_scrollbar_enabled(self):
-        with open(self.SCROLLBAR_SETTINGS_PATH, "r+") as file:
-            data = json.load(file)
-            data["showScrollbar"] = not self.is_scrollbar_enabled()
-            file.seek(0)
-            json.dump(data, file, indent=4)
-            file.truncate()
-
     def change_revision(self, revision: str):
         self._update_process = subprocess.Popen(
             ["bash", "scripts/update_project.sh", revision],
@@ -110,7 +67,7 @@ class SystemHelper:
             except subprocess.TimeoutExpired:
                 self._update_process.kill()  # Force kill with SIGKILL
 
-        self.write_startup_error("Letztes Update abgebrochen!")
+        startup_error_helper.write_startup_error("Letztes Update abgebrochen!")
         self._update_process = None
 
     def get_cpu_temp(self) -> str:
@@ -146,11 +103,6 @@ class SystemHelper:
 
     def is_party_mode(self):
         return self.is_party == "1"
-
-    def is_secured_mode_enabled(self) -> bool:
-        with open(self.SECURED_MODE_ERROR_PATH) as file:
-            file_data = json.load(file)
-            return file_data["securedModeEnabled"]
 
     def open_keyboard(self):
         self.close_keyboard()

@@ -1,21 +1,32 @@
 import json
 import uuid
 
+from helper.Audio import Audio
 from helper.ColorHelper import ColorHelper
 from helper.Constants import Constants
+from helper.SettingsSyncHelper import SettingsSyncHelper
 
 c = Constants()
 color_helper = ColorHelper()
+settings_sync_helper = SettingsSyncHelper()
+audio_helper = Audio()
 
 
 class Stations:
-    STATIONS_SETTINGS_PATH = f"{c.settings_path()}/radio-stations.json"
-    AUDIO_SETTINGS_PATH = f"{c.settings_path()}/audio-settings.json"
+    STATION_SETTING = "radio-stations.json"
+    STATIONS_SETTINGS_PATH = f"{c.settings_path()}/{STATION_SETTING}"
 
     def load_radio_stations(self):
-        with open(self.STATIONS_SETTINGS_PATH) as file:
-            data = json.load(file)
-            return data
+        def _get_data():
+            with open(self.STATIONS_SETTINGS_PATH) as file:
+                data = json.load(file)
+                return data
+
+        try:
+            return _get_data()
+        except Exception:
+            settings_sync_helper.repair_settings_file(self.STATION_SETTING)
+            return _get_data()
 
     def add_station(self, station):
         station["id"] = str(uuid.uuid4())
@@ -61,16 +72,3 @@ class Stations:
                 return station
 
         return None
-
-    def is_default_station_autoplay_enabled(self) -> bool:
-        with open(self.AUDIO_SETTINGS_PATH) as file:
-            file_data = json.load(file)
-            return file_data["enableAutoplay"]
-
-    def toggle_default_station_autoplay(self):
-        with open(self.AUDIO_SETTINGS_PATH, "r+") as file:
-            data = json.load(file)
-            data["enableAutoplay"] = not self.is_default_station_autoplay_enabled()
-            file.seek(0)
-            json.dump(data, file, indent=4)
-            file.truncate()

@@ -1,9 +1,11 @@
 import flet as ft
 
 from components.VolumeInputField import VolumeInputField
+from helper.Audio import Audio
 from helper.Stations import Stations
 
 stations_helper = Stations()
+audio_helper = Audio()
 
 
 class SettingsSystemDialog(ft.AlertDialog):
@@ -22,13 +24,13 @@ class SettingsSystemDialog(ft.AlertDialog):
                     "Lieblingsradiosender nach Systemstart abspielen",
                     label_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_autoplay(),
-                    value=stations_helper.is_default_station_autoplay_enabled(),
+                    value=audio_helper.is_default_station_autoplay_enabled(),
                 ),
             ],
         )
 
     def toggle_enable_autoplay(self):
-        stations_helper.toggle_default_station_autoplay()
+        audio_helper.toggle_default_station_autoplay()
 
     def open_dialog(self):
         self.open = True

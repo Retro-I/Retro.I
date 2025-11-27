@@ -1,5 +1,7 @@
 import flet as ft
 
+from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
+from helper.StartupErrorHelper import StartupErrorHelper
 from scripts import button
 from components.NavigationBar import NavigationBar
 from components.view.Tabs import Tabs
@@ -12,6 +14,7 @@ from helper.PageState import PageState
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
+scrollbar_settings_helper = ScrollbarSettingsHelper()
 
 
 class Theme:
@@ -71,7 +74,7 @@ class Theme:
     def get_scrollbar_theme(self) -> ft.ScrollbarTheme:
         scrollbar_theme = ft.ScrollbarTheme(thumb_visibility=False, track_visibility=False)
 
-        if system_helper.is_scrollbar_enabled():
+        if scrollbar_settings_helper.is_scrollbar_enabled():
             scrollbar_theme = ft.ScrollbarTheme(
                 track_color={
                     ft.ControlState.DEFAULT: ft.Colors.TRANSPARENT,
