@@ -80,23 +80,22 @@ class RadioGrid(ft.GridView):
                                     src, index
                                 )
                             ),
-                            border_radius=10,
                             visible=(
                                 favorite_station is not None
                                 and favorite_station["id"] == station["id"]
                             ),
+                            padding=-10,
                             content=ft.Icon(
                                 name=ft.Icons.FAVORITE,
                                 color=ft.Colors.RED,
-                                size=36,
+                                size=42,
                             ),
-                            padding=10,
                         ),
                         ft.Container(
                             ref=Constants.indicator_refs[i],
+                            alignment=ft.alignment.top_left,
                             on_click=lambda e: self.stop_radio_station(),
                             visible=False,
-                            alignment=ft.alignment.top_left,
                             padding=-10,
                             content=ft.Icon(
                                 name=ft.Icons.PLAY_CIRCLE,
