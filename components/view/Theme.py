@@ -37,7 +37,9 @@ class Theme:
             scrollbar_theme=self.get_scrollbar_theme(),
         )
 
-        self.radio_tab = RadioTab(on_strip_run_color, self.on_updated_radio_station, self.update)
+        self.radio_tab = RadioTab(
+            on_strip_run_color, self.on_updated_radio_station, self.on_stop_radio_station
+        )
         self.bluetooth_tab = BluetoothTab(self.taskbar)
         self.soundboard_tab = SoundboardTab()
         self.settings_tab = SettingsTab()
@@ -52,6 +54,10 @@ class Theme:
 
     def update(self):
         PageState.page.update()
+
+    def on_stop_radio_station(self):
+        self.radio_tab.song_info_row.reset()
+        self.update()
 
     def on_updated_radio_station(self, color):
         self.theme.color_scheme_seed = color
