@@ -10,24 +10,27 @@ except ImportError:
 
 
 class RadioHelper:
-    def get_song_info(self, url):
-        encoding = "utf-8"
-        request = urllib2.Request(url, headers={"Icy-MetaData": 1})
-        response = urllib2.urlopen(request)
-        metaint = int(response.headers["icy-metaint"])
-        for _ in range(10):
-            response.read(metaint)
-            metadata_length = struct.unpack("B", response.read(1))[0] * 16
-            metadata = response.read(metadata_length).rstrip(b"\0")
-            m = re.search(rb"StreamTitle='([^']*)';", metadata)
-            if m:
-                title = m.group(1)
-                if title:
-                    return title.decode(encoding, errors="replace")
-        else:
+    def get_song_info(self, url) -> str:
+        try:
+            request = urllib2.Request(url, headers={"Icy-MetaData": 1})
+            encoding = "utf-8"
+            response = urllib2.urlopen(request)
+            metaint = int(response.headers["icy-metaint"])
+            for _ in range(10):
+                response.read(metaint)
+                metadata_length = struct.unpack("B", response.read(1))[0] * 16
+                metadata = response.read(metadata_length).rstrip(b"\0")
+                m = re.search(rb"StreamTitle='([^']*)';", metadata)
+                if m:
+                    title = m.group(1)
+                    if title:
+                        return title.decode(encoding, errors="replace")
+            else:
+                return ""
+        except Exception:
             return ""
 
-    def get_stations_by_name(self, name: str):
+    def get_stations_by_name(self, name: str) -> list:
         url = (
             f"https://de2.api.radio-browser.info/json/stations/byname/{name}?order=votes"
             f"&reverse=true"
