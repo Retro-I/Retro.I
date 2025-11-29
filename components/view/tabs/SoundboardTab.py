@@ -29,7 +29,7 @@ class SoundboardTab(ft.Column):
                 run_spacing=50,
                 max_extent=150,
                 spacing=80,
-                padding=ft.padding.only(bottom=80),
+                padding=ft.padding.only(bottom=100),
             )
         )
         self.reload()
