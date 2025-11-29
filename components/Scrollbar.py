@@ -12,6 +12,13 @@ def with_scrollbar_space(content: ft.Control) -> ft.Control:
     if not scrollbar_settings_helper.is_scrollbar_enabled():
         space = 0
 
-    content.padding = ft.padding.only(right=space)
+    p = content.padding
+
+    if isinstance(p, int):
+        p = ft.padding.Padding(p, p, p, p)
+    elif p is None:
+        p = ft.padding.Padding(0, 0, 0, 0)
+
+    content.padding = ft.padding.Padding(left=p.left, top=p.top, right=space, bottom=p.bottom)
 
     return content
