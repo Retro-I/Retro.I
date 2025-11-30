@@ -21,7 +21,7 @@ class SettingsAppControlDialog(ft.AlertDialog):
                         ft.Column(
                             [
                                 ft.IconButton(
-                                    ft.Icons.HIGHLIGHT_OFF,
+                                    ft.Icons.LOGOUT,
                                     icon_size=75,
                                     on_click=lambda e: system_helper.stop_app(),
                                 ),
