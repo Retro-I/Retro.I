@@ -1,7 +1,6 @@
 import flet as ft
 
 from components.dialogs.SettingsAppControlDialog import SettingsAppControlDialog
-from components.dialogs.SettingsCreditsDialog import SettingsCreditsDialog
 from components.dialogs.SettingsDisplayDialog import SettingsDisplayDialog
 from components.dialogs.SettingsInfoDialog import SettingsInfoDialog
 from components.dialogs.SettingsLedDialog import SettingsLedDialog
@@ -26,7 +25,6 @@ class SettingsTab(ft.Column):
         self.display_dialog = SettingsDisplayDialog()
         self.led_dialog = SettingsLedDialog()
         self.info_dialog = SettingsInfoDialog()
-        self.credits_dialog = SettingsCreditsDialog()
         self.update_dialog = SettingsUpdateDialog()
 
         self.visible = False
@@ -63,17 +61,12 @@ class SettingsTab(ft.Column):
                             lambda e: self.led_dialog.open_dialog(),
                         ),
                         SettingsButton(
-                            ft.Icons.INFO, "Info", lambda e: self.info_dialog.open_dialog()
+                            ft.Icons.INFO_OUTLINED, "Info", lambda e: self.info_dialog.open_dialog()
                         ),
                         SettingsButton(
-                            ft.Icons.FILE_DOWNLOAD_OUTLINED,
+                            ft.Icons.BROWSER_UPDATED,
                             "Updates",
                             lambda e: self.update_dialog.open_dialog(),
-                        ),
-                        SettingsButton(
-                            ft.Icons.STAR,
-                            "Credits",
-                            lambda e: self.credits_dialog.open_dialog(),
                         ),
                     ],
                 ),
@@ -87,7 +80,6 @@ class SettingsTab(ft.Column):
         PageState.page.add(self.led_dialog)
         PageState.page.add(self.info_dialog)
         PageState.page.add(self.update_dialog)
-        PageState.page.add(self.credits_dialog)
 
     def show(self):
         self.visible = True
