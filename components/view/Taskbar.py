@@ -78,7 +78,22 @@ class Taskbar(ft.AppBar):
         self.center_title = True
         self.bgcolor = ft.Colors.SURFACE_CONTAINER_HIGHEST
         self.toolbar_height = 50
-        self.actions = [self.ico_shutdown, self.ico_toggle_theme, self.ico_wifi, self.ico_bluetooth]
+        self.actions = [
+            ft.Row(
+                controls=[
+                    ft.VerticalDivider(),
+                    self.ico_shutdown,
+                    ft.VerticalDivider(),
+                    self.ico_toggle_theme,
+                    ft.VerticalDivider(),
+                    self.ico_wifi,
+                    ft.VerticalDivider(),
+                    self.ico_bluetooth,
+                    ft.VerticalDivider(),
+                ],
+                spacing=10,
+            )
+        ]
 
         self.wifi_connection_dialog = WifiConnectionDialog(self.update)
         self.wifi_dialog = WifiDialog(self.wifi_connection_dialog)
