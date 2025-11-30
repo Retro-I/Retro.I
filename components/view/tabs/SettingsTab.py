@@ -46,8 +46,8 @@ class SettingsTab(ft.Column):
                             lambda e: self.app_control_dialog.open_dialog(),
                         ),
                         SettingsButton(
-                            ft.Icons.DEVICES,
-                            "System",
+                            ft.Icons.AUDIOTRACK,
+                            "Audio",
                             lambda e: self.system_dialog.open_dialog(),
                         ),
                         SettingsButton(
