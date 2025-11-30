@@ -43,11 +43,6 @@ class SettingsTab(ft.Column):
                     run_spacing=50,
                     controls=[
                         SettingsButton(
-                            ft.Icons.POWER_SETTINGS_NEW,
-                            "Ausschalten",
-                            lambda e: self.shutdown_dialog.open_dialog(),
-                        ),
-                        SettingsButton(
                             ft.Icons.EXIT_TO_APP,
                             "App",
                             lambda e: self.app_control_dialog.open_dialog(),

@@ -21,7 +21,7 @@ class SettingsShutdownDialog(ft.AlertDialog):
                         ft.Column(
                             [
                                 ft.IconButton(
-                                    ft.Icons.LOGOUT,
+                                    ft.Icons.POWER_SETTINGS_NEW,
                                     icon_size=75,
                                     on_click=lambda e: system_helper.shutdown_system(),
                                 ),

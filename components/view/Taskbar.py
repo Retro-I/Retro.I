@@ -1,5 +1,6 @@
 import flet as ft
 
+from components.dialogs.SettingsShutdownDialog import SettingsShutdownDialog
 from components.dialogs.VolumeDialog import VolumeDialog
 from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
 from components.dialogs.WifiDialog import WifiDialog
@@ -21,6 +22,11 @@ class Taskbar(ft.AppBar):
     wifi_connection_dialog: WifiConnectionDialog = None
     wifi_dialog: WifiDialog = None
 
+    ico_shutdown = ft.IconButton(
+        icon=ft.Icons.POWER_SETTINGS_NEW,
+        icon_size=25,
+    )
+
     ico_toggle_theme = ft.IconButton(
         icon=(
             ft.Icons.LIGHT_MODE
@@ -29,6 +35,7 @@ class Taskbar(ft.AppBar):
         ),
         icon_size=25,
     )
+
     ico_wifi = ft.IconButton(icon=ft.Icons.WIFI, icon_size=25, icon_color=ft.Colors.GREEN)
     ico_bluetooth = ft.Icon(name=ft.Icons.BLUETOOTH, size=25)
 
@@ -49,8 +56,10 @@ class Taskbar(ft.AppBar):
             on_volume_update=on_volume_update,
             on_mute_update=on_mute_update,
         )
+        self.shutdown_dialog = SettingsShutdownDialog()
 
         PageState.page.add(self.volume_dialog)
+        PageState.page.add(self.shutdown_dialog)
 
         self.leading = ft.Row(
             [
@@ -69,13 +78,14 @@ class Taskbar(ft.AppBar):
         self.center_title = True
         self.bgcolor = ft.Colors.SURFACE_CONTAINER_HIGHEST
         self.toolbar_height = 40
-        self.actions = [self.ico_toggle_theme, self.ico_wifi, self.ico_bluetooth]
+        self.actions = [self.ico_shutdown, self.ico_toggle_theme, self.ico_wifi, self.ico_bluetooth]
 
         self.wifi_connection_dialog = WifiConnectionDialog(self.update)
         self.wifi_dialog = WifiDialog(self.wifi_connection_dialog)
 
         self.ico_wifi.on_click = lambda e: self.wifi_dialog.open_dialog()
         self.ico_toggle_theme.on_click = lambda e: self.toggle_theme()
+        self.ico_shutdown.on_click = lambda e: self.open_shutdown_dialog()
 
         PageState.page.add(self.wifi_connection_dialog)
         PageState.page.add(self.wifi_dialog)
@@ -151,3 +161,6 @@ class Taskbar(ft.AppBar):
     def update_pitch(self):
         self.txt_pitch.value = audio_effects.get_pitch_value()
         self.txt_pitch.update()
+
+    def open_shutdown_dialog(self):
+        self.shutdown_dialog.open_dialog()
