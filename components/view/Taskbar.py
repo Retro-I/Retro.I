@@ -22,9 +22,11 @@ class Taskbar(ft.AppBar):
     wifi_connection_dialog: WifiConnectionDialog = None
     wifi_dialog: WifiDialog = None
 
+    taskbar_icon_size = 28
+
     ico_shutdown = ft.IconButton(
         icon=ft.Icons.POWER_SETTINGS_NEW,
-        icon_size=25,
+        icon_size=taskbar_icon_size,
     )
 
     ico_toggle_theme = ft.IconButton(
@@ -33,19 +35,21 @@ class Taskbar(ft.AppBar):
             if theme_helper.get_theme() == ft.ThemeMode.LIGHT
             else ft.Icons.DARK_MODE
         ),
-        icon_size=25,
+        icon_size=taskbar_icon_size,
     )
 
-    ico_wifi = ft.IconButton(icon=ft.Icons.WIFI, icon_size=25, icon_color=ft.Colors.GREEN)
-    ico_bluetooth = ft.Icon(name=ft.Icons.BLUETOOTH, size=25)
+    ico_wifi = ft.IconButton(
+        icon=ft.Icons.WIFI, icon_size=taskbar_icon_size, icon_color=ft.Colors.GREEN
+    )
+    ico_bluetooth = ft.Icon(name=ft.Icons.BLUETOOTH, size=taskbar_icon_size)
 
-    ico_volume = ft.Icon(name=ft.Icons.VOLUME_UP_ROUNDED, size=25)
+    ico_volume = ft.Icon(name=ft.Icons.VOLUME_UP_ROUNDED, size=taskbar_icon_size)
     txt_volume = ft.Text(f"{audio_helper.get_volume()}%", size=18)
 
-    ico_bass = ft.Icon(name=ft.Icons.SURROUND_SOUND, size=25)
+    ico_bass = ft.Icon(name=ft.Icons.SURROUND_SOUND, size=taskbar_icon_size)
     txt_bass = ft.Text(f"{audio_effects.get_bass_value()} dB", size=18)
 
-    ico_pitch = ft.Icon(name=ft.Icons.HEIGHT, size=25)
+    ico_pitch = ft.Icon(name=ft.Icons.HEIGHT, size=taskbar_icon_size)
     txt_pitch = ft.Text(audio_effects.get_pitch_value(), size=18)
 
     def __init__(self, on_volume_update, on_mute_update):
