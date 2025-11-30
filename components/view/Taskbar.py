@@ -77,7 +77,7 @@ class Taskbar(ft.AppBar):
         self.title = ft.Text("Retro.I")
         self.center_title = True
         self.bgcolor = ft.Colors.SURFACE_CONTAINER_HIGHEST
-        self.toolbar_height = 40
+        self.toolbar_height = 50
         self.actions = [self.ico_shutdown, self.ico_toggle_theme, self.ico_wifi, self.ico_bluetooth]
 
         self.wifi_connection_dialog = WifiConnectionDialog(self.update)
