@@ -32,7 +32,7 @@ class RadioHelper:
 
     def get_stations_by_name(self, name: str) -> list:
         url = (
-            f"https://de2.api.radio-browser.info/json/stations/byname/{name}?order=votes"
+            f"https://de1.api.radio-browser.info/json/stations/byname/{name}?order=votes"
             f"&reverse=true"
         )
         response = requests.get(url)
