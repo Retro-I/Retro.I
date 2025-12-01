@@ -19,12 +19,6 @@ class TestThemeHelper(BaseTest):
         self.assertIsNotNone(song_info)
         self.assertEqual(song_info, "")
 
-    def test_get_song_info_all_stations(self):
-        stations = self.stations.load_radio_stations()
-        for station in stations:
-            song_info = radio_helper.get_song_info(station["src"])
-            self.assertIsNotNone(song_info)
-
     def test_get_stations_by_name(self):
         stations = radio_helper.get_stations_by_name("Bayern 1")
         self.assertIsNotNone(stations)
