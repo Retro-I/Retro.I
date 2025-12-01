@@ -1,0 +1,24 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "StripSettings",
+    "type": "object",
+    "properties": {
+        "isStripEnabled": {
+            "type": "boolean",
+            "description": "Whether the led strip is enabled",
+            "default": true
+        },
+        "brightness": {
+            "type": "number",
+            "description": "Brightness of the strip (0 = black, 100.0 = max. brightness)",
+            "default": 100.0
+        },
+        "amountLeds": {
+            "type": "integer",
+            "description": "The amount of led's on the led strip",
+            "default": 38
+        }
+    },
+    "required": ["isStripEnabled", "brightness", "amountLeds"],
+    "additionalProperties": false
+}

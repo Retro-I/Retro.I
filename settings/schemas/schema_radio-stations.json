@@ -1,0 +1,42 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "RadioStationList",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "color": {
+                "type": "string",
+                "description": "Hex color code associated with the station (e.g., #00A1D6)",
+                "pattern": "^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$",
+                "default": "#00FF00"
+            },
+            "favorite": {
+                "type": "boolean",
+                "description": "Whether the station is marked as a favorite",
+                "default": false
+            },
+            "id": {
+                "type": "string",
+                "description": "Unique identifier (UUID)",
+                "format": "uuid"
+            },
+            "logo": {
+                "type": "string",
+                "description": "Filename or URL of the station logo"
+            },
+            "name": {
+                "type": "string",
+                "description": "Display name of the station",
+                "default": "Radiosender"
+            },
+            "src": {
+                "type": "string",
+                "description": "Stream source URL",
+                "format": "uri"
+            }
+        },
+        "required": ["color", "favorite", "id", "logo", "name", "src"],
+        "additionalProperties": false
+    }
+}

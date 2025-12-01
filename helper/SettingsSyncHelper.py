@@ -2,6 +2,9 @@ import json
 import logging
 import os
 
+from jsonschema import validate
+from jsonschema.exceptions import ValidationError
+
 from helper.Constants import Constants
 
 logger = logging.getLogger(__name__)
@@ -87,6 +90,29 @@ class SettingsSyncHelper:
         # Save updated target
         with open(settings_path, "w") as f:
             json.dump(target, f, indent=4)
+
+    def validate_all_settings(self):
+        path = c.default_settings_path()
+        files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+
+        for filename in files:
+            logger.info(f"Fixing file {filename}...")
+            with open(f"{path}/{filename}", "r") as f:
+                data = json.load(f)
+
+            with open(f"{path}/schemas/schema_{filename}", "r") as f:
+                schema = json.load(f)
+
+            self.validate_file(data, schema)
+
+
+    def validate_file(self, data: dict, schema: dict):
+        try:
+            validate(instance=data, schema=schema)
+        except AssertionError as e:
+            raise e
+        except ValidationError as e:
+            raise e
 
     def repair_all_settings_files(self):
         path = c.default_settings_path()

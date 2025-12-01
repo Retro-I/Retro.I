@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "SecuredModeSettings",
+    "type": "object",
+    "properties": {
+        "securedModeEnabled": {
+            "type": "boolean",
+            "description": "Whether the secured mode is enabled or not",
+            "default": true
+        }
+    },
+    "required": ["securedModeEnabled"],
+    "additionalProperties": false
+}

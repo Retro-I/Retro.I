@@ -68,7 +68,7 @@ class BaseTest(unittest.TestCase):
         )
         self.settings_patcher.start()
         self.assertTrue(os.path.exists(self.base_dir))
-        self.assertTrue(os.path.exists(f"{self.base_dir}/templates"))
+        self.assertTrue(os.path.exists(f"{self.base_dir}/schemas"))
 
         gpio_settings_path = f"{self.base_dir}/gpio-pin-mapping.json"
         sounds_settings_path = f"{self.base_dir}/favorite-sounds.json"
