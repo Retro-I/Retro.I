@@ -17,13 +17,13 @@ Folgende Hardware wurde verwendet:
 * 24V Schaltnetzteil
 
 ## Dokumentation
-Für die Dokumentation wurde sich die Arbeit gemacht eine eigene Seite zu erstellen. \
+Für die Dokumentation wurde sich die Arbeit gemacht eine eigene Seite zu erstellen.
 
 Diese ist unter https://docs.retroi.de zu erreichen!
 
 Diese durchaus sehenswerte Seite enthält alles Wissen, welches sich im Laufe der Zeit über den Radio angesammelt hat. \
 Wirf daher gerne einen Blick darauf! \
-Außerdem sind hier Features, Setup, etc. beschrieben und kann dort nachgelesen werden. 
+Außerdem sind hier Features, Setup, etc. beschrieben und können dort nachgelesen werden. 
 
 Viel Spaß beim Stöbern ;)
 
