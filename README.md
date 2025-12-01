@@ -16,49 +16,15 @@ Folgende Hardware wurde verwendet:
 * Verstärker-Platine
 * 24V Schaltnetzteil
 
-## Pipeline
-[![Retro.I Pipeline](https://github.com/Retro-I/Retro.I/actions/workflows/pipeline.yml/badge.svg)](https://github.com/Retro-I/Retro.I/actions/workflows/pipeline.yml)
-
 ## Setup
-Zum Aufsetzen des Radio's wird ein vollautomatisches Setup-Skript verwendet!\
-Es sind dabei folgende Schritte zu beachten:
-
-### Raspberry PI Image
-Das Setup-Skript wurde lediglich auf einem `Raspberry PI OS (64-bit) "Debian Bookworm"` Image getestet.
-> Dass das Setup-Skript auf anderen OS' funktioniert ist nicht ausgeschlossen, aber auch nicht garantiert!
-
-Dieses Image kann über den **offiziellen** Raspberry-PI-Imager heruntergeladen und auf einer SD-Karte installiert werden.
-Dabei ist folgendes zu beachten:
-* WLAN einrichten
-* Geeigneten Benutzernamen für den Raspberry setzen
-
-### Projekt klonen
-```commandline
-git clone https://github.com/felixholfelder/Retro.I.git
-```
-Im Normalfall, sollte `git` schon vorinstalliert sein. Sollte dies nicht der Fall sein, kann `git` mit folgendem Befehl installiert werden:
-```commandline
-sudo apt-get install git -y
-```
-
-### Setup.sh ausführen
-Wechsle mit `cd Retro.I` in das Verzeichnis des Projekts und führe mit
-```
-./setup.sh
-```
-das Setup-Skript aus.
-> Sollte ein Schritt in diesem Skript fehlschlagen, kannst du in der [SETUP.md](SETUP.md) nachschlagen.\
-> Dieses Skript ist wahrlich kein Hexenwerk, weswegen die einzelnen Command's auch per Hand ausgeführt werden können!
-
-<!-- TODO - noch in Arbeit!!!
-## Updates
-Bei jedem Boot des Raspberry's wird ein Update-Skript (`update.sh`) ausgeführt.\
-Dieses Skript prüft, ob neue Updates verfügbar sind, indem es die aktuelle Tag-Version auf dem Raspberry mit dem neuesten Tag im Github-Repo vergleicht.\
-Ist ein neues Update für die Anwendung verfügbar wird der neueste Tag heruntergeladen.
--->
+Für das Setup existiert eine eigene [Doku-Seite](https://docs.retroi.de/setup/). \
+Hier kann alles nötige und Wissenswerte rund um das Aufsetzen der Software nachgelesen werden.
 
 ## Bedienung
+Auch für die Bedienung existiert eine [Doku-Seite](https://docs.retroi.de/user-manual/).
+Hier sind alle nötigen Infos für die Bedienung der Software nachzulesen.
 
+<!--
 ### Lautstärke
 Die Lautstärkenregelung erfolgt über den original Drehknopf des Radios!\
 Der Rotary Drehregler gibt sein Signal an den Raspberry weiter und steuert somit die Lautstärke des Geräts.
@@ -75,10 +41,9 @@ TODO - Setup-Skript erweitern, dass die Anzahl der LED's beim Setup angegeben we
 
 Der LED-Streifen mit `62` LED's wird ebenfalls über den Raspberry angesteuert.\
 Jeder Radiosender verfügt über eine Farbe, welche den Radiosender repräsentiert. Diese Farbe wird bei Auswahl des jeweiligen Radiosenders auf dem Streifen in einer Animation angezeigt.
+-->
 
-## Start der Anwendung
-Solltest du die Software manuell starten wollen, sollest du folgendes beachten
-
+<!--
 ## Features/Software
 ### Radio
 ![Radio](./assets/doc/readme-images/radio_page.png) \
@@ -143,3 +108,5 @@ Wie im Beispiel zu sehen "Bayern 1" wird mit der Farbe Hellblau dargestellt.
 * `10` - Datenpin für Ansteuerung des WS2812B LED-Streifens
 
 > Eine genaue Beschreibung der belegten GPIO-Pins kann im Projekt unter `assets/doc` entnommen werden
+
+-->
