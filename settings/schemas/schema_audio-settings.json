@@ -10,7 +10,8 @@
         },
         "defaultVolume": {
             "type": "integer",
-            "description": "The default volume on system startup"
+            "description": "The default volume on system startup",
+            "default": 20
         }
     },
     "required": ["enableAutoplay", "defaultVolume"],
