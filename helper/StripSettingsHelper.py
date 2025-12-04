@@ -42,11 +42,12 @@ class StripSettingsHelper:
         _brightness = brightness if brightness is not None else self.get_curr_brightness()
         _length = length if length is not None else self.get_led_length()
 
+        data = self.get_strip_settings()
+        data["isStripEnabled"] = _is_active
+        data["brightness"] = _brightness
+        data["amountLeds"] = _length
+
         with open(self.STRIP_SETTINGS_PATH, "r+") as file:
-            data = json.load(file)
-            data["isStripEnabled"] = _is_active
-            data["brightness"] = _brightness
-            data["amountLeds"] = _length
             file.seek(0)
             json.dump(data, file, indent=4)
             file.truncate()
