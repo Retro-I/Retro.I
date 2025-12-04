@@ -1,0 +1,30 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "FavoriteStations",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": "string",
+                "description": "id of the sound (from api)"
+            },
+            "title": {
+                "type": "string",
+                "description": "Displayed title of the sound"
+            },
+            "url": {
+                "type": "string",
+                "description": "The link to instant buttons",
+                "format": "uri"
+            },
+            "mp3": {
+                "type": "string",
+                "description": "The actual mp3 sound",
+                "format": "uri"
+            }
+        },
+        "required": ["id", "title", "url", "mp3"],
+        "additionalProperties": false
+    }
+}

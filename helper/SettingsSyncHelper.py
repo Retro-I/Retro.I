@@ -1,6 +1,10 @@
 import json
 import logging
 import os
+from copy import deepcopy
+
+import jsonschema_default
+from jsonschema import Draft7Validator
 
 from helper.Constants import Constants
 
@@ -9,88 +13,127 @@ c = Constants()
 
 
 class SettingsSyncHelper:
-    def sync_values(self, source, target, template_source: dict) -> dict | list:
-        # --- Case 1: both are dicts ---
-        if isinstance(source, dict) and isinstance(target, dict):
-
-            # Add missing keys
-            for key, src_val in source.items():
-                if key not in target:
-                    target[key] = src_val
-                else:
-                    target[key] = self.sync_values(src_val, target[key], template_source)
-
-            # Remove keys that no longer exist in source
-            for key in list(target.keys()):
-                if key not in source:
-                    del target[key]
-
-            return target
-
-        # --- Case 2: both are lists ---
-        elif isinstance(target, list):
-
-            # Remove keys that no longer exist in source
-            for item in target:
-                for key in list(item.keys()):
-                    if key not in template_source:
-                        del item[key]
-
-            for item in target:
-                for key, src_val in template_source.items():
-                    if key not in item:
-                        item[key] = src_val
-                    else:
-                        item[key] = self.sync_values(src_val, item[key], template_source)
-
-            return target
-
-            # --- Case 3: primitives (str, int, bool, etc.) ---
-        else:
-            # DO NOT overwrite existing target value
-            return target
-
-    def repair_settings_file(self, filename: str):
-        default_settings_path = f"{c.default_settings_path()}/{filename}"
-        settings_path = f"{c.settings_path()}/{filename}"
-
-        # If default (source) doesn't exist → delete target
-        if not os.path.exists(default_settings_path):
-            if os.path.exists(settings_path):
-                os.remove(settings_path)
-            return
-
-        # Read source JSON
-        with open(default_settings_path, "r") as f:
-            source = json.load(f)
-
-        # Create target if missing
-        if not os.path.exists(settings_path):
-            with open(settings_path, "w") as f:
-                json.dump(source, f, indent=4)
-            print(f"Created new settings file: {filename}")
-            return
-
-        # Read existing target JSON
-        with open(settings_path, "r") as f:
-            target = json.load(f)
-
-        template_source = ""
-        # Read if template path exists
-        if os.path.exists(f"{c.default_settings_path()}/templates/template_{filename}"):
-            with open(f"{c.default_settings_path()}/templates/template_{filename}", "r") as f:
-                template_source = json.load(f)
-
-        # Sync source → target
-        target = self.sync_values(source, target, template_source)
-
-        # Save updated target
-        with open(settings_path, "w") as f:
-            json.dump(target, f, indent=4)
-
-    def repair_all_settings_files(self):
-        path = c.default_settings_path()
+    def validate_all_settings(self):
+        path = c.settings_path()
         files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
         for filename in files:
-            logger.info(f"Fixing file {filename}...")
-            self.repair_settings_file(filename)
+            data = self.get_data_for_filename(filename)
+            schema = self.get_schema_for_filename(filename)
+
+            if not self.is_valid(data, schema):
+                raise RuntimeError(f"File {filename} is not valid")
+
+    def validate_and_repair_all_settings(self):
+        path = c.settings_path()
+        default_path = c.default_settings_path()
+
+        default_files = [
+            f for f in os.listdir(default_path) if os.path.isfile(os.path.join(default_path, f))
+        ]
+
+        for default_file in default_files:
+            default_settings_path = f"{default_path}/{default_file}"
+            settings_path = f"{path}/{default_file}"
+
+            # If default (source) doesn't exist → delete target
+            if not os.path.exists(default_settings_path):
+                if os.path.exists(settings_path):
+                    os.remove(settings_path)
+                return
+
+            # Read source JSON
+            with open(default_settings_path, "r") as f:
+                source = json.load(f)
+
+            # Create target if missing
+            if not os.path.exists(settings_path):
+                with open(settings_path, "w") as f:
+                    json.dump(source, f, indent=4)
+                print(f"Created new settings file: {default_file}")
+                return
+
+        files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+
+        for filename in files:
+            full_path = f"{path}/{filename}"
+            default_settings_path = f"{default_path}/{filename}"
+
+            if not os.path.exists(default_settings_path):
+                os.remove(full_path)
+                return
+
+            data = self.get_data_for_filename(filename)
+            schema = self.get_schema_for_filename(filename)
+
+            if not self.is_valid(data, schema):
+                logger.info(f"Fixing settings file {filename}...")
+                repaired_data = self.repair(data, schema)
+
+                with open(full_path, "r+") as file:
+                    file.seek(0)
+                    json.dump(repaired_data, file, indent=4)
+                    file.truncate()
+
+    def is_valid(self, data: dict | list, schema: dict) -> bool:
+        validator = Draft7Validator(schema)
+        return validator.evolve(schema=schema).is_valid(data, schema)
+
+    def repair(self, data, schema):
+        repaired = deepcopy(data)
+        validator = Draft7Validator(schema)
+        default_data = jsonschema_default.create_from(schema)
+
+        # --- CASE 1: Object (dict) ---
+        if isinstance(data, dict):
+            for error in validator.iter_errors(data):
+
+                # Missing required fields
+                if error.validator == "required":
+                    for missing in error.validator_value:
+                        if missing not in repaired:
+                            repaired[missing] = deepcopy(default_data.get(missing))
+
+                # Remove additional properties
+                if error.validator == "additionalProperties":
+                    allowed = set(schema.get("properties", {}).keys())
+                    for key in list(repaired.keys()):
+                        if key not in allowed:
+                            del repaired[key]
+
+            # Recursively repair nested objects
+            for key, subschema in schema.get("properties", {}).items():
+                if key in repaired:
+                    repaired[key] = self.repair(repaired[key], subschema)
+
+            return repaired
+
+        # --- CASE 2: Array (list) ---
+        if isinstance(data, list):
+            item_schema = schema.get("items", {})
+            repaired_list = []
+
+            for item in data:
+                # Repair each element recursively
+                repaired_item = self.repair(item, item_schema)
+                repaired_list.append(repaired_item)
+
+            return repaired_list
+        return data
+
+    def get_data_for_filename(self, filename):
+        path = c.settings_path()
+        full_path = f"{path}/{filename}"
+
+        with open(full_path, "r") as f:
+            data = json.load(f)
+
+        return data
+
+    def get_schema_for_filename(self, filename):
+        path = c.default_settings_path()
+        full_path = f"{path}/schemas/schema_{filename}"
+
+        with open(full_path, "r") as f:
+            data = json.load(f)
+
+        return data

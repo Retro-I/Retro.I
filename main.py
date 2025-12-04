@@ -16,6 +16,7 @@ from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
+from helper.SettingsSyncHelper import SettingsSyncHelper
 from helper.Sounds import Sounds
 from helper.StartupErrorHelper import StartupErrorHelper
 from helper.Stations import Stations
@@ -29,6 +30,7 @@ radio_helper = RadioHelper()
 bluetooth_helper = BluetoothHelper()
 system_helper = SystemHelper()
 startup_error_helper = StartupErrorHelper()
+settings_sync_helper = SettingsSyncHelper()
 stations_helper = Stations()
 constants = Constants()
 sounds = Sounds()
@@ -46,6 +48,8 @@ def on_error(e):
 
 
 def main(page: ft.Page):
+    settings_sync_helper.validate_and_repair_all_settings()
+
     page.on_error = on_error
     page.theme_mode = theme_helper.get_theme()
     page.update()

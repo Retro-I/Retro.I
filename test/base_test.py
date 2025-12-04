@@ -54,31 +54,35 @@ class BaseTest(unittest.TestCase):
         self.startup_error_helper = StartupErrorHelper()
 
         self.test_dir = tempfile.mkdtemp()
-        self.base_dir = self._create_temp_files(
-            src_dir="./settings", dst_dir=f"{self.test_dir}/settings"
+        self.test_dir = self._create_temp_files(
+            src_dir="./settings", dst_dir=f"{tempfile.mkdtemp()}/settings"
+        )
+
+        self.test_dir_default = self._create_temp_files(
+            src_dir="./settings", dst_dir=f"{tempfile.mkdtemp()}/settings"
         )
 
         self.default_settings_patcher = patch(
-            "helper.Constants.Constants.default_settings_path", return_value="./settings"
+            "helper.Constants.Constants.default_settings_path", return_value=self.test_dir_default
         )
         self.default_settings_patcher.start()
 
         self.settings_patcher = patch(
-            "helper.Constants.Constants.settings_path", return_value=self.base_dir
+            "helper.Constants.Constants.settings_path", return_value=self.test_dir
         )
         self.settings_patcher.start()
-        self.assertTrue(os.path.exists(self.base_dir))
-        self.assertTrue(os.path.exists(f"{self.base_dir}/templates"))
+        self.assertTrue(os.path.exists(self.test_dir))
+        self.assertTrue(os.path.exists(f"{self.test_dir}/schemas"))
 
-        gpio_settings_path = f"{self.base_dir}/gpio-pin-mapping.json"
-        sounds_settings_path = f"{self.base_dir}/favorite-sounds.json"
-        radio_stations_path = f"{self.base_dir}/radio-stations.json"
-        audio_settings_path = f"{self.base_dir}/audio-settings.json"
-        strip_settings_path = f"{self.base_dir}/strip-settings.json"
-        theme_settings_path = f"{self.base_dir}/theme-mode-settings.json"
-        scrollbar_settings_path = f"{self.base_dir}/scrollbar-settings.json"
-        secured_mode_settings_path = f"{self.base_dir}/secured-mode-settings.json"
-        startup_error_helper = f"{self.base_dir}/startup-error.json"
+        gpio_settings_path = f"{self.test_dir}/gpio-pin-mapping.json"
+        sounds_settings_path = f"{self.test_dir}/favorite-sounds.json"
+        radio_stations_path = f"{self.test_dir}/radio-stations.json"
+        audio_settings_path = f"{self.test_dir}/audio-settings.json"
+        strip_settings_path = f"{self.test_dir}/strip-settings.json"
+        theme_settings_path = f"{self.test_dir}/theme-mode-settings.json"
+        scrollbar_settings_path = f"{self.test_dir}/scrollbar-settings.json"
+        secured_mode_settings_path = f"{self.test_dir}/secured-mode-settings.json"
+        startup_error_helper = f"{self.test_dir}/startup-error.json"
 
         self.audio_helper.AUDIO_SETTINGS_PATH = audio_settings_path
         self.gpio_helper.GPIO_SETTINGS_PATH = gpio_settings_path

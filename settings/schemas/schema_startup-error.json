@@ -1,0 +1,19 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "StartupError",
+    "type": "object",
+    "properties": {
+        "isStartupError": {
+            "type": "boolean",
+            "description": "Whether there is a error to display after system startup",
+            "default": false
+        },
+        "startupErrorMessage": {
+            "type": "string",
+            "description": "Error message to display after system startup",
+            "default": ""
+        }
+    },
+    "required": ["isStartupError", "startupErrorMessage"],
+    "additionalProperties": false
+}

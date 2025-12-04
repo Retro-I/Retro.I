@@ -142,7 +142,7 @@ class SettingsUpdateDialog(ft.AlertDialog):
         self.download_dialog.open_dialog(revision)
         try:
             system_helper.change_revision(revision["name"])
-            settings_sync_helper.repair_all_settings_files()
+            settings_sync_helper.validate_and_repair_all_settings()
             self.success_dialog.open_dialog(
                 "Updates",
                 f'Updates für "{revision["name"]}" erfolgreich heruntergeladen!',

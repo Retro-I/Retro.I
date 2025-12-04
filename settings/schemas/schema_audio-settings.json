@@ -1,0 +1,19 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "AudioSettings",
+    "type": "object",
+    "properties": {
+        "enableAutoplay": {
+            "type": "boolean",
+            "description": "Whether the favorite station should play right after system startup",
+            "default": true
+        },
+        "defaultVolume": {
+            "type": "integer",
+            "description": "The default volume on system startup",
+            "default": 20
+        }
+    },
+    "required": ["enableAutoplay", "defaultVolume"],
+    "additionalProperties": false
+}
