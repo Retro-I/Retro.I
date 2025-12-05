@@ -39,7 +39,7 @@ class BaseTest(unittest.TestCase):
         from helper.SettingsSyncHelper import SettingsSyncHelper
         from helper.Stations import Stations
 
-        self.audio_settings_dispatcher = patch("helper.Audio.Audio.init_sound", return_value=None)
+        self.audio_settings_dispatcher = patch("helper.Audio.Audio.unmute", return_value=None)
         self.audio_settings_dispatcher.start()
 
         self.audio_helper = Audio()
