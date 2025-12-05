@@ -63,6 +63,13 @@ class TestAudioSounds(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.test_dir)
 
+    def test_audio_init(self):
+        with patch.object(self.audio_helper, "unmute") as unmute_mock:
+            with patch.object(self.audio_helper, "set_volume") as volume_mock:
+                self.audio_helper.init_sound()
+                unmute_mock.assert_called_once()
+                volume_mock.assert_called_once_with(self.audio_helper.get_default_volume())
+
     def test_startup_sound(self):
         startup = f"{constants.system_sound_path()}/startup.mp3"
 

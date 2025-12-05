@@ -35,7 +35,6 @@ stations_helper = Stations()
 constants = Constants()
 sounds = Sounds()
 audio_helper = Audio()
-audio_helper.init_sound()
 page_helper = PageState()
 audio_effects = AudioEffects()
 theme_helper = ThemeHelper()
@@ -47,8 +46,13 @@ def on_error(e):
     system_helper.restart_app()
 
 
-def main(page: ft.Page):
+def init():
     settings_sync_helper.validate_and_repair_all_settings()
+    audio_helper.init_sound()
+
+
+def main(page: ft.Page):
+    init()
 
     page.on_error = on_error
     page.theme_mode = theme_helper.get_theme()

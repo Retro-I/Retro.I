@@ -27,6 +27,7 @@ class Audio:
         self.mixers_path = f"{home_dir}/mixers.txt"
 
     def init_sound(self):
+        self.unmute()
         self.set_volume(self.get_default_volume())
 
     def mixer(self):
