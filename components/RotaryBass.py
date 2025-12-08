@@ -4,16 +4,19 @@ from pyky040 import pyky040
 
 from helper.Audio import Audio
 from helper.AudioEffects import AudioEffects
+from helper.BassStepsHelper import BassStepsHelper
+from helper.Constants import Constants
 from helper.GpioHelper import GpioHelper
 
 audio_helper = Audio()
 audio_effects = AudioEffects()
 gpio_helper = GpioHelper()
+bass_steps_helper = BassStepsHelper()
 
 
 class RotaryBass:
     COUNTER = 0
-    BASS_STEP = 2
+    BASS_STEP = 1
 
     BASS_UP_PIN = gpio_helper.rotary_bass_up()
     BASS_DOWN_PIN = gpio_helper.rotary_bass_down()
@@ -29,24 +32,24 @@ class RotaryBass:
 
     def inc_bass_boost(self, on_taskbar_update):
         if self.COUNTER % 2 == 0:
-            value = audio_effects.get_bass_value() + self.BASS_STEP
-            if -20 <= value <= 20:
-                self.update(value, on_taskbar_update)
+            step = Constants.current_bass_step + self.BASS_STEP
+            if bass_steps_helper.get_min_step() <= step <= bass_steps_helper.get_max_step():
+                self.update(step, on_taskbar_update)
 
-            if value > 20:
-                self.update(20, on_taskbar_update)
+            if step > bass_steps_helper.get_max_step():
+                self.update(bass_steps_helper.get_max_step(), on_taskbar_update)
         self.COUNTER += 1
 
     def dec_bass_boost(self, on_taskbar_update):
         if self.COUNTER % 2 == 0:
-            value = audio_effects.get_bass_value() - self.BASS_STEP
-            if -20 <= value <= 20:
-                self.update(value, on_taskbar_update)
+            step = Constants.current_bass_step - self.BASS_STEP
+            if bass_steps_helper.get_min_step() <= step <= bass_steps_helper.get_max_step():
+                self.update(step, on_taskbar_update)
 
-            if value < -20:
-                self.update(-20, on_taskbar_update)
+            if step < bass_steps_helper.get_min_step():
+                self.update(bass_steps_helper.get_min_step(), on_taskbar_update)
         self.COUNTER -= 1
 
-    def update(self, value, on_taskbar_update):
-        audio_effects.update_bass(value)
+    def update(self, step, on_taskbar_update):
+        audio_effects.update_bass(step)
         on_taskbar_update()

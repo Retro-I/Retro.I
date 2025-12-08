@@ -6,12 +6,14 @@ import unittest
 from unittest import mock
 from unittest.mock import patch
 
+from helper.BassStepsHelper import BassStepsHelper
 from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
 from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
 from helper.Sounds import Sounds
 from helper.StartupErrorHelper import StartupErrorHelper
 from helper.StripSettingsHelper import StripSettingsHelper
 from helper.ThemeHelper import ThemeHelper
+from helper.TrebleStepsHelper import TrebleStepsHelper
 
 
 class BaseTest(unittest.TestCase):
@@ -52,6 +54,8 @@ class BaseTest(unittest.TestCase):
         self.scrollbar_settings_helper = ScrollbarSettingsHelper()
         self.secured_mode_settings = SecuredModeSettingsHelper()
         self.startup_error_helper = StartupErrorHelper()
+        self.bass_steps_helper = BassStepsHelper()
+        self.treble_steps_helper = TrebleStepsHelper()
 
         self.test_dir = tempfile.mkdtemp()
         self.test_dir = self._create_temp_files(
@@ -83,6 +87,8 @@ class BaseTest(unittest.TestCase):
         scrollbar_settings_path = f"{self.test_dir}/scrollbar-settings.json"
         secured_mode_settings_path = f"{self.test_dir}/secured-mode-settings.json"
         startup_error_helper = f"{self.test_dir}/startup-error.json"
+        bass_steps_path = f"{self.test_dir}/bass-steps.json"
+        treble_steps_path = f"{self.test_dir}/treble-steps.json"
 
         self.audio_helper.AUDIO_SETTINGS_PATH = audio_settings_path
         self.gpio_helper.GPIO_SETTINGS_PATH = gpio_settings_path
@@ -93,6 +99,8 @@ class BaseTest(unittest.TestCase):
         self.scrollbar_settings_helper.SCROLLBAR_SETTINGS_PATH = scrollbar_settings_path
         self.secured_mode_settings.SECURED_MODE_PATH = secured_mode_settings_path
         self.startup_error_helper.STARTUP_ERROR_PATH = startup_error_helper
+        self.bass_steps_helper.BASS_STEPS_PATH = bass_steps_path
+        self.treble_steps_helper.TREBLE_STEPS_PATH = treble_steps_path
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)
