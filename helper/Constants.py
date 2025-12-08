@@ -9,6 +9,8 @@ class Constants:
     current_radio_station = {}
     current_station_index_to_delete = None
     indicator_refs = []
+    current_bass_step = 0
+    current_treble_step = 0
 
     def pwd(self) -> str:
         retroi_dir = os.environ.get("RETROI_DIR")

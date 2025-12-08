@@ -28,12 +28,12 @@
             "description": "Pin for bass down",
             "default": 8
         },
-        "ROTARY_PITCH_UP": {
+        "ROTARY_TREBLE_UP": {
             "type": "integer",
             "description": "Pin for treble up",
             "default": 4
         },
-        "ROTARY_PITCH_DOWN": {
+        "ROTARY_TREBLE_DOWN": {
             "type": "integer",
             "description": "Pin for treble down",
             "default": 14
@@ -50,8 +50,8 @@
         "ROTARY_VOLUME_PRESS",
         "ROTARY_BASS_UP",
         "ROTARY_BASS_DOWN",
-        "ROTARY_PITCH_UP",
-        "ROTARY_PITCH_DOWN",
+        "ROTARY_TREBLE_UP",
+        "ROTARY_TREBLE_DOWN",
         "START_PARTY_MODE_BUTTON"
     ],
     "additionalProperties": false
