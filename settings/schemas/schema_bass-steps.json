@@ -1,0 +1,34 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "BassSteps",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "hertz": {
+                "type": "number",
+                "description": "Hertz",
+                "default": 0
+            },
+            "steps": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "step": {
+                            "type": "number",
+                            "description": "Step of slider",
+                            "default": 0
+                        },
+                        "value": {
+                            "type": "number",
+                            "description": "Value in dezibel (dB)",
+                            "default": 0
+                        }
+                    }
+                }
+            }
+        },
+        "additionalProperties": false
+    }
+}
