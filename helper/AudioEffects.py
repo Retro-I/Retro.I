@@ -2,9 +2,14 @@ import json
 import os
 import subprocess
 
+from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
+from helper.TrebleStepsHelper import TrebleStepsHelper
 
 c = Constants()
+
+bass_steps_helper = BassStepsHelper()
+treble_steps_helper = TrebleStepsHelper()
 
 
 class AudioEffects:
@@ -34,16 +39,36 @@ class AudioEffects:
         config = self.get_config()
         return config["output"]["pitch#0"]["semitones"]
 
-    def update_bass(self, value):
+    def update_bass(self, step):
         config = self.get_config()
-        config["output"]["bass_enhancer#0"]["amount"] = value
+
+        for slider in bass_steps_helper.get_slider():
+            for _, props in config["output"]["equalizer#0"]["left"].items():
+                gain = bass_steps_helper.get_gain_for_step(step, props["frequency"])
+                if props["frequency"] == slider["hertz"]:
+                    props["gain"] = gain
+
+            for _, props in config["output"]["equalizer#0"]["right"].items():
+                gain = bass_steps_helper.get_gain_for_step(step, props["frequency"])
+                if props["frequency"] == slider["hertz"]:
+                    props["gain"] = gain
 
         self.write_config(config)
         self.load_effects()
 
-    def update_treble(self, value):
+    def update_treble(self, step):
         config = self.get_config()
-        config["output"]["pitch#0"]["semitones"] = value
+
+        for slider in treble_steps_helper.get_slider():
+            for _, props in config["output"]["equalizer#0"]["left"].items():
+                gain = treble_steps_helper.get_gain_for_step(step, props["frequency"])
+                if props["frequency"] == slider["hertz"]:
+                    props["gain"] = gain
+
+            for _, props in config["output"]["equalizer#0"]["right"].items():
+                gain = treble_steps_helper.get_gain_for_step(step, props["frequency"])
+                if props["frequency"] == slider["hertz"]:
+                    props["gain"] = gain
 
         self.write_config(config)
         self.load_effects()
