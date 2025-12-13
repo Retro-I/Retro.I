@@ -8,9 +8,7 @@ c = Constants()
 
 
 class AudioEffects:
-    def __init__(self):
-        home_dir = os.environ.get("HOME")
-        self.effects_path = f"{home_dir}/.config/easyeffects/output/retroi.json"
+    EFFECTS_PATH = f"{os.environ.get('HOME')}/.config/easyeffects/output/retroi.json"
 
     def start(self):
         self.stop()
@@ -24,9 +22,8 @@ class AudioEffects:
         self.load_start_effects()
 
     def get_config(self):
-        f = open(self.effects_path)
-        data = json.load(f)
-        f.close()
+        with open(self.EFFECTS_PATH) as file:
+            data = json.load(file)
         return data
 
     def get_bass_value(self):
@@ -52,7 +49,7 @@ class AudioEffects:
         self.load_effects()
 
     def write_config(self, config):
-        with open(self.effects_path, "w") as file:
+        with open(self.EFFECTS_PATH, "w") as file:
             file_data = config
             json.dump(file_data, file, indent=4)
 
