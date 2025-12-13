@@ -1,5 +1,3 @@
-import math
-
 import flet as ft
 
 from components.RotaryTreble import audio_effects, treble_steps_helper
@@ -22,22 +20,18 @@ class AudioEffectsDialog(ft.AlertDialog):
             on_change=lambda e: self.on_bass_change(),
             min=bass_steps_helper.get_min_step(),
             max=bass_steps_helper.get_max_step(),
-            divisions=bass_steps_helper.get_steps_count(),
+            divisions=bass_steps_helper.get_steps_count() - 1,
             width=350,
             value=Constants.current_bass_step,
-            active_color=ft.Colors.ON_SURFACE,
-            inactive_color=ft.Colors.ON_SURFACE,
         )
 
         self.treble_slider = ft.Slider(
             on_change=lambda e: self.on_treble_change(),
             min=treble_steps_helper.get_min_step(),
             max=treble_steps_helper.get_max_step(),
-            divisions=treble_steps_helper.get_steps_count(),
+            divisions=treble_steps_helper.get_steps_count() - 1,
             width=350,
             value=Constants.current_treble_step,
-            active_color=ft.Colors.ON_SURFACE,
-            inactive_color=ft.Colors.ON_SURFACE,
         )
 
         self.bass_text = ft.Text(f"{Constants.current_bass_step}")

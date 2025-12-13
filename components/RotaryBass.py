@@ -32,21 +32,29 @@ class RotaryBass:
 
     def inc_bass_boost(self, on_taskbar_update):
         if self.COUNTER % 2 == 0:
-            step = Constants.current_bass_step + self.BASS_STEP
-            if bass_steps_helper.get_min_step() <= step <= bass_steps_helper.get_max_step():
-                self.update(step, on_taskbar_update)
+            if (
+                bass_steps_helper.get_min_step()
+                <= Constants.current_bass_step
+                < bass_steps_helper.get_max_step()
+            ):
+                Constants.current_bass_step += self.BASS_STEP
+                self.update(Constants.current_bass_step, on_taskbar_update)
 
-            if step > bass_steps_helper.get_max_step():
+            if Constants.current_bass_step > bass_steps_helper.get_max_step():
                 self.update(bass_steps_helper.get_max_step(), on_taskbar_update)
         self.COUNTER += 1
 
     def dec_bass_boost(self, on_taskbar_update):
         if self.COUNTER % 2 == 0:
-            step = Constants.current_bass_step - self.BASS_STEP
-            if bass_steps_helper.get_min_step() <= step <= bass_steps_helper.get_max_step():
-                self.update(step, on_taskbar_update)
+            if (
+                bass_steps_helper.get_min_step()
+                < Constants.current_bass_step
+                <= bass_steps_helper.get_max_step()
+            ):
+                Constants.current_bass_step -= self.BASS_STEP
+                self.update(Constants.current_bass_step, on_taskbar_update)
 
-            if step < bass_steps_helper.get_min_step():
+            if Constants.current_bass_step < bass_steps_helper.get_min_step():
                 self.update(bass_steps_helper.get_min_step(), on_taskbar_update)
         self.COUNTER -= 1
 

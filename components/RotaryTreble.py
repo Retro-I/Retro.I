@@ -33,21 +33,29 @@ class RotaryTreble:
 
     def inc_treble(self, on_taskbar_update):
         if self.COUNTER % 2 == 0:
-            step = Constants.current_treble_step + self.TREBLE_STEP
-            if treble_steps_helper.get_min_step() <= step <= treble_steps_helper.get_max_step():
-                self.update(step, on_taskbar_update)
+            if (
+                treble_steps_helper.get_min_step()
+                <= Constants.current_treble_step
+                < treble_steps_helper.get_max_step()
+            ):
+                Constants.current_treble_step += self.TREBLE_STEP
+                self.update(Constants.current_treble_step, on_taskbar_update)
 
-            if step > treble_steps_helper.get_max_step():
+            if Constants.current_treble_step > treble_steps_helper.get_max_step():
                 self.update(treble_steps_helper.get_max_step(), on_taskbar_update)
         self.COUNTER += 1
 
     def dec_treble(self, on_taskbar_update):
         if self.COUNTER % 2 == 0:
-            step = Constants.current_treble_step - self.TREBLE_STEP
-            if treble_steps_helper.get_min_step() <= step <= treble_steps_helper.get_max_step():
-                self.update(step, on_taskbar_update)
+            if (
+                treble_steps_helper.get_min_step()
+                < Constants.current_treble_step
+                <= treble_steps_helper.get_max_step()
+            ):
+                Constants.current_treble_step -= self.TREBLE_STEP
+                self.update(Constants.current_treble_step, on_taskbar_update)
 
-            if step < treble_steps_helper.get_min_step():
+            if Constants.current_treble_step < treble_steps_helper.get_min_step():
                 self.update(treble_steps_helper.get_min_step(), on_taskbar_update)
         self.COUNTER -= 1
 
