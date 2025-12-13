@@ -6,7 +6,7 @@ import flet as ft
 from components.dialogs.StartupErrorDialog import StartupErrorDialog
 from components.GpioButton import GpioButton
 from components.RotaryBass import RotaryBass
-from components.RotaryPitch import RotaryPitch
+from components.RotaryTreble import RotaryTreble
 from components.RotaryVolume import RotaryVolume
 from components.view.Taskbar import Taskbar
 from components.view.Theme import Theme
@@ -99,7 +99,7 @@ def main(page: ft.Page):
         on_strip_update_sound=strip.update_sound_strip,
     )
     RotaryBass(on_taskbar_update=taskbar.update)
-    RotaryPitch(on_taskbar_update=taskbar.update)
+    RotaryTreble(on_taskbar_update=taskbar.update)
 
     audio_helper.startup_sound()
     audio_effects.start()

@@ -14,7 +14,7 @@ settings_sync_helper = SettingsSyncHelper()
 class Sounds:
     last_toast = ""
     SETTING = "favorite-sounds.json"
-    FAV_SOUNDS_PATH = f"{c.settings_path()}/{SETTING}"
+    FAV_SOUNDS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
     def search_sounds(self, query):
         response = requests.get(f"https://myinstants-api.vercel.app/search?q={query}").json()

@@ -16,8 +16,8 @@ class TestGpioHelper(BaseTest):
             "ROTARY_VOLUME_PRESS": "13",
             "ROTARY_BASS_UP": "4",
             "ROTARY_BASS_DOWN": "14",
-            "ROTARY_PITCH_UP": "11",
-            "ROTARY_PITCH_DOWN": "8",
+            "ROTARY_TREBLE_UP": "11",
+            "ROTARY_TREBLE_DOWN": "8",
             "START_PARTY_MODE_BUTTON": "21",
         }
         self.assertCountEqual(actual, expected)

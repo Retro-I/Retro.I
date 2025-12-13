@@ -9,7 +9,7 @@ settings_sync_helper = SettingsSyncHelper()
 
 class StartupErrorHelper:
     SETTING = "startup-error.json"
-    STARTUP_ERROR_PATH = f"{c.settings_path()}/{SETTING}"
+    STARTUP_ERROR_PATH = f"{Constants.settings_path()}/{SETTING}"
 
     def get_settings(self):
         def _get_data():

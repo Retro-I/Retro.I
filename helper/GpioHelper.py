@@ -9,7 +9,7 @@ settings_sync_helper = SettingsSyncHelper()
 
 class GpioHelper:
     SETTING = "gpio-pin-mapping.json"
-    GPIO_SETTINGS_PATH = f"{c.settings_path()}/{SETTING}"
+    GPIO_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
     def get_mappings(self) -> dict:
         def _get_data():
@@ -38,11 +38,11 @@ class GpioHelper:
     def rotary_bass_down(self) -> int:
         return self.get_mappings()["ROTARY_BASS_DOWN"]
 
-    def rotary_pitch_up(self) -> int:
-        return self.get_mappings()["ROTARY_PITCH_UP"]
+    def rotary_treble_up(self) -> int:
+        return self.get_mappings()["ROTARY_TREBLE_UP"]
 
-    def rotary_pitch_down(self) -> int:
-        return self.get_mappings()["ROTARY_PITCH_DOWN"]
+    def rotary_treble_down(self) -> int:
+        return self.get_mappings()["ROTARY_TREBLE_DOWN"]
 
     def start_party_button(self) -> int:
         return self.get_mappings()["START_PARTY_MODE_BUTTON"]

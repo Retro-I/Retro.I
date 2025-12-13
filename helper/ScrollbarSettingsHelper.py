@@ -9,7 +9,7 @@ settings_sync_helper = SettingsSyncHelper()
 
 class ScrollbarSettingsHelper:
     SETTING = "scrollbar-settings.json"
-    SCROLLBAR_SETTINGS_PATH = f"{c.settings_path()}/{SETTING}"
+    SCROLLBAR_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
     def get_settings(self):
         def _get_data():

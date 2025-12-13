@@ -10,7 +10,7 @@ class TestConstants(unittest.TestCase):
         self.constants = Constants()
 
     def test_pwd(self):
-        self.assertEqual("/home/pi/Retro.I", self.constants.pwd())
+        self.assertEqual("/home/pi/Retro.I", Constants.pwd())
 
     def test_sound_path(self):
         self.assertEqual("/home/pi/Retro.I/assets/sounds", self.constants.sound_path())

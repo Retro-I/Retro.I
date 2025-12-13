@@ -9,7 +9,7 @@ settings_sync_helper = SettingsSyncHelper()
 
 class StripSettingsHelper:
     SETTING = "strip-settings.json"
-    STRIP_SETTINGS_PATH = f"{c.settings_path()}/{SETTING}"
+    STRIP_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
     def is_strip_active(self) -> bool:
         settings = self.get_strip_settings()

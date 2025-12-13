@@ -9,7 +9,7 @@ settings_sync_helper = SettingsSyncHelper()
 
 class SecuredModeSettingsHelper:
     SETTING = "secured-mode-settings.json"
-    SECURED_MODE_PATH = f"{c.settings_path()}/{SETTING}"
+    SECURED_MODE_PATH = f"{Constants.settings_path()}/{SETTING}"
 
     def get_settings(self):
         def _get_data():

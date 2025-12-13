@@ -2,15 +2,18 @@ import json
 import os
 import subprocess
 
+from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
+from helper.TrebleStepsHelper import TrebleStepsHelper
 
 c = Constants()
 
+bass_steps_helper = BassStepsHelper()
+treble_steps_helper = TrebleStepsHelper()
+
 
 class AudioEffects:
-    def __init__(self):
-        home_dir = os.environ.get("HOME")
-        self.effects_path = f"{home_dir}/.config/easyeffects/output/retroi.json"
+    EFFECTS_PATH = f"{os.environ.get('HOME')}/.config/easyeffects/output/retroi.json"
 
     def start(self):
         self.stop()
@@ -24,9 +27,8 @@ class AudioEffects:
         self.load_start_effects()
 
     def get_config(self):
-        f = open(self.effects_path)
-        data = json.load(f)
-        f.close()
+        with open(self.EFFECTS_PATH) as file:
+            data = json.load(file)
         return data
 
     def get_bass_value(self):
@@ -37,28 +39,48 @@ class AudioEffects:
         config = self.get_config()
         return config["output"]["pitch#0"]["semitones"]
 
-    def update_bass(self, value):
+    def update_bass(self, step):
         config = self.get_config()
-        config["output"]["bass_enhancer#0"]["amount"] = value
+
+        for slider in bass_steps_helper.get_slider():
+            for _, props in config["output"]["equalizer#0"]["left"].items():
+                gain = bass_steps_helper.get_gain_for_step(step, props["frequency"])
+                if props["frequency"] == slider["hertz"]:
+                    props["gain"] = gain
+
+            for _, props in config["output"]["equalizer#0"]["right"].items():
+                gain = bass_steps_helper.get_gain_for_step(step, props["frequency"])
+                if props["frequency"] == slider["hertz"]:
+                    props["gain"] = gain
 
         self.write_config(config)
         self.load_effects()
 
-    def update_pitch(self, value):
+    def update_treble(self, step):
         config = self.get_config()
-        config["output"]["pitch#0"]["semitones"] = value
+
+        for slider in treble_steps_helper.get_slider():
+            for _, props in config["output"]["equalizer#0"]["left"].items():
+                gain = treble_steps_helper.get_gain_for_step(step, props["frequency"])
+                if props["frequency"] == slider["hertz"]:
+                    props["gain"] = gain
+
+            for _, props in config["output"]["equalizer#0"]["right"].items():
+                gain = treble_steps_helper.get_gain_for_step(step, props["frequency"])
+                if props["frequency"] == slider["hertz"]:
+                    props["gain"] = gain
 
         self.write_config(config)
         self.load_effects()
 
     def write_config(self, config):
-        with open(self.effects_path, "w") as file:
+        with open(self.EFFECTS_PATH, "w") as file:
             file_data = config
             json.dump(file_data, file, indent=4)
 
     def load_start_effects(self):
         self.update_bass(0)
-        self.update_pitch(0)
+        self.update_treble(0)
         self.load_effects()
 
     def load_effects(self):
