@@ -71,3 +71,18 @@ class TestBassSteps(BaseTest):
         expected = 3
 
         self.assertEqual(actual, expected)
+
+    def test_gain_for_step(self):
+        # Default
+        actual = self.bass_steps_helper.get_gain_for_step(0, 0)
+        self.assertEqual(actual, 0)
+
+        actual = self.bass_steps_helper.get_gain_for_step(1, 120)
+        self.assertEqual(actual, 1.5)
+
+        actual = self.bass_steps_helper.get_gain_for_step(-3, 140)
+        self.assertEqual(actual, -3)
+
+    def test_steps_count(self):
+        actual = self.bass_steps_helper.get_steps_count()
+        self.assertEqual(actual, 7)

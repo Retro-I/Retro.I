@@ -71,3 +71,21 @@ class TestTrebleSteps(BaseTest):
         expected = 3
 
         self.assertEqual(actual, expected)
+
+    def test_gain_for_step(self):
+        # Default
+        actual = self.treble_steps_helper.get_gain_for_step(0, 0)
+        self.assertEqual(actual, 0)
+
+        actual = self.treble_steps_helper.get_gain_for_step(1, 1000)
+        self.assertEqual(actual, 1)
+
+        actual = self.treble_steps_helper.get_gain_for_step(-2, 2000)
+        self.assertEqual(actual, -1.25)
+
+        actual = self.treble_steps_helper.get_gain_for_step(-3, 2000)
+        self.assertEqual(actual, -2)
+
+    def test_steps_count(self):
+        actual = self.bass_steps_helper.get_steps_count()
+        self.assertEqual(actual, 7)

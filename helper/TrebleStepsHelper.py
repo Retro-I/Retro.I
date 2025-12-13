@@ -33,3 +33,16 @@ class TrebleStepsHelper:
                 max_step = step["step"]
 
         return max_step
+
+    def get_gain_for_step(self, step, frequency):
+        data = self.get_slider()
+        for slider in data:
+            if slider["hertz"] == frequency:
+                for slider_step in slider["steps"]:
+                    if slider_step["step"] == step:
+                        return slider_step["value"]
+
+        return 0
+
+    def get_steps_count(self):
+        return len(self.get_slider()[0]["steps"])
