@@ -9,7 +9,7 @@ settings_sync_helper = SettingsSyncHelper()
 
 class GpioHelper:
     SETTING = "gpio-pin-mapping.json"
-    GPIO_SETTINGS_PATH = f"{c.settings_path()}/{SETTING}"
+    GPIO_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
     def get_mappings(self) -> dict:
         def _get_data():

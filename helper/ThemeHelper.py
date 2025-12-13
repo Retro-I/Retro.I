@@ -11,7 +11,7 @@ settings_sync_helper = SettingsSyncHelper()
 
 class ThemeHelper:
     SETTING = "theme-mode-settings.json"
-    THEME_SETTINGS_PATH = f"{c.settings_path()}/{SETTING}"
+    THEME_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
     def load_theme_settings(self) -> dict:
         def _get_data():

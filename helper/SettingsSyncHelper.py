@@ -14,7 +14,7 @@ c = Constants()
 
 class SettingsSyncHelper:
     def validate_all_settings(self):
-        path = c.settings_path()
+        path = Constants.settings_path()
         files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
         for filename in files:
             data = self.get_data_for_filename(filename)
@@ -24,8 +24,8 @@ class SettingsSyncHelper:
                 raise RuntimeError(f"File {filename} is not valid")
 
     def validate_and_repair_all_settings(self):
-        path = c.settings_path()
-        default_path = c.default_settings_path()
+        path = Constants.settings_path()
+        default_path = Constants.default_settings_path()
 
         default_files = [
             f for f in os.listdir(default_path) if os.path.isfile(os.path.join(default_path, f))
@@ -121,7 +121,7 @@ class SettingsSyncHelper:
         return data
 
     def get_data_for_filename(self, filename):
-        path = c.settings_path()
+        path = Constants.settings_path()
         full_path = f"{path}/{filename}"
 
         with open(full_path, "r") as f:
@@ -130,7 +130,7 @@ class SettingsSyncHelper:
         return data
 
     def get_schema_for_filename(self, filename):
-        path = c.default_settings_path()
+        path = Constants.default_settings_path()
         full_path = f"{path}/schemas/schema_{filename}"
 
         with open(full_path, "r") as f:

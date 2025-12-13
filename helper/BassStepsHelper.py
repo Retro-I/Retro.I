@@ -6,7 +6,7 @@ c = Constants()
 
 
 class BassStepsHelper:
-    BASS_STEPS_PATH = f"{c.settings_path()}/bass-steps.json"
+    BASS_STEPS_PATH = f"{Constants.settings_path()}/bass-steps.json"
 
     def get_slider(self):
         with open(self.BASS_STEPS_PATH) as file:

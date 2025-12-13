@@ -6,7 +6,7 @@ c = Constants()
 
 
 class TrebleStepsHelper:
-    TREBLE_STEPS_PATH = f"{c.settings_path()}/treble-steps.json"
+    TREBLE_STEPS_PATH = f"{Constants.settings_path()}/treble-steps.json"
 
     def get_slider(self):
         with open(self.TREBLE_STEPS_PATH) as file:

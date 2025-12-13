@@ -14,7 +14,7 @@ audio_helper = Audio()
 
 class Stations:
     STATION_SETTING = "radio-stations.json"
-    STATIONS_SETTINGS_PATH = f"{c.settings_path()}/{STATION_SETTING}"
+    STATIONS_SETTINGS_PATH = f"{Constants.settings_path()}/{STATION_SETTING}"
 
     def load_radio_stations(self):
         def _get_data():

@@ -17,7 +17,7 @@ settings_sync_helper = SettingsSyncHelper()
 
 class Audio:
     SETTING = "audio-settings.json"
-    AUDIO_SETTINGS_PATH = f"{c.settings_path()}/{SETTING}"
+    AUDIO_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
     audio = vlc.MediaPlayer("")
     toast_playing = False

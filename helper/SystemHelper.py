@@ -93,10 +93,10 @@ class SystemHelper:
         if "http" in img_src:
             return img_src
 
-        return f"{c.pwd()}/assets/stations/{img_src}"
+        return f"{Constants.pwd()}/assets/stations/{img_src}"
 
     def get_button_img_path(self):
-        return f"{c.pwd()}/assets/buttons/SB_Green.png"
+        return f"{Constants.pwd()}/assets/buttons/SB_Green.png"
 
     def init_party_mode(self):
         self.is_party = os.environ.get("PARTY_MODE", "0")
