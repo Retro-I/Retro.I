@@ -16,13 +16,21 @@ class WifiDialog(ft.AlertDialog):
 
     connection_dialog: WifiConnectionDialog = None
 
-    def __init__(self, connection_dialog: WifiConnectionDialog):
+    def __init__(self, connection_dialog: WifiConnectionDialog, on_toggle_wifi):
         super().__init__()
 
         self.connection_dialog = connection_dialog
+        self.on_toggle_wifi = on_toggle_wifi
 
         self.content = ft.Column(
             [
+                ft.Switch(
+                    "Wifi einschalten",
+                    label_style=ft.TextStyle(size=18),
+                    on_change=lambda e: self.toggle_wifi(),
+                    value=wifi_helper.is_enabled(),
+                ),
+                ft.Divider(),
                 ft.Text("Verfügbare Netzwerke:", size=20, weight=ft.FontWeight.BOLD),
                 ft.Column(
                     width=500,
@@ -39,20 +47,23 @@ class WifiDialog(ft.AlertDialog):
         )
 
     def open_dialog(self):
+        self.open = True
+        self.update()
+
         self.listview.visible = False
         self.listview.update()
 
         self.not_found.visible = False
         self.not_found.update()
 
+        if not wifi_helper.is_enabled():
+            return
+
         self.loading.visible = True
         self.loading.update()
 
         self.listview.controls = []
         self.listview.update()
-
-        self.open = True
-        self.update()
 
         curr_ssid = system_helper.get_current_ssid()
         networks = wifi_helper.get_networks()
@@ -77,6 +88,19 @@ class WifiDialog(ft.AlertDialog):
             self.not_found.update()
 
         self.listview.visible = True
+        self.listview.update()
+
+    def toggle_wifi(self):
+        wifi_helper.toggle_wifi()
+        self.on_toggle_wifi()
+
+        if wifi_helper.is_enabled():
+            self.listview.visible = False
+            self.open_dialog()
+        else:
+            self.listview.visible = True
+            self.open_dialog()
+
         self.listview.update()
 
     def close(self):

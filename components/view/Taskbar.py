@@ -108,7 +108,7 @@ class Taskbar(ft.AppBar):
         ]
 
         self.wifi_connection_dialog = WifiConnectionDialog(self.update)
-        self.wifi_dialog = WifiDialog(self.wifi_connection_dialog)
+        self.wifi_dialog = WifiDialog(self.wifi_connection_dialog, self.update_wifi)
 
         self.ico_wifi.on_click = lambda e: self.wifi_dialog.open_dialog()
         self.ico_toggle_theme.on_click = lambda e: self.toggle_theme()
@@ -140,10 +140,14 @@ class Taskbar(ft.AppBar):
 
     def update_wifi(self):
         self.ico_wifi.icon = (
-            ft.Icons.WIFI if wifi_helper.is_connected() else ft.Icons.WIFI_OFF_ROUNDED
+            ft.Icons.WIFI
+            if wifi_helper.is_enabled() and wifi_helper.is_connected()
+            else ft.Icons.WIFI_OFF_ROUNDED
         )
         self.ico_wifi.color = (
-            ft.Colors.GREEN if wifi_helper.is_connected() else ft.Colors.ON_SURFACE
+            ft.Colors.GREEN
+            if wifi_helper.is_enabled() and wifi_helper.is_connected()
+            else ft.Colors.ON_SURFACE
         )
         self.ico_wifi.update()
 
