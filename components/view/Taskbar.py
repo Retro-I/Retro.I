@@ -40,9 +40,7 @@ class Taskbar(ft.AppBar):
         icon_size=taskbar_icon_size,
     )
 
-    ico_wifi = ft.IconButton(
-        icon=ft.Icons.WIFI, icon_size=taskbar_icon_size, icon_color=ft.Colors.GREEN
-    )
+    ico_wifi = ft.IconButton(icon=ft.Icons.WIFI, icon_size=taskbar_icon_size)
     ico_bluetooth = ft.Icon(name=ft.Icons.BLUETOOTH, size=taskbar_icon_size)
 
     ico_volume = ft.Icon(name=ft.Icons.VOLUME_UP_ROUNDED, size=taskbar_icon_size)
@@ -139,16 +137,21 @@ class Taskbar(ft.AppBar):
         PageState.page.update()
 
     def update_wifi(self):
-        self.ico_wifi.icon = (
-            ft.Icons.WIFI
-            if wifi_helper.is_enabled() and wifi_helper.is_connected()
-            else ft.Icons.WIFI_OFF_ROUNDED
-        )
-        self.ico_wifi.color = (
-            ft.Colors.GREEN
-            if wifi_helper.is_enabled() and wifi_helper.is_connected()
-            else ft.Colors.ON_SURFACE
-        )
+        self.ico_wifi.icon = ft.Icons.WIFI
+        self.ico_wifi.icon_color = ft.Colors.GREEN
+
+        if not wifi_helper.is_enabled():
+            self.ico_wifi.icon = ft.Icons.WIFI_OFF
+            self.ico_wifi.icon_color = ft.Colors.ON_SURFACE
+            self.ico_wifi.update()
+            return
+
+        if not wifi_helper.is_connected():
+            self.ico_wifi.icon = ft.Icons.WIFI_FIND
+            self.ico_wifi.icon_color = ft.Colors.ON_SURFACE
+            self.ico_wifi.update()
+            return
+
         self.ico_wifi.update()
 
     def update_bluetooth_icon(self):
