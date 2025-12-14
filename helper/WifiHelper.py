@@ -4,6 +4,23 @@ import subprocess
 
 
 class WifiHelper:
+    def is_enabled(self):
+        result = subprocess.run(["rfkill", "list", "wifi"], capture_output=True, text=True)
+
+        return "Soft blocked: no" in result.stdout
+
+    def toggle_wifi(self):
+        if self.is_enabled():
+            self.disable_wifi()
+        else:
+            self.enable_wifi()
+
+    def enable_wifi(self):
+        subprocess.run(["sudo", "rfkill", "unblock", "wifi"])
+
+    def disable_wifi(self):
+        subprocess.run(["sudo", "rfkill", "block", "wifi"])
+
     def is_connected(self):
         ip = (
             subprocess.run(["hostname", "-I"], stdout=subprocess.PIPE)
