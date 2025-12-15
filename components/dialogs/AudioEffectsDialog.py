@@ -81,7 +81,7 @@ class AudioEffectsDialog(ft.AlertDialog):
         self.on_update_bass()
 
     def on_treble_change(self):
-        Constants.current_treble_step = int(self.bass_slider.value)
+        Constants.current_treble_step = int(self.treble_slider.value)
         audio_effects.update_treble(Constants.current_treble_step)
         self.treble_text.value = f"{Constants.current_treble_step}"
         self.treble_text.update()
