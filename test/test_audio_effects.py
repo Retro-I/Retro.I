@@ -191,6 +191,7 @@ class TestAudioEffectsUpdateBass(BaseTest):
         }
 
         self.assertEqual(actual, expected)
+        self.settings_sync_helper.validate_all_settings()
 
     def test_update_bass_steps(self):
         self.audio_effects.update_bass(3)
@@ -564,6 +565,7 @@ class TestAudioEffectsUpdateBass(BaseTest):
         }
 
         self.assertEqual(actual, expected)
+        self.settings_sync_helper.validate_all_settings()
 
 
 class TestAudioEffectsUpdateTreble(BaseTest):
@@ -756,6 +758,7 @@ class TestAudioEffectsUpdateTreble(BaseTest):
         }
 
         self.assertEqual(actual, expected)
+        self.settings_sync_helper.validate_all_settings()
 
     def test_update_treble_steps(self):
         self.audio_effects.update_treble(3)
@@ -1129,3 +1132,4 @@ class TestAudioEffectsUpdateTreble(BaseTest):
         }
 
         self.assertEqual(actual, expected)
+        self.settings_sync_helper.validate_all_settings()

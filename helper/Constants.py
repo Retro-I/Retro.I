@@ -28,6 +28,10 @@ class Constants:
     def default_settings_path() -> str:
         return str(os.path.join(Constants.pwd(), "settings"))
 
+    @staticmethod
+    def effects_path() -> str:
+        return str(os.path.join(f"{os.environ.get('HOME')}", "/.config/easyeffects/output/effects"))
+
     def sound_path(self):
         return f"{self.pwd()}/assets/sounds"
 

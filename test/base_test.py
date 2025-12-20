@@ -57,6 +57,7 @@ class BaseTest(unittest.TestCase):
 
         Constants.settings_path = staticmethod(lambda: self.test_dir)
         Constants.default_settings_path = staticmethod(lambda: self.test_dir_default)
+        Constants.effects_path = staticmethod(lambda: self.test_effects_path)
 
         self.assertTrue(os.path.exists(self.test_dir))
         self.assertTrue(os.path.exists(f"{self.test_dir}/schemas"))

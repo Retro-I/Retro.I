@@ -13,15 +13,22 @@ c = Constants()
 
 
 class SettingsSyncHelper:
-    def validate_all_settings(self):
-        path = Constants.settings_path()
+    def validate_by_path(self, path):
         files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
         for filename in files:
-            data = self.get_data_for_filename(filename)
-            schema = self.get_schema_for_filename(filename)
+            full_path = f"{path}/{filename}"
+            data = self.get_data_for_filename(full_path)
+            schema = self.get_schema_for_filename(full_path)
 
             if not self.is_valid(data, schema):
                 raise RuntimeError(f"File {filename} is not valid")
+
+    def validate_all_settings(self):
+        settings_path = Constants.settings_path()
+        self.validate_by_path(settings_path)
+
+        effects_path = Constants.effects_path()
+        self.validate_by_path(effects_path)
 
     def validate_and_repair_all_settings(self):
         path = Constants.settings_path()
@@ -62,8 +69,8 @@ class SettingsSyncHelper:
                 os.remove(full_path)
                 return
 
-            data = self.get_data_for_filename(filename)
-            schema = self.get_schema_for_filename(filename)
+            data = self.get_data_for_filename(full_path)
+            schema = self.get_schema_for_filename(full_path)
 
             if not self.is_valid(data, schema):
                 logger.info(f"Fixing settings file {filename}...")
@@ -79,6 +86,9 @@ class SettingsSyncHelper:
         return validator.evolve(schema=schema).is_valid(data, schema)
 
     def repair(self, data, schema):
+        if data is None:
+            return None
+
         repaired = deepcopy(data)
         validator = Draft7Validator(schema)
         default_data = jsonschema_default.create_from(schema)
@@ -91,7 +101,10 @@ class SettingsSyncHelper:
                 if error.validator == "required":
                     for missing in error.validator_value:
                         if missing not in repaired:
-                            repaired[missing] = deepcopy(default_data.get(missing))
+                            default_value = default_data.get(missing)
+
+                            if default_value is not None:
+                                repaired[missing] = deepcopy(default_value)
 
                 # Remove additional properties
                 if error.validator == "additionalProperties":
@@ -103,7 +116,8 @@ class SettingsSyncHelper:
             # Recursively repair nested objects
             for key, subschema in schema.get("properties", {}).items():
                 if key in repaired:
-                    repaired[key] = self.repair(repaired[key], subschema)
+                    if subschema.get("type") == "object" and isinstance(repaired[key], dict):
+                        repaired[key] = self.repair(repaired[key], subschema)
 
             return repaired
 
@@ -120,20 +134,17 @@ class SettingsSyncHelper:
             return repaired_list
         return data
 
-    def get_data_for_filename(self, filename):
-        path = Constants.settings_path()
-        full_path = f"{path}/{filename}"
-
+    def get_data_for_filename(self, full_path):
         with open(full_path, "r") as f:
             data = json.load(f)
 
         return data
 
-    def get_schema_for_filename(self, filename):
-        path = Constants.default_settings_path()
-        full_path = f"{path}/schemas/schema_{filename}"
+    def get_schema_for_filename(self, full_path):
+        path, filename = os.path.split(full_path)
+        schema_path = os.path.join(path, f"schemas/schema_{filename}")
 
-        with open(full_path, "r") as f:
+        with open(schema_path, "r") as f:
             data = json.load(f)
 
         return data

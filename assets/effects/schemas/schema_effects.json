@@ -1,0 +1,507 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "output": {
+            "type": "object",
+            "properties": {
+                "blocklist": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": []
+                },
+                "plugins_order": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [
+                        "equalizer#0"
+                    ]
+                },
+                "equalizer#0": {
+                    "type": "object",
+                    "properties": {
+                        "balance": {
+                            "type": "number",
+                            "default": 0.0
+                        },
+                        "bypass": {
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "input-gain": {
+                            "type": "number",
+                            "default": 0.0
+                        },
+                        "output-gain": {
+                            "type": "number",
+                            "default": 0.0
+                        },
+                        "mode": {
+                            "type": "string",
+                            "default": "IIR"
+                        },
+                        "num-bands": {
+                            "type": "integer",
+                            "default": 32
+                        },
+                        "pitch-left": {
+                            "type": "number",
+                            "default": 0.0
+                        },
+                        "pitch-right": {
+                            "type": "number",
+                            "default": 0.0
+                        },
+                        "split-channels": {
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "left": {
+                            "type": "object",
+                            "properties": {
+                                "band0": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency": {
+                                            "type": "number",
+                                            "default": 120.0
+                                        },
+                                        "gain": {
+                                            "type": "number",
+                                            "default": 0.0
+                                        },
+                                        "mode": {
+                                            "type": "string",
+                                            "default": "BWC (BT)"
+                                        },
+                                        "mute": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "q": {
+                                            "type": "number",
+                                            "default": 4.36
+                                        },
+                                        "slope": {
+                                            "type": "string",
+                                            "default": "x4"
+                                        },
+                                        "solo": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "default": "Bell"
+                                        }
+                                    },
+                                    "required": [
+                                        "frequency"
+                                    ]
+                                },
+                                "band1": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency": {
+                                            "type": "number",
+                                            "default": 140.0
+                                        },
+                                        "gain": {
+                                            "type": "number",
+                                            "default": 0.0
+                                        },
+                                        "mode": {
+                                            "type": "string",
+                                            "default": "RLC (BT)"
+                                        },
+                                        "mute": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "q": {
+                                            "type": "number",
+                                            "default": 4.36
+                                        },
+                                        "slope": {
+                                            "type": "string",
+                                            "default": "x1"
+                                        },
+                                        "solo": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "default": "Bell"
+                                        }
+                                    },
+                                    "required": [
+                                        "frequency"
+                                    ]
+                                },
+                                "band2": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency": {
+                                            "type": "number",
+                                            "default": 200.0
+                                        },
+                                        "gain": {
+                                            "type": "number",
+                                            "default": 0.0
+                                        },
+                                        "mode": {
+                                            "type": "string",
+                                            "default": "RLC (BT)"
+                                        },
+                                        "mute": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "q": {
+                                            "type": "number",
+                                            "default": 4.36
+                                        },
+                                        "slope": {
+                                            "type": "string",
+                                            "default": "x1"
+                                        },
+                                        "solo": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "default": "Bell"
+                                        }
+                                    },
+                                    "required": [
+                                        "frequency"
+                                    ]
+                                },
+                                "band3": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency": {
+                                            "type": "number",
+                                            "default": 250.0
+                                        },
+                                        "gain": {
+                                            "type": "number",
+                                            "default": 0.0
+                                        },
+                                        "mode": {
+                                            "type": "string",
+                                            "default": "RLC (BT)"
+                                        },
+                                        "mute": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "q": {
+                                            "type": "number",
+                                            "default": 4.36
+                                        },
+                                        "slope": {
+                                            "type": "string",
+                                            "default": "x1"
+                                        },
+                                        "solo": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "default": "Bell"
+                                        }
+                                    },
+                                    "required": [
+                                        "frequency"
+                                    ]
+                                },
+                                "band4": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency": {
+                                            "type": "number",
+                                            "default": 1000.0
+                                        },
+                                        "gain": {
+                                            "type": "number",
+                                            "default": 0.0
+                                        },
+                                        "mode": {
+                                            "type": "string",
+                                            "default": "RLC (BT)"
+                                        },
+                                        "mute": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "q": {
+                                            "type": "number",
+                                            "default": 4.36
+                                        },
+                                        "slope": {
+                                            "type": "string",
+                                            "default": "x1"
+                                        },
+                                        "solo": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "default": "Bell"
+                                        }
+                                    },
+                                    "required": [
+                                        "frequency"
+                                    ]
+                                },
+                                "band5": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency": {
+                                            "type": "number",
+                                            "default": 2000.0
+                                        },
+                                        "gain": {
+                                            "type": "number",
+                                            "default": 0.0
+                                        },
+                                        "mode": {
+                                            "type": "string",
+                                            "default": "RLC (BT)"
+                                        },
+                                        "mute": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "q": {
+                                            "type": "number",
+                                            "default": 4.36
+                                        },
+                                        "slope": {
+                                            "type": "string",
+                                            "default": "x1"
+                                        },
+                                        "solo": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "default": "Bell"
+                                        }
+                                    },
+                                    "required": [
+                                        "frequency"
+                                    ]
+                                },
+                                "band6": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency": {
+                                            "type": "number",
+                                            "default": 5000.0
+                                        },
+                                        "gain": {
+                                            "type": "number",
+                                            "default": 0.0
+                                        },
+                                        "mode": {
+                                            "type": "string",
+                                            "default": "RLC (BT)"
+                                        },
+                                        "mute": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "q": {
+                                            "type": "number",
+                                            "default": 4.36
+                                        },
+                                        "slope": {
+                                            "type": "string",
+                                            "default": "x1"
+                                        },
+                                        "solo": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "default": "Bell"
+                                        }
+                                    },
+                                    "required": [
+                                        "frequency"
+                                    ]
+                                },
+                                "band7": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency": {
+                                            "type": "number",
+                                            "default": 8000.0
+                                        },
+                                        "gain": {
+                                            "type": "number",
+                                            "default": 0.0
+                                        },
+                                        "mode": {
+                                            "type": "string",
+                                            "default": "RLC (BT)"
+                                        },
+                                        "mute": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "q": {
+                                            "type": "number",
+                                            "default": 4.36
+                                        },
+                                        "slope": {
+                                            "type": "string",
+                                            "default": "x4"
+                                        },
+                                        "solo": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "default": "Bell"
+                                        }
+                                    },
+                                    "required": [
+                                        "frequency"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "band0",
+                                "band1",
+                                "band2",
+                                "band3",
+                                "band4",
+                                "band5",
+                                "band6",
+                                "band7"
+                            ]
+                        },
+                        "right": {
+                            "type": "object",
+                            "properties": {
+                                "band0": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency": {
+                                            "type": "number",
+                                            "default": 120.0
+                                        },
+                                        "gain": {
+                                            "type": "number",
+                                            "default": 0.0
+                                        },
+                                        "mode": {
+                                            "type": "string",
+                                            "default": "BWC (BT)"
+                                        },
+                                        "mute": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "q": {
+                                            "type": "number",
+                                            "default": 4.36
+                                        },
+                                        "slope": {
+                                            "type": "string",
+                                            "default": "x4"
+                                        },
+                                        "solo": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "default": "Bell"
+                                        }
+                                    },
+                                    "required": [
+                                        "frequency"
+                                    ]
+                                },
+                                "band1": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency": {
+                                            "type": "number",
+                                            "default": 140.0
+                                        },
+                                        "gain": {
+                                            "type": "number",
+                                            "default": 0.0
+                                        },
+                                        "mode": {
+                                            "type": "string",
+                                            "default": "RLC (BT)"
+                                        },
+                                        "mute": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "q": {
+                                            "type": "number",
+                                            "default": 4.36
+                                        },
+                                        "slope": {
+                                            "type": "string",
+                                            "default": "x1"
+                                        },
+                                        "solo": {
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "default": "Bell"
+                                        }
+                                    },
+                                    "required": [
+                                        "frequency"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "band0",
+                                "band1",
+                                "band2",
+                                "band3",
+                                "band4",
+                                "band5",
+                                "band6",
+                                "band7"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "left",
+                        "right"
+                    ]
+                }
+            },
+            "required": [
+                "blocklist",
+                "plugins_order",
+                "equalizer#0"
+            ]
+        }
+    }
+}
