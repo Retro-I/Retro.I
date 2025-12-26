@@ -28,6 +28,26 @@ class TestSyncValues(BaseTest):
         self.assertEqual(new_data, expected)
         self.assertTrue(self.settings_sync_helper.is_valid(new_data, schema))
 
+    def test_validate_all_settings_after_change(self):
+        def _modify_audio_settings():
+            with open(self.audio_helper.AUDIO_SETTINGS_PATH, "r+") as f:
+                file_data = {
+                    "enableAutoplay": False,  # default value is True
+                    "new_field": "HELLO_WORLD",
+                }
+                f.seek(0)
+                json.dump(file_data, f, indent=4)
+                f.truncate()
+
+        _modify_audio_settings()
+        self.settings_sync_helper.validate_and_repair_all_settings()
+
+        with open(self.audio_helper.AUDIO_SETTINGS_PATH, "r+") as file:
+            data = json.load(file)
+
+        expected = {"enableAutoplay": False, "defaultVolume": 20, "volumeStep": 6}
+        self.assertEqual(data, expected)
+
     def test_list_data_validation(self):
         data = [
             {
