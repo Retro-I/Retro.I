@@ -143,17 +143,14 @@ class SettingsUpdateDialog(ft.AlertDialog):
         try:
             system_helper.change_revision(revision["name"])
             settings_sync_helper.validate_and_repair_all_settings()
+            settings_sync_helper.validate_all_settings()
             self.success_dialog.open_dialog(
                 "Updates",
                 f'Updates für "{revision["name"]}" erfolgreich heruntergeladen!',
                 show_icon=True,
             )
-        except subprocess.CalledProcessError as e:
-            print("Script failed!")
-            print("Exit code:", e.returncode)
-            print("STDOUT:\n", e.stdout)
-            print("STDERR:\n", e.stderr)
-            self.error_dialog.open_dialog(e.stderr, show_icon=True)
+        except Exception as e:
+            self.error_dialog.open_dialog(e, show_icon=True)
         self.download_dialog.close_dialog()
 
     def _get_current_revision(self):
