@@ -46,7 +46,7 @@ class SettingsSyncHelper:
             if not os.path.exists(default_settings_path):
                 if os.path.exists(settings_path):
                     os.remove(settings_path)
-                return
+                continue
 
             # Read source JSON
             with open(default_settings_path, "r") as f:
@@ -57,7 +57,7 @@ class SettingsSyncHelper:
                 with open(settings_path, "w") as f:
                     json.dump(source, f, indent=4)
                 print(f"Created new settings file: {default_file}")
-                return
+                continue
 
         files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
@@ -67,7 +67,7 @@ class SettingsSyncHelper:
 
             if not os.path.exists(default_settings_path):
                 os.remove(full_path)
-                return
+                continue
 
             data = self.get_data_for_filename(full_path)
             schema = self.get_schema_for_filename(full_path)
