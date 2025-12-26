@@ -15,6 +15,19 @@ class TestSyncValues(BaseTest):
         data = {"enableAutoplay": True, "defaultVolume": 20}
         self.assertTrue(self.settings_sync_helper.is_valid(data, self._get_test_schema()))
 
+    def test_add_volume_step_field(self):
+        old_data = {"enableAutoplay": True, "defaultVolume": 20}
+        schema = self.settings_sync_helper.get_schema_for_filename(
+            self.audio_helper.AUDIO_SETTINGS_PATH
+        )
+        self.assertFalse(self.settings_sync_helper.is_valid(old_data, schema))
+
+        new_data = self.settings_sync_helper.repair(old_data, schema)
+        expected = {"enableAutoplay": True, "defaultVolume": 20, "volumeStep": 6}
+
+        self.assertEqual(new_data, expected)
+        self.assertTrue(self.settings_sync_helper.is_valid(new_data, schema))
+
     def test_list_data_validation(self):
         data = [
             {
