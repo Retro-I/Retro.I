@@ -1,5 +1,3 @@
-import subprocess
-
 import flet as ft
 
 from components.dialogs.DownloadDialog import DownloadDialog
@@ -141,7 +139,9 @@ class SettingsUpdateDialog(ft.AlertDialog):
     def on_revision_click(self, revision):
         self.download_dialog.open_dialog(revision)
         try:
+            self.download_dialog.update_info("Neue Version wird heruntergeladen...")
             system_helper.change_revision(revision["name"])
+            self.download_dialog.update_info("Dateien reparieren...")
             settings_sync_helper.validate_and_repair_all_settings()
             settings_sync_helper.validate_all_settings()
             self.success_dialog.open_dialog(
