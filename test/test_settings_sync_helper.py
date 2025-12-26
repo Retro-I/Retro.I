@@ -100,11 +100,7 @@ class TestSyncValues(BaseTest):
         with open(f"{self.test_dir}/audio-settings.json", "r") as f:
             actual = json.load(f)
 
-        expected = {
-            "enableAutoplay": True,
-            "defaultVolume": 20,
-            "volumeStep": 6,
-        }
+        expected = {"enableAutoplay": True, "defaultVolume": 20, "volumeStep": 6}
         self.assertCountEqual(actual, expected)
 
     def test_delete_target_settings_file_when_default_not_present(self):

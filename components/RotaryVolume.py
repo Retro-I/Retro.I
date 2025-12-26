@@ -11,7 +11,7 @@ gpio_helper = GpioHelper()
 
 class RotaryVolume:
     COUNTER = 0
-    VOLUME_STEP = 6
+    VOLUME_STEP = audio_helper.get_volume_step()
     VOLUME_UP_PIN = gpio_helper.rotary_volume_up()
     VOLUME_DOWN_PIN = gpio_helper.rotary_volume_down()
     VOLUME_MUTE_PIN = gpio_helper.rotary_volume_press()
