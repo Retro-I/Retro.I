@@ -1,4 +1,5 @@
 {
     "enableAutoplay": true,
-    "defaultVolume": 20
+    "defaultVolume": 20,
+    "volumeStep": 6
 }
