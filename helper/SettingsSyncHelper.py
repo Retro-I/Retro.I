@@ -27,8 +27,8 @@ class SettingsSyncHelper:
         settings_path = Constants.settings_path()
         self.validate_by_path(settings_path)
 
-        effects_path = Constants.effects_path()
-        self.validate_by_path(effects_path)
+        directory, _ = os.path.split(Constants.effects_path())
+        self.validate_by_path(directory)
 
     def validate_and_repair_all_settings(self):
         path = Constants.settings_path()

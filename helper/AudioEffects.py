@@ -1,5 +1,4 @@
 import json
-import os
 import subprocess
 
 from helper.BassStepsHelper import BassStepsHelper
@@ -13,7 +12,7 @@ treble_steps_helper = TrebleStepsHelper()
 
 
 class AudioEffects:
-    EFFECTS_PATH = f"{os.environ.get('HOME')}/.config/easyeffects/output/retroi.json"
+    EFFECTS_PATH = Constants.effects_path()
 
     def start(self):
         self.stop()
