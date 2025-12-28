@@ -2,6 +2,7 @@ import re
 import struct
 
 import requests
+from requests import Response
 
 try:
     import urllib2
@@ -31,12 +32,18 @@ class RadioHelper:
             return ""
 
     def get_stations_by_name(self, name: str) -> list:
-        url = (
-            f"https://de1.api.radio-browser.info/json/stations/byname/{name}?order=votes"
-            f"&reverse=true"
-        )
-        response = requests.get(url)
-        response.raise_for_status()
+        def _call(api_prefix: str = "de1") -> Response:
+            url = (
+                f"https://{api_prefix}.api.radio-browser.info/json/stations/byname/{name}"
+                "?order=votes&reverse=true"
+            )
+            return requests.get(url)
+
+        response = _call()
+
+        if response.status_code != 200:
+            response = _call("de2")
+            response.raise_for_status()
 
         stations = [
             {
