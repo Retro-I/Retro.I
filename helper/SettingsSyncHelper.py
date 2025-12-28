@@ -81,6 +81,12 @@ class SettingsSyncHelper:
                     json.dump(repaired_data, file, indent=4)
                     file.truncate()
 
+                data = self.get_data_for_filename(full_path)
+                schema = self.get_schema_for_filename(full_path)
+
+                if not self.is_valid(data, schema):
+                    raise RuntimeError(f"Fix not applied to {full_path}!")
+
     def is_valid(self, data: dict | list, schema: dict) -> bool:
         validator = Draft7Validator(schema)
         return validator.evolve(schema=schema).is_valid(data, schema)

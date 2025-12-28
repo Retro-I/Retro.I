@@ -1,5 +1,6 @@
 import json
 import os
+from unittest import mock
 
 from test.base_test import BaseTest
 
@@ -47,6 +48,25 @@ class TestSyncValues(BaseTest):
 
         expected = {"enableAutoplay": False, "defaultVolume": 20, "volumeStep": 6}
         self.assertEqual(data, expected)
+
+    @mock.patch("helper.SettingsSyncHelper.SettingsSyncHelper.is_valid")
+    def test_exception_for_not_valid_file_after_repair(self, is_valid_mock):
+        def _modify_audio_settings():
+            with open(self.audio_helper.AUDIO_SETTINGS_PATH, "r+") as f:
+                file_data = {
+                    "enableAutoplay": False,  # default value is True
+                    "new_field": "HELLO_WORLD",
+                }
+                f.seek(0)
+                json.dump(file_data, f, indent=4)
+                f.truncate()
+
+        is_valid_mock.return_value = False
+
+        _modify_audio_settings()
+
+        with self.assertRaises(RuntimeError):
+            self.settings_sync_helper.validate_and_repair_all_settings()
 
     def test_list_data_validation(self):
         data = [
