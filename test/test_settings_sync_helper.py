@@ -166,6 +166,9 @@ class TestSyncValues(BaseTest):
         self.assertFalse(os.path.exists(f"{self.test_dir}/audio-settings.json"))
         self.assertFalse(os.path.exists(f"{self.test_dir_default}/audio-settings.json"))
 
+    def test_validate_audio_effects(self):
+        self.settings_sync_helper.validate_effects()
+
     def _get_test_schema(self):
         return {
             "$schema": "https://json-schema.org/draft/2020-12/schema",

@@ -9,6 +9,9 @@ class TestConstants(unittest.TestCase):
         os.environ["RETROI_DIR"] = "/home/pi/Retro.I"
         self.constants = Constants()
 
+    def tearDown(self):
+        os.environ.pop("RETROI_DIR", None)
+
     def test_pwd(self):
         self.assertEqual("/home/pi/Retro.I", Constants.pwd())
 
