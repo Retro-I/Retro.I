@@ -25,6 +25,10 @@ class Constants:
         return str(os.path.join(user_data_dir("retroi")))
 
     @staticmethod
+    def schemas_path() -> str:
+        return str(os.path.join(Constants.pwd(), "settings/schemas"))
+
+    @staticmethod
     def default_settings_path() -> str:
         return str(os.path.join(Constants.pwd(), "settings"))
 

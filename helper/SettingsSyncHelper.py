@@ -33,7 +33,7 @@ class SettingsSyncHelper:
             raise RuntimeError(f"File {filename} is not valid")
 
     def validate_effects(self):
-        schema = self.get_schema_for_filename(f"{Constants.pwd()}/assets/effects/effects.json")
+        schema = self.get_effects_schema()
         data = self.get_data_for_filename(Constants.effects_path())
 
         self.is_valid(data, schema)
@@ -162,9 +162,19 @@ class SettingsSyncHelper:
 
     def get_schema_for_filename(self, full_path):
         path, filename = os.path.split(full_path)
-        schema_path = os.path.join(path, f"schemas/schema_{filename}")
+        schema_path = os.path.join(Constants.schemas_path(), f"schema_{filename}")
         if not os.path.exists(schema_path):
             breakpoint()
+
+        assert os.path.exists(schema_path)
+        with open(schema_path, "r") as f:
+            data = json.load(f)
+
+        return data
+
+    def get_effects_schema(self):
+        path, filename = os.path.split(Constants.effects_path())
+        schema_path = os.path.join(Constants.pwd(), f"assets/effects/schemas/schema_{filename}")
 
         assert os.path.exists(schema_path)
         with open(schema_path, "r") as f:
