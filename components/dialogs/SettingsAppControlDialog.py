@@ -1,8 +1,11 @@
 import flet as ft
 
+from components.IconBtn import IconBtn
+from helper.SettingsSyncHelper import SettingsSyncHelper
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
+settings_sync_helper = SettingsSyncHelper()
 
 
 class SettingsAppControlDialog(ft.AlertDialog):
@@ -18,37 +21,15 @@ class SettingsAppControlDialog(ft.AlertDialog):
                     alignment=ft.MainAxisAlignment.CENTER,
                     spacing=75,
                     controls=[
-                        ft.Column(
-                            [
-                                ft.IconButton(
-                                    ft.Icons.LOGOUT,
-                                    icon_size=75,
-                                    on_click=lambda e: system_helper.stop_app(),
-                                ),
-                                ft.Text(
-                                    "App beenden",
-                                    text_align=ft.TextAlign.CENTER,
-                                    style=ft.TextStyle(size=18),
-                                ),
-                            ],
-                            alignment=ft.MainAxisAlignment.CENTER,
-                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        IconBtn(
+                            text="App beenden",
+                            icon=ft.Icons.LOGOUT,
+                            on_click=system_helper.stop_app,
                         ),
-                        ft.Column(
-                            [
-                                ft.IconButton(
-                                    ft.Icons.REFRESH,
-                                    icon_size=75,
-                                    on_click=lambda e: system_helper.restart_app(),
-                                ),
-                                ft.Text(
-                                    "App neustarten",
-                                    text_align=ft.TextAlign.CENTER,
-                                    style=ft.TextStyle(size=18),
-                                ),
-                            ],
-                            alignment=ft.MainAxisAlignment.CENTER,
-                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        IconBtn(
+                            text="App neustarten",
+                            icon=ft.Icons.REFRESH,
+                            on_click=system_helper.restart_app,
                         ),
                     ],
                 ),
