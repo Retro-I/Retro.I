@@ -1,6 +1,7 @@
 import flet as ft
 
 from components.VolumeInputField import VolumeInputField
+from components.VolumeStepInputField import VolumeStepInputField
 from helper.Audio import Audio
 from helper.Stations import Stations
 
@@ -19,6 +20,8 @@ class SettingsSystemDialog(ft.AlertDialog):
             tight=True,
             controls=[
                 VolumeInputField(),
+                ft.Divider(),
+                VolumeStepInputField(),
                 ft.Divider(),
                 ft.Switch(
                     "Lieblingsradiosender nach Systemstart abspielen",

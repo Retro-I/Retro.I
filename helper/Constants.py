@@ -25,12 +25,18 @@ class Constants:
         return str(os.path.join(user_data_dir("retroi")))
 
     @staticmethod
+    def schemas_path() -> str:
+        return str(os.path.join(Constants.pwd(), "settings/schemas"))
+
+    @staticmethod
     def default_settings_path() -> str:
         return str(os.path.join(Constants.pwd(), "settings"))
 
     @staticmethod
     def effects_path() -> str:
-        return str(os.path.join(f"{os.environ.get('HOME')}", "/.config/easyeffects/output/effects"))
+        return str(
+            os.path.join(f"{os.environ.get('HOME')}", ".config/easyeffects/output/retroi.json")
+        )
 
     def sound_path(self):
         return f"{self.pwd()}/assets/sounds"

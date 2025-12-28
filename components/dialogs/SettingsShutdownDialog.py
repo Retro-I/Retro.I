@@ -1,5 +1,6 @@
 import flet as ft
 
+from components.IconBtn import IconBtn
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
@@ -18,37 +19,15 @@ class SettingsShutdownDialog(ft.AlertDialog):
                     alignment=ft.MainAxisAlignment.CENTER,
                     spacing=75,
                     controls=[
-                        ft.Column(
-                            [
-                                ft.IconButton(
-                                    ft.Icons.POWER_SETTINGS_NEW,
-                                    icon_size=75,
-                                    on_click=lambda e: system_helper.shutdown_system(),
-                                ),
-                                ft.Text(
-                                    "Herunterfahren",
-                                    text_align=ft.TextAlign.CENTER,
-                                    style=ft.TextStyle(size=18),
-                                ),
-                            ],
-                            alignment=ft.MainAxisAlignment.CENTER,
-                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        IconBtn(
+                            text="Herunterfahren",
+                            icon=ft.Icons.POWER_SETTINGS_NEW,
+                            on_click=system_helper.shutdown_system,
                         ),
-                        ft.Column(
-                            [
-                                ft.IconButton(
-                                    ft.Icons.RESTART_ALT,
-                                    icon_size=75,
-                                    on_click=lambda e: system_helper.restart_system(),
-                                ),
-                                ft.Text(
-                                    "Neustarten",
-                                    text_align=ft.TextAlign.CENTER,
-                                    style=ft.TextStyle(size=18),
-                                ),
-                            ],
-                            alignment=ft.MainAxisAlignment.CENTER,
-                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        IconBtn(
+                            text="Neustarten",
+                            icon=ft.Icons.RESTART_ALT,
+                            on_click=system_helper.restart_system,
                         ),
                     ],
                 ),

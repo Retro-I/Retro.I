@@ -7,6 +7,7 @@ system_helper = SystemHelper()
 
 class DownloadDialog(ft.AlertDialog):
     text = ft.TextSpan("", style=ft.TextStyle(weight=ft.FontWeight.BOLD, size=16))
+    info = ft.Text()
 
     def __init__(self):
         super().__init__()
@@ -16,9 +17,10 @@ class DownloadDialog(ft.AlertDialog):
                 ft.ProgressRing(),
                 ft.Text(
                     spans=[
-                        ft.TextSpan("Updates für Version ", style=ft.TextStyle(size=16)),
+                        ft.TextSpan("Update für Version ", style=ft.TextStyle(size=16)),
                         self.text,
-                        ft.TextSpan(" werden heruntergeladen...", style=ft.TextStyle(size=16)),
+                        ft.TextSpan(" wird durchgeführt...", style=ft.TextStyle(size=16)),
+                        self.info,
                     ],
                 ),
             ],
@@ -33,6 +35,10 @@ class DownloadDialog(ft.AlertDialog):
         self.text.update()
         self.open = True
         self.update()
+
+    def update_info(self, text: str):
+        self.info.text = text
+        self.info.update()
 
     def close_dialog(self):
         self.open = False

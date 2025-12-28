@@ -1,5 +1,6 @@
 import json
 import os
+from unittest import mock
 
 from test.base_test import BaseTest
 
@@ -14,6 +15,58 @@ class TestSyncValues(BaseTest):
     def test_data_validation(self):
         data = {"enableAutoplay": True, "defaultVolume": 20}
         self.assertTrue(self.settings_sync_helper.is_valid(data, self._get_test_schema()))
+
+    def test_add_volume_step_field(self):
+        old_data = {"enableAutoplay": True, "defaultVolume": 20}
+        schema = self.settings_sync_helper.get_schema_for_filename(
+            self.audio_helper.AUDIO_SETTINGS_PATH
+        )
+        self.assertFalse(self.settings_sync_helper.is_valid(old_data, schema))
+
+        new_data = self.settings_sync_helper.repair(old_data, schema)
+        expected = {"enableAutoplay": True, "defaultVolume": 20, "volumeStep": 6}
+
+        self.assertEqual(new_data, expected)
+        self.assertTrue(self.settings_sync_helper.is_valid(new_data, schema))
+
+    def test_validate_all_settings_after_change(self):
+        def _modify_audio_settings():
+            with open(self.audio_helper.AUDIO_SETTINGS_PATH, "r+") as f:
+                file_data = {
+                    "enableAutoplay": False,  # default value is True
+                    "new_field": "HELLO_WORLD",
+                }
+                f.seek(0)
+                json.dump(file_data, f, indent=4)
+                f.truncate()
+
+        _modify_audio_settings()
+        self.settings_sync_helper.validate_and_repair_all_settings()
+
+        with open(self.audio_helper.AUDIO_SETTINGS_PATH, "r+") as file:
+            data = json.load(file)
+
+        expected = {"enableAutoplay": False, "defaultVolume": 20, "volumeStep": 6}
+        self.assertEqual(data, expected)
+
+    @mock.patch("helper.SettingsSyncHelper.SettingsSyncHelper.is_valid")
+    def test_exception_for_not_valid_file_after_repair(self, is_valid_mock):
+        def _modify_audio_settings():
+            with open(self.audio_helper.AUDIO_SETTINGS_PATH, "r+") as f:
+                file_data = {
+                    "enableAutoplay": False,  # default value is True
+                    "new_field": "HELLO_WORLD",
+                }
+                f.seek(0)
+                json.dump(file_data, f, indent=4)
+                f.truncate()
+
+        is_valid_mock.return_value = False
+
+        _modify_audio_settings()
+
+        with self.assertRaises(RuntimeError):
+            self.settings_sync_helper.validate_and_repair_all_settings()
 
     def test_list_data_validation(self):
         data = [
@@ -100,7 +153,7 @@ class TestSyncValues(BaseTest):
         with open(f"{self.test_dir}/audio-settings.json", "r") as f:
             actual = json.load(f)
 
-        expected = {"enableAutoplay": True, "defaultVolume": 20}
+        expected = {"enableAutoplay": True, "defaultVolume": 20, "volumeStep": 6}
         self.assertCountEqual(actual, expected)
 
     def test_delete_target_settings_file_when_default_not_present(self):
@@ -112,6 +165,22 @@ class TestSyncValues(BaseTest):
 
         self.assertFalse(os.path.exists(f"{self.test_dir}/audio-settings.json"))
         self.assertFalse(os.path.exists(f"{self.test_dir_default}/audio-settings.json"))
+
+    def test_validate_audio_effects(self):
+        self.settings_sync_helper.validate_effects()
+
+    def test_validate_by_filename(self):
+        self.settings_sync_helper.validate_setting_by_filename("audio-settings.json")
+        self.settings_sync_helper.validate_setting_by_filename("bass-steps.json")
+        self.settings_sync_helper.validate_setting_by_filename("favorite-sounds.json")
+        self.settings_sync_helper.validate_setting_by_filename("gpio-pin-mapping.json")
+        self.settings_sync_helper.validate_setting_by_filename("radio-stations.json")
+        self.settings_sync_helper.validate_setting_by_filename("scrollbar-settings.json")
+        self.settings_sync_helper.validate_setting_by_filename("secured-mode-settings.json")
+        self.settings_sync_helper.validate_setting_by_filename("startup-error.json")
+        self.settings_sync_helper.validate_setting_by_filename("strip-settings.json")
+        self.settings_sync_helper.validate_setting_by_filename("theme-mode-settings.json")
+        self.settings_sync_helper.validate_setting_by_filename("treble-steps.json")
 
     def _get_test_schema(self):
         return {

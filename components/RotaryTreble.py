@@ -24,7 +24,6 @@ class RotaryTreble:
     def __init__(self, on_taskbar_update):
         rotary = pyky040.Encoder(CLK=self.TREBLE_UP_PIN, DT=self.TREBLE_DOWN_PIN)
         rotary.setup(
-            step=self.TREBLE_STEP,
             inc_callback=lambda e: self.inc_treble(on_taskbar_update),
             dec_callback=lambda e: self.dec_treble(on_taskbar_update),
         )

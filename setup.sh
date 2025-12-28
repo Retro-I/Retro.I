@@ -393,7 +393,7 @@ deactivate_services() {
 }
 
 install_easyeffects() {
-  project_preset="$RETROI_DIR/assets/effects/effects.json"
+  project_preset="$RETROI_DIR/assets/effects/retroi.json"
   preset="$HOME/.config/easyeffects/output/retroi.json"
 
   sudo apt-get install easyeffects -y -qqq

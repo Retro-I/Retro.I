@@ -57,11 +57,11 @@ class BaseTest(unittest.TestCase):
 
         Constants.settings_path = staticmethod(lambda: self.test_dir)
         Constants.default_settings_path = staticmethod(lambda: self.test_dir_default)
-        Constants.effects_path = staticmethod(lambda: self.test_effects_path)
+        Constants.effects_path = staticmethod(lambda: f"{self.test_effects_path}/retroi.json")
 
         self.assertTrue(os.path.exists(self.test_dir))
         self.assertTrue(os.path.exists(f"{self.test_dir}/schemas"))
-        self.assertTrue(os.path.exists(f"{self.test_effects_path}/effects.json"))
+        self.assertTrue(os.path.exists(f"{self.test_effects_path}/retroi.json"))
 
         self.audio_settings_dispatcher = patch("helper.Audio.Audio.unmute", return_value=None)
         self.audio_settings_dispatcher.start()
@@ -82,7 +82,7 @@ class BaseTest(unittest.TestCase):
         startup_error_helper = f"{self.test_dir}/startup-error.json"
         bass_steps_path = f"{self.test_dir}/bass-steps.json"
         treble_steps_path = f"{self.test_dir}/treble-steps.json"
-        effects_path = f"{self.test_effects_path}/effects.json"
+        effects_path = f"{self.test_effects_path}/retroi.json"
 
         Audio.AUDIO_SETTINGS_PATH = audio_settings_path
         GpioHelper.GPIO_SETTINGS_PATH = gpio_settings_path

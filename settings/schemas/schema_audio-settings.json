@@ -12,8 +12,13 @@
             "type": "integer",
             "description": "The default volume on system startup",
             "default": 20
+        },
+        "volumeStep": {
+            "type": "integer",
+            "description": "The step to increase or decrease the volume",
+            "default": 6
         }
     },
-    "required": ["enableAutoplay", "defaultVolume"],
+    "required": ["enableAutoplay", "defaultVolume", "volumeStep"],
     "additionalProperties": false
 }

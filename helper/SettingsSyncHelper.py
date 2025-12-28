@@ -23,12 +23,26 @@ class SettingsSyncHelper:
             if not self.is_valid(data, schema):
                 raise RuntimeError(f"File {filename} is not valid")
 
+    def validate_setting_by_filename(self, filename):
+        path = Constants.settings_path()
+        full_path = f"{path}/{filename}"
+        data = self.get_data_for_filename(full_path)
+        schema = self.get_schema_for_filename(full_path)
+
+        if not self.is_valid(data, schema):
+            raise RuntimeError(f"File {filename} is not valid")
+
+    def validate_effects(self):
+        schema = self.get_effects_schema()
+        data = self.get_data_for_filename(Constants.effects_path())
+
+        self.is_valid(data, schema)
+
     def validate_all_settings(self):
         settings_path = Constants.settings_path()
         self.validate_by_path(settings_path)
 
-        effects_path = Constants.effects_path()
-        self.validate_by_path(effects_path)
+        self.validate_effects()
 
     def validate_and_repair_all_settings(self):
         path = Constants.settings_path()
@@ -46,7 +60,7 @@ class SettingsSyncHelper:
             if not os.path.exists(default_settings_path):
                 if os.path.exists(settings_path):
                     os.remove(settings_path)
-                return
+                continue
 
             # Read source JSON
             with open(default_settings_path, "r") as f:
@@ -57,7 +71,7 @@ class SettingsSyncHelper:
                 with open(settings_path, "w") as f:
                     json.dump(source, f, indent=4)
                 print(f"Created new settings file: {default_file}")
-                return
+                continue
 
         files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
@@ -67,7 +81,7 @@ class SettingsSyncHelper:
 
             if not os.path.exists(default_settings_path):
                 os.remove(full_path)
-                return
+                continue
 
             data = self.get_data_for_filename(full_path)
             schema = self.get_schema_for_filename(full_path)
@@ -80,6 +94,12 @@ class SettingsSyncHelper:
                     file.seek(0)
                     json.dump(repaired_data, file, indent=4)
                     file.truncate()
+
+                data = self.get_data_for_filename(full_path)
+                schema = self.get_schema_for_filename(full_path)
+
+                if not self.is_valid(data, schema):
+                    raise RuntimeError(f"Fix not applied to {full_path}!")
 
     def is_valid(self, data: dict | list, schema: dict) -> bool:
         validator = Draft7Validator(schema)
@@ -142,8 +162,21 @@ class SettingsSyncHelper:
 
     def get_schema_for_filename(self, full_path):
         path, filename = os.path.split(full_path)
-        schema_path = os.path.join(path, f"schemas/schema_{filename}")
+        schema_path = os.path.join(Constants.schemas_path(), f"schema_{filename}")
+        if not os.path.exists(schema_path):
+            breakpoint()
 
+        assert os.path.exists(schema_path)
+        with open(schema_path, "r") as f:
+            data = json.load(f)
+
+        return data
+
+    def get_effects_schema(self):
+        path, filename = os.path.split(Constants.effects_path())
+        schema_path = os.path.join(Constants.pwd(), f"assets/effects/schemas/schema_{filename}")
+
+        assert os.path.exists(schema_path)
         with open(schema_path, "r") as f:
             data = json.load(f)
 

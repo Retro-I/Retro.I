@@ -19,7 +19,11 @@ class TestAudioHelper(BaseTest):
 
     def test_default_sound_settings(self):
         actual = self.audio_helper.get_default_sound_settings()
-        expected = {"enableAutoplay": True, "defaultVolume": 20}
+        expected = {
+            "enableAutoplay": True,
+            "defaultVolume": 20,
+            "volumeStep": 6,
+        }
         self.assertCountEqual(actual, expected)
 
     def test_get_default_volume(self):
@@ -34,6 +38,19 @@ class TestAudioHelper(BaseTest):
 
         actual = self.audio_helper.get_default_volume()
         self.assertEqual(actual, 50)
+
+    def test_get_volume_step(self):
+        actual = self.audio_helper.get_volume_step()
+        self.assertEqual(actual, 6)
+
+    def test_set_volume_step(self):
+        actual = self.audio_helper.get_volume_step()
+        self.assertEqual(actual, 6)
+
+        self.audio_helper.set_volume_step(2)
+
+        actual = self.audio_helper.get_volume_step()
+        self.assertEqual(actual, 2)
 
 
 class TestAudioSounds(unittest.TestCase):

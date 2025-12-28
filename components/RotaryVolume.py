@@ -11,7 +11,6 @@ gpio_helper = GpioHelper()
 
 class RotaryVolume:
     COUNTER = 0
-    VOLUME_STEP = 6
     VOLUME_UP_PIN = gpio_helper.rotary_volume_up()
     VOLUME_DOWN_PIN = gpio_helper.rotary_volume_down()
     VOLUME_MUTE_PIN = gpio_helper.rotary_volume_press()
@@ -25,7 +24,6 @@ class RotaryVolume:
             CLK=self.VOLUME_UP_PIN, DT=self.VOLUME_DOWN_PIN, SW=self.VOLUME_MUTE_PIN
         )
         rotary.setup(
-            step=self.VOLUME_STEP,
             inc_callback=lambda e: self.inc_sound(),
             dec_callback=lambda e: self.dec_sound(),
             sw_callback=lambda: self.toggle_mute(),
@@ -35,7 +33,7 @@ class RotaryVolume:
 
     def inc_sound(self):
         if self.COUNTER % 2 == 0:
-            value = audio_helper.get_volume() + self.VOLUME_STEP
+            value = audio_helper.get_volume() + audio_helper.get_volume_step()
             if 0 <= value <= 100:
                 self.update(value)
 
@@ -45,7 +43,7 @@ class RotaryVolume:
 
     def dec_sound(self):
         if self.COUNTER % 2 == 0:
-            value = audio_helper.get_volume() - self.VOLUME_STEP
+            value = audio_helper.get_volume() - audio_helper.get_volume_step()
             if 0 <= value <= 100:
                 self.update(value)
 
