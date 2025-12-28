@@ -23,6 +23,15 @@ class SettingsSyncHelper:
             if not self.is_valid(data, schema):
                 raise RuntimeError(f"File {filename} is not valid")
 
+    def validate_setting_by_filename(self, filename):
+        path = Constants.settings_path()
+        full_path = f"{path}/{filename}"
+        data = self.get_data_for_filename(full_path)
+        schema = self.get_schema_for_filename(full_path)
+
+        if not self.is_valid(data, schema):
+            raise RuntimeError(f"File {filename} is not valid")
+
     def validate_effects(self):
         schema = self.get_schema_for_filename(f"{Constants.pwd()}/assets/effects/effects.json")
         data = self.get_data_for_filename(Constants.effects_path())

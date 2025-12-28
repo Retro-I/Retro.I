@@ -169,6 +169,19 @@ class TestSyncValues(BaseTest):
     def test_validate_audio_effects(self):
         self.settings_sync_helper.validate_effects()
 
+    def test_validate_by_filename(self):
+        self.settings_sync_helper.validate_setting_by_filename("audio-settings.json")
+        self.settings_sync_helper.validate_setting_by_filename("bass-steps.json")
+        self.settings_sync_helper.validate_setting_by_filename("favorite-sounds.json")
+        self.settings_sync_helper.validate_setting_by_filename("gpio-pin-mapping.json")
+        self.settings_sync_helper.validate_setting_by_filename("radio-stations.json")
+        self.settings_sync_helper.validate_setting_by_filename("scrollbar-settings.json")
+        self.settings_sync_helper.validate_setting_by_filename("secured-mode-settings.json")
+        self.settings_sync_helper.validate_setting_by_filename("startup-error.json")
+        self.settings_sync_helper.validate_setting_by_filename("strip-settings.json")
+        self.settings_sync_helper.validate_setting_by_filename("theme-mode-settings.json")
+        self.settings_sync_helper.validate_setting_by_filename("treble-steps.json")
+
     def _get_test_schema(self):
         return {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
