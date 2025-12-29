@@ -21,16 +21,19 @@ class RotaryTreble:
 
     taskbar = None
 
-    def __init__(self, on_taskbar_update):
+    def __init__(self, on_taskbar_update, on_treble_update):
+        self.on_taskbar_update = on_taskbar_update
+        self.on_treble_update = on_treble_update
+
         rotary = pyky040.Encoder(CLK=self.TREBLE_UP_PIN, DT=self.TREBLE_DOWN_PIN)
         rotary.setup(
-            inc_callback=lambda e: self.inc_treble(on_taskbar_update),
-            dec_callback=lambda e: self.dec_treble(on_taskbar_update),
+            inc_callback=lambda e: self.inc_treble(),
+            dec_callback=lambda e: self.dec_treble(),
         )
         rotary_thread = threading.Thread(target=rotary.watch)
         rotary_thread.start()
 
-    def inc_treble(self, on_taskbar_update):
+    def inc_treble(self):
         if self.COUNTER % 2 == 0:
             if (
                 treble_steps_helper.get_min_step()
@@ -38,13 +41,16 @@ class RotaryTreble:
                 < treble_steps_helper.get_max_step()
             ):
                 Constants.current_treble_step += self.TREBLE_STEP
-                self.update(Constants.current_treble_step, on_taskbar_update)
+                self.update(Constants.current_treble_step)
+                self.on_treble_update(Constants.current_treble_step)
 
             if Constants.current_treble_step > treble_steps_helper.get_max_step():
-                self.update(treble_steps_helper.get_max_step(), on_taskbar_update)
+                self.update(treble_steps_helper.get_max_step())
+                self.on_treble_update(Constants.current_treble_step)
+
         self.COUNTER += 1
 
-    def dec_treble(self, on_taskbar_update):
+    def dec_treble(self):
         if self.COUNTER % 2 == 0:
             if (
                 treble_steps_helper.get_min_step()
@@ -52,12 +58,15 @@ class RotaryTreble:
                 <= treble_steps_helper.get_max_step()
             ):
                 Constants.current_treble_step -= self.TREBLE_STEP
-                self.update(Constants.current_treble_step, on_taskbar_update)
+                self.update(Constants.current_treble_step)
+                self.on_treble_update(Constants.current_treble_step)
 
             if Constants.current_treble_step < treble_steps_helper.get_min_step():
-                self.update(treble_steps_helper.get_min_step(), on_taskbar_update)
+                self.update(treble_steps_helper.get_min_step())
+                self.on_treble_update(Constants.current_treble_step)
+
         self.COUNTER -= 1
 
-    def update(self, step, on_taskbar_update):
+    def update(self, step):
         audio_effects.update_treble(step)
-        on_taskbar_update()
+        self.on_taskbar_update()

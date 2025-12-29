@@ -21,16 +21,19 @@ class RotaryBass:
     BASS_UP_PIN = gpio_helper.rotary_bass_up()
     BASS_DOWN_PIN = gpio_helper.rotary_bass_down()
 
-    def __init__(self, on_taskbar_update):
+    def __init__(self, on_taskbar_update, on_bass_update):
+        self.on_taskbar_update = on_taskbar_update
+        self.on_bass_update = on_bass_update
+
         rotary = pyky040.Encoder(CLK=self.BASS_UP_PIN, DT=self.BASS_DOWN_PIN)
         rotary.setup(
-            inc_callback=lambda e: self.inc_bass_boost(on_taskbar_update),
-            dec_callback=lambda e: self.dec_bass_boost(on_taskbar_update),
+            inc_callback=lambda e: self.inc_bass_boost(),
+            dec_callback=lambda e: self.dec_bass_boost(),
         )
         rotary_thread = threading.Thread(target=rotary.watch)
         rotary_thread.start()
 
-    def inc_bass_boost(self, on_taskbar_update):
+    def inc_bass_boost(self):
         if self.COUNTER % 2 == 0:
             if (
                 bass_steps_helper.get_min_step()
@@ -38,13 +41,16 @@ class RotaryBass:
                 < bass_steps_helper.get_max_step()
             ):
                 Constants.current_bass_step += self.BASS_STEP
-                self.update(Constants.current_bass_step, on_taskbar_update)
+                self.update(Constants.current_bass_step)
+                self.on_bass_update(Constants.current_bass_step)
 
             if Constants.current_bass_step > bass_steps_helper.get_max_step():
-                self.update(bass_steps_helper.get_max_step(), on_taskbar_update)
+                self.update(bass_steps_helper.get_max_step())
+                self.on_bass_update(Constants.current_bass_step)
+
         self.COUNTER += 1
 
-    def dec_bass_boost(self, on_taskbar_update):
+    def dec_bass_boost(self):
         if self.COUNTER % 2 == 0:
             if (
                 bass_steps_helper.get_min_step()
@@ -52,12 +58,15 @@ class RotaryBass:
                 <= bass_steps_helper.get_max_step()
             ):
                 Constants.current_bass_step -= self.BASS_STEP
-                self.update(Constants.current_bass_step, on_taskbar_update)
+                self.update(Constants.current_bass_step)
+                self.on_bass_update(Constants.current_bass_step)
 
             if Constants.current_bass_step < bass_steps_helper.get_min_step():
-                self.update(bass_steps_helper.get_min_step(), on_taskbar_update)
+                self.update(bass_steps_helper.get_min_step())
+                self.on_bass_update(Constants.current_bass_step)
+
         self.COUNTER -= 1
 
-    def update(self, step, on_taskbar_update):
+    def update(self, step):
         audio_effects.update_bass(step)
-        on_taskbar_update()
+        self.on_taskbar_update()
