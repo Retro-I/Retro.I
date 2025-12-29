@@ -112,8 +112,9 @@ class Strip:
             if self.is_active and self.sound_mode_active:
                 self.animation.animate()
 
-    def disable(self):
+    def disable(self, save: bool = True):
         self.pixels.fill(BLACK)
         self.animation.color = BLACK
         self.animation.reset()
-        self.pixels.show()
+        if save:
+            self.pixels.show()
