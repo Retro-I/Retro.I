@@ -64,7 +64,11 @@ def main(page: ft.Page):
     bluetooth_helper.on_startup()
 
     strip = Strip()
-    taskbar = Taskbar(on_volume_update=strip.update_sound_strip, on_mute_update=strip.toggle_mute)
+    taskbar = Taskbar(
+        on_volume_update=strip.update_sound_strip,
+        on_mute_update=strip.toggle_mute,
+        on_bass_update=strip.update_bass_strip,
+    )
     theme = Theme(taskbar, strip.update_strip)
 
     page.navigation_bar = theme.navbar
@@ -98,7 +102,7 @@ def main(page: ft.Page):
         on_strip_toggle_mute=strip.toggle_mute,
         on_strip_update_sound=strip.update_sound_strip,
     )
-    RotaryBass(on_taskbar_update=taskbar.update)
+    RotaryBass(on_taskbar_update=taskbar.update, on_bass_update=strip.update_bass_strip)
     RotaryTreble(on_taskbar_update=taskbar.update)
 
     audio_helper.startup_sound()

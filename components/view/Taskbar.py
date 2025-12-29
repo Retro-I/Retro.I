@@ -52,8 +52,10 @@ class Taskbar(ft.AppBar):
     ico_treble = ft.Icon(name=ft.Icons.HEIGHT, size=taskbar_icon_size)
     txt_treble = ft.Text(f"{Constants.current_treble_step}", size=18)
 
-    def __init__(self, on_volume_update, on_mute_update):
+    def __init__(self, on_volume_update, on_mute_update, on_bass_update):
         super().__init__()
+
+        self.on_bass_update = on_bass_update
 
         self.volume_dialog = VolumeDialog(
             on_update=self.update_volume_icon,
@@ -61,7 +63,7 @@ class Taskbar(ft.AppBar):
             on_mute_update=on_mute_update,
         )
         self.audio_effects_dialog = AudioEffectsDialog(
-            on_update_bass=self.update_bass_icon,
+            on_update_bass=self.bass_update,
             on_update_treble=self.update_treble_icon,
         )
         self.shutdown_dialog = SettingsShutdownDialog()
@@ -184,6 +186,10 @@ class Taskbar(ft.AppBar):
             f"{audio_helper.get_volume()}%" if not audio_helper.is_mute() else ""
         )
         self.txt_volume.update()
+
+    def bass_update(self):
+        self.update_bass_icon()
+        self.on_bass_update(Constants.current_bass_step)
 
     def update_bass_icon(self):
         self.txt_bass.value = Constants.current_bass_step
