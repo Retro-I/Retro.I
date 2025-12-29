@@ -68,6 +68,7 @@ def main(page: ft.Page):
         on_volume_update=strip.update_sound_strip,
         on_mute_update=strip.toggle_mute,
         on_bass_update=strip.update_bass_strip,
+        on_treble_update=strip.update_treble_strip,
     )
     theme = Theme(taskbar, strip.update_strip)
 
@@ -103,7 +104,7 @@ def main(page: ft.Page):
         on_strip_update_sound=strip.update_sound_strip,
     )
     RotaryBass(on_taskbar_update=taskbar.update, on_bass_update=strip.update_bass_strip)
-    RotaryTreble(on_taskbar_update=taskbar.update)
+    RotaryTreble(on_taskbar_update=taskbar.update, on_treble_update=strip.update_treble_strip)
 
     audio_helper.startup_sound()
     audio_effects.start()
