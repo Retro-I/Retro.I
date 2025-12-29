@@ -3,8 +3,9 @@ import math
 import board
 import neopixel
 from adafruit_led_animation.animation.pulse import Pulse
-from adafruit_led_animation.color import BLACK, GREEN, RED
+from adafruit_led_animation.color import BLACK, GREEN, RED, WHITE
 
+from helper.BassStepsHelper import BassStepsHelper
 from helper.ColorHelper import ColorHelper
 from helper.Constants import Constants
 from helper.StripSettingsHelper import StripSettingsHelper
@@ -12,6 +13,7 @@ from utils.WaiterProcess import WaiterProcess
 
 c = Constants()
 settings_helper = StripSettingsHelper()
+bass_steps_helper = BassStepsHelper()
 color_helper = ColorHelper()
 
 
@@ -76,6 +78,44 @@ class Strip:
                 self.pixels.fill(self.curr_color)
                 self.animation.resume()
             self.pixels.show()
+
+    def update_bass_strip(self, value):
+        def _get_middle_of_strip():
+            return settings_helper.get_led_length() // 2
+
+        def _set_middle():
+            middle = _get_middle_of_strip()
+
+            self.pixels[middle - 1] = WHITE
+            self.pixels[middle] = WHITE
+            self.pixels[middle + 1] = WHITE
+
+        def _get_pixels_for_step() -> int:
+            return settings_helper.get_led_length() // bass_steps_helper.get_steps_count()
+
+        def _set_step():
+            if value == 0:
+                return
+
+            pixels_for_step = _get_pixels_for_step()
+
+            pixels_to_draw = pixels_for_step * value
+
+            if value < 0:
+                for i in range(_get_middle_of_strip() + pixels_to_draw, _get_middle_of_strip()):
+                    self.pixels[i] = GREEN
+            else:
+                for i in range(_get_middle_of_strip(), _get_middle_of_strip() + pixels_to_draw):
+                    self.pixels[i] = GREEN
+
+        self.sound_mode_active = False
+        self.wait_proc.set_wait()
+
+        self.disable(save=False)
+        _set_step()
+        _set_middle()
+
+        self.pixels.show()
 
     def update_strip(self, color):
         self.sound_mode_active = True
