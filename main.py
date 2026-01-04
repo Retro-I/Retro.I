@@ -14,6 +14,7 @@ from helper.Audio import Audio
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
+from helper.GpioHelper import GpioHelper
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
 from helper.SettingsSyncHelper import SettingsSyncHelper
@@ -38,6 +39,7 @@ audio_helper = Audio()
 page_helper = PageState()
 audio_effects = AudioEffects()
 theme_helper = ThemeHelper()
+gpio_helper = GpioHelper()
 
 
 def on_error(e):
@@ -83,6 +85,9 @@ def main(page: ft.Page):
 
     button = GpioButton(21, audio_helper.play_toast)
     button.activate()
+
+    shutdown_button = GpioButton(gpio_helper.shutdown_button(), system_helper.shutdown_system)
+    shutdown_button.activate()
 
     for item in theme.get_tabs():
         page.add(item)
