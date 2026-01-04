@@ -29,6 +29,38 @@ class TestSyncValues(BaseTest):
         self.assertEqual(new_data, expected)
         self.assertTrue(self.settings_sync_helper.is_valid(new_data, schema))
 
+    def test_add_field_shutdown_button(self):
+        old_data = {
+            "ROTARY_VOLUME_UP": 6,
+            "ROTARY_VOLUME_DOWN": 12,
+            "ROTARY_VOLUME_PRESS": 13,
+            "ROTARY_BASS_UP": 11,
+            "ROTARY_BASS_DOWN": 8,
+            "ROTARY_TREBLE_UP": 4,
+            "ROTARY_TREBLE_DOWN": 14,
+            "START_PARTY_MODE_BUTTON": 21,
+        }
+        schema = self.settings_sync_helper.get_schema_for_filename(
+            self.gpio_helper.GPIO_SETTINGS_PATH
+        )
+        self.assertFalse(self.settings_sync_helper.is_valid(old_data, schema))
+
+        new_data = self.settings_sync_helper.repair(old_data, schema)
+        expected = {
+            "ROTARY_VOLUME_UP": 6,
+            "ROTARY_VOLUME_DOWN": 12,
+            "ROTARY_VOLUME_PRESS": 13,
+            "ROTARY_BASS_UP": 11,
+            "ROTARY_BASS_DOWN": 8,
+            "ROTARY_TREBLE_UP": 4,
+            "ROTARY_TREBLE_DOWN": 14,
+            "START_PARTY_MODE_BUTTON": 21,
+            "SHUTDOWN_BUTTON": 23,
+        }
+
+        self.assertEqual(new_data, expected)
+        self.assertTrue(self.settings_sync_helper.is_valid(new_data, schema))
+
     def test_validate_all_settings_after_change(self):
         def _modify_audio_settings():
             with open(self.audio_helper.AUDIO_SETTINGS_PATH, "r+") as f:

@@ -42,6 +42,11 @@
             "type": "integer",
             "description": "Pin for button to start party mode",
             "default": 21
+        },
+        "SHUTDOWN_BUTTON": {
+            "type": "integer",
+            "description": "Pin for button shutdown the radio",
+            "default": 23
         }
     },
     "required": [
@@ -52,7 +57,8 @@
         "ROTARY_BASS_DOWN",
         "ROTARY_TREBLE_UP",
         "ROTARY_TREBLE_DOWN",
-        "START_PARTY_MODE_BUTTON"
+        "START_PARTY_MODE_BUTTON",
+        "SHUTDOWN_BUTTON"
     ],
     "additionalProperties": false
 }

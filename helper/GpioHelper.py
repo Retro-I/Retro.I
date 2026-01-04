@@ -46,3 +46,6 @@ class GpioHelper:
 
     def start_party_button(self) -> int:
         return self.get_mappings()["START_PARTY_MODE_BUTTON"]
+
+    def shutdown_button(self) -> int:
+        return self.get_mappings()["SHUTDOWN_BUTTON"]
