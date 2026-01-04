@@ -28,8 +28,5 @@ class TestConstants(unittest.TestCase):
     def test_default_current_radio_station(self):
         self.assertEqual({}, self.constants.current_radio_station)
 
-    def test_default_current_station_index_to_delete(self):
-        self.assertEqual(None, self.constants.current_station_index_to_delete)
-
     def test_default_indicator_refs(self):
         self.assertEqual([], self.constants.indicator_refs)
