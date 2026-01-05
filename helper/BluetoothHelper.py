@@ -45,6 +45,22 @@ class BluetoothHelper:
         os.system("bluetoothctl discoverable off")
         self.discovery_on = False
 
+    def get_bluetooth_display_name(self) -> str:
+        result = subprocess.run(
+            'bluetoothctl show | grep "Alias:" | cut -d ":" -f2-',
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=True,
+        )
+        return result.stdout.strip()
+
+    def change_bluetooth_display_name(self, name):
+        self.turn_off()
+        os.system(f'bluetoothctl system-alias "{name}"')
+        self.turn_on()
+
     def connect(self, mac_address):
         subprocess.run(["bluetoothctl", "connect", mac_address])
         print("Device connected")
