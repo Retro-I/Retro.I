@@ -2,21 +2,24 @@ import flet as ft
 
 
 class DuplicateDialog(ft.AlertDialog):
-    text = ft.Text("")
+    name_span = ft.TextSpan("Radiosender")
 
     def __init__(self):
         super().__init__()
 
-        self.title = self.text
-        self.actions = [ft.FilledButton("Ok", on_click=lambda e: self.close_dialog())]
+        self.title = ft.Text(
+            spans=[self.name_span, ft.TextSpan(" ist bereits in der Liste!")],
+            size=20,
+        )
+        self.actions = [ft.FilledButton("Ok", on_click=lambda e: self.close())]
         self.actions_alignment = ft.MainAxisAlignment.END
 
     def open_dialog(self, name):
-        self.text.value = name
-        self.text.update()
         self.open = True
         self.update()
+        self.name_span.text = name
+        self.name_span.update()
 
-    def close_dialog(self):
+    def close(self):
         self.open = False
         self.update()

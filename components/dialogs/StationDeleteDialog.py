@@ -1,12 +1,12 @@
 import flet as ft
 
-from helper.Constants import Constants
 from helper.Stations import Stations
 
 stations_helper = Stations()
 
 
 class StationDeleteDialog(ft.AlertDialog):
+    station = None
     submit_callback = None
 
     def __init__(self):
@@ -19,15 +19,16 @@ class StationDeleteDialog(ft.AlertDialog):
             ft.FilledButton("Löschen", on_click=lambda e: self.submit()),
         ]
 
-    def submit(self):
-        stations_helper.delete_station(Constants.current_station_index_to_delete)
-        self.submit_callback()
-        self.close()
-
-    def open_dialog(self, submit_callback):
+    def open_dialog(self, station, submit_callback):
         self.open = True
+        self.station = station
         self.submit_callback = submit_callback
         self.update()
+
+    def submit(self):
+        stations_helper.delete_station(self.station)
+        self.submit_callback()
+        self.close()
 
     def close(self):
         self.open = False

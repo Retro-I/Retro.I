@@ -41,12 +41,12 @@ class Stations:
             file.seek(0)
             json.dump(data, file, indent=4)
 
-    def delete_station(self, index):
+    def delete_station(self, station):
+        data = [obj for obj in self.load_radio_stations() if obj.get("id") != station.get("id")]
+
         with open(self.STATIONS_SETTINGS_PATH, "r+") as file:
-            data = json.load(file)
-            data.pop(index)
             file.seek(0)
-            json.dump(data, file)
+            json.dump(data, file, indent=4)
             file.truncate()
 
     def set_favorite_station(self, fav_station):

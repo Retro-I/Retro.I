@@ -22,14 +22,16 @@ class WifiDialog(ft.AlertDialog):
         self.connection_dialog = connection_dialog
         self.on_toggle_wifi = on_toggle_wifi
 
+        self.toggle_wifi_switch = ft.Switch(
+            "Wifi einschalten",
+            label_style=ft.TextStyle(size=18),
+            on_change=lambda e: self.toggle_wifi(),
+            value=wifi_helper.is_enabled(),
+        )
+
         self.content = ft.Column(
             [
-                ft.Switch(
-                    "Wifi einschalten",
-                    label_style=ft.TextStyle(size=18),
-                    on_change=lambda e: self.toggle_wifi(),
-                    value=wifi_helper.is_enabled(),
-                ),
+                self.toggle_wifi_switch,
                 ft.Divider(),
                 ft.Text("Verfügbare Netzwerke:", size=20, weight=ft.FontWeight.BOLD),
                 ft.Column(
@@ -49,6 +51,9 @@ class WifiDialog(ft.AlertDialog):
     def open_dialog(self):
         self.open = True
         self.update()
+
+        self.toggle_wifi_switch.value = wifi_helper.is_enabled()
+        self.toggle_wifi_switch.update()
 
         self.listview.visible = False
         self.listview.update()

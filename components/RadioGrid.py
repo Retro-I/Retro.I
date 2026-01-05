@@ -39,8 +39,7 @@ class RadioGrid(ft.GridView):
         self.spacing = 20
         self.run_spacing = 50
 
-    def open_modify_station_dialog(self, station, index):
-        Constants.current_station_index_to_delete = index
+    def open_modify_station_dialog(self, station):
         self.station_modify_dialog.open_dialog(station, self.reload)
 
     def reload(self):
@@ -62,9 +61,7 @@ class RadioGrid(ft.GridView):
                                 src, index
                             ),
                             on_long_press=(
-                                lambda e, src=station, index=i: self.open_modify_station_dialog(
-                                    src, index
-                                )
+                                lambda e, src=station, index=i: self.open_modify_station_dialog(src)
                             ),
                             border_radius=10,
                             content=self.get_content(station),

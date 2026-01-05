@@ -21,8 +21,6 @@ class StationAddDialog(ft.AlertDialog):
 
     radio_grid: RadioGrid = None
 
-    duplicate_dialog: DuplicateDialog = None
-
     def __init__(self, radio_grid: RadioGrid):
         super().__init__()
 
@@ -56,16 +54,13 @@ class StationAddDialog(ft.AlertDialog):
         self.btn_add.update()
 
         stations_list = stations_helper.load_radio_stations()
-        found = False
         for el in stations_list:
             if el["name"] == self.station["name"]:
-                found = True
                 self.duplicate_dialog.open_dialog(self.station["name"])
-                break
+                return
 
-        if not found:
-            stations_helper.add_station(self.station)
-            self.radio_grid.reload()
+        stations_helper.add_station(self.station)
+        self.radio_grid.reload()
 
         self.close()
 
@@ -77,4 +72,12 @@ class StationAddDialog(ft.AlertDialog):
         self.station = element
         self.text.value = element["name"]
         self.open = True
+
+        self.btn_add.disabled = False
+        self.btn_add.text = "Zu Liste hinzufügen"
+        self.btn_add.update()
+
+        self.btn_play.disabled = False
+        self.btn_play.update()
+
         self.update()

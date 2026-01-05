@@ -15,7 +15,6 @@ class StationModifyDialog(ft.AlertDialog):
         super().__init__()
 
         self.station_delete_dialog = StationDeleteDialog()
-
         PageState.page.add(self.station_delete_dialog)
 
         self.title = ft.Text("Sender bearbeiten")
@@ -26,20 +25,19 @@ class StationModifyDialog(ft.AlertDialog):
             ),
         ]
 
-    def on_delete(self):
-        self.close()
-        self.station_delete_dialog.open_dialog(self.submit_callback)
-
-    def on_set_favorite(self):
-        stations_helper.set_favorite_station(self.station)
-        self.close()
-        self.submit_callback()
-
     def open_dialog(self, station, submit_callback):
         self.open = True
         self.station = station
         self.submit_callback = submit_callback
         self.update()
+
+    def on_delete(self):
+        self.station_delete_dialog.open_dialog(self.station, self.submit_callback)
+
+    def on_set_favorite(self):
+        stations_helper.set_favorite_station(self.station)
+        self.close()
+        self.submit_callback()
 
     def close(self):
         self.open = False

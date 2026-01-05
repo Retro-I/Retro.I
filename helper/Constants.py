@@ -7,7 +7,6 @@ from appdirs import user_data_dir
 
 class Constants:
     current_radio_station = {}
-    current_station_index_to_delete = None
     indicator_refs = []
     current_bass_step = 0
     current_treble_step = 0

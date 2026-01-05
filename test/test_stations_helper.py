@@ -31,16 +31,21 @@ class TestStationsHelper(BaseTest):
         self.assertIn(station_to_add, stations)
 
     def test_delete_station(self):
-        index_to_delete = 0
+        station_to_delete = {
+            "color": "#00A1D6",
+            "favorite": False,
+            "id": "2a756cf7-35a4-469e-ad09-0afce7913214",
+            "logo": "bayern_1.png",
+            "name": "Bayern 1",
+            "src": "https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid",
+        }
 
-        station = self.stations.load_radio_stations()[index_to_delete]
-
-        self.stations.delete_station(index_to_delete)
+        self.stations.delete_station(station_to_delete)
 
         stations = self.stations.load_radio_stations()
 
         self.assertEqual(25, len(stations))
-        self.assertNotIn(station, stations)
+        self.assertNotIn(station_to_delete, stations)
 
     def test_get_favorite_station(self):
         station = self.stations.get_favorite_station()
