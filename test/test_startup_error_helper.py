@@ -38,3 +38,13 @@ class TestStartupError(BaseTest):
             "startupErrorMessage": "",
         }
         self.assertEqual(actual_reset, expected_reset)
+
+    def test_is_startup_error(self):
+        self.assertFalse(self.startup_error_helper.is_startup_error())
+        self.startup_error_helper.write_startup_error("ERROR_MESSAGE")
+        self.assertTrue(self.startup_error_helper.is_startup_error())
+
+    def test_startup_error_message(self):
+        self.assertEqual(self.startup_error_helper.startup_error(), "")
+        self.startup_error_helper.write_startup_error("ERROR_MESSAGE")
+        self.assertEqual(self.startup_error_helper.startup_error(), "ERROR_MESSAGE")

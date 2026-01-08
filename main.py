@@ -94,7 +94,7 @@ def main(page: ft.Page):
 
     theme.radio_tab.radio_grid.reload()
 
-    if startup_error_helper.startup_error() is not None:
+    if startup_error_helper.is_startup_error():
         startup_error_dialog = StartupErrorDialog()
         page.add(startup_error_dialog)
         startup_error_dialog.open_dialog()

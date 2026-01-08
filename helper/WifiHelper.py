@@ -16,10 +16,10 @@ class WifiHelper:
             self.enable_wifi()
 
     def enable_wifi(self):
-        subprocess.run(["sudo", "rfkill", "unblock", "wifi"])
+        subprocess.run(["sudo", "nmcli", "radio", "wifi", "on"])
 
     def disable_wifi(self):
-        subprocess.run(["sudo", "rfkill", "block", "wifi"])
+        subprocess.run(["sudo", "nmcli", "radio", "wifi", "off"])
 
     def is_connected(self):
         ip = (
