@@ -23,9 +23,13 @@ class StartupErrorHelper:
             settings_sync_helper.repair_settings_file(self.SETTING)
             return _get_data()
 
-    def startup_error(self) -> str | None:
+    def is_startup_error(self):
         data = self.get_settings()
-        return data["startupErrorMessage"] if data["isStartupError"] else None
+        return data["isStartupError"]
+
+    def startup_error(self) -> str:
+        data = self.get_settings()
+        return data["startupErrorMessage"]
 
     def write_startup_error(self, message: str = ""):
         data = self.get_settings()
