@@ -5,6 +5,7 @@ import neopixel
 from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.color import BLACK, GREEN, RED, WHITE
 
+from helper.Audio import Audio
 from helper.BassStepsHelper import BassStepsHelper
 from helper.ColorHelper import ColorHelper
 from helper.Constants import Constants
@@ -15,10 +16,11 @@ c = Constants()
 settings_helper = StripSettingsHelper()
 bass_steps_helper = BassStepsHelper()
 color_helper = ColorHelper()
+audio_helper = Audio()
 
 
 class Strip:
-    is_active = True
+    is_active = settings_helper.is_strip_active()
     sound_mode_active = False
     curr_color = GREEN
 
@@ -38,22 +40,17 @@ class Strip:
         self.wait_proc = WaiterProcess(self.callback)
         self.animation.color = self.curr_color
 
-        # TODO - find better solution
-        # anim_thread = threading.Thread(target=self.run_color_loop)
-        # anim_thread.start()
-
     def callback(self):
-        if settings_helper.is_strip_active():
-            self.sound_mode_active = True
-
-            # TODO - find better solution
-            self.pixels.fill(self.curr_color)
-        else:
+        if not settings_helper.is_strip_active():
             self.animation.fill(BLACK)
-
-            # TODO - find better solution
             self.pixels.fill(BLACK)
-        self.pixels.show()
+            self.pixels.show()
+            return
+
+        if not audio_helper.is_mute():
+            self.sound_mode_active = True
+            self.pixels.fill(self.curr_color)
+            self.pixels.show()
 
     def update_sound_strip(self, value):
         self.sound_mode_active = False
@@ -70,13 +67,14 @@ class Strip:
         self.pixels.show()
 
     def toggle_mute(self, is_mute):
+        if is_mute:
+            self.animation.freeze()
+            self.pixels.fill(RED)
+        else:
+            self.pixels.fill(self.curr_color)
+            self.animation.resume()
+
         if settings_helper.is_strip_active():
-            if is_mute:
-                self.animation.freeze()
-                self.pixels.fill(RED)
-            else:
-                self.pixels.fill(self.curr_color)
-                self.animation.resume()
             self.pixels.show()
 
     def update_bass_strip(self, value):
@@ -156,7 +154,8 @@ class Strip:
         self.curr_color = strip_color
         self.animation.color = strip_color
         self.pixels.fill(strip_color)
-        self.pixels.show()
+        if not audio_helper.is_mute() and settings_helper.is_strip_active():
+            self.pixels.show()
 
     def toggle_strip(self):
         if settings_helper.is_strip_active():
