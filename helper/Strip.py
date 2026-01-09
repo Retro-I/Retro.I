@@ -151,9 +151,10 @@ class Strip:
         self.sound_mode_active = True
         strip_color = color_helper.toRgb(color)
         self.curr_color = strip_color
-        self.animation.color = strip_color
-        self.pixels.fill(strip_color)
-        self.pixels.show()
+        if not audio_helper.is_mute():
+            self.animation.color = strip_color
+            self.pixels.fill(strip_color)
+            self.pixels.show()
 
     def toggle_strip(self):
         if settings_helper.is_strip_active():
