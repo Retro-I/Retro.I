@@ -4,6 +4,7 @@ import time
 import flet as ft
 
 from components.dialogs.Credits import Credits
+from components.dialogs.Documentation import Documentation
 from components.dialogs.Info import Info
 from components.Scrollbar import with_scrollbar_space
 
@@ -23,7 +24,7 @@ class SettingsInfoDialog(ft.AlertDialog):
                     expand=True,
                     tabs=[
                         ft.Tab(
-                            text="          Info          ",  # TODO - Workaround :D
+                            text="            Info            ",  # TODO - Workaround :D
                             content=ft.Column(
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -31,10 +32,18 @@ class SettingsInfoDialog(ft.AlertDialog):
                             ),
                         ),
                         ft.Tab(
-                            text="            Credits            ",  # TODO - Workaround :D
+                            text="           Credits           ",  # TODO - Workaround :D
                             content=ft.Column(
                                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                                 controls=[Credits()],
+                            ),
+                        ),
+                        ft.Tab(
+                            text="        Dokumentation        ",
+                            # TODO - Workaround :D
+                            content=ft.Column(
+                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                controls=[Documentation()],
                             ),
                         ),
                     ],
