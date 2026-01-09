@@ -67,13 +67,14 @@ class Strip:
         self.pixels.show()
 
     def toggle_mute(self, is_mute):
+        if is_mute:
+            self.animation.freeze()
+            self.pixels.fill(RED)
+        else:
+            self.pixels.fill(self.curr_color)
+            self.animation.resume()
+
         if settings_helper.is_strip_active():
-            if is_mute:
-                self.animation.freeze()
-                self.pixels.fill(RED)
-            else:
-                self.pixels.fill(self.curr_color)
-                self.animation.resume()
             self.pixels.show()
 
     def update_bass_strip(self, value):
