@@ -12,6 +12,7 @@ from helper.Constants import Constants
 from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
 from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
 from helper.Sounds import Sounds
+from helper.SplashscreenHelper import SplashscreenHelper
 from helper.StartupErrorHelper import StartupErrorHelper
 from helper.StripSettingsHelper import StripSettingsHelper
 from helper.ThemeHelper import ThemeHelper
@@ -55,9 +56,14 @@ class BaseTest(unittest.TestCase):
             src_dir="./assets/effects", dst_dir=f"{tempfile.mkdtemp()}/effects"
         )
 
+        self.test_splashscreen_path = self._create_temp_files(
+            src_dir="./assets/splashscreen", dst_dir=f"{tempfile.mkdtemp()}/splashscreen"
+        )
+
         Constants.settings_path = staticmethod(lambda: self.test_dir)
         Constants.default_settings_path = staticmethod(lambda: self.test_dir_default)
         Constants.effects_path = staticmethod(lambda: f"{self.test_effects_path}/retroi.json")
+        Constants.splashscreen_path = staticmethod(lambda: self.test_splashscreen_path)
 
         self.assertTrue(os.path.exists(self.test_dir))
         self.assertTrue(os.path.exists(f"{self.test_dir}/schemas"))
@@ -110,6 +116,7 @@ class BaseTest(unittest.TestCase):
         self.bass_steps_helper = BassStepsHelper()
         self.treble_steps_helper = TrebleStepsHelper()
         self.audio_effects = AudioEffects()
+        self.splashscreen_helper = SplashscreenHelper()
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)
