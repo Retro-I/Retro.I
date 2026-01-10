@@ -1,5 +1,6 @@
 import flet as ft
 
+from components.dialogs.SplashscreenDialog import SplashscreenDialog
 from components.dialogs.UpdatesRestartDialog import UpdatesRestartDialog
 from helper.PageState import PageState
 from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
@@ -13,8 +14,10 @@ class SettingsDisplayDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
         self.updates_restart_dialog = UpdatesRestartDialog()
+        self.splashscreen_dialog = SplashscreenDialog()
 
         PageState.page.add(self.updates_restart_dialog)
+        PageState.page.add(self.splashscreen_dialog)
 
         self.title = ft.Text("Anzeige")
         self.content = ft.Column(
@@ -43,6 +46,12 @@ class SettingsDisplayDialog(ft.AlertDialog):
                         ),
                     ]
                 ),
+                ft.Divider(),
+                ft.FilledButton(
+                    "Splashscreen ändern",
+                    on_click=lambda e: self.open_splashscreen_dialog(),
+                    icon=ft.Icons.OPEN_IN_NEW,
+                ),
             ],
         )
 
@@ -53,6 +62,9 @@ class SettingsDisplayDialog(ft.AlertDialog):
 
     def slider_changed(self, e):
         system_helper.change_screen_brightness(e.control.value)
+
+    def open_splashscreen_dialog(self):
+        self.splashscreen_dialog.open_dialog()
 
     def open_dialog(self):
         self.open = True
