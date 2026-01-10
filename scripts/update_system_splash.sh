@@ -12,6 +12,8 @@ sudo update-initramfs -u
 
 sudo sed -i "s/--mode=shutdown/$replacement/" "$plymouth_shutdown_file" > /dev/null 2>&1
 
+pcmanfm -w "$TARGET"
+
 if ! grep -- "$replacement" "$plymouth_shutdown_file"; then
   echo "Shutdown-Bild konnte nicht ausgetauscht werden!" >&2
   exit 1

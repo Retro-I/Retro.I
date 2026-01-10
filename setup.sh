@@ -318,33 +318,6 @@ EOF
   fi
 }
 
-remove_background_image() {
-  pcmanfm --set-wallpaper "" --wallpaper-mode=color
-
-  mkdir -p "$HOME/.config/pcmanfm"
-
-  pcmanfm --reconfigure
-  sleep 0.5
-
-  CONFIG_FILES=$(find "$HOME/.config/pcmanfm" -type f -name "desktop-items-*.conf" 2>/dev/null)
-
-  if [ -z "$CONFIG_FILES" ]; then
-    echo "No pcmanfm desktop config files found." >&2
-    return 1
-  fi
-
-  for CONFIG_FILE in $CONFIG_FILES; do
-    # Set background color to black
-    if grep -q "^desktop_bg=" "$CONFIG_FILE"; then
-      sed -i 's/^desktop_bg=.*/desktop_bg=#000000/' "$CONFIG_FILE"
-    else
-      echo "desktop_bg=#000000" >> "$CONFIG_FILE"
-    fi
-  done
-
-  pcmanfm --reconfigure
-}
-
 remove_trash_basket() {
   CONFIG_FILES=$(find "$HOME/.config/pcmanfm" -type f -name "desktop-items-*.conf" 2>/dev/null)
 
@@ -519,7 +492,6 @@ run_step "System-Splashscreen ändern" sudo -E bash -c "$RETROI_DIR/scripts/upda
 run_step "User zur \"audio\" Gruppe hinzufügen" apply_audio_group
 run_step "Systemd-Datei für Systemstart erstellen" create_systemd_service
 run_step "Taskbar ausblenden" hide_taskbar
-run_step "Hintergrund entfernen" remove_background_image
 run_step "Mülleimer entfernen" remove_trash_basket
 run_step "Aktiviere SSH" sudo raspi-config nonint do_ssh 0
 run_step "Aktiviere VNC" sudo raspi-config nonint do_vnc 0
