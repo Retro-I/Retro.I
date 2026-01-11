@@ -18,8 +18,7 @@ class SplashscreenDialog(ft.AlertDialog):
 
         self.content = ft.Column(
             width=600,
-            expand=True,
-            tight=True,
+            height=500,
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             controls=[self.image_slider],
@@ -29,7 +28,7 @@ class SplashscreenDialog(ft.AlertDialog):
 
     def get_splashscreen_images(self) -> list[ft.Image]:
         return [
-            ft.Image(src=f"{Constants.pwd()}/assets/splashscreen/{i}")
+            ft.Image(fit=ft.ImageFit.CONTAIN, src=f"{Constants.pwd()}/assets/splashscreen/{i}")
             for i in splashscreen_helper.get_splashscreens()
         ]
 

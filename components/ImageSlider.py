@@ -13,30 +13,38 @@ class ImageSlider(ft.Container):
         self.images = images
         self.border_radius = 12
 
-        self.switcher_text = ft.Text("0/0", style=ft.TextStyle(size=28))
+        self.height = 600
+
+        self.switcher_text = ft.Text("0/0", style=ft.TextStyle(size=24))
 
         self.switcher = ft.AnimatedSwitcher(images[0], duration=500, reverse_duration=500)
         self.content = ft.Column(
             [
-                self.switcher,
                 ft.Row(
                     [
                         ft.Container(
                             ft.Column([ft.Icon(ft.Icons.ARROW_LEFT, size=44)]),
-                            width=50,
+                            width=36,
                             on_click=lambda e: self.prev_image(),
                         ),
-                        ft.Container(
-                            ft.Column([self.switcher_text]),
-                        ),
+                        self.switcher,
                         ft.Container(
                             ft.Column([ft.Icon(ft.Icons.ARROW_RIGHT, size=44)]),
-                            width=50,
+                            width=36,
                             on_click=lambda e: self.next_image(),
                         ),
                     ],
                     expand=True,
                     alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                ),
+                ft.Row(
+                    [
+                        ft.Container(
+                            ft.Column([self.switcher_text]),
+                        ),
+                    ],
+                    expand=True,
+                    alignment=ft.MainAxisAlignment.CENTER,
                 ),
             ],
         )
