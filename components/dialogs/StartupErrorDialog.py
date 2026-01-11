@@ -24,6 +24,8 @@ class StartupErrorDialog(ft.AlertDialog):
         self.open = True
         self.update()
 
+        startup_error_helper.reset_startup_error()
+
     def close_dialog(self):
         self.open = False
         self.update()
