@@ -99,8 +99,6 @@ def main(page: ft.Page):
         page.add(startup_error_dialog)
         startup_error_dialog.open_dialog()
 
-        startup_error_helper.reset_startup_error()
-
     page.update()
 
     RotaryVolume(
