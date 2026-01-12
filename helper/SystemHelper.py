@@ -118,6 +118,9 @@ class SystemHelper:
         return netifaces.gateways()["default"][netifaces.AF_INET][1]
 
     def get_current_ssid(self):
+        if "wlan" not in self.get_default_interface():
+            return ""
+
         ssid = (
             subprocess.run(["iwgetid", "-r"], stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
         )
