@@ -20,17 +20,17 @@ audio_helper = Audio()
 
 
 class Strip:
-    is_active = settings_helper.is_strip_active()
-    sound_mode_active = False
-    curr_color = GREEN
-
-    pixel_pin = board.D10
-    pixel_num = 38
-
-    pixels = neopixel.NeoPixel(pixel_pin, pixel_num, brightness=0)
-    animation = Pulse(pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK)
-
     def __init__(self):
+        self.is_active = settings_helper.is_strip_active()
+        self.sound_mode_active = False
+        self.curr_color = GREEN
+
+        self.pixel_pin = board.D10
+        self.pixel_num = 38
+
+        self.pixels = neopixel.NeoPixel(self.pixel_pin, self.pixel_num, brightness=0)
+        self.animation = Pulse(self.pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK)
+
         if settings_helper.is_strip_active():
             self.pixels.fill(GREEN)
 
