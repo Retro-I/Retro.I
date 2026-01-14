@@ -97,7 +97,7 @@ def main(page: ft.Page):
     if startup_error_helper.is_startup_error():
         startup_error_dialog = StartupErrorDialog()
         page.add(startup_error_dialog)
-        startup_error_dialog.open_dialog()
+        # startup_error_dialog.open_dialog()
 
     page.update()
 

@@ -95,9 +95,6 @@ class SystemHelper:
 
         return f"{Constants.pwd()}/assets/stations/{img_src}"
 
-    def get_button_img_path(self):
-        return f"{Constants.pwd()}/assets/buttons/SB_Green.png"
-
     def init_party_mode(self):
         self.is_party = os.environ.get("PARTY_MODE", "0")
 
@@ -118,6 +115,9 @@ class SystemHelper:
         return netifaces.gateways()["default"][netifaces.AF_INET][1]
 
     def get_current_ssid(self):
+        if self.get_default_interface() is not None and "wlan" not in self.get_default_interface():
+            return ""
+
         ssid = (
             subprocess.run(["iwgetid", "-r"], stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
         )
