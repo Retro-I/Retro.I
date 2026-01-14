@@ -115,7 +115,7 @@ class SystemHelper:
         return netifaces.gateways()["default"][netifaces.AF_INET][1]
 
     def get_current_ssid(self):
-        if "wlan" not in self.get_default_interface():
+        if self.get_default_interface() is not None and "wlan" not in self.get_default_interface():
             return ""
 
         ssid = (
