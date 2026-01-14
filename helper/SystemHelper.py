@@ -95,9 +95,6 @@ class SystemHelper:
 
         return f"{Constants.pwd()}/assets/stations/{img_src}"
 
-    def get_button_img_path(self):
-        return f"{Constants.pwd()}/assets/buttons/SB_Green.png"
-
     def init_party_mode(self):
         self.is_party = os.environ.get("PARTY_MODE", "0")
 
