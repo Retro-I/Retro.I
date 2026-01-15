@@ -37,7 +37,7 @@ class AudioEffectsDialog(ft.AlertDialog):
         self.bass_text = ft.Text(f"{Constants.current_bass_step}")
         self.treble_text = ft.Text(f"{Constants.current_treble_step}")
 
-        self.title = ft.Text("Bässe/Höhen")
+        self.title = ft.Text("Bässe/Treble")
         self.content = ft.Column(
             [
                 ft.Row(
@@ -53,7 +53,7 @@ class AudioEffectsDialog(ft.AlertDialog):
                     alignment=ft.MainAxisAlignment.CENTER,
                     expand=True,
                     controls=[
-                        ft.Text("Höhen"),
+                        ft.Text("Treble"),
                         self.treble_text,
                         self.treble_slider,
                     ],
