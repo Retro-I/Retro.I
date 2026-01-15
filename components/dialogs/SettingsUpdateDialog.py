@@ -49,7 +49,7 @@ class SettingsUpdateDialog(ft.AlertDialog):
                     tab_alignment=ft.TabAlignment.CENTER,
                     tabs=[
                         ft.Tab(
-                            text="          Branches          ",  # TODO - Workaround :D
+                            text="          Branches          ",
                             content=ft.Column(
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -60,7 +60,7 @@ class SettingsUpdateDialog(ft.AlertDialog):
                             ),
                         ),
                         ft.Tab(
-                            text="            Tags            ",  # TODO - Workaround :D
+                            text="            Tags            ",
                             content=ft.Column(
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,

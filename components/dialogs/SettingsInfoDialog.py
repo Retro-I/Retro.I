@@ -24,7 +24,7 @@ class SettingsInfoDialog(ft.AlertDialog):
                     expand=True,
                     tabs=[
                         ft.Tab(
-                            text="            Info            ",  # TODO - Workaround :D
+                            text="            Info            ",
                             content=ft.Column(
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -32,18 +32,17 @@ class SettingsInfoDialog(ft.AlertDialog):
                             ),
                         ),
                         ft.Tab(
-                            text="           Credits           ",  # TODO - Workaround :D
-                            content=ft.Column(
-                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                                controls=[Credits()],
-                            ),
-                        ),
-                        ft.Tab(
                             text="        Dokumentation        ",
-                            # TODO - Workaround :D
                             content=ft.Column(
                                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                                 controls=[Documentation()],
+                            ),
+                        ),
+                        ft.Tab(
+                            text="           Credits           ",
+                            content=ft.Column(
+                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                controls=[Credits()],
                             ),
                         ),
                     ],

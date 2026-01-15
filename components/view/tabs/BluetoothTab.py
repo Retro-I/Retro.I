@@ -19,7 +19,7 @@ class BluetoothTab(ft.Column):
     device_connected = None
     update_device_connection = False
     bluetooth_device_edit_dialog = None
-    bluetooth_display_name = ft.TextSpan("", style=ft.TextStyle(size=16, weight=ft.FontWeight.BOLD))
+    bluetooth_display_name = ft.TextSpan("", style=ft.TextStyle(size=20, weight=ft.FontWeight.BOLD))
 
     def __init__(self, taskbar: Taskbar):
         super().__init__()

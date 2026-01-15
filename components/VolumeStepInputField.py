@@ -17,7 +17,7 @@ class VolumeStepInputField(BaseTextField):
             regex_string=r"[0-9]*",
             replacement_string="",
         )
-        self.label = "Lautstärke-Schritt"
+        self.label = "Schrittweite Lautstärke"
         self.on_change = self.on_input_change
 
     def on_input_change(self, e):
