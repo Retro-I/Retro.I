@@ -23,7 +23,6 @@ class WifiConnectionDialog(ft.AlertDialog):
 
         self.btn_connect.on_click = lambda e: self.connect(on_connect)
 
-        self.modal = True
         self.actions = [self.btn_cancel, self.btn_connect]
         self.actions_alignment = ft.MainAxisAlignment.SPACE_BETWEEN
         self.content = ft.Column(

@@ -74,12 +74,11 @@ class SoundboardSearchDialog(ft.AlertDialog):
         self.loading.visible = False
         self.loading.update()
 
-        if len(sounds) == 0:
-            self.not_found_text.visible = True
-        else:
-            self.not_found_text.visible = False
-
+        self.not_found_text.visible = len(sounds) == 0
         self.not_found_text.update()
+
+        self.loading.visible = False
+        self.loading.update()
 
         self.listview.controls = []
         for el in sounds:

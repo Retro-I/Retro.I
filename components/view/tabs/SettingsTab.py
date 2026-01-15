@@ -61,7 +61,9 @@ class SettingsTab(ft.Column):
                             lambda e: self.led_dialog.open_dialog(),
                         ),
                         SettingsButton(
-                            ft.Icons.INFO_OUTLINED, "Info", lambda e: self.info_dialog.open_dialog()
+                            ft.Icons.INFO_OUTLINED,
+                            "Info's",
+                            lambda e: self.info_dialog.open_dialog(),
                         ),
                         SettingsButton(
                             ft.Icons.BROWSER_UPDATED,

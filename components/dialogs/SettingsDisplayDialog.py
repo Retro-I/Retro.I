@@ -14,7 +14,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
         self.updates_restart_dialog = UpdatesRestartDialog()
-        self.splashscreen_dialog = SplashscreenDialog()
+        self.splashscreen_dialog = SplashscreenDialog(self)
 
         PageState.page.add(self.updates_restart_dialog)
         PageState.page.add(self.splashscreen_dialog)
@@ -26,7 +26,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
             tight=True,
             controls=[
                 ft.Switch(
-                    "Scrollbar anzeigen",
+                    "Scrollbar anzeigen (Neustart erforderlich!)",
                     label_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_scrollbar(),
                     value=scrollbar_settings_helper.is_scrollbar_enabled(),
@@ -47,8 +47,9 @@ class SettingsDisplayDialog(ft.AlertDialog):
                     ]
                 ),
                 ft.Divider(),
-                ft.FilledButton(
+                ft.TextButton(
                     "Splashscreen ändern",
+                    style=ft.ButtonStyle(text_style=ft.TextStyle(size=20)),
                     on_click=lambda e: self.open_splashscreen_dialog(),
                     icon=ft.Icons.OPEN_IN_NEW,
                 ),
