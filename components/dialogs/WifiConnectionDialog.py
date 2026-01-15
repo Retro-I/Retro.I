@@ -12,16 +12,20 @@ class WifiConnectionDialog(ft.AlertDialog):
     ssid = ft.Text("", size=24, weight=ft.FontWeight.BOLD)
     password = BaseTextField(password=True, autofocus=True)
 
-    btn_connect = ft.FilledButton(
-        "Verbinden", style=ft.ButtonStyle(text_style=ft.TextStyle(size=16))
-    )
-
-    btn_cancel = ft.TextButton("Abbrechen", style=ft.ButtonStyle(text_style=ft.TextStyle(size=16)))
-
     def __init__(self, on_connect):
         super().__init__()
 
-        self.btn_connect.on_click = lambda e: self.connect(on_connect)
+        self.btn_connect = ft.FilledButton(
+            "Verbinden",
+            style=ft.ButtonStyle(text_style=ft.TextStyle(size=16)),
+            on_click=lambda e: self.connect(on_connect),
+        )
+
+        self.btn_cancel = ft.TextButton(
+            "Abbrechen",
+            style=ft.ButtonStyle(text_style=ft.TextStyle(size=16)),
+            on_click=lambda e: self.close(),
+        )
 
         self.actions = [self.btn_cancel, self.btn_connect]
         self.actions_alignment = ft.MainAxisAlignment.SPACE_BETWEEN
@@ -40,7 +44,7 @@ class WifiConnectionDialog(ft.AlertDialog):
         self.ssid.update()
         self.open = True
 
-        self.btn_connect.disabled = True
+        self.btn_connect.disabled = False
         self.btn_connect.text = "Verbinden"
         self.btn_connect.update()
 
