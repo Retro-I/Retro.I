@@ -44,7 +44,7 @@ Der Rotary Drehregler gibt sein Signal an den Raspberry weiter und steuert somit
 Der Wechsel von Stummschaltung/Aufhebung erfolgt über Drücken des gleichen Drehreglers wie zur Veränderung der Lautstärke.
 
 ### Bass/Höhen
-Die Veränderung von Bass/Höhen ist über weitere Rotary-Drehregler möglich! Hierzu wird die Software `EasyEffects` verwendet:\
+Die Veränderung von Bass/Treble ist über weitere Rotary-Drehregler möglich! Hierzu wird die Software `EasyEffects` verwendet:\
 `sudo apt install easyeffects`
 
 ### WS2812B LED-Streifen
@@ -111,9 +111,9 @@ Wie im Beispiel zu sehen "Bayern 1" wird mit der Farbe Hellblau dargestellt.
 * `8` - DT-PIN: weniger Bass'
 * `7` - CLK-PIN: mehr Bass'
 
-### Rotary Drehregler (Höhen Anhebung/Absenkung Frequenzbereich ##hz - ##hz)
-* `24` - DT-PIN: weniger Höhen
-* `23` - CLK-PIN: mehr Höhen
+### Rotary Drehregler (Treble Anhebung/Absenkung Frequenzbereich ##hz - ##hz)
+* `24` - DT-PIN: weniger Treble
+* `23` - CLK-PIN: mehr Treble
 
 ### LED-Streifen
 * `10` - Datenpin für Ansteuerung des WS2812B LED-Streifens
