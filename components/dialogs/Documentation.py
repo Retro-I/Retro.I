@@ -8,7 +8,7 @@ system_helper = SystemHelper()
 revision_helper = RevisionHelper()
 
 
-class Documentation(ft.ListView):
+class Documentation(ft.Column):
     def __init__(self):
         super().__init__()
 
@@ -24,5 +24,8 @@ class Documentation(ft.ListView):
                 size=20,
             ),
             ft.Divider(),
-            ft.Image(src_base64=QrCodeHelper.str_to_qr_code("https://docs.retroi.de")),
+            ft.Row(
+                [ft.Image(src_base64=QrCodeHelper.str_to_qr_code("https://docs.retroi.de"))],
+                alignment=ft.MainAxisAlignment.CENTER,
+            ),
         ]
