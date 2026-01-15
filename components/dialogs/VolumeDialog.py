@@ -13,11 +13,13 @@ class VolumeDialog(ft.AlertDialog):
         self.on_volume_update = on_volume_update
         self.on_mute_update = on_mute_update
 
+        max = 100
+
         self.volume_slider = ft.Slider(
             on_change=lambda e: self.on_volume_change(),
             min=0,
-            max=100,
-            divisions=20,
+            max=max,
+            divisions=max // audio_helper.get_volume_step(),
             value=audio_helper.get_volume(),
             expand=True,
         )
