@@ -46,11 +46,10 @@ class Taskbar(ft.AppBar):
     ico_volume = ft.Icon(name=ft.Icons.VOLUME_UP_ROUNDED, size=taskbar_icon_size)
     txt_volume = ft.Text(f"{audio_helper.get_volume()}%", size=18)
 
-    ico_bass = ft.Icon(name=ft.Icons.SURROUND_SOUND, size=taskbar_icon_size)
-    txt_bass = ft.Text(f"{Constants.current_bass_step}", size=18)
-
-    ico_treble = ft.Icon(name=ft.Icons.HEIGHT, size=taskbar_icon_size)
-    txt_treble = ft.Text(f"{Constants.current_treble_step}", size=18)
+    ico_eq = ft.Icon(name=ft.Icons.EQUALIZER, size=taskbar_icon_size)
+    txt_eq = ft.Text(
+        f"Bass: {Constants.current_bass_step}  |  Treble: {Constants.current_treble_step}", size=18
+    )
 
     def __init__(self, on_volume_update, on_mute_update, on_bass_update, on_treble_update):
         super().__init__()
@@ -76,15 +75,23 @@ class Taskbar(ft.AppBar):
         self.title = ft.Row(
             controls=[
                 ft.Container(
-                    content=ft.Row([self.ico_volume, self.txt_volume]),
+                    content=ft.Row(
+                        [
+                            self.ico_volume,
+                            self.txt_volume,
+                            ft.VerticalDivider(),
+                        ]
+                    ),
                     on_click=lambda e: self.volume_dialog.open_dialog(),
                 ),
                 ft.Container(
-                    content=ft.Row([self.ico_bass, self.txt_bass]),
-                    on_click=lambda e: self.audio_effects_dialog.open_dialog(),
-                ),
-                ft.Container(
-                    content=ft.Row([self.ico_treble, self.txt_treble]),
+                    content=ft.Row(
+                        [
+                            self.ico_eq,
+                            self.txt_eq,
+                            ft.VerticalDivider(),
+                        ]
+                    ),
                     on_click=lambda e: self.audio_effects_dialog.open_dialog(),
                 ),
             ]
@@ -121,8 +128,7 @@ class Taskbar(ft.AppBar):
     def update(self):
         self.update_volume_icon()
         self.volume_dialog.update_content()
-        self.update_bass_icon()
-        self.update_treble_icon()
+        self.update_eq_icon()
         self.audio_effects_dialog.update_content()
         self.update_wifi()
         self.update_bluetooth_icon()
@@ -189,20 +195,18 @@ class Taskbar(ft.AppBar):
         self.txt_volume.update()
 
     def bass_update(self):
-        self.update_bass_icon()
+        self.update_eq_icon()
         self.on_bass_update(Constants.current_bass_step)
 
     def treble_update(self):
-        self.update_treble_icon()
+        self.update_eq_icon()
         self.on_treble_update(Constants.current_treble_step)
 
-    def update_bass_icon(self):
-        self.txt_bass.value = Constants.current_bass_step
-        self.txt_bass.update()
-
-    def update_treble_icon(self):
-        self.txt_treble.value = Constants.current_treble_step
-        self.txt_treble.update()
+    def update_eq_icon(self):
+        self.txt_eq.value = (
+            f"Bass: {Constants.current_bass_step}  |  Treble: {Constants.current_treble_step}"
+        )
+        self.txt_eq.update()
 
     def open_shutdown_dialog(self):
         self.shutdown_dialog.open_dialog()
