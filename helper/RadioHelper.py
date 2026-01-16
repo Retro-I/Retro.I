@@ -48,7 +48,7 @@ class RadioHelper:
         stations = [
             {
                 "name": entry.get("name", ""),
-                "src": entry.get("url", ""),
+                "src": entry.get("url_resolved", ""),
                 "logo": entry.get("favicon", ""),
                 "color": "#46A94B",
             }
