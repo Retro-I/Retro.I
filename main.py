@@ -61,7 +61,6 @@ def main(page: ft.Page):
     page.update()
 
     start = time.time()
-    audio_helper.set_audio_output(audio_helper.get_audio_sink_ids()["builtin"])
 
     PageState.page = page
 

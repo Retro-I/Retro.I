@@ -1,11 +1,11 @@
 import flet as ft
 
 from components.dialogs.SettingsAppControlDialog import SettingsAppControlDialog
+from components.dialogs.SettingsAudioDialog import SettingsAudioDialog
 from components.dialogs.SettingsDisplayDialog import SettingsDisplayDialog
 from components.dialogs.SettingsInfoDialog import SettingsInfoDialog
 from components.dialogs.SettingsLedDialog import SettingsLedDialog
 from components.dialogs.SettingsShutdownDialog import SettingsShutdownDialog
-from components.dialogs.SettingsSystemDialog import SettingsSystemDialog
 from components.dialogs.SettingsUpdateDialog import SettingsUpdateDialog
 from components.Scrollbar import with_scrollbar_space
 from components.SettingsButton import SettingsButton
@@ -21,7 +21,7 @@ class SettingsTab(ft.Column):
 
         self.shutdown_dialog = SettingsShutdownDialog()
         self.app_control_dialog = SettingsAppControlDialog()
-        self.system_dialog = SettingsSystemDialog()
+        self.audio_dialog = SettingsAudioDialog()
         self.display_dialog = SettingsDisplayDialog()
         self.led_dialog = SettingsLedDialog()
         self.info_dialog = SettingsInfoDialog()
@@ -48,7 +48,7 @@ class SettingsTab(ft.Column):
                         SettingsButton(
                             ft.Icons.AUDIOTRACK,
                             "Audio",
-                            lambda e: self.system_dialog.open_dialog(),
+                            lambda e: self.audio_dialog.open_dialog(),
                         ),
                         SettingsButton(
                             ft.Icons.DISPLAY_SETTINGS,
@@ -77,7 +77,7 @@ class SettingsTab(ft.Column):
 
         PageState.page.add(self.shutdown_dialog)
         PageState.page.add(self.app_control_dialog)
-        PageState.page.add(self.system_dialog)
+        PageState.page.add(self.audio_dialog)
         PageState.page.add(self.display_dialog)
         PageState.page.add(self.led_dialog)
         PageState.page.add(self.info_dialog)

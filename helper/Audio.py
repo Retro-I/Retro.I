@@ -91,37 +91,76 @@ class Audio:
     def bluetooth_disconnected(self):
         self.play_sound(f"{c.system_sound_path()}/bluetooth_disconnected.mp3")
 
-    def get_audio_sink_ids(self) -> dict:
+    def get_audio_sinks(self) -> list[dict]:
         result = subprocess.run(
             ["wpctl", "status"], capture_output=True, text=True, check=True
         )
 
-        sinks_section = False
-        sinks = {}
+        sinks = []
+        in_sinks_section = False
 
         for line in result.stdout.splitlines():
-            if line.strip().startswith("Sinks:"):
-                sinks_section = True
+            # Detect start of Audio Sinks section
+            if re.search(r"Audio\s*$", line):
                 continue
 
-            if sinks_section and re.match(r"\s*[A-Z]", line):
+            if "├─ Sinks:" in line:
+                in_sinks_section = True
+                continue
+
+            # Stop when leaving sinks section
+            if (
+                in_sinks_section
+                and re.search(r"├─|└─", line)
+                and "Sinks:" not in line
+            ):
                 break
 
-            if sinks_section:
-                match = re.search(r"\s*(\d+)\.\s+(.+?)\s+\[", line)
+            if in_sinks_section:
+                # Matches both default (*) and non-default lines
+                match = re.search(r"(\*)?\s*(\d+)\.\s+(.+?)\s+\[", line)
                 if match:
-                    sink_id = int(match.group(1))
-                    sink_name = match.group(2)
+                    sinks.append(
+                        {
+                            "id": int(match.group(2)),
+                            "name": match.group(3).strip(),
+                            "default": bool(match.group(1)),
+                        }
+                    )
 
-                    if "HDMI" in sink_name:
-                        sinks["hdmi"] = sink_id
-                    elif "Built-in Audio" in sink_name:
-                        sinks["builtin"] = sink_id
+        return sinks
 
-        return {"builtin": sinks.get("builtin"), "hdmi": sinks.get("hdmi")}
+    def get_current_audio_sink(self) -> dict:
+        result = subprocess.run(
+            ["wpctl", "status"], capture_output=True, text=True, check=True
+        )
+
+        in_sinks_section = False
+
+        for line in result.stdout.splitlines():
+            if "├─ Sinks:" in line:
+                in_sinks_section = True
+                continue
+
+            if (
+                in_sinks_section
+                and re.search(r"├─|└─", line)
+                and "Sinks:" not in line
+            ):
+                break
+
+            if in_sinks_section:
+                match = re.search(r"\*\s*(\d+)\.\s+(.+?)\s+\[", line)
+                if match:
+                    return {
+                        "id": int(match.group(1)),
+                        "name": match.group(2).strip(),
+                    }
+
+        return None
 
     def set_audio_output(self, sink_id: str):
-        os.system(f"sudo raspi-config nonint do_audio {sink_id}")
+        os.system(f"wpctl set-default {sink_id}")
 
     def play_toast(self):
         toast_src = sounds.get_random_toast()
