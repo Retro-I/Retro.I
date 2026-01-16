@@ -30,7 +30,9 @@ class BluetoothDisplayNameDialog(ft.AlertDialog):
         ]
 
     def on_save(self):
-        bluetooth_helper.change_bluetooth_display_name(self.display_name_textfield.value)
+        bluetooth_helper.change_bluetooth_display_name(
+            self.display_name_textfield.value
+        )
         self.on_submit()
         self.close()
 

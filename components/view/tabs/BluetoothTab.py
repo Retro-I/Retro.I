@@ -5,7 +5,9 @@ import flet as ft
 
 from components.BluetoothDeviceConnected import BluetoothDeviceConnected
 from components.BluetoothDiscoveryToggle import BluetoothDiscoveryToggle
-from components.dialogs.BluetoothDisplayNameDialog import BluetoothDisplayNameDialog
+from components.dialogs.BluetoothDisplayNameDialog import (
+    BluetoothDisplayNameDialog,
+)
 from components.view.Taskbar import Taskbar
 from helper.BluetoothHelper import BluetoothHelper
 from helper.PageState import PageState
@@ -19,20 +21,25 @@ class BluetoothTab(ft.Column):
     device_connected = None
     update_device_connection = False
     bluetooth_device_edit_dialog = None
-    bluetooth_display_name = ft.TextSpan("", style=ft.TextStyle(size=20, weight=ft.FontWeight.BOLD))
+    bluetooth_display_name = ft.TextSpan(
+        "", style=ft.TextStyle(size=20, weight=ft.FontWeight.BOLD)
+    )
 
     def __init__(self, taskbar: Taskbar):
         super().__init__()
 
         self.taskbar = taskbar
         self.btn_toggle_discovery = BluetoothDiscoveryToggle(
-            self.start_bluetooth_update_process, self.stop_bluetooth_update_process
+            self.start_bluetooth_update_process,
+            self.stop_bluetooth_update_process,
         )
         self.device_connected = BluetoothDeviceConnected(
             taskbar, self.btn_toggle_discovery.disable_discovery, self.show
         )
 
-        self.bluetooth_display_name_dialog = BluetoothDisplayNameDialog(self.show)
+        self.bluetooth_display_name_dialog = BluetoothDisplayNameDialog(
+            self.show
+        )
         PageState.page.add(self.bluetooth_display_name_dialog)
 
         self.alignment = ft.alignment.center
@@ -50,10 +57,15 @@ class BluetoothTab(ft.Column):
                 spacing=50,
                 alignment=ft.MainAxisAlignment.CENTER,
                 controls=[
-                    ft.Text(spans=[ft.TextSpan("Anzeigename: "), self.bluetooth_display_name]),
+                    ft.Text(
+                        spans=[
+                            ft.TextSpan("Anzeigename: "),
+                            self.bluetooth_display_name,
+                        ]
+                    ),
                     ft.FilledButton(
                         "Ändern",
-                        on_click=lambda e: self.open_change_bluetooth_display_name_dialog(),
+                        on_click=lambda e: self.open_change_bluetooth_display_name_dialog(),  # noqa:E501
                     ),
                 ],
             ),
@@ -72,7 +84,9 @@ class BluetoothTab(ft.Column):
             self.update_device_connection = True
             self.process_bluetooth_connection()
 
-        self.bluetooth_display_name.text = bluetooth_helper.get_bluetooth_display_name()
+        self.bluetooth_display_name.text = (
+            bluetooth_helper.get_bluetooth_display_name()
+        )
         self.bluetooth_display_name.update()
 
         self.visible = True

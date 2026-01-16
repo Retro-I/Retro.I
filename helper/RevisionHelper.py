@@ -13,14 +13,17 @@ class RevisionHelper:
         ).splitlines()
 
         branches = [
-            r.split("/", 1)[1] for r in remote if "HEAD" not in r and r.startswith("origin/")
+            r.split("/", 1)[1]
+            for r in remote
+            if "HEAD" not in r and r.startswith("origin/")
         ]
 
         results = []
 
         for branch in branches:
             date_str = subprocess.check_output(
-                ["git", "log", "-1", "--format=%ci", f"origin/{branch}"], text=True
+                ["git", "log", "-1", "--format=%ci", f"origin/{branch}"],
+                text=True,
             ).strip()
 
             commit_date = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S %z")
@@ -67,7 +70,9 @@ class RevisionHelper:
             if "|" not in line:
                 continue
             name, date_str = line.split("|", 1)
-            date_result = datetime.strptime(date_str.strip(), "%Y-%m-%d %H:%M:%S %z")
+            date_result = datetime.strptime(
+                date_str.strip(), "%Y-%m-%d %H:%M:%S %z"
+            )
 
             date = date_result.strftime("%d.%m.%Y")
 
@@ -100,5 +105,7 @@ class RevisionHelper:
         if branch != "HEAD":
             return branch
 
-        commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+        commit = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], text=True
+        ).strip()
         return commit

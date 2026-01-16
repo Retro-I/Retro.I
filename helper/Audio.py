@@ -92,7 +92,9 @@ class Audio:
         self.play_sound(f"{c.system_sound_path()}/bluetooth_disconnected.mp3")
 
     def get_audio_sink_ids(self) -> dict:
-        result = subprocess.run(["wpctl", "status"], capture_output=True, text=True, check=True)
+        result = subprocess.run(
+            ["wpctl", "status"], capture_output=True, text=True, check=True
+        )
 
         sinks_section = False
         sinks = {}

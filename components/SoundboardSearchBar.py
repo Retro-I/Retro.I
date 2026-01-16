@@ -20,7 +20,7 @@ class SoundboardSearchBar(ft.Container):
                 ft.TextButton(
                     "Soundboard durchsuchen",
                     icon=ft.Icons.SEARCH,
-                    on_click=lambda e: self.soundboard_search_dialog.open_dialog(),
+                    on_click=lambda e: self.soundboard_search_dialog.open_dialog(),  # noqa:E501
                     # style=ft.ButtonStyle(
                     #    text_style=ft.TextStyle(size=16)
                     # )

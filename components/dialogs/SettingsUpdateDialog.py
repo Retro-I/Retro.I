@@ -15,13 +15,17 @@ revision_helper = RevisionHelper()
 
 
 class SettingsUpdateDialog(ft.AlertDialog):
-    branches_list = with_scrollbar_space(ft.ListView(visible=False, expand=True))
+    branches_list = with_scrollbar_space(
+        ft.ListView(visible=False, expand=True)
+    )
     tags_list = with_scrollbar_space(ft.ListView(visible=False, expand=True))
 
     branches_loading_spinner = ft.ProgressRing()
     tags_loading_spinner = ft.ProgressRing()
 
-    curr_revision_span = ft.TextSpan("", style=ft.TextStyle(weight=ft.FontWeight.BOLD))
+    curr_revision_span = ft.TextSpan(
+        "", style=ft.TextStyle(weight=ft.FontWeight.BOLD)
+    )
 
     def __init__(self):
         super().__init__()
@@ -52,7 +56,9 @@ class SettingsUpdateDialog(ft.AlertDialog):
                             text="          Branches          ",
                             content=ft.Column(
                                 alignment=ft.MainAxisAlignment.CENTER,
-                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                horizontal_alignment=(
+                                    ft.CrossAxisAlignment.CENTER,
+                                ),
                                 controls=[
                                     self.branches_list,
                                     self.branches_loading_spinner,
@@ -63,7 +69,9 @@ class SettingsUpdateDialog(ft.AlertDialog):
                             text="            Tags            ",
                             content=ft.Column(
                                 alignment=ft.MainAxisAlignment.CENTER,
-                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                horizontal_alignment=(
+                                    ft.CrossAxisAlignment.CENTER,
+                                ),
                                 controls=[
                                     self.tags_list,
                                     self.tags_loading_spinner,
@@ -122,10 +130,15 @@ class SettingsUpdateDialog(ft.AlertDialog):
                         [
                             ft.Icon(
                                 ft.Icons.DONE,
-                                visible=(r["name"] == self._get_current_revision()),
+                                visible=(
+                                    r["name"] == self._get_current_revision()
+                                ),
                             ),
                             ft.Text(
-                                r["name"], size=18, overflow=ft.TextOverflow.ELLIPSIS, expand=True
+                                r["name"],
+                                size=18,
+                                overflow=ft.TextOverflow.ELLIPSIS,
+                                expand=True,
                             ),
                             ft.Text(r["date"], size=16),
                         ],
@@ -139,14 +152,17 @@ class SettingsUpdateDialog(ft.AlertDialog):
     def on_revision_click(self, revision):
         self.download_dialog.open_dialog(revision)
         try:
-            self.download_dialog.update_info("Neue Version wird heruntergeladen...")
+            self.download_dialog.update_info(
+                "Neue Version wird heruntergeladen..."
+            )
             system_helper.change_revision(revision["name"])
             self.download_dialog.update_info("Dateien reparieren...")
             settings_sync_helper.validate_and_repair_all_settings()
             settings_sync_helper.validate_all_settings()
             self.success_dialog.open_dialog(
                 "Updates",
-                f'Updates für "{revision["name"]}" erfolgreich heruntergeladen!',
+                f'Updates für "{revision["name"]}" '
+                f"erfolgreich heruntergeladen!",
                 show_icon=True,
             )
         except Exception as e:

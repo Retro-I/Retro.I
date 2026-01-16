@@ -43,12 +43,16 @@ class AudioEffects:
 
         for slider in bass_steps_helper.get_slider():
             for _, props in config["output"]["equalizer#0"]["left"].items():
-                gain = bass_steps_helper.get_gain_for_step(step, props["frequency"])
+                gain = bass_steps_helper.get_gain_for_step(
+                    step, props["frequency"]
+                )
                 if props["frequency"] == slider["hertz"]:
                     props["gain"] = gain
 
             for _, props in config["output"]["equalizer#0"]["right"].items():
-                gain = bass_steps_helper.get_gain_for_step(step, props["frequency"])
+                gain = bass_steps_helper.get_gain_for_step(
+                    step, props["frequency"]
+                )
                 if props["frequency"] == slider["hertz"]:
                     props["gain"] = gain
 
@@ -60,12 +64,16 @@ class AudioEffects:
 
         for slider in treble_steps_helper.get_slider():
             for _, props in config["output"]["equalizer#0"]["left"].items():
-                gain = treble_steps_helper.get_gain_for_step(step, props["frequency"])
+                gain = treble_steps_helper.get_gain_for_step(
+                    step, props["frequency"]
+                )
                 if props["frequency"] == slider["hertz"]:
                     props["gain"] = gain
 
             for _, props in config["output"]["equalizer#0"]["right"].items():
-                gain = treble_steps_helper.get_gain_for_step(step, props["frequency"])
+                gain = treble_steps_helper.get_gain_for_step(
+                    step, props["frequency"]
+                )
                 if props["frequency"] == slider["hertz"]:
                     props["gain"] = gain
 

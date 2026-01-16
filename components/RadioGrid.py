@@ -57,11 +57,11 @@ class RadioGrid(ft.GridView):
                         ft.Container(
                             alignment=ft.alignment.center,
                             bgcolor=ft.Colors.SURFACE_CONTAINER_HIGHEST,
-                            on_click=lambda e, src=station, index=i: self.change_radio_station(
-                                src, index
+                            on_click=lambda e, src=station, index=i: (
+                                self.change_radio_station(src, index),
                             ),
-                            on_long_press=(
-                                lambda e, src=station, index=i: self.open_modify_station_dialog(src)
+                            on_long_press=lambda e, src=station, index=i: (
+                                self.open_modify_station_dialog(src)
                             ),
                             border_radius=10,
                             content=self.get_content(station),
@@ -69,13 +69,11 @@ class RadioGrid(ft.GridView):
                         ),
                         ft.Container(
                             alignment=ft.alignment.top_right,
-                            on_click=lambda e, src=station, index=i: self.change_radio_station(
-                                src, index
+                            on_click=lambda e, src=station, index=i: (
+                                self.change_radio_station(src, index),
                             ),
-                            on_long_press=(
-                                lambda e, src=station, index=i: self.open_modify_station_dialog(
-                                    src, index
-                                )
+                            on_long_press=lambda e, src=station, index=i: (
+                                self.open_modify_station_dialog(src, index)
                             ),
                             visible=(
                                 favorite_station is not None
@@ -140,7 +138,11 @@ class RadioGrid(ft.GridView):
         )
 
     def get_text(self, station):
-        return ft.Text(station["name"], text_align=ft.TextAlign.CENTER, weight=ft.FontWeight.BOLD)
+        return ft.Text(
+            station["name"],
+            text_align=ft.TextAlign.CENTER,
+            weight=ft.FontWeight.BOLD,
+        )
 
     def get_content(self, station):
         if station["logo"] != "":

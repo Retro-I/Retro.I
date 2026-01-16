@@ -17,7 +17,9 @@ class Sounds:
     FAV_SOUNDS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
     def search_sounds(self, query):
-        response = requests.get(f"https://myinstants-api.vercel.app/search?q={query}").json()
+        response = requests.get(
+            f"https://myinstants-api.vercel.app/search?q={query}"
+        ).json()
         if response["status"] == "200":
             return response["data"]
 
@@ -42,7 +44,11 @@ class Sounds:
         with open(self.FAV_SOUNDS_PATH, "r+") as file:
             file_data = json.load(file)
             index = next(
-                (i for i, station in enumerate(file_data) if station.get("id") == item.get("id")),
+                (
+                    i
+                    for i, station in enumerate(file_data)
+                    if station.get("id") == item.get("id")
+                ),
                 None,
             )
             file_data.pop(index)
@@ -64,7 +70,11 @@ class Sounds:
 
     def load_toasts(self):
         directory = c.toast_path()
-        files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+        files = [
+            f
+            for f in os.listdir(directory)
+            if os.path.isfile(os.path.join(directory, f))
+        ]
         return files
 
     def get_random_toast(self):

@@ -28,8 +28,12 @@ class Strip:
         self.pixel_pin = board.D10
         self.pixel_num = 38
 
-        self.pixels = neopixel.NeoPixel(self.pixel_pin, self.pixel_num, brightness=0)
-        self.animation = Pulse(self.pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK)
+        self.pixels = neopixel.NeoPixel(
+            self.pixel_pin, self.pixel_num, brightness=0
+        )
+        self.animation = Pulse(
+            self.pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK
+        )
 
         if settings_helper.is_strip_active():
             self.pixels.fill(GREEN)
@@ -56,7 +60,9 @@ class Strip:
         self.sound_mode_active = False
         self.wait_proc.set_wait()
 
-        amount_pixels = math.floor(settings_helper.get_led_length() * (value / 100))
+        amount_pixels = math.floor(
+            settings_helper.get_led_length() * (value / 100)
+        )
         self.pixels.fill(BLACK)
         if amount_pixels == 0 and value > 0:
             self.pixels[0] = GREEN
@@ -88,12 +94,14 @@ class Strip:
 
             if value < 0:
                 for i in range(
-                    self._get_middle_of_strip() + pixels_to_draw, self._get_middle_of_strip()
+                    self._get_middle_of_strip() + pixels_to_draw,
+                    self._get_middle_of_strip(),
                 ):
                     self.pixels[i] = GREEN
             else:
                 for i in range(
-                    self._get_middle_of_strip(), self._get_middle_of_strip() + pixels_to_draw
+                    self._get_middle_of_strip(),
+                    self._get_middle_of_strip() + pixels_to_draw,
                 ):
                     self.pixels[i] = GREEN
 
@@ -117,12 +125,14 @@ class Strip:
 
             if value < 0:
                 for i in range(
-                    self._get_middle_of_strip() + pixels_to_draw, self._get_middle_of_strip()
+                    self._get_middle_of_strip() + pixels_to_draw,
+                    self._get_middle_of_strip(),
                 ):
                     self.pixels[i] = GREEN
             else:
                 for i in range(
-                    self._get_middle_of_strip(), self._get_middle_of_strip() + pixels_to_draw
+                    self._get_middle_of_strip(),
+                    self._get_middle_of_strip() + pixels_to_draw,
                 ):
                     self.pixels[i] = GREEN
 
@@ -146,7 +156,10 @@ class Strip:
         self.pixels[middle + 1] = WHITE
 
     def _get_pixels_for_step(self) -> int:
-        return settings_helper.get_led_length() // bass_steps_helper.get_steps_count()
+        return (
+            settings_helper.get_led_length()
+            // bass_steps_helper.get_steps_count()
+        )
 
     def update_strip(self, color):
         self.sound_mode_active = True
@@ -164,7 +177,9 @@ class Strip:
             self.is_active = False
             settings_helper.update_settings(is_active=False)
         else:
-            self.change_brightness(settings_helper.get_curr_brightness(), save=False)
+            self.change_brightness(
+                settings_helper.get_curr_brightness(), save=False
+            )
             self.animation.resume()
             self.pixels.show()
             self.is_active = True

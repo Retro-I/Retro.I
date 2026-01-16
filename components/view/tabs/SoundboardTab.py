@@ -34,7 +34,9 @@ class SoundboardTab(ft.Column):
         )
         self.reload()
 
-        self.soundboard_search_bar = SoundboardSearchBar(self.on_add_favorite_sound)
+        self.soundboard_search_bar = SoundboardSearchBar(
+            self.on_add_favorite_sound
+        )
 
         self.expand = True
         self.visible = False
@@ -62,7 +64,9 @@ class SoundboardTab(ft.Column):
         if result == 1:
             return
 
-        self.soundboard_grid.controls.append(SoundCard(sound, self.open_delete_dialog))
+        self.soundboard_grid.controls.append(
+            SoundCard(sound, self.open_delete_dialog)
+        )
         self.soundboard_grid.update()
 
     def on_delete_favorite_sound(self, sound):

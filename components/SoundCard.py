@@ -16,8 +16,12 @@ class SoundCard(ft.Column):
         self.controls = [
             ft.Container(
                 alignment=ft.alignment.bottom_center,
-                on_click=lambda e, src=sound["mp3"]: audio_helper.play_sound_board(src),
-                on_long_press=lambda e, src=sound: on_delete_favorite_sound(src),
+                on_click=lambda e, src=sound[
+                    "mp3"
+                ]: audio_helper.play_sound_board(src),
+                on_long_press=lambda e, src=sound: on_delete_favorite_sound(
+                    src
+                ),
                 content=ft.Image(
                     src=c.get_button_img(),
                     border_radius=ft.border_radius.all(4),
@@ -26,7 +30,9 @@ class SoundCard(ft.Column):
                 height=130,
             ),
             ft.Container(
-                ft.Text(sound["title"], size=20, text_align=ft.TextAlign.CENTER),
+                ft.Text(
+                    sound["title"], size=20, text_align=ft.TextAlign.CENTER
+                ),
                 width=300,
             ),
         ]

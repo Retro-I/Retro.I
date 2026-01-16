@@ -17,7 +17,9 @@ class TestSecuredModeHelper(BaseTest):
         self.assertTrue(actual)
 
         def disable_secured_mode():
-            with open(self.secured_mode_settings.SECURED_MODE_PATH, "r+") as file:
+            with open(
+                self.secured_mode_settings.SECURED_MODE_PATH, "r+"
+            ) as file:
                 data = {
                     "securedModeEnabled": False,
                 }

@@ -13,11 +13,17 @@ class SplashscreenDialog(ft.AlertDialog):
 
         self.image_slider = ImageSlider(images=self.get_splashscreen_images())
         self.btn_back = ft.TextButton(
-            "Zurück", on_click=lambda e: display_dialog.open_dialog(), icon=ft.Icons.ARROW_BACK
+            "Zurück",
+            on_click=lambda e: display_dialog.open_dialog(),
+            icon=ft.Icons.ARROW_BACK,
         )
-        self.loading_spinner = ft.ProgressRing(width=20, height=20, visible=False)
+        self.loading_spinner = ft.ProgressRing(
+            width=20, height=20, visible=False
+        )
         self.btn_apply = ft.FilledButton(
-            "Auswählen", on_click=lambda e: self.apply_splashscreen(), disabled=False
+            "Auswählen",
+            on_click=lambda e: self.apply_splashscreen(),
+            disabled=False,
         )
 
         self.title = ft.Text("Splashscreen")
@@ -28,12 +34,18 @@ class SplashscreenDialog(ft.AlertDialog):
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             controls=[self.image_slider],
         )
-        self.actions = [self.btn_back, ft.Row([self.loading_spinner, self.btn_apply], tight=True)]
+        self.actions = [
+            self.btn_back,
+            ft.Row([self.loading_spinner, self.btn_apply], tight=True),
+        ]
         self.actions_alignment = ft.MainAxisAlignment.SPACE_BETWEEN
 
     def get_splashscreen_images(self) -> list[ft.Image]:
         return [
-            ft.Image(fit=ft.ImageFit.CONTAIN, src=f"{Constants.pwd()}/assets/splashscreen/{i}")
+            ft.Image(
+                fit=ft.ImageFit.CONTAIN,
+                src=f"{Constants.pwd()}/assets/splashscreen/{i}",
+            )
             for i in splashscreen_helper.get_splashscreens()
         ]
 
@@ -45,7 +57,9 @@ class SplashscreenDialog(ft.AlertDialog):
         self.btn_apply.text = "Wird gespeichert..."
         self.update()
 
-        selected_image = splashscreen_helper.get_splashscreens()[self.image_slider.selected_index]
+        selected_image = splashscreen_helper.get_splashscreens()[
+            self.image_slider.selected_index
+        ]
         splashscreen_helper.update_splashscreen(selected_image)
 
         self.loading_spinner.visible = False

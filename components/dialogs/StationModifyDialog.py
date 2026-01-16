@@ -21,7 +21,8 @@ class StationModifyDialog(ft.AlertDialog):
         self.actions = [
             ft.TextButton("Löschen", on_click=lambda e: self.on_delete()),
             ft.FilledButton(
-                "Als Lieblingssender setzen", on_click=lambda e: self.on_set_favorite()
+                "Als Lieblingssender setzen",
+                on_click=lambda e: self.on_set_favorite(),
             ),
         ]
 
@@ -32,7 +33,9 @@ class StationModifyDialog(ft.AlertDialog):
         self.update()
 
     def on_delete(self):
-        self.station_delete_dialog.open_dialog(self.station, self.submit_callback)
+        self.station_delete_dialog.open_dialog(
+            self.station, self.submit_callback
+        )
 
     def on_set_favorite(self):
         stations_helper.set_favorite_station(self.station)

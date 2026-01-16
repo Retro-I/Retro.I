@@ -10,7 +10,9 @@ class TestAudioEffectsUpdateBass(BaseTest):
         actual = self.audio_effects.get_config()
         expected = {
             "output": {
-                "blocklist": ["Virtual Surround Sink Stream from VirtualSurround"],
+                "blocklist": [
+                    "Virtual Surround Sink Stream from VirtualSurround"
+                ],
                 "equalizer#0": {
                     "balance": -2.7755575615628914e-17,
                     "bypass": False,
@@ -198,7 +200,9 @@ class TestAudioEffectsUpdateBass(BaseTest):
         actual = self.audio_effects.get_config()
         expected = {
             "output": {
-                "blocklist": ["Virtual Surround Sink Stream from VirtualSurround"],
+                "blocklist": [
+                    "Virtual Surround Sink Stream from VirtualSurround"
+                ],
                 "equalizer#0": {
                     "balance": -2.7755575615628914e-17,
                     "bypass": False,
@@ -384,7 +388,9 @@ class TestAudioEffectsUpdateBass(BaseTest):
         actual = self.audio_effects.get_config()
         expected = {
             "output": {
-                "blocklist": ["Virtual Surround Sink Stream from VirtualSurround"],
+                "blocklist": [
+                    "Virtual Surround Sink Stream from VirtualSurround"
+                ],
                 "equalizer#0": {
                     "balance": -2.7755575615628914e-17,
                     "bypass": False,
@@ -577,7 +583,9 @@ class TestAudioEffectsUpdateTreble(BaseTest):
         actual = self.audio_effects.get_config()
         expected = {
             "output": {
-                "blocklist": ["Virtual Surround Sink Stream from VirtualSurround"],
+                "blocklist": [
+                    "Virtual Surround Sink Stream from VirtualSurround"
+                ],
                 "equalizer#0": {
                     "balance": -2.7755575615628914e-17,
                     "bypass": False,
@@ -765,7 +773,9 @@ class TestAudioEffectsUpdateTreble(BaseTest):
         actual = self.audio_effects.get_config()
         expected = {
             "output": {
-                "blocklist": ["Virtual Surround Sink Stream from VirtualSurround"],
+                "blocklist": [
+                    "Virtual Surround Sink Stream from VirtualSurround"
+                ],
                 "equalizer#0": {
                     "balance": -2.7755575615628914e-17,
                     "bypass": False,
@@ -951,7 +961,9 @@ class TestAudioEffectsUpdateTreble(BaseTest):
         actual = self.audio_effects.get_config()
         expected = {
             "output": {
-                "blocklist": ["Virtual Surround Sink Stream from VirtualSurround"],
+                "blocklist": [
+                    "Virtual Surround Sink Stream from VirtualSurround"
+                ],
                 "equalizer#0": {
                     "balance": -2.7755575615628914e-17,
                     "bypass": False,

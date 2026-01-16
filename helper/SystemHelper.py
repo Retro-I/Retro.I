@@ -71,9 +71,9 @@ class SystemHelper:
         self._update_process = None
 
     def get_cpu_temp(self) -> str:
-        line = subprocess.run(["vcgencmd", "measure_temp"], stdout=subprocess.PIPE).stdout.decode(
-            "utf-8"
-        )
+        line = subprocess.run(
+            ["vcgencmd", "measure_temp"], stdout=subprocess.PIPE
+        ).stdout.decode("utf-8")
         temp = line[5:].strip()
         return temp
 
@@ -115,17 +115,26 @@ class SystemHelper:
         return netifaces.gateways()["default"][netifaces.AF_INET][1]
 
     def get_current_ssid(self):
-        if self.get_default_interface() is not None and "wlan" not in self.get_default_interface():
+        if (
+            self.get_default_interface() is not None
+            and "wlan" not in self.get_default_interface()
+        ):
             return ""
 
         ssid = (
-            subprocess.run(["iwgetid", "-r"], stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
+            subprocess.run(["iwgetid", "-r"], stdout=subprocess.PIPE)
+            .stdout.decode("utf-8")
+            .strip()
         )
         return ssid
 
     def get_ip_address(self):
         ifname = self.get_default_interface()
-        return "" if ifname is None else netifaces.ifaddresses(ifname)[netifaces.AF_INET][0]["addr"]
+        return (
+            ""
+            if ifname is None
+            else netifaces.ifaddresses(ifname)[netifaces.AF_INET][0]["addr"]
+        )
 
     def get_hostname(self):
         return socket.gethostname()
@@ -133,16 +142,26 @@ class SystemHelper:
     def get_netmask(self):
         ifname = self.get_default_interface()
         return (
-            "" if ifname is None else netifaces.ifaddresses(ifname)[netifaces.AF_INET][0]["netmask"]
+            ""
+            if ifname is None
+            else netifaces.ifaddresses(ifname)[netifaces.AF_INET][0]["netmask"]
         )
 
     def get_mac_address(self):
         ifname = self.get_default_interface()
-        return "" if ifname is None else netifaces.ifaddresses(ifname)[netifaces.AF_LINK][0]["addr"]
+        return (
+            ""
+            if ifname is None
+            else netifaces.ifaddresses(ifname)[netifaces.AF_LINK][0]["addr"]
+        )
 
     def get_gateway(self):
         ifname = self.get_default_interface()
-        return "" if ifname is None else netifaces.gateways()["default"][netifaces.AF_INET][0]
+        return (
+            ""
+            if ifname is None
+            else netifaces.gateways()["default"][netifaces.AF_INET][0]
+        )
 
     def get_dns_servers(self):
         dns_servers = []
@@ -181,7 +200,11 @@ class SystemHelper:
         def try_dsi_screens():
             paths = glob.glob("/sys/class/backlight/*/brightness")
             for path in paths:
-                subprocess.run(["sudo", "tee", path], input=str(brightness).encode(), check=True)
+                subprocess.run(
+                    ["sudo", "tee", path],
+                    input=str(brightness).encode(),
+                    check=True,
+                )
 
         def try_hdmi_screens():
             os.system(f"xrandr --output HDMI-0 --brightness {factor}")

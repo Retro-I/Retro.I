@@ -17,7 +17,9 @@ class ImageSlider(ft.Container):
 
         self.switcher_text = ft.Text("0/0", style=ft.TextStyle(size=24))
 
-        self.switcher = ft.AnimatedSwitcher(images[0], duration=500, reverse_duration=500)
+        self.switcher = ft.AnimatedSwitcher(
+            images[0], duration=500, reverse_duration=500
+        )
         self.content = ft.Column(
             [
                 ft.Row(
@@ -57,7 +59,9 @@ class ImageSlider(ft.Container):
         self.switcher.content = self.images[index]
         self.switcher.update()
 
-        self.switcher_text.value = f"{index + 1}/{len(splashscreen_helper.get_splashscreens())}"
+        self.switcher_text.value = (
+            f"{index + 1}/{len(splashscreen_helper.get_splashscreens())}"
+        )
         self.switcher_text.update()
 
     def prev_image(self):
@@ -67,7 +71,8 @@ class ImageSlider(ft.Container):
     def next_image(self):
         index = (
             self.selected_index + 1
-            if self.selected_index < len(splashscreen_helper.get_splashscreens()) - 1
+            if self.selected_index
+            < len(splashscreen_helper.get_splashscreens()) - 1
             else len(splashscreen_helper.get_splashscreens()) - 1
         )
         self.set_current(index)

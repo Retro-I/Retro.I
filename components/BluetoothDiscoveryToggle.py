@@ -7,7 +7,9 @@ bluetooth_helper = BluetoothHelper()
 
 class BluetoothDiscoveryToggle(ft.FilledButton):
     ico_discovery_status = ft.Icon(ft.Icons.BLUETOOTH_DISABLED, size=20)
-    txt_discovery_status = ft.Text("Bluetooth nicht sichtbar", style=ft.TextStyle(size=24))
+    txt_discovery_status = ft.Text(
+        "Bluetooth nicht sichtbar", style=ft.TextStyle(size=24)
+    )
 
     on_discovery_enabled = None
     on_discovery_disabled = None

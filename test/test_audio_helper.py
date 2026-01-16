@@ -66,16 +66,24 @@ class TestAudioSounds(unittest.TestCase):
 
         self.test_dir = tempfile.mkdtemp()
 
-        self.audio_settings_file = os.path.join("./settings/audio-settings.json")
+        self.audio_settings_file = os.path.join(
+            "./settings/audio-settings.json"
+        )
 
-        self.audio_settings_temp_file = os.path.join(self.test_dir, "audio_settings_data_copy.json")
+        self.audio_settings_temp_file = os.path.join(
+            self.test_dir, "audio_settings_data_copy.json"
+        )
 
         shutil.copy(self.audio_settings_file, self.audio_settings_temp_file)
 
-        with patch.object(Audio, "AUDIO_SETTINGS_PATH", self.audio_settings_temp_file):
+        with patch.object(
+            Audio, "AUDIO_SETTINGS_PATH", self.audio_settings_temp_file
+        ):
             with mock.patch.object(Audio, "init_sound"):
                 self.audio_helper = Audio()
-                self.audio_helper.AUDIO_SETTINGS_PATH = self.audio_settings_temp_file
+                self.audio_helper.AUDIO_SETTINGS_PATH = (
+                    self.audio_settings_temp_file
+                )
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)
@@ -85,7 +93,9 @@ class TestAudioSounds(unittest.TestCase):
             with patch.object(self.audio_helper, "set_volume") as volume_mock:
                 self.audio_helper.init_sound()
                 unmute_mock.assert_called_once()
-                volume_mock.assert_called_once_with(self.audio_helper.get_default_volume())
+                volume_mock.assert_called_once_with(
+                    self.audio_helper.get_default_volume()
+                )
 
     def test_startup_sound(self):
         startup = f"{constants.system_sound_path()}/startup.mp3"
@@ -93,7 +103,8 @@ class TestAudioSounds(unittest.TestCase):
         startup_sound_path = pl.Path(startup)
 
         self.assertEqual(
-            (str(startup_sound_path), startup_sound_path.is_file()), (str(startup_sound_path), True)
+            (str(startup_sound_path), startup_sound_path.is_file()),
+            (str(startup_sound_path), True),
         )
 
         with patch.object(self.audio_helper, "play_sound") as mock:
@@ -117,12 +128,17 @@ class TestAudioSounds(unittest.TestCase):
                 mock_play_sound.assert_called_once_with(shutdown)
 
     def test_bluetooth_connected_sound(self):
-        bluetooth_connected = f"{constants.system_sound_path()}/bluetooth_connected.mp3"
+        bluetooth_connected = (
+            f"{constants.system_sound_path()}/bluetooth_connected.mp3"
+        )
 
         bluetooth_connected_sound_path = pl.Path(bluetooth_connected)
 
         self.assertEqual(
-            (str(bluetooth_connected_sound_path), bluetooth_connected_sound_path.is_file()),
+            (
+                str(bluetooth_connected_sound_path),
+                bluetooth_connected_sound_path.is_file(),
+            ),
             (str(bluetooth_connected_sound_path), True),
         )
 
@@ -131,12 +147,17 @@ class TestAudioSounds(unittest.TestCase):
             mock.assert_called_once_with(bluetooth_connected)
 
     def test_bluetooth_disconnected_sound(self):
-        bluetooth_disconnected = f"{constants.system_sound_path()}/bluetooth_disconnected.mp3"
+        bluetooth_disconnected = (
+            f"{constants.system_sound_path()}/bluetooth_disconnected.mp3"
+        )
 
         bluetooth_connected_sound_path = pl.Path(bluetooth_disconnected)
 
         self.assertEqual(
-            (str(bluetooth_connected_sound_path), bluetooth_connected_sound_path.is_file()),
+            (
+                str(bluetooth_connected_sound_path),
+                bluetooth_connected_sound_path.is_file(),
+            ),
             (str(bluetooth_connected_sound_path), True),
         )
 
@@ -149,7 +170,9 @@ class TestAudioSounds(unittest.TestCase):
         @patch("helper.Audio.wait")
         @patch("helper.Audio.pause")
         @patch("helper.Audio.playsound")
-        def test_play_toast(mock_random_toast, mock_playsound, mock_pause, mock_wait, mock_play):
+        def test_play_toast(
+            mock_random_toast, mock_playsound, mock_pause, mock_wait, mock_play
+        ):
             self.audio_helper.play_toast()
             mock_random_toast.assert_called_once()
             mock_pause.assert_called_once()
@@ -181,7 +204,9 @@ class TestAudioSounds(unittest.TestCase):
     @mock.patch("helper.Audio.playsound")
     def test_local_sound(self, mock_playsound):
         self.audio_helper.play_sound_board("test.mp3")
-        mock_playsound.assert_called_once_with(f"{constants.sound_path()}/test.mp3")
+        mock_playsound.assert_called_once_with(
+            f"{constants.sound_path()}/test.mp3"
+        )
 
     @mock.patch("helper.Audio.playsound")
     def test_remote_https_sound(self, mock_playsound):

@@ -42,7 +42,11 @@ class Stations:
             json.dump(data, file, indent=4)
 
     def delete_station(self, station):
-        data = [obj for obj in self.load_radio_stations() if obj.get("id") != station.get("id")]
+        data = [
+            obj
+            for obj in self.load_radio_stations()
+            if obj.get("id") != station.get("id")
+        ]
 
         with open(self.STATIONS_SETTINGS_PATH, "r+") as file:
             file.seek(0)

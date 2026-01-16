@@ -65,7 +65,9 @@ class TestStationsHelper(BaseTest):
         stations = self.stations.load_radio_stations()
 
         self.assertEqual(26, len(stations))
-        self.assertNotIn(station, stations)  # Weil die Station anfanges `favorite=False` hatte
+        self.assertNotIn(
+            station, stations
+        )  # Weil die Station anfanges `favorite=False` hatte
         self.assertTrue(stations[0]["favorite"])
         self.assertTrue(1, len([s for s in stations if s["favorite"]]))
 

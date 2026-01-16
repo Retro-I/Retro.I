@@ -27,21 +27,27 @@ class SettingsInfoDialog(ft.AlertDialog):
                             text="            Info            ",
                             content=ft.Column(
                                 alignment=ft.MainAxisAlignment.CENTER,
-                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                horizontal_alignment=(
+                                    ft.CrossAxisAlignment.CENTER,
+                                ),
                                 controls=[with_scrollbar_space(self.info)],
                             ),
                         ),
                         ft.Tab(
                             text="        Dokumentation        ",
                             content=ft.Column(
-                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                horizontal_alignment=(
+                                    ft.CrossAxisAlignment.CENTER,
+                                ),
                                 controls=[Documentation()],
                             ),
                         ),
                         ft.Tab(
                             text="           Credits           ",
                             content=ft.Column(
-                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                horizontal_alignment=(
+                                    ft.CrossAxisAlignment.CENTER,
+                                ),
                                 controls=[Credits()],
                             ),
                         ),

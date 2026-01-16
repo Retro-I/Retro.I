@@ -16,10 +16,14 @@ class TestConstants(unittest.TestCase):
         self.assertEqual("/home/pi/Retro.I", Constants.pwd())
 
     def test_sound_path(self):
-        self.assertEqual("/home/pi/Retro.I/assets/sounds", self.constants.sound_path())
+        self.assertEqual(
+            "/home/pi/Retro.I/assets/sounds", self.constants.sound_path()
+        )
 
     def test_toast_path(self):
-        self.assertEqual("/home/pi/Retro.I/assets/toasts", self.constants.toast_path())
+        self.assertEqual(
+            "/home/pi/Retro.I/assets/toasts", self.constants.toast_path()
+        )
 
     def test_button_img(self):
         os.environ["RETROI_DIR"] = "."  # overwrite for testing

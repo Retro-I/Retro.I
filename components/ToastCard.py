@@ -20,7 +20,11 @@ class ToastCard(ft.Column):
                 content=ft.Image(src=c.get_button_img(), opacity=0.7),
             ),
             ft.Container(
-                ft.Text("Zufälliger Trinkspruch", size=20, text_align=ft.TextAlign.CENTER),
+                ft.Text(
+                    "Zufälliger Trinkspruch",
+                    size=20,
+                    text_align=ft.TextAlign.CENTER,
+                ),
                 width=300,
             ),
         ]

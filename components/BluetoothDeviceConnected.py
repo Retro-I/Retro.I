@@ -2,7 +2,9 @@ import time
 
 import flet as ft
 
-from components.dialogs.BluetoothDeviceEditDialog import BluetoothDeviceEditDialog
+from components.dialogs.BluetoothDeviceEditDialog import (
+    BluetoothDeviceEditDialog,
+)
 from components.Scrollbar import with_scrollbar_space
 from components.view.Taskbar import Taskbar
 from helper.Audio import Audio
@@ -66,18 +68,26 @@ class BluetoothDeviceConnected:
                         ]
                     ),
                     on_click=lambda e, name=device: self.on_device_click(name),
-                    on_long_press=lambda e, name=device: self.on_device_long_click(name),
+                    on_long_press=lambda e, name=device: (
+                        self.on_device_long_click(name),
+                    ),
                 )
             )
 
-            if bluetooth_helper.get_connected_device_mac().upper() == device["mac_address"].upper():
+            if (
+                bluetooth_helper.get_connected_device_mac().upper()
+                == device["mac_address"].upper()
+            ):
                 ico.visible = True
 
             self.listview.controls.append(btn)
         self.listview.update()
 
     def on_device_click(self, device):
-        if bluetooth_helper.get_connected_device_mac().upper() == device["mac_address"].upper():
+        if (
+            bluetooth_helper.get_connected_device_mac().upper()
+            == device["mac_address"].upper()
+        ):
             bluetooth_helper.disconnect(device["mac_address"])
             audio_helper.bluetooth_disconnected()
             self.on_disconnected()
@@ -89,7 +99,9 @@ class BluetoothDeviceConnected:
             bluetooth_helper.remove_device(device["mac_address"])
             self.reload_devices()
 
-        self.bluetooth_device_edit_dialog.open_dialog(device["name"], on_device_remove)
+        self.bluetooth_device_edit_dialog.open_dialog(
+            device["name"], on_device_remove
+        )
 
     def get(self):
         return self.listview

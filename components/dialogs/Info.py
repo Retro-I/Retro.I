@@ -31,7 +31,10 @@ class Info(ft.ListView):
                 size=20,
             ),
             ft.Text(
-                spans=[ft.TextSpan("Datum: "), ft.TextSpan(system_helper.get_curr_date())],
+                spans=[
+                    ft.TextSpan("Datum: "),
+                    ft.TextSpan(system_helper.get_curr_date()),
+                ],
                 size=20,
             ),
             ft.Text(
@@ -58,8 +61,12 @@ class Info(ft.ListView):
                 spans=[ft.TextSpan("Subnetzmaske: "), self.subnetmask_text],
                 size=20,
             ),
-            ft.Text(spans=[ft.TextSpan("MAC-Adresse: "), self.mac_text], size=20),
-            ft.Text(spans=[ft.TextSpan("Gateway: "), self.gateway_text], size=20),
+            ft.Text(
+                spans=[ft.TextSpan("MAC-Adresse: "), self.mac_text], size=20
+            ),
+            ft.Text(
+                spans=[ft.TextSpan("Gateway: "), self.gateway_text], size=20
+            ),
             ft.Text(
                 spans=[ft.TextSpan("DNS Primär: "), self.dns_pri_text],
                 size=20,
@@ -77,7 +84,9 @@ class Info(ft.ListView):
         self.cpu_temp_text.text = system_helper.get_cpu_temp()
         self.cpu_temp_text.update()
 
-        self.download_rate_text.text = round(system_helper.get_download_rate(), 2)
+        self.download_rate_text.text = round(
+            system_helper.get_download_rate(), 2
+        )
         self.download_rate_text.update()
 
         self.update_ip_config()

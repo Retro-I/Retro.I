@@ -34,7 +34,9 @@ class BluetoothHelper:
         subprocess.run(["rfkill", "block", "0"], stdout=subprocess.DEVNULL)
 
     def is_bluetooth_on(self):
-        status = subprocess.run(["hciconfig"], stdout=subprocess.PIPE).stdout.decode("utf-8")
+        status = subprocess.run(
+            ["hciconfig"], stdout=subprocess.PIPE
+        ).stdout.decode("utf-8")
         return "RUNNING" in status
 
     def bluetooth_discovery_on(self):
@@ -73,7 +75,9 @@ class BluetoothHelper:
         print("Device disconnected")
 
     def get_paired_devices(self):
-        output = subprocess.check_output(["bluetoothctl", "devices", "Paired"], text=True)
+        output = subprocess.check_output(
+            ["bluetoothctl", "devices", "Paired"], text=True
+        )
 
         # Each line typically looks like: "Device XX:XX:XX:XX:XX:XX Device_Name"
         devices = []

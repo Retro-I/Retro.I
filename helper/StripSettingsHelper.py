@@ -36,10 +36,17 @@ class StripSettingsHelper:
             return _get_data()
 
     def update_settings(
-        self, is_active: bool | None = None, brightness: float | None = None, length: int = None
+        self,
+        is_active: bool | None = None,
+        brightness: float | None = None,
+        length: int = None,
     ):
-        _is_active = is_active if is_active is not None else self.is_strip_active()
-        _brightness = brightness if brightness is not None else self.get_curr_brightness()
+        _is_active = (
+            is_active if is_active is not None else self.is_strip_active()
+        )
+        _brightness = (
+            brightness if brightness is not None else self.get_curr_brightness()
+        )
         _length = length if length is not None else self.get_led_length()
 
         data = self.get_strip_settings()
