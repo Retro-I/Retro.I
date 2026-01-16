@@ -5,7 +5,7 @@ import sys
 import tempfile
 import unittest
 from unittest import mock
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from helper.Constants import Constants
 from test.base_test import BaseTest
@@ -197,3 +197,79 @@ class TestAudioSounds(unittest.TestCase):
     def test_wait(self, mock_time_sleep):
         self.audio_helper.wait()
         mock_time_sleep.assert_called_once_with(0.5)
+
+    @mock.patch("subprocess.run")
+    def test_audio_sind_ids(self, mock_run):
+        mock_run.return_value = MagicMock(
+            stdout="""
+        PipeWire 'pipewire-0' [1.2.7, pi@retroi, cookie:0123456789]
+         Clients:
+                33. pipewire                            [1.2.7, pi@retroi, pid:755]
+                35. WirePlumber                         [1.2.7, pi@retroi, pid:754]
+                36. WirePlumber [export]                [1.2.7, pi@retroi, pid:754]
+                76. xdg-desktop-portal-wlr              [1.2.7, pi@retroi, pid:1143]
+                77. xdg-desktop-portal                  [1.2.7, pi@retroi, pid:1103]
+                78. unknown                             [1.2.7, pi@retroi, pid:1056]
+                79. wpctl                               [1.2.7, pi@retroi, pid:3856]
+
+        Audio
+         Devices:
+          56. Built-in Audio                      [alsa]
+          57. Built-in Audio                      [alsa]
+          58. Built-in Audio                      [alsa]
+
+         Sinks:
+          71. Built-in Audio Stereo               [vol: 0.00]
+          72. Built-in Audio Digital Stereo (HDMI) [vol: 0.00]
+
+         Sink endpoints:
+
+         Sources:
+
+         Source endpoints:
+
+         Streams:
+
+        Video
+         Devices:
+            42. rpi-hevc-dec                        [v4l2]
+            43. bcm2835-codec-decode                [v4l2]
+            44. bcm2835-codec-encode                [v4l2]
+            45. bcm2835-codec-isp                   [v4l2]
+            46. bcm2835-codec-image_fx              [v4l2]
+            47. bcm2835-codec-encode_image          [v4l2]
+            48. bcm2835-isp                         [v4l2]
+            49. bcm2835-isp                         [v4l2]
+            50. bcm2835-isp                         [v4l2]
+            51. bcm2835-isp                         [v4l2]
+            52. bcm2835-isp                         [v4l2]
+            53. bcm2835-isp                         [v4l2]
+            54. bcm2835-isp                         [v4l2]
+            55. bcm2835-isp                         [v4l2]
+         Sinks:
+         Sink endpoints:
+         Sources:
+            59. bcm2835-isp (V4L2)
+            61. bcm2835-isp (V4L2)
+            63. bcm2835-isp (V4L2)
+            65. bcm2835-isp (V4L2)
+                   Source endpoints:
+                   Streams:
+
+        Settings
+         Default Configured Node Names:
+            0. Audio/Sink    alsa_output.platform-fe00b840.mailbox.stereo-fallback
+        """
+        )
+
+        actual = self.audio_helper.get_audio_sink_ids()
+
+        mock_run.assert_called_once_with(
+            ["wpctl", "status"], capture_output=True, text=True, check=True
+        )
+
+        expected = {"builtin": 71, "hdmi": 72}
+        self.assertEqual(actual, expected)
+
+        self.assertEqual(71, self.audio_helper.get_audio_sink_ids()["builtin"])
+        self.assertEqual(72, self.audio_helper.get_audio_sink_ids()["hdmi"])
