@@ -34,7 +34,10 @@ class SettingsDisplayDialog(ft.AlertDialog):
                 ft.Divider(),
                 ft.Column(
                     [
-                        ft.Text("Bildschirm-Helligkeit:", style=ft.TextStyle(size=20)),
+                        ft.Text(
+                            "Bildschirm-Helligkeit:",
+                            style=ft.TextStyle(size=20),
+                        ),
                         ft.Slider(
                             min=10,
                             max=100,

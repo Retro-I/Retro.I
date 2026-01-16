@@ -16,16 +16,25 @@ class Documentation(ft.Column):
         self.controls = [
             ft.Text(
                 spans=[
-                    ft.TextSpan("Die Dokumenatation zum Projekt findest du unter "),
                     ft.TextSpan(
-                        "https://docs.retroi.de", style=ft.TextStyle(weight=ft.FontWeight.BOLD)
+                        "Die Dokumenatation zum Projekt findest du unter "
+                    ),
+                    ft.TextSpan(
+                        "https://docs.retroi.de",
+                        style=ft.TextStyle(weight=ft.FontWeight.BOLD),
                     ),
                 ],
                 size=20,
             ),
             ft.Divider(),
             ft.Row(
-                [ft.Image(src_base64=QrCodeHelper.str_to_qr_code("https://docs.retroi.de"))],
+                [
+                    ft.Image(
+                        src_base64=QrCodeHelper.str_to_qr_code(
+                            "https://docs.retroi.de"
+                        )
+                    )
+                ],
                 alignment=ft.MainAxisAlignment.CENTER,
             ),
         ]

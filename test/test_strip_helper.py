@@ -38,5 +38,9 @@ class TestStripSettingsHelper(BaseTest):
 
     def test_get_complete_settings(self):
         actual = self.strip_settings_helper.get_strip_settings()
-        expected = {"isStripEnabled": True, "brightness": 100.0, "amountLeds": 38}
+        expected = {
+            "isStripEnabled": True,
+            "brightness": 100.0,
+            "amountLeds": 38,
+        }
         self.assertCountEqual(actual, expected)

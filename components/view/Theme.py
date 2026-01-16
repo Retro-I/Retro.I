@@ -38,7 +38,9 @@ class Theme:
         )
 
         self.radio_tab = RadioTab(
-            on_strip_run_color, self.on_updated_radio_station, self.on_stop_radio_station
+            on_strip_run_color,
+            self.on_updated_radio_station,
+            self.on_stop_radio_station,
         )
         self.bluetooth_tab = BluetoothTab(self.taskbar)
         self.soundboard_tab = SoundboardTab()
@@ -78,7 +80,9 @@ class Theme:
         return tabs
 
     def get_scrollbar_theme(self) -> ft.ScrollbarTheme:
-        scrollbar_theme = ft.ScrollbarTheme(thumb_visibility=False, track_visibility=False)
+        scrollbar_theme = ft.ScrollbarTheme(
+            thumb_visibility=False, track_visibility=False
+        )
 
         if scrollbar_settings_helper.is_scrollbar_enabled():
             scrollbar_theme = ft.ScrollbarTheme(

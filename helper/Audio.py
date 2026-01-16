@@ -1,5 +1,7 @@
 import json
 import os
+import re
+import subprocess
 import time
 
 import alsaaudio as a
@@ -88,6 +90,38 @@ class Audio:
 
     def bluetooth_disconnected(self):
         self.play_sound(f"{c.system_sound_path()}/bluetooth_disconnected.mp3")
+
+    def get_audio_sink_ids(self) -> dict:
+        result = subprocess.run(
+            ["wpctl", "status"], capture_output=True, text=True, check=True
+        )
+
+        sinks_section = False
+        sinks = {}
+
+        for line in result.stdout.splitlines():
+            if line.strip().startswith("Sinks:"):
+                sinks_section = True
+                continue
+
+            if sinks_section and re.match(r"\s*[A-Z]", line):
+                break
+
+            if sinks_section:
+                match = re.search(r"\s*(\d+)\.\s+(.+?)\s+\[", line)
+                if match:
+                    sink_id = int(match.group(1))
+                    sink_name = match.group(2)
+
+                    if "HDMI" in sink_name:
+                        sinks["hdmi"] = sink_id
+                    elif "Built-in Audio" in sink_name:
+                        sinks["builtin"] = sink_id
+
+        return {"builtin": sinks.get("builtin"), "hdmi": sinks.get("hdmi")}
+
+    def set_audio_output(self, sink_id: str):
+        os.system(f"sudo raspi-config nonint do_audio {sink_id}")
 
     def play_toast(self):
         toast_src = sounds.get_random_toast()

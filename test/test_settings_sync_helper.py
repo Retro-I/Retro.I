@@ -14,7 +14,9 @@ class TestSyncValues(BaseTest):
 
     def test_data_validation(self):
         data = {"enableAutoplay": True, "defaultVolume": 20}
-        self.assertTrue(self.settings_sync_helper.is_valid(data, self._get_test_schema()))
+        self.assertTrue(
+            self.settings_sync_helper.is_valid(data, self._get_test_schema())
+        )
 
     def test_add_volume_step_field(self):
         old_data = {"enableAutoplay": True, "defaultVolume": 20}
@@ -24,7 +26,11 @@ class TestSyncValues(BaseTest):
         self.assertFalse(self.settings_sync_helper.is_valid(old_data, schema))
 
         new_data = self.settings_sync_helper.repair(old_data, schema)
-        expected = {"enableAutoplay": True, "defaultVolume": 20, "volumeStep": 6}
+        expected = {
+            "enableAutoplay": True,
+            "defaultVolume": 20,
+            "volumeStep": 6,
+        }
 
         self.assertEqual(new_data, expected)
         self.assertTrue(self.settings_sync_helper.is_valid(new_data, schema))
@@ -78,7 +84,11 @@ class TestSyncValues(BaseTest):
         with open(self.audio_helper.AUDIO_SETTINGS_PATH, "r+") as file:
             data = json.load(file)
 
-        expected = {"enableAutoplay": False, "defaultVolume": 20, "volumeStep": 6}
+        expected = {
+            "enableAutoplay": False,
+            "defaultVolume": 20,
+            "volumeStep": 6,
+        }
         self.assertEqual(data, expected)
 
     @mock.patch("helper.SettingsSyncHelper.SettingsSyncHelper.is_valid")
@@ -111,7 +121,11 @@ class TestSyncValues(BaseTest):
                 "src": "https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid",
             }
         ]
-        self.assertTrue(self.settings_sync_helper.is_valid(data, self.get_test_list_schema()))
+        self.assertTrue(
+            self.settings_sync_helper.is_valid(
+                data, self.get_test_list_schema()
+            )
+        )
 
     def test_repair_valid_file(self):
         data = {"enableAutoplay": True, "defaultVolume": 20}
@@ -129,7 +143,9 @@ class TestSyncValues(BaseTest):
                 "src": "https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid",
             }
         ]
-        actual = self.settings_sync_helper.repair(data, self.get_test_list_schema())
+        actual = self.settings_sync_helper.repair(
+            data, self.get_test_list_schema()
+        )
         self.assertCountEqual(actual, data)
 
     def test_repair_invalid_file_missing_field(self):
@@ -147,7 +163,9 @@ class TestSyncValues(BaseTest):
                 "src": "https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid",
             }
         ]
-        actual = self.settings_sync_helper.repair(data, self.get_test_list_schema())
+        actual = self.settings_sync_helper.repair(
+            data, self.get_test_list_schema()
+        )
         expected = [
             {
                 "color": "#00FF00",
@@ -168,51 +186,87 @@ class TestSyncValues(BaseTest):
 
     def test_repair_empty_file_for_enum(self):
         data = {}
-        actual = self.settings_sync_helper.repair(data, self._get_test_enum_schema())
+        actual = self.settings_sync_helper.repair(
+            data, self._get_test_enum_schema()
+        )
         expected = {"theme": "light"}
         self.assertCountEqual(actual, expected)
 
     def test_recreate_target_settings_file(self):
         os.remove(f"{self.test_dir}/audio-settings.json")
         self.assertFalse(os.path.exists(f"{self.test_dir}/audio-settings.json"))
-        self.assertTrue(os.path.exists(f"{self.test_dir_default}/audio-settings.json"))
+        self.assertTrue(
+            os.path.exists(f"{self.test_dir_default}/audio-settings.json")
+        )
 
         self.settings_sync_helper.validate_and_repair_all_settings()
 
         self.assertTrue(os.path.exists(f"{self.test_dir}/audio-settings.json"))
-        self.assertTrue(os.path.exists(f"{self.test_dir_default}/audio-settings.json"))
+        self.assertTrue(
+            os.path.exists(f"{self.test_dir_default}/audio-settings.json")
+        )
 
         with open(f"{self.test_dir}/audio-settings.json", "r") as f:
             actual = json.load(f)
 
-        expected = {"enableAutoplay": True, "defaultVolume": 20, "volumeStep": 6}
+        expected = {
+            "enableAutoplay": True,
+            "defaultVolume": 20,
+            "volumeStep": 6,
+        }
         self.assertCountEqual(actual, expected)
 
     def test_delete_target_settings_file_when_default_not_present(self):
         os.remove(f"{self.test_dir_default}/audio-settings.json")
         self.assertTrue(os.path.exists(f"{self.test_dir}/audio-settings.json"))
-        self.assertFalse(os.path.exists(f"{self.test_dir_default}/audio-settings.json"))
+        self.assertFalse(
+            os.path.exists(f"{self.test_dir_default}/audio-settings.json")
+        )
 
         self.settings_sync_helper.validate_and_repair_all_settings()
 
         self.assertFalse(os.path.exists(f"{self.test_dir}/audio-settings.json"))
-        self.assertFalse(os.path.exists(f"{self.test_dir_default}/audio-settings.json"))
+        self.assertFalse(
+            os.path.exists(f"{self.test_dir_default}/audio-settings.json")
+        )
 
     def test_validate_audio_effects(self):
         self.settings_sync_helper.validate_effects()
 
     def test_validate_by_filename(self):
-        self.settings_sync_helper.validate_setting_by_filename("audio-settings.json")
-        self.settings_sync_helper.validate_setting_by_filename("bass-steps.json")
-        self.settings_sync_helper.validate_setting_by_filename("favorite-sounds.json")
-        self.settings_sync_helper.validate_setting_by_filename("gpio-pin-mapping.json")
-        self.settings_sync_helper.validate_setting_by_filename("radio-stations.json")
-        self.settings_sync_helper.validate_setting_by_filename("scrollbar-settings.json")
-        self.settings_sync_helper.validate_setting_by_filename("secured-mode-settings.json")
-        self.settings_sync_helper.validate_setting_by_filename("startup-error.json")
-        self.settings_sync_helper.validate_setting_by_filename("strip-settings.json")
-        self.settings_sync_helper.validate_setting_by_filename("theme-mode-settings.json")
-        self.settings_sync_helper.validate_setting_by_filename("treble-steps.json")
+        self.settings_sync_helper.validate_setting_by_filename(
+            "audio-settings.json"
+        )
+        self.settings_sync_helper.validate_setting_by_filename(
+            "bass-steps.json"
+        )
+        self.settings_sync_helper.validate_setting_by_filename(
+            "favorite-sounds.json"
+        )
+        self.settings_sync_helper.validate_setting_by_filename(
+            "gpio-pin-mapping.json"
+        )
+        self.settings_sync_helper.validate_setting_by_filename(
+            "radio-stations.json"
+        )
+        self.settings_sync_helper.validate_setting_by_filename(
+            "scrollbar-settings.json"
+        )
+        self.settings_sync_helper.validate_setting_by_filename(
+            "secured-mode-settings.json"
+        )
+        self.settings_sync_helper.validate_setting_by_filename(
+            "startup-error.json"
+        )
+        self.settings_sync_helper.validate_setting_by_filename(
+            "strip-settings.json"
+        )
+        self.settings_sync_helper.validate_setting_by_filename(
+            "theme-mode-settings.json"
+        )
+        self.settings_sync_helper.validate_setting_by_filename(
+            "treble-steps.json"
+        )
 
     def _get_test_schema(self):
         return {
@@ -242,7 +296,9 @@ class TestSyncValues(BaseTest):
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "ThemeModeSettings",
             "type": "object",
-            "properties": {"theme": {"enum": ["light", "dark"], "default": "light"}},
+            "properties": {
+                "theme": {"enum": ["light", "dark"], "default": "light"}
+            },
             "required": ["theme"],
             "additionalProperties": False,
         }
@@ -280,7 +336,11 @@ class TestSyncValues(BaseTest):
                         "description": "Display name of the station",
                         "default": "Radiosender",
                     },
-                    "src": {"type": "string", "description": "Stream source URL", "format": "uri"},
+                    "src": {
+                        "type": "string",
+                        "description": "Stream source URL",
+                        "format": "uri",
+                    },
                 },
                 "required": ["color", "favorite", "id", "logo", "name", "src"],
                 "additionalProperties": False,

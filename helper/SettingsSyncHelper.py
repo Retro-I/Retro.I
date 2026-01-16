@@ -14,7 +14,9 @@ c = Constants()
 
 class SettingsSyncHelper:
     def validate_by_path(self, path):
-        files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+        files = [
+            f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))
+        ]
         for filename in files:
             full_path = f"{path}/{filename}"
             data = self.get_data_for_filename(full_path)
@@ -49,7 +51,9 @@ class SettingsSyncHelper:
         default_path = Constants.default_settings_path()
 
         default_files = [
-            f for f in os.listdir(default_path) if os.path.isfile(os.path.join(default_path, f))
+            f
+            for f in os.listdir(default_path)
+            if os.path.isfile(os.path.join(default_path, f))
         ]
 
         for default_file in default_files:
@@ -73,7 +77,9 @@ class SettingsSyncHelper:
                 print(f"Created new settings file: {default_file}")
                 continue
 
-        files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+        files = [
+            f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))
+        ]
 
         for filename in files:
             full_path = f"{path}/{filename}"
@@ -136,7 +142,9 @@ class SettingsSyncHelper:
             # Recursively repair nested objects
             for key, subschema in schema.get("properties", {}).items():
                 if key in repaired:
-                    if subschema.get("type") == "object" and isinstance(repaired[key], dict):
+                    if subschema.get("type") == "object" and isinstance(
+                        repaired[key], dict
+                    ):
                         repaired[key] = self.repair(repaired[key], subschema)
 
             return repaired
@@ -162,7 +170,9 @@ class SettingsSyncHelper:
 
     def get_schema_for_filename(self, full_path):
         path, filename = os.path.split(full_path)
-        schema_path = os.path.join(Constants.schemas_path(), f"schema_{filename}")
+        schema_path = os.path.join(
+            Constants.schemas_path(), f"schema_{filename}"
+        )
         if not os.path.exists(schema_path):
             breakpoint()
 
@@ -174,7 +184,9 @@ class SettingsSyncHelper:
 
     def get_effects_schema(self):
         path, filename = os.path.split(Constants.effects_path())
-        schema_path = os.path.join(Constants.pwd(), f"assets/effects/schemas/schema_{filename}")
+        schema_path = os.path.join(
+            Constants.pwd(), f"assets/effects/schemas/schema_{filename}"
+        )
 
         assert os.path.exists(schema_path)
         with open(schema_path, "r") as f:

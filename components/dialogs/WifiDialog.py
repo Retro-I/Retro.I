@@ -12,7 +12,9 @@ wifi_helper = WifiHelper()
 class WifiDialog(ft.AlertDialog):
     loading = ft.ProgressRing(visible=False)
     not_found = ft.Text("Keine Netzwerke gefunden", visible=False)
-    listview = with_scrollbar_space(ft.ListView(spacing=10, padding=20, expand=True, visible=False))
+    listview = with_scrollbar_space(
+        ft.ListView(spacing=10, padding=20, expand=True, visible=False)
+    )
 
     connection_dialog: WifiConnectionDialog = None
 
@@ -33,7 +35,9 @@ class WifiDialog(ft.AlertDialog):
             [
                 self.toggle_wifi_switch,
                 ft.Divider(),
-                ft.Text("Verfügbare Netzwerke:", size=20, weight=ft.FontWeight.BOLD),
+                ft.Text(
+                    "Verfügbare Netzwerke:", size=20, weight=ft.FontWeight.BOLD
+                ),
                 ft.Column(
                     width=500,
                     expand=True,
@@ -76,8 +80,12 @@ class WifiDialog(ft.AlertDialog):
         for n in networks:
             ico = ft.Icon(ft.Icons.DONE, size=28, visible=False)
             btn = ft.TextButton(
-                content=ft.Container(content=ft.Row(controls=[ico, ft.Text(n, size=16)])),
-                on_click=lambda e, name=n: self.connection_dialog.open_dialog(name),
+                content=ft.Container(
+                    content=ft.Row(controls=[ico, ft.Text(n, size=16)])
+                ),
+                on_click=lambda e, name=n: self.connection_dialog.open_dialog(
+                    name
+                ),
             )
 
             if curr_ssid == n:

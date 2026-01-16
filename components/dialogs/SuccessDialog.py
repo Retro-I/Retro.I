@@ -25,7 +25,10 @@ class SuccessDialog(ft.AlertDialog):
         )
         self.modal = True
         self.actions = [
-            ft.TextButton("Neustart", on_click=lambda e: self.updates_restart_dialog.open_dialog()),
+            ft.TextButton(
+                "Neustart",
+                on_click=lambda e: self.updates_restart_dialog.open_dialog(),
+            ),
             ft.FilledButton("Ok", on_click=lambda e: self.close_dialog()),
         ]
         self.actions_alignment = ft.MainAxisAlignment.SPACE_BETWEEN

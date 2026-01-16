@@ -18,7 +18,9 @@ class RadioSearchDialog(ft.AlertDialog):
 
     loading = ft.ProgressRing(visible=False)
     not_found_text = ft.Text("Kein Radiosender gefunden!", visible=False)
-    listview = with_scrollbar_space(ft.ListView(spacing=10, expand=True, visible=False))
+    listview = with_scrollbar_space(
+        ft.ListView(spacing=10, expand=True, visible=False)
+    )
     search_textfield = BaseTextField(label="Radiosender", expand=True)
 
     station_add_dialog: StationAddDialog = None
@@ -38,7 +40,9 @@ class RadioSearchDialog(ft.AlertDialog):
                 ft.Row(
                     [
                         self.search_textfield,
-                        ft.FilledButton("Suchen", on_click=lambda e: self.search_stations()),
+                        ft.FilledButton(
+                            "Suchen", on_click=lambda e: self.search_stations()
+                        ),
                     ],
                     spacing=ft.MainAxisAlignment.SPACE_BETWEEN,
                 ),
@@ -83,7 +87,9 @@ class RadioSearchDialog(ft.AlertDialog):
 
         self.listview.controls = []
         for el in stations:
-            img = ft.Container(ft.Icon(ft.Icons.MUSIC_NOTE), width=60, height=60)
+            img = ft.Container(
+                ft.Icon(ft.Icons.MUSIC_NOTE), width=60, height=60
+            )
             if el["logo"] != "":
                 img = ft.Image(
                     el["logo"],
@@ -106,7 +112,9 @@ class RadioSearchDialog(ft.AlertDialog):
                         ),
                     ]
                 ),
-                on_click=lambda e, item=el: self.station_add_dialog.open_dialog(item),
+                on_click=lambda e, item=el: self.station_add_dialog.open_dialog(
+                    item
+                ),
             )
 
             self.listview.controls.append(element)

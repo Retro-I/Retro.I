@@ -57,19 +57,28 @@ class BaseTest(unittest.TestCase):
         )
 
         self.test_splashscreen_path = self._create_temp_files(
-            src_dir="./assets/splashscreen", dst_dir=f"{tempfile.mkdtemp()}/splashscreen"
+            src_dir="./assets/splashscreen",
+            dst_dir=f"{tempfile.mkdtemp()}/splashscreen",
         )
 
         Constants.settings_path = staticmethod(lambda: self.test_dir)
-        Constants.default_settings_path = staticmethod(lambda: self.test_dir_default)
-        Constants.effects_path = staticmethod(lambda: f"{self.test_effects_path}/retroi.json")
-        Constants.splashscreen_path = staticmethod(lambda: self.test_splashscreen_path)
+        Constants.default_settings_path = staticmethod(
+            lambda: self.test_dir_default
+        )
+        Constants.effects_path = staticmethod(
+            lambda: f"{self.test_effects_path}/retroi.json"
+        )
+        Constants.splashscreen_path = staticmethod(
+            lambda: self.test_splashscreen_path
+        )
 
         self.assertTrue(os.path.exists(self.test_dir))
         self.assertTrue(os.path.exists(f"{self.test_dir}/schemas"))
         self.assertTrue(os.path.exists(f"{self.test_effects_path}/retroi.json"))
 
-        self.audio_settings_dispatcher = patch("helper.Audio.Audio.unmute", return_value=None)
+        self.audio_settings_dispatcher = patch(
+            "helper.Audio.Audio.unmute", return_value=None
+        )
         self.audio_settings_dispatcher.start()
 
         self.load_effects_dispatcher = patch(
@@ -84,7 +93,9 @@ class BaseTest(unittest.TestCase):
         strip_settings_path = f"{self.test_dir}/strip-settings.json"
         theme_settings_path = f"{self.test_dir}/theme-mode-settings.json"
         scrollbar_settings_path = f"{self.test_dir}/scrollbar-settings.json"
-        secured_mode_settings_path = f"{self.test_dir}/secured-mode-settings.json"
+        secured_mode_settings_path = (
+            f"{self.test_dir}/secured-mode-settings.json"
+        )
         startup_error_helper = f"{self.test_dir}/startup-error.json"
         bass_steps_path = f"{self.test_dir}/bass-steps.json"
         treble_steps_path = f"{self.test_dir}/treble-steps.json"
@@ -96,7 +107,9 @@ class BaseTest(unittest.TestCase):
         Stations.STATIONS_SETTINGS_PATH = radio_stations_path
         StripSettingsHelper.STRIP_SETTINGS_PATH = strip_settings_path
         ThemeHelper.THEME_SETTINGS_PATH = theme_settings_path
-        ScrollbarSettingsHelper.SCROLLBAR_SETTINGS_PATH = scrollbar_settings_path
+        ScrollbarSettingsHelper.SCROLLBAR_SETTINGS_PATH = (
+            scrollbar_settings_path
+        )
         SecuredModeSettingsHelper.SECURED_MODE_PATH = secured_mode_settings_path
         StartupErrorHelper.STARTUP_ERROR_PATH = startup_error_helper
         BassStepsHelper.BASS_STEPS_PATH = bass_steps_path
@@ -134,7 +147,9 @@ class BaseTest(unittest.TestCase):
 
             # Compute relative path inside the tree
             rel_path = os.path.relpath(root, src_dir)
-            target_root = os.path.join(dst_dir, rel_path) if rel_path != "." else dst_dir
+            target_root = (
+                os.path.join(dst_dir, rel_path) if rel_path != "." else dst_dir
+            )
 
             # Create missing directories
             os.makedirs(target_root, exist_ok=True)

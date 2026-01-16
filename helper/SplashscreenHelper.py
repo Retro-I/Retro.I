@@ -14,4 +14,7 @@ class SplashscreenHelper:
 
     def update_splashscreen(self, splashscreen="splash.png"):
         splashscreen_path = f"{Constants.splashscreen_path()}/{splashscreen}"
-        os.system(f"sh {Constants.pwd()}/scripts/update_system_splash.sh {splashscreen_path}")
+        os.system(
+            f"sh {Constants.pwd()}/scripts/update_system_splash.sh "
+            f"{splashscreen_path}"
+        )

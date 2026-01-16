@@ -61,6 +61,8 @@ def main(page: ft.Page):
     page.update()
 
     start = time.time()
+    audio_helper.set_audio_output(audio_helper.get_audio_sink_ids()["builtin"])
+
     PageState.page = page
 
     bluetooth_helper.on_startup()
@@ -86,7 +88,9 @@ def main(page: ft.Page):
     button = GpioButton(21, audio_helper.play_toast)
     button.activate()
 
-    shutdown_button = GpioButton(gpio_helper.shutdown_button(), system_helper.shutdown_system)
+    shutdown_button = GpioButton(
+        gpio_helper.shutdown_button(), system_helper.shutdown_system
+    )
     shutdown_button.activate()
 
     for item in theme.get_tabs():
@@ -106,8 +110,13 @@ def main(page: ft.Page):
         on_strip_toggle_mute=strip.toggle_mute,
         on_strip_update_sound=strip.update_sound_strip,
     )
-    RotaryBass(on_taskbar_update=taskbar.update, on_bass_update=strip.update_bass_strip)
-    RotaryTreble(on_taskbar_update=taskbar.update, on_treble_update=strip.update_treble_strip)
+    RotaryBass(
+        on_taskbar_update=taskbar.update, on_bass_update=strip.update_bass_strip
+    )
+    RotaryTreble(
+        on_taskbar_update=taskbar.update,
+        on_treble_update=strip.update_treble_strip,
+    )
 
     audio_helper.startup_sound()
     audio_effects.start()

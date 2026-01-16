@@ -18,7 +18,9 @@ class SoundboardSearchDialog(ft.AlertDialog):
 
     loading = ft.ProgressRing(visible=False)
     not_found_text = ft.Text("Keine Sounds gefunden!", visible=False)
-    listview = with_scrollbar_space(ft.ListView(spacing=10, expand=True, visible=False))
+    listview = with_scrollbar_space(
+        ft.ListView(spacing=10, expand=True, visible=False)
+    )
     search_textfield = BaseTextField(label="Sounds", expand=True)
 
     on_favorite_add = None
@@ -38,7 +40,9 @@ class SoundboardSearchDialog(ft.AlertDialog):
                 ft.Row(
                     [
                         self.search_textfield,
-                        ft.FilledButton("Suchen", on_click=lambda e: self.search_sounds()),
+                        ft.FilledButton(
+                            "Suchen", on_click=lambda e: self.search_sounds()
+                        ),
                     ],
                     spacing=ft.MainAxisAlignment.SPACE_BETWEEN,
                 ),
@@ -83,7 +87,8 @@ class SoundboardSearchDialog(ft.AlertDialog):
         self.listview.controls = []
         for el in sounds:
             fav_btn = ft.IconButton(
-                icon=ft.Icons.PLAYLIST_ADD, on_click=lambda e, item=el: on_add(item)
+                icon=ft.Icons.PLAYLIST_ADD,
+                on_click=lambda e, item=el: on_add(item),
             )
 
             def on_add(item):

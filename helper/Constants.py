@@ -38,7 +38,10 @@ class Constants:
     @staticmethod
     def effects_path() -> str:
         return str(
-            os.path.join(f"{os.environ.get('HOME')}", ".config/easyeffects/output/retroi.json")
+            os.path.join(
+                f"{os.environ.get('HOME')}",
+                ".config/easyeffects/output/retroi.json",
+            )
         )
 
     def sound_path(self):
@@ -53,6 +56,8 @@ class Constants:
     def get_button_img(self):
         buttons_path = f"{self.pwd()}/assets/buttons"
         files = [
-            f for f in os.listdir(buttons_path) if os.path.isfile(os.path.join(buttons_path, f))
+            f
+            for f in os.listdir(buttons_path)
+            if os.path.isfile(os.path.join(buttons_path, f))
         ]
         return os.path.join(buttons_path, random.choice(files))

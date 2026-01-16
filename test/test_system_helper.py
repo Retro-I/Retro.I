@@ -6,7 +6,11 @@ from unittest.mock import MagicMock, patch
 
 from freezegun import freeze_time
 
-from test.helper.mock_netifaces import mock_lan_netifaces, mock_none_netifaces, mock_wifi_netifaces
+from test.helper.mock_netifaces import (
+    mock_lan_netifaces,
+    mock_none_netifaces,
+    mock_wifi_netifaces,
+)
 
 
 class TestSystemHelper(unittest.TestCase):
@@ -21,7 +25,9 @@ class TestSystemHelper(unittest.TestCase):
     @patch.dict(sys.modules, {"neopixel": MagicMock()})
     @patch.dict(sys.modules, {"adafruit_led_animation": MagicMock()})
     @patch.dict(sys.modules, {"adafruit_led_animation.color": MagicMock()})
-    @patch.dict(sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()})
+    @patch.dict(
+        sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
+    )
     @patch("helper.StripSettingsHelper.StripSettingsHelper.is_strip_active")
     @patch("helper.StripSettingsHelper.StripSettingsHelper.get_curr_brightness")
     def setUp(self, is_strip_active, get_curr_brightness):
@@ -59,12 +65,16 @@ class TestSystemHelper(unittest.TestCase):
     @mock.patch("os.system")
     def test_stop_app(self, mock_os_system_call):
         self.system_helper.stop_app()
-        mock_os_system_call.assert_called_once_with("sudo systemctl stop retroi")
+        mock_os_system_call.assert_called_once_with(
+            "sudo systemctl stop retroi"
+        )
 
     @mock.patch("os.system")
     def test_restart_app(self, mock_os_system_call):
         self.system_helper.restart_app()
-        mock_os_system_call.assert_called_once_with("sudo systemctl restart retroi")
+        mock_os_system_call.assert_called_once_with(
+            "sudo systemctl restart retroi"
+        )
 
     @freeze_time("2026-01-14 20:00:00")
     def test_get_curr_date(self):
@@ -95,7 +105,9 @@ class TestSystemHelper(unittest.TestCase):
         self.assertFalse(self.system_helper.is_party_mode())
 
     def test_image_path_remote(self):
-        actual = self.system_helper.get_img_path("https://test.test.de/image.png")
+        actual = self.system_helper.get_img_path(
+            "https://test.test.de/image.png"
+        )
         expected = "https://test.test.de/image.png"
         self.assertEqual(actual, expected)
 
@@ -126,7 +138,9 @@ class TestSystemHelperWifiNetwork(unittest.TestCase):
     @patch.dict(sys.modules, {"neopixel": MagicMock()})
     @patch.dict(sys.modules, {"adafruit_led_animation": MagicMock()})
     @patch.dict(sys.modules, {"adafruit_led_animation.color": MagicMock()})
-    @patch.dict(sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()})
+    @patch.dict(
+        sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
+    )
     @patch("helper.StripSettingsHelper.StripSettingsHelper.is_strip_active")
     @patch("helper.StripSettingsHelper.StripSettingsHelper.get_curr_brightness")
     def setUp(self, is_strip_active, get_curr_brightness):
@@ -148,7 +162,9 @@ class TestSystemHelperWifiNetwork(unittest.TestCase):
     @patch("netifaces.gateways")
     @patch("netifaces.ifaddresses")
     @patch("subprocess.run")
-    def test_get_current_ssid_wifi(self, ssid_mock, mock_ifaddresses, mock_gateways):
+    def test_get_current_ssid_wifi(
+        self, ssid_mock, mock_ifaddresses, mock_gateways
+    ):
         mock_wifi_netifaces(mock_gateways, mock_ifaddresses)
 
         ssid_mock.return_value = MagicMock(stdout=b"\rWIFI_SSID   \n")
@@ -159,7 +175,9 @@ class TestSystemHelperWifiNetwork(unittest.TestCase):
         @patch("netifaces.gateways")
         @patch("netifaces.ifaddresses")
         @patch("subprocess.run")
-        def test_get_current_ssid_wifi(self, ssid_mock, mock_ifaddresses, mock_gateways):
+        def test_get_current_ssid_wifi(
+            self, ssid_mock, mock_ifaddresses, mock_gateways
+        ):
             mock_wifi_netifaces(mock_gateways, mock_ifaddresses)
 
             ssid_mock.return_value = MagicMock(stdout=b"\rWIFI_SSID   \n")
@@ -204,7 +222,9 @@ class TestSystemHelperLanNetwork(unittest.TestCase):
     @patch.dict(sys.modules, {"neopixel": MagicMock()})
     @patch.dict(sys.modules, {"adafruit_led_animation": MagicMock()})
     @patch.dict(sys.modules, {"adafruit_led_animation.color": MagicMock()})
-    @patch.dict(sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()})
+    @patch.dict(
+        sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
+    )
     @patch("helper.StripSettingsHelper.StripSettingsHelper.is_strip_active")
     @patch("helper.StripSettingsHelper.StripSettingsHelper.get_curr_brightness")
     def setUp(self, is_strip_active, get_curr_brightness):
@@ -226,7 +246,9 @@ class TestSystemHelperLanNetwork(unittest.TestCase):
     @patch("netifaces.gateways")
     @patch("netifaces.ifaddresses")
     @patch("subprocess.run")
-    def test_get_current_ssid_lan(self, ssid_mock, mock_ifaddresses, mock_gateways):
+    def test_get_current_ssid_lan(
+        self, ssid_mock, mock_ifaddresses, mock_gateways
+    ):
         mock_lan_netifaces(mock_gateways, mock_ifaddresses)
 
         ssid_mock.return_value = MagicMock(stdout=b"\rWIFI_SSID   \n")
@@ -271,7 +293,9 @@ class TestSystemHelperNoneNetwork(unittest.TestCase):
     @patch.dict(sys.modules, {"neopixel": MagicMock()})
     @patch.dict(sys.modules, {"adafruit_led_animation": MagicMock()})
     @patch.dict(sys.modules, {"adafruit_led_animation.color": MagicMock()})
-    @patch.dict(sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()})
+    @patch.dict(
+        sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
+    )
     @patch("helper.StripSettingsHelper.StripSettingsHelper.is_strip_active")
     @patch("helper.StripSettingsHelper.StripSettingsHelper.get_curr_brightness")
     def setUp(self, is_strip_active, get_curr_brightness):
@@ -293,7 +317,9 @@ class TestSystemHelperNoneNetwork(unittest.TestCase):
     @patch("netifaces.gateways")
     @patch("netifaces.ifaddresses")
     @patch("subprocess.run")
-    def test_get_current_ssid_none(self, ssid_mock, mock_ifaddresses, mock_gateways):
+    def test_get_current_ssid_none(
+        self, ssid_mock, mock_ifaddresses, mock_gateways
+    ):
         mock_none_netifaces(mock_gateways, mock_ifaddresses)
 
         ssid_mock.return_value = MagicMock(stdout=b"")

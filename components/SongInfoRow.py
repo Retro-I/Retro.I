@@ -11,8 +11,12 @@ radio_helper = RadioHelper()
 
 
 class SongInfoRow(ft.Container):
-    song_info_station = ft.Text("Kein Radiosender ausgewählt", weight=ft.FontWeight.BOLD, size=16)
-    song_info_title = ft.Text("", size=16, overflow=ft.TextOverflow.ELLIPSIS, expand=True)
+    song_info_station = ft.Text(
+        "Kein Radiosender ausgewählt", weight=ft.FontWeight.BOLD, size=16
+    )
+    song_info_title = ft.Text(
+        "", size=16, overflow=ft.TextOverflow.ELLIPSIS, expand=True
+    )
 
     radio_search_dialog: RadioSearchDialog = None
 
@@ -39,13 +43,19 @@ class SongInfoRow(ft.Container):
 
     def reload(self):
         try:
-            title = radio_helper.get_song_info(Constants.current_radio_station["src"])
+            title = radio_helper.get_song_info(
+                Constants.current_radio_station["src"]
+            )
 
             if title != "":
-                self.song_info_station.value = Constants.current_radio_station["name"]
+                self.song_info_station.value = Constants.current_radio_station[
+                    "name"
+                ]
                 self.song_info_title.value = title
             else:
-                self.song_info_station.value = Constants.current_radio_station["name"]
+                self.song_info_station.value = Constants.current_radio_station[
+                    "name"
+                ]
                 self.song_info_title.value = ""
         except Exception:
             pass

@@ -5,7 +5,9 @@ import subprocess
 
 class WifiHelper:
     def is_enabled(self):
-        result = subprocess.run(["rfkill", "list", "wifi"], capture_output=True, text=True)
+        result = subprocess.run(
+            ["rfkill", "list", "wifi"], capture_output=True, text=True
+        )
 
         return "Soft blocked: no" in result.stdout
 
@@ -38,6 +40,17 @@ class WifiHelper:
         if password == "":
             command = ["sudo", "nmcli", "d", "wifi", "connect", ssid]
         else:
-            command = ["sudo", "nmcli", "d", "wifi", "connect", ssid, "password", password]
+            command = [
+                "sudo",
+                "nmcli",
+                "d",
+                "wifi",
+                "connect",
+                ssid,
+                "password",
+                password,
+            ]
 
-        subprocess.run(command, stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
+        subprocess.run(command, stdout=subprocess.PIPE).stdout.decode(
+            "utf-8"
+        ).strip()

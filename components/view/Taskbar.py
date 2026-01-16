@@ -43,15 +43,21 @@ class Taskbar(ft.AppBar):
     ico_wifi = ft.IconButton(icon=ft.Icons.WIFI, icon_size=taskbar_icon_size)
     ico_bluetooth = ft.Icon(name=ft.Icons.BLUETOOTH, size=taskbar_icon_size)
 
-    ico_volume = ft.Icon(name=ft.Icons.VOLUME_UP_ROUNDED, size=taskbar_icon_size)
+    ico_volume = ft.Icon(
+        name=ft.Icons.VOLUME_UP_ROUNDED, size=taskbar_icon_size
+    )
     txt_volume = ft.Text(f"{audio_helper.get_volume()}%", size=18)
 
     ico_eq = ft.Icon(name=ft.Icons.EQUALIZER, size=taskbar_icon_size)
     txt_eq = ft.Text(
-        f"Bass: {Constants.current_bass_step}  |  Treble: {Constants.current_treble_step}", size=18
+        f"Bass: {Constants.current_bass_step}  |  "
+        f"Treble: {Constants.current_treble_step}",
+        size=18,
     )
 
-    def __init__(self, on_volume_update, on_mute_update, on_bass_update, on_treble_update):
+    def __init__(
+        self, on_volume_update, on_mute_update, on_bass_update, on_treble_update
+    ):
         super().__init__()
 
         self.on_bass_update = on_bass_update
@@ -116,7 +122,9 @@ class Taskbar(ft.AppBar):
         ]
 
         self.wifi_connection_dialog = WifiConnectionDialog(self.update)
-        self.wifi_dialog = WifiDialog(self.wifi_connection_dialog, self.update_wifi)
+        self.wifi_dialog = WifiDialog(
+            self.wifi_connection_dialog, self.update_wifi
+        )
 
         self.ico_wifi.on_click = lambda e: self.wifi_dialog.open_dialog()
         self.ico_toggle_theme.on_click = lambda e: self.toggle_theme()
@@ -185,12 +193,18 @@ class Taskbar(ft.AppBar):
 
     def update_volume_icon(self):
         self.ico_volume.name = (
-            ft.Icons.VOLUME_OFF_ROUNDED if audio_helper.is_mute() else ft.Icons.VOLUME_UP_ROUNDED
+            ft.Icons.VOLUME_OFF_ROUNDED
+            if audio_helper.is_mute()
+            else ft.Icons.VOLUME_UP_ROUNDED
         )
-        self.ico_volume.color = ft.Colors.RED if audio_helper.is_mute() else ft.Colors.ON_SURFACE
+        self.ico_volume.color = (
+            ft.Colors.RED if audio_helper.is_mute() else ft.Colors.ON_SURFACE
+        )
         self.ico_volume.update()
         self.txt_volume.value = (
-            f"{audio_helper.get_volume()}%" if not audio_helper.is_mute() else ""
+            f"{audio_helper.get_volume()}%"
+            if not audio_helper.is_mute()
+            else ""
         )
         self.txt_volume.update()
 
@@ -204,7 +218,8 @@ class Taskbar(ft.AppBar):
 
     def update_eq_icon(self):
         self.txt_eq.value = (
-            f"Bass: {Constants.current_bass_step}  |  Treble: {Constants.current_treble_step}"
+            f"Bass: {Constants.current_bass_step}  |  "
+            f"Treble: {Constants.current_treble_step}"
         )
         self.txt_eq.update()
 
