@@ -10,6 +10,7 @@ from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
 from helper.PageState import PageState
+from helper.SystemHelper import SystemHelper
 from helper.ThemeHelper import ThemeHelper
 from helper.WifiHelper import WifiHelper
 
@@ -18,6 +19,7 @@ audio_effects = AudioEffects()
 wifi_helper = WifiHelper()
 bluetooth_helper = BluetoothHelper()
 theme_helper = ThemeHelper()
+system_helper = SystemHelper()
 
 
 class Taskbar(ft.AppBar):
@@ -25,35 +27,6 @@ class Taskbar(ft.AppBar):
     wifi_dialog: WifiDialog = None
 
     taskbar_icon_size = 28
-
-    ico_shutdown = ft.IconButton(
-        icon=ft.Icons.POWER_SETTINGS_NEW,
-        icon_size=taskbar_icon_size,
-    )
-
-    ico_toggle_theme = ft.IconButton(
-        icon=(
-            ft.Icons.LIGHT_MODE
-            if theme_helper.get_theme() == ft.ThemeMode.LIGHT
-            else ft.Icons.DARK_MODE
-        ),
-        icon_size=taskbar_icon_size,
-    )
-
-    ico_wifi = ft.IconButton(icon=ft.Icons.WIFI, icon_size=taskbar_icon_size)
-    ico_bluetooth = ft.Icon(name=ft.Icons.BLUETOOTH, size=taskbar_icon_size)
-
-    ico_volume = ft.Icon(
-        name=ft.Icons.VOLUME_UP_ROUNDED, size=taskbar_icon_size
-    )
-    txt_volume = ft.Text(f"{audio_helper.get_volume()}%", size=18)
-
-    ico_eq = ft.Icon(name=ft.Icons.EQUALIZER, size=taskbar_icon_size)
-    txt_eq = ft.Text(
-        f"Bass: {Constants.current_bass_step}  |  "
-        f"Treble: {Constants.current_treble_step}",
-        size=18,
-    )
 
     def __init__(
         self, on_volume_update, on_mute_update, on_bass_update, on_treble_update
@@ -77,6 +50,50 @@ class Taskbar(ft.AppBar):
         PageState.page.add(self.volume_dialog)
         PageState.page.add(self.audio_effects_dialog)
         PageState.page.add(self.shutdown_dialog)
+
+        self.ico_shutdown = ft.IconButton(
+            icon=ft.Icons.POWER_SETTINGS_NEW,
+            icon_size=self.taskbar_icon_size,
+            on_click=lambda e: self.on_ico_shutdown_click(),
+        )
+
+        self.ico_toggle_theme = ft.IconButton(
+            icon=(
+                ft.Icons.LIGHT_MODE
+                if theme_helper.get_theme() == ft.ThemeMode.LIGHT
+                else ft.Icons.DARK_MODE
+            ),
+            icon_size=self.taskbar_icon_size,
+            on_click=lambda e: self.on_ico_toggle_theme_click(),
+        )
+
+        self.ico_wifi = ft.IconButton(
+            icon=(
+                ft.Icons.WIFI
+                if system_helper.get_current_ssid() != ""
+                else ft.Icons.LAN
+            ),
+            icon_size=self.taskbar_icon_size,
+            on_click=lambda e: self.on_ico_wifi_click(),
+        )
+        self.ico_bluetooth = ft.Icon(
+            name=ft.Icons.BLUETOOTH,
+            size=self.taskbar_icon_size,
+        )
+
+        self.ico_volume = ft.Icon(
+            name=ft.Icons.VOLUME_UP_ROUNDED, size=self.taskbar_icon_size
+        )
+        self.txt_volume = ft.Text(f"{audio_helper.get_volume()}%", size=18)
+
+        self.ico_eq = ft.Icon(
+            name=ft.Icons.EQUALIZER, size=self.taskbar_icon_size
+        )
+        self.txt_eq = ft.Text(
+            f"Bass: {Constants.current_bass_step}  |  "
+            f"Treble: {Constants.current_treble_step}",
+            size=18,
+        )
 
         self.title = ft.Row(
             controls=[
@@ -126,10 +143,6 @@ class Taskbar(ft.AppBar):
             self.wifi_connection_dialog, self.update_wifi
         )
 
-        self.ico_wifi.on_click = lambda e: self.wifi_dialog.open_dialog()
-        self.ico_toggle_theme.on_click = lambda e: self.toggle_theme()
-        self.ico_shutdown.on_click = lambda e: self.open_shutdown_dialog()
-
         PageState.page.add(self.wifi_connection_dialog)
         PageState.page.add(self.wifi_dialog)
 
@@ -154,7 +167,11 @@ class Taskbar(ft.AppBar):
         PageState.page.update()
 
     def update_wifi(self):
-        self.ico_wifi.icon = ft.Icons.WIFI
+        self.ico_wifi.icon = (
+            ft.Icons.WIFI
+            if system_helper.get_current_ssid() != ""
+            else ft.Icons.LAN
+        )
         self.ico_wifi.icon_color = ft.Colors.GREEN
 
         if not wifi_helper.is_enabled():
@@ -223,5 +240,12 @@ class Taskbar(ft.AppBar):
         )
         self.txt_eq.update()
 
-    def open_shutdown_dialog(self):
+    def on_ico_shutdown_click(self):
         self.shutdown_dialog.open_dialog()
+
+    def on_ico_toggle_theme_click(self):
+        self.toggle_theme()
+
+    def on_ico_wifi_click(self):
+        if system_helper.get_current_ssid() != "":
+            self.wifi_dialog.open_dialog()
