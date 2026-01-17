@@ -57,7 +57,7 @@ class SettingsUpdateDialog(ft.AlertDialog):
                             content=ft.Column(
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER,
+                                    ft.CrossAxisAlignment.CENTER
                                 ),
                                 controls=[
                                     self.branches_list,
@@ -70,7 +70,7 @@ class SettingsUpdateDialog(ft.AlertDialog):
                             content=ft.Column(
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER,
+                                    ft.CrossAxisAlignment.CENTER
                                 ),
                                 controls=[
                                     self.tags_list,
