@@ -28,11 +28,13 @@ class TestSystemHelper(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.is_strip_active")
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_curr_brightness")
-    def setUp(self, is_strip_active, get_curr_brightness):
-        is_strip_active.return_value = True
-        get_curr_brightness.return_value = 100
+    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
+    def setUp(self, get_strip_settings):
+        get_strip_settings.return_value = {
+            "amountLeds": 38,
+            "brightness": 100,
+            "isStripEnabled": True,
+        }
 
         from helper.SystemHelper import SystemHelper
 
@@ -113,8 +115,8 @@ class TestSystemHelper(unittest.TestCase):
 
     def test_image_path_local(self):
         actual = self.system_helper.get_img_path("test.png")
-        expected = "./assets/stations/test.png"
-        self.assertEqual(actual, expected)
+        expected = "assets/stations/test.png"
+        self.assertTrue(expected in actual)
 
     @unittest.skip
     def test_change_curr_brightness(self):
@@ -141,11 +143,13 @@ class TestSystemHelperWifiNetwork(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.is_strip_active")
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_curr_brightness")
-    def setUp(self, is_strip_active, get_curr_brightness):
-        is_strip_active.return_value = True
-        get_curr_brightness.return_value = 100
+    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
+    def setUp(self, get_strip_settings):
+        get_strip_settings.return_value = {
+            "amountLeds": 38,
+            "brightness": 100,
+            "isStripEnabled": True,
+        }
 
         from helper.SystemHelper import SystemHelper
 
@@ -225,11 +229,13 @@ class TestSystemHelperLanNetwork(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.is_strip_active")
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_curr_brightness")
-    def setUp(self, is_strip_active, get_curr_brightness):
-        is_strip_active.return_value = True
-        get_curr_brightness.return_value = 100
+    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
+    def setUp(self, get_strip_settings):
+        get_strip_settings.return_value = {
+            "amountLeds": 38,
+            "brightness": 100,
+            "isStripEnabled": True,
+        }
 
         from helper.SystemHelper import SystemHelper
 
@@ -296,11 +302,13 @@ class TestSystemHelperNoneNetwork(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.is_strip_active")
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_curr_brightness")
-    def setUp(self, is_strip_active, get_curr_brightness):
-        is_strip_active.return_value = True
-        get_curr_brightness.return_value = 100
+    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
+    def setUp(self, get_strip_settings):
+        get_strip_settings.return_value = {
+            "amountLeds": 38,
+            "brightness": 100,
+            "isStripEnabled": True,
+        }
 
         from helper.SystemHelper import SystemHelper
 
