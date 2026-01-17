@@ -32,9 +32,11 @@ class Documentation(ft.Column):
                     ft.Image(
                         src_base64=QrCodeHelper.str_to_qr_code(
                             "https://docs.retroi.de"
-                        )
+                        ),
+                        width=200,
                     )
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
             ),
+            ft.Divider(),
         ]
