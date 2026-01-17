@@ -268,6 +268,19 @@ class TestSyncValues(BaseTest):
             "treble-steps.json"
         )
 
+    def test_reset_settings_file(self):
+        self.settings_sync_helper.reset_settings_file("audio-settings.json")
+
+        with open(f"{self.test_dir}/audio-settings.json", "r") as f:
+            actual = json.load(f)
+
+        expected = {
+            "enableAutoplay": True,
+            "defaultVolume": 20,
+            "volumeStep": 6,
+        }
+        self.assertCountEqual(actual, expected)
+
     def _get_test_schema(self):
         return {
             "$schema": "https://json-schema.org/draft/2020-12/schema",

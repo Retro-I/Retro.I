@@ -25,7 +25,7 @@ class Stations:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.repair_settings_file(self.STATION_SETTING)
+            settings_sync_helper.reset_settings_file(self.STATION_SETTING)
             return _get_data()
 
     def add_station(self, station):
