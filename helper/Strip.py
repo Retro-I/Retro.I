@@ -4,6 +4,7 @@ import board
 import neopixel
 from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.color import BLACK, GREEN, RED, WHITE
+from flet.core.control_event import ControlEvent
 
 from helper.Audio import Audio
 from helper.BassStepsHelper import BassStepsHelper
@@ -20,23 +21,21 @@ audio_helper = Audio()
 
 
 class Strip:
+    is_active = settings_helper.is_strip_active()
+    sound_mode_active = False
+    curr_color = GREEN
+
+    pixel_pin = board.D10
+    pixel_num = settings_helper.get_led_length()
+
+    pixels = neopixel.NeoPixel(pixel_pin, pixel_num, brightness=0)
+    animation = Pulse(
+        pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK
+    )
+
     def __init__(self):
-        self.is_active = settings_helper.is_strip_active()
-        self.sound_mode_active = False
-        self.curr_color = GREEN
-
-        self.pixel_pin = board.D10
-        self.pixel_num = 38
-
-        self.pixels = neopixel.NeoPixel(
-            self.pixel_pin, self.pixel_num, brightness=0
-        )
-        self.animation = Pulse(
-            self.pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK
-        )
-
         if settings_helper.is_strip_active():
-            self.pixels.fill(self.curr_color)
+            self.pixels.fill(GREEN)
 
         self.pixels.brightness = settings_helper.get_curr_brightness() / 100
         self.pixels.show()
@@ -170,8 +169,9 @@ class Strip:
         if not audio_helper.is_mute() and settings_helper.is_strip_active():
             self.pixels.show()
 
-    def toggle_strip(self):
-        if settings_helper.is_strip_active():
+    def toggle_strip(self, event: ControlEvent):
+        if not event.control.value:
+            self.animation.freeze()
             self.change_brightness(0, save=False)
             self.is_active = False
             settings_helper.update_settings(is_active=False)
@@ -179,6 +179,7 @@ class Strip:
             self.change_brightness(
                 settings_helper.get_curr_brightness(), save=False
             )
+            self.animation.resume()
             self.pixels.show()
             self.is_active = True
             settings_helper.update_settings(is_active=True)
@@ -187,7 +188,6 @@ class Strip:
         self.pixels.brightness = value / 100
         if self.is_active:
             self.pixels.show()
-
         if save:
             settings_helper.update_settings(
                 settings_helper.is_strip_active(),

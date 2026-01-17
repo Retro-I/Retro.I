@@ -111,6 +111,16 @@ class SettingsSyncHelper:
         validator = Draft7Validator(schema)
         return validator.evolve(schema=schema).is_valid(data, schema)
 
+    def reset_settings_file(self, filename):
+        path = f"{Constants.default_settings_path()}/{filename}"
+        with open(path, "r") as f:
+            source = json.load(f)
+
+        path = f"{Constants.settings_path()}/{filename}"
+        with open(path, "w") as f:
+            json.dump(source, f, indent=4)
+        print(f"Reset settings file: {filename}")
+
     def repair(self, data, schema):
         if data is None:
             return None

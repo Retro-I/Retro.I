@@ -20,7 +20,7 @@ class SecuredModeSettingsHelper:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.repair_settings_file(self.SETTING)
+            settings_sync_helper.reset_settings_file(self.SETTING)
             return _get_data()
 
     def is_secured_mode_enabled(self) -> bool:
