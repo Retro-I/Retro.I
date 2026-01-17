@@ -21,7 +21,11 @@ class Audio:
     SETTING = "audio-settings.json"
     AUDIO_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
-    audio = vlc.MediaPlayer("")
+    instance = vlc.Instance("--verbose2", "--log-verbose=2")
+
+    audio = instance.media_player_new()
+    media = instance.media_new("")
+    audio.set_media(media)
     toast_playing = False
 
     def __init__(self):
@@ -75,7 +79,8 @@ class Audio:
         Audio.audio.stop()
 
     def play_sound(self, src):
-        Audio.audio = vlc.MediaPlayer(src)
+        media = Audio.instance.media_new(src)
+        Audio.audio.set_media(media)
         self.play()
 
     def startup_sound(self):
