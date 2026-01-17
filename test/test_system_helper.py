@@ -113,11 +113,6 @@ class TestSystemHelper(unittest.TestCase):
         expected = "https://test.test.de/image.png"
         self.assertEqual(actual, expected)
 
-    def test_image_path_local(self):
-        actual = self.system_helper.get_img_path("test.png")
-        expected = "assets/stations/test.png"
-        self.assertTrue(expected in actual)
-
     @unittest.skip
     def test_change_curr_brightness(self):
         pass

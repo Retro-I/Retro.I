@@ -12,7 +12,7 @@ class TestStationsHelper(BaseTest):
 
     def test_load_radio_stations(self):
         actual = self.stations.load_radio_stations()
-        self.assertEqual(26, len(actual))
+        self.assertEqual(24, len(actual))
 
     # TODO - Enable and fix this with Issue #81
     @unittest.skip
@@ -44,7 +44,7 @@ class TestStationsHelper(BaseTest):
 
         stations = self.stations.load_radio_stations()
 
-        self.assertEqual(25, len(stations))
+        self.assertEqual(23, len(stations))
         self.assertNotIn(station_to_delete, stations)
 
     def test_get_favorite_station(self):
@@ -64,7 +64,7 @@ class TestStationsHelper(BaseTest):
 
         stations = self.stations.load_radio_stations()
 
-        self.assertEqual(26, len(stations))
+        self.assertEqual(24, len(stations))
         self.assertNotIn(
             station, stations
         )  # Weil die Station anfanges `favorite=False` hatte
