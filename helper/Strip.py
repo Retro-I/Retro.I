@@ -4,6 +4,7 @@ import board
 import neopixel
 from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.color import BLACK, GREEN, RED, WHITE
+from flet.core.control_event import ControlEvent
 
 from helper.Audio import Audio
 from helper.BassStepsHelper import BassStepsHelper
@@ -25,10 +26,12 @@ class Strip:
     curr_color = GREEN
 
     pixel_pin = board.D10
-    pixel_num = 38
+    pixel_num = settings_helper.get_led_length()
 
     pixels = neopixel.NeoPixel(pixel_pin, pixel_num, brightness=0)
-    animation = Pulse(pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK)
+    animation = Pulse(
+        pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK
+    )
 
     def __init__(self):
         if settings_helper.is_strip_active():
@@ -56,7 +59,9 @@ class Strip:
         self.sound_mode_active = False
         self.wait_proc.set_wait()
 
-        amount_pixels = math.floor(settings_helper.get_led_length() * (value / 100))
+        amount_pixels = math.floor(
+            settings_helper.get_led_length() * (value / 100)
+        )
         self.pixels.fill(BLACK)
         if amount_pixels == 0 and value > 0:
             self.pixels[0] = GREEN
@@ -88,12 +93,14 @@ class Strip:
 
             if value < 0:
                 for i in range(
-                    self._get_middle_of_strip() + pixels_to_draw, self._get_middle_of_strip()
+                    self._get_middle_of_strip() + pixels_to_draw,
+                    self._get_middle_of_strip(),
                 ):
                     self.pixels[i] = GREEN
             else:
                 for i in range(
-                    self._get_middle_of_strip(), self._get_middle_of_strip() + pixels_to_draw
+                    self._get_middle_of_strip(),
+                    self._get_middle_of_strip() + pixels_to_draw,
                 ):
                     self.pixels[i] = GREEN
 
@@ -117,12 +124,14 @@ class Strip:
 
             if value < 0:
                 for i in range(
-                    self._get_middle_of_strip() + pixels_to_draw, self._get_middle_of_strip()
+                    self._get_middle_of_strip() + pixels_to_draw,
+                    self._get_middle_of_strip(),
                 ):
                     self.pixels[i] = GREEN
             else:
                 for i in range(
-                    self._get_middle_of_strip(), self._get_middle_of_strip() + pixels_to_draw
+                    self._get_middle_of_strip(),
+                    self._get_middle_of_strip() + pixels_to_draw,
                 ):
                     self.pixels[i] = GREEN
 
@@ -146,7 +155,10 @@ class Strip:
         self.pixels[middle + 1] = WHITE
 
     def _get_pixels_for_step(self) -> int:
-        return settings_helper.get_led_length() // bass_steps_helper.get_steps_count()
+        return (
+            settings_helper.get_led_length()
+            // bass_steps_helper.get_steps_count()
+        )
 
     def update_strip(self, color):
         self.sound_mode_active = True
@@ -157,14 +169,16 @@ class Strip:
         if not audio_helper.is_mute() and settings_helper.is_strip_active():
             self.pixels.show()
 
-    def toggle_strip(self):
-        if settings_helper.is_strip_active():
+    def toggle_strip(self, event: ControlEvent):
+        if not event.control.value:
             self.animation.freeze()
             self.change_brightness(0, save=False)
             self.is_active = False
             settings_helper.update_settings(is_active=False)
         else:
-            self.change_brightness(settings_helper.get_curr_brightness(), save=False)
+            self.change_brightness(
+                settings_helper.get_curr_brightness(), save=False
+            )
             self.animation.resume()
             self.pixels.show()
             self.is_active = True
@@ -172,7 +186,8 @@ class Strip:
 
     def change_brightness(self, value, save=True):
         self.pixels.brightness = value / 100
-        self.pixels.show()
+        if self.is_active:
+            self.pixels.show()
         if save:
             settings_helper.update_settings(
                 settings_helper.is_strip_active(),
