@@ -179,12 +179,14 @@ class Strip:
             self.change_brightness(
                 settings_helper.get_curr_brightness(), save=False
             )
+            self.pixels.fill(self.curr_color)
             self.pixels.show()
             self.is_active = True
             settings_helper.update_settings(is_active=True)
 
     def change_brightness(self, value, save=True):
         self.pixels.brightness = value / 100
+        self.pixels.fill(self.curr_color)
         if self.is_active:
             self.pixels.show()
 
