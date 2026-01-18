@@ -225,8 +225,7 @@ class TestAudioSounds(unittest.TestCase):
 
     @mock.patch("subprocess.run")
     def test_audio_sink_ids(self, mock_run):
-        mock_run.return_value = MagicMock(
-            stdout="""
+        mock_run.return_value = MagicMock(stdout="""
 
 PipeWire 'pipewire-0' [1.2.7, pi@retroi-test, cookie:3111130444]
  └─ Clients:
@@ -290,8 +289,7 @@ Video
 Settings
  └─ Default Configured Node Names:
          0. Audio/Sink    alsa_output.platform-fe00b840.mailbox.stereo-fallback
-        """
-        )
+        """)
 
         actual = self.audio_helper.get_audio_sinks()
 
