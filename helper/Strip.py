@@ -4,7 +4,6 @@ import board
 import neopixel
 from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.color import BLACK, GREEN, RED, WHITE
-from flet.core.control_event import ControlEvent
 
 from helper.Audio import Audio
 from helper.BassStepsHelper import BassStepsHelper
@@ -169,8 +168,8 @@ class Strip:
         if not audio_helper.is_mute() and settings_helper.is_strip_active():
             self.pixels.show()
 
-    def toggle_strip(self, event: ControlEvent):
-        if not event.control.value:
+    def toggle_strip(self, event):
+        if not event.value:
             self.animation.freeze()
             self.change_brightness(0, save=False)
             self.is_active = False
