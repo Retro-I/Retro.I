@@ -21,7 +21,13 @@ class Audio:
     SETTING = "audio-settings.json"
     AUDIO_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
-    instance = vlc.Instance("--verbose=2", "--log-verbose=2")
+    instance = vlc.Instance(
+        "--verbose=2",
+        "--log-verbose=2",
+        "--network-caching=3000",
+        "--http-reconnect",
+        "--retry=3",
+    )
 
     audio = instance.media_player_new()
     media = instance.media_new("")
