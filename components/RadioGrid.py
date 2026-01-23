@@ -38,6 +38,7 @@ class RadioGrid(ft.GridView):
         self.child_aspect_ratio = 1.0
         self.spacing = 20
         self.run_spacing = 50
+        self.padding = ft.padding.only(top=12, left=8, right=8)
 
     def open_modify_station_dialog(self, station):
         self.station_modify_dialog.open_dialog(station, self.reload)
