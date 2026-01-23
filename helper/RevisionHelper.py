@@ -1,5 +1,8 @@
+import logging
 import subprocess
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 
 class RevisionHelper:
@@ -48,6 +51,12 @@ class RevisionHelper:
         results.sort(key=branch_sort_key)
 
         return results
+
+    def get_local_branches(self):
+        local_branches_str = subprocess.check_output(
+            ["git", "branch", "--format=%(refname:short)"], text=True
+        )
+        return [b for b in local_branches_str.split("\n") if b]
 
     def get_tags(self) -> list[dict]:
         # Update remote tags
@@ -109,3 +118,19 @@ class RevisionHelper:
             ["git", "rev-parse", "HEAD"], text=True
         ).strip()
         return commit
+
+    def cleanup_local_branches(self):
+        remote_branches = self.get_branches()
+        local_branches = self.get_local_branches()
+
+        remote_branches_names = [branch["name"] for branch in remote_branches]
+
+        for local_branch in local_branches:
+            if (
+                local_branch not in remote_branches_names
+                and local_branch != self.get_current_revision()
+            ):
+                subprocess.check_output(
+                    ["git", "branch", "-D", local_branch], text=True
+                )
+                logger.info(f'Branch "{local_branch}" deleted!')
