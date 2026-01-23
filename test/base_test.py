@@ -9,6 +9,7 @@ from unittest.mock import patch
 from helper.AudioEffects import AudioEffects
 from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
+from helper.RevisionHelper import RevisionHelper
 from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
 from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
 from helper.Sounds import Sounds
@@ -85,6 +86,24 @@ class BaseTest(unittest.TestCase):
             "helper.AudioEffects.AudioEffects.load_effects", return_value=None
         )
         self.load_effects_dispatcher.start()
+
+        self.patcher_current = patch.object(
+            RevisionHelper, "get_current_revision", return_value="develop"
+        )
+        self.patcher_local = patch.object(
+            RevisionHelper, "get_local_branches", return_value=["develop"]
+        )
+        self.patcher_remote = patch.object(
+            RevisionHelper, "get_branches", return_value=[{"name": "develop"}]
+        )
+
+        self.mock_current_revision = self.patcher_current.start()
+        self.mock_local_branches = self.patcher_local.start()
+        self.mock_remote_branches = self.patcher_remote.start()
+
+        self.addCleanup(self.patcher_current.stop)
+        self.addCleanup(self.patcher_local.stop)
+        self.addCleanup(self.patcher_remote.stop)
 
         gpio_settings_path = f"{self.test_dir}/gpio-pin-mapping.json"
         sounds_settings_path = f"{self.test_dir}/favorite-sounds.json"

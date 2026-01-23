@@ -7,9 +7,11 @@ import jsonschema_default
 from jsonschema import Draft7Validator
 
 from helper.Constants import Constants
+from helper.RevisionHelper import RevisionHelper
 
 logger = logging.getLogger(__name__)
 c = Constants()
+revision_helper = RevisionHelper()
 
 
 class SettingsSyncHelper:
@@ -106,6 +108,10 @@ class SettingsSyncHelper:
 
                 if not self.is_valid(data, schema):
                     raise RuntimeError(f"Fix not applied to {full_path}!")
+
+        logger.info("Cleanup local branches...")
+        revision_helper.cleanup_local_branches()
+        logger.info("Cleanup completed!")
 
     def is_valid(self, data: dict | list, schema: dict) -> bool:
         validator = Draft7Validator(schema)
