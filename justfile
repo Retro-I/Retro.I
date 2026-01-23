@@ -19,5 +19,5 @@ lint:
     just flake
     just isort
 
-test:
-    & "{{VENV}}\Scripts\python.exe" -m unittest
+test *ARGS:
+    & "{{VENV}}\Scripts\python.exe" -m unittest {{ARGS}}
