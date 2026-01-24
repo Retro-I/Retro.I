@@ -5,19 +5,7 @@ from unittest import mock
 from test.base_test import BaseTest
 
 
-class TestSyncValues(BaseTest):
-    def setUp(self):
-        super().setUp()
-
-    def test_all_settings_files_valid(self):
-        self.settings_sync_helper.validate_all_settings()
-
-    def test_data_validation(self):
-        data = {"enableAutoplay": True, "defaultVolume": 20}
-        self.assertTrue(
-            self.settings_sync_helper.is_valid(data, self._get_test_schema())
-        )
-
+class TestAddedFieldValues(BaseTest):
     def test_add_volume_step_field(self):
         old_data = {"enableAutoplay": True, "defaultVolume": 20}
         schema = self.settings_sync_helper.get_schema_for_filename(
@@ -66,6 +54,20 @@ class TestSyncValues(BaseTest):
 
         self.assertEqual(new_data, expected)
         self.assertTrue(self.settings_sync_helper.is_valid(new_data, schema))
+
+
+class TestSyncValues(BaseTest):
+    def setUp(self):
+        super().setUp()
+
+    def test_all_settings_files_valid(self):
+        self.settings_sync_helper.validate_all_settings()
+
+    def test_data_validation(self):
+        data = {"enableAutoplay": True, "defaultVolume": 20}
+        self.assertTrue(
+            self.settings_sync_helper.is_valid(data, self._get_test_schema())
+        )
 
     def test_validate_all_settings_after_change(self):
         def _modify_audio_settings():
