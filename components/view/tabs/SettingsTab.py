@@ -2,6 +2,9 @@ import flet as ft
 
 from components.dialogs.SettingsAppControlDialog import SettingsAppControlDialog
 from components.dialogs.SettingsAudioDialog import SettingsAudioDialog
+from components.dialogs.SettingsDeveloperModeDialog import (
+    SettingsDeveloperModeDialog,
+)
 from components.dialogs.SettingsDisplayDialog import SettingsDisplayDialog
 from components.dialogs.SettingsInfoDialog import SettingsInfoDialog
 from components.dialogs.SettingsLedDialog import SettingsLedDialog
@@ -28,6 +31,7 @@ class SettingsTab(ft.Column):
         self.info_dialog = SettingsInfoDialog()
         self.update_dialog = SettingsUpdateDialog()
         self.logs_dialog = SettingsLogsDialog()
+        self.developer_mode_dialog = SettingsDeveloperModeDialog()
 
         self.visible = False
         self.expand = True
@@ -77,6 +81,11 @@ class SettingsTab(ft.Column):
                             "Logs",
                             lambda e: self.logs_dialog.open_dialog(),
                         ),
+                        SettingsButton(
+                            ft.Icons.BUILD,
+                            "Entwicklermodus",
+                            lambda e: self.developer_mode_dialog.open_dialog(),
+                        ),
                     ],
                 ),
             ),
@@ -90,6 +99,7 @@ class SettingsTab(ft.Column):
         PageState.page.add(self.info_dialog)
         PageState.page.add(self.update_dialog)
         PageState.page.add(self.logs_dialog)
+        PageState.page.add(self.developer_mode_dialog)
 
     def show(self):
         self.visible = True
