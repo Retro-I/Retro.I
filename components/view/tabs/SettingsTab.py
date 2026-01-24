@@ -13,6 +13,7 @@ from components.dialogs.SettingsShutdownDialog import SettingsShutdownDialog
 from components.dialogs.SettingsUpdateDialog import SettingsUpdateDialog
 from components.Scrollbar import with_scrollbar_space
 from components.SettingsButton import SettingsButton
+from helper.DeveloperModeHelper import DeveloperModeHelper
 from helper.PageState import PageState
 from helper.Sounds import Sounds
 
@@ -48,49 +49,63 @@ class SettingsTab(ft.Column):
                     controls=[
                         SettingsButton(
                             ft.Icons.EXIT_TO_APP,
-                            "App",
-                            lambda e: self.app_control_dialog.open_dialog(),
+                            text="App",
+                            callback=(
+                                lambda e: self.app_control_dialog.open_dialog(),
+                            ),
+                            visible=(
+                                DeveloperModeHelper.is_developer_mode_active()
+                            ),
                         ),
                         SettingsButton(
                             ft.Icons.AUDIOTRACK,
-                            "Audio",
-                            lambda e: self.audio_dialog.open_dialog(),
+                            text="Audio",
+                            callback=lambda e: self.audio_dialog.open_dialog(),
                         ),
                         SettingsButton(
                             ft.Icons.DISPLAY_SETTINGS,
-                            "Anzeige",
-                            lambda e: self.display_dialog.open_dialog(),
+                            text="Anzeige",
+                            callback=lambda e: (
+                                self.display_dialog.open_dialog()
+                            ),
                         ),
                         SettingsButton(
                             ft.Icons.COLOR_LENS,
-                            "LED-Streifen",
-                            lambda e: self.led_dialog.open_dialog(),
+                            text="LED-Streifen",
+                            callback=lambda e: self.led_dialog.open_dialog(),
                         ),
                         SettingsButton(
                             ft.Icons.INFO_OUTLINED,
-                            "Info's",
-                            lambda e: self.info_dialog.open_dialog(),
+                            text="Info's",
+                            callback=lambda e: self.info_dialog.open_dialog(),
                         ),
                         SettingsButton(
                             ft.Icons.BROWSER_UPDATED,
-                            "Updates",
-                            lambda e: self.update_dialog.open_dialog(),
+                            text="Updates",
+                            callback=lambda e: self.update_dialog.open_dialog(),
+                            visible=(
+                                DeveloperModeHelper.is_developer_mode_active()
+                            ),
                         ),
                         SettingsButton(
                             ft.Icons.NOTES,
-                            "Logs",
-                            lambda e: self.logs_dialog.open_dialog(),
+                            text="Logs",
+                            callback=lambda e: self.logs_dialog.open_dialog(),
+                            visible=(
+                                DeveloperModeHelper.is_developer_mode_active()
+                            ),
                         ),
                         SettingsButton(
                             ft.Icons.BUILD,
-                            "Entwicklermodus",
-                            lambda e: self.developer_mode_dialog.open_dialog(),
+                            text="Entwickler",
+                            callback=lambda e: (
+                                self.developer_mode_dialog.open_dialog()
+                            ),
                         ),
                     ],
                 ),
             ),
         ]
-
         PageState.page.add(self.shutdown_dialog)
         PageState.page.add(self.app_control_dialog)
         PageState.page.add(self.audio_dialog)
