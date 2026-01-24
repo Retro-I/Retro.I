@@ -9,6 +9,7 @@ from unittest.mock import patch
 from helper.AudioEffects import AudioEffects
 from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
+from helper.DeveloperModeHelper import DeveloperModeHelper
 from helper.RevisionHelper import RevisionHelper
 from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
 from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
@@ -115,6 +116,9 @@ class BaseTest(unittest.TestCase):
         secured_mode_settings_path = (
             f"{self.test_dir}/secured-mode-settings.json"
         )
+        developer_mode_settings_path = (
+            f"{self.test_dir}/developer-mode-settings.json"
+        )
         startup_error_helper = f"{self.test_dir}/startup-error.json"
         bass_steps_path = f"{self.test_dir}/bass-steps.json"
         treble_steps_path = f"{self.test_dir}/treble-steps.json"
@@ -134,6 +138,7 @@ class BaseTest(unittest.TestCase):
         BassStepsHelper.BASS_STEPS_PATH = bass_steps_path
         TrebleStepsHelper.TREBLE_STEPS_PATH = treble_steps_path
         AudioEffects.EFFECTS_PATH = effects_path
+        DeveloperModeHelper.SETTINGS_PATH = developer_mode_settings_path
 
         self.audio_helper = Audio()
         self.gpio_helper = GpioHelper()
@@ -149,6 +154,7 @@ class BaseTest(unittest.TestCase):
         self.treble_steps_helper = TrebleStepsHelper()
         self.audio_effects = AudioEffects()
         self.splashscreen_helper = SplashscreenHelper()
+        self.developer_mode_settings_helper = DeveloperModeHelper()
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)
