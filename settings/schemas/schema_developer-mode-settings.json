@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "DeveloperModeSettings",
+    "type": "object",
+    "properties": {
+        "isDeveloperModeActive": {
+            "type": "boolean",
+            "description": "Whether the developer mode is active or not",
+            "default": false
+        }
+    },
+    "required": ["isDeveloperModeActive"],
+    "additionalProperties": false
+}
