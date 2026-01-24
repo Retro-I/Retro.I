@@ -10,7 +10,9 @@ wifi_helper = WifiHelper()
 
 class WifiConnectionDialog(ft.AlertDialog):
     ssid = ft.Text("", size=24, weight=ft.FontWeight.BOLD)
-    password = BaseTextField(password=True, autofocus=True)
+    password = BaseTextField(
+        password=True, can_reveal_password=True, autofocus=True
+    )
 
     def __init__(self, on_connect):
         super().__init__()
