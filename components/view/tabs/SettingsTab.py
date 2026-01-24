@@ -5,6 +5,7 @@ from components.dialogs.SettingsAudioDialog import SettingsAudioDialog
 from components.dialogs.SettingsDisplayDialog import SettingsDisplayDialog
 from components.dialogs.SettingsInfoDialog import SettingsInfoDialog
 from components.dialogs.SettingsLedDialog import SettingsLedDialog
+from components.dialogs.SettingsLogsDialog import SettingsLogsDialog
 from components.dialogs.SettingsShutdownDialog import SettingsShutdownDialog
 from components.dialogs.SettingsUpdateDialog import SettingsUpdateDialog
 from components.Scrollbar import with_scrollbar_space
@@ -26,6 +27,7 @@ class SettingsTab(ft.Column):
         self.led_dialog = SettingsLedDialog()
         self.info_dialog = SettingsInfoDialog()
         self.update_dialog = SettingsUpdateDialog()
+        self.logs_dialog = SettingsLogsDialog()
 
         self.visible = False
         self.expand = True
@@ -70,6 +72,11 @@ class SettingsTab(ft.Column):
                             "Updates",
                             lambda e: self.update_dialog.open_dialog(),
                         ),
+                        SettingsButton(
+                            ft.Icons.NOTES,
+                            "Logs",
+                            lambda e: self.logs_dialog.open_dialog(),
+                        ),
                     ],
                 ),
             ),
@@ -82,6 +89,7 @@ class SettingsTab(ft.Column):
         PageState.page.add(self.led_dialog)
         PageState.page.add(self.info_dialog)
         PageState.page.add(self.update_dialog)
+        PageState.page.add(self.logs_dialog)
 
     def show(self):
         self.visible = True

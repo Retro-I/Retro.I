@@ -1,5 +1,7 @@
 import os
 import random
+import subprocess
+from datetime import datetime
 from pathlib import Path
 
 from appdirs import user_data_dir
@@ -61,3 +63,13 @@ class Constants:
             if os.path.isfile(os.path.join(buttons_path, f))
         ]
         return os.path.join(buttons_path, random.choice(files))
+
+    @staticmethod
+    def get_service_start_time() -> datetime:
+        result = subprocess.check_output(
+            ["systemctl", "show", "retroi", "-p", "ActiveEnterTimestamp"],
+            text=True,
+        )
+        _, date, time, _ = result.split("=", 1)[1].split(" ")
+
+        return datetime.strptime(f"{date} {time}", "%Y-%m-%d %H:%M:%S")
