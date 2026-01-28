@@ -6,7 +6,7 @@ isort==7.0.0
 flake8==7.3.0
 black==26.1.0
 appdirs==1.4.4
-psutil==7.2.1
+psutil==7.2.2
 jsonschema==4.26.0
 jsonschema-default==1.8.1
 qrcode==8.2
