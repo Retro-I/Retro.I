@@ -93,6 +93,16 @@ class TestSystemHelper(unittest.TestCase):
         self.system_helper.init_party_mode()
         self.assertEqual(self.system_helper.is_party, "1")
 
+    def test_toggle_party_mode(self):
+        self.system_helper.init_party_mode()
+        self.assertEqual(self.system_helper.is_party, "0")
+
+        self.system_helper.toggle_party_mode()
+        self.assertEqual(self.system_helper.is_party, "1")
+
+        self.system_helper.toggle_party_mode()
+        self.assertEqual(self.system_helper.is_party, "0")
+
     def test_is_party_mode(self):
         self.assertFalse(self.system_helper.is_party_mode())
         self.system_helper.init_party_mode()
