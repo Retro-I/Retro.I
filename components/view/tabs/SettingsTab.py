@@ -51,7 +51,7 @@ class SettingsTab(ft.Column):
                             ft.Icons.EXIT_TO_APP,
                             text="App",
                             callback=(
-                                lambda e: self.app_control_dialog.open_dialog(),
+                                lambda e: self.app_control_dialog.open_dialog()
                             ),
                             visible=(
                                 DeveloperModeHelper.is_developer_mode_active()
