@@ -1,11 +1,11 @@
-import os
-
 import RPi.GPIO as GPIO
 
 from helper.GpioHelper import GpioHelper
+from helper.PartyModeHelper import PartyModeHelper
 from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
 
 gpio_helper = GpioHelper()
+party_mode_helper = PartyModeHelper()
 
 # Hierbei handelt es sich um ein Überbleibsel aus Zeiten des Radio's des
 # BSZ Wiesau, um bei offiziellen Veranstaltungen das Soundboard zu verstecken.
@@ -26,6 +26,4 @@ input_state = (
 )
 
 if not input_state:
-    os.environ["PARTY_MODE"] = "1"
-else:
-    os.system("unset PARTY_MODE")
+    party_mode_helper.enable_party_mode()
