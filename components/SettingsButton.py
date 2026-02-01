@@ -2,7 +2,7 @@ import flet as ft
 
 
 class SettingsButton(ft.Container):
-    def __init__(self, icon, text, callback):
+    def __init__(self, icon, text, callback, visible=True):
         super().__init__()
 
         self.alignment = ft.alignment.center
@@ -10,6 +10,7 @@ class SettingsButton(ft.Container):
         self.border_radius = 10
         self.padding = 10
         self.ink = True
+        self.visible = visible
         self.content = ft.Column(
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,

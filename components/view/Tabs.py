@@ -9,6 +9,7 @@ from helper.Audio import Audio
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
 from helper.PageState import PageState
+from helper.PartyModeHelper import PartyModeHelper
 from helper.SystemHelper import SystemHelper
 from helper.ThemeHelper import ThemeHelper
 
@@ -16,6 +17,7 @@ bluetooth_helper = BluetoothHelper()
 system_helper = SystemHelper()
 audio_helper = Audio()
 theme_helper = ThemeHelper()
+party_mode_helper = PartyModeHelper()
 
 
 class Tabs:
@@ -60,7 +62,7 @@ class Tabs:
             self.switch_bluetooth_tab()
 
         if new_tab_index == 2:
-            if system_helper.is_party_mode():
+            if party_mode_helper.is_party_mode():
                 self.switch_soundboard_tab()
             else:
                 self.switch_settings_tab()

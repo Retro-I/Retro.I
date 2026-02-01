@@ -101,7 +101,10 @@ class Info(ft.ListView):
         self.mac_text.text = ip_config["mac_address"] or ""
         self.gateway_text.text = ip_config["gateway"] or ""
         self.dns_pri_text.text = ip_config["dns"][0] or ""
-        self.dns_sec_text.text = ip_config["dns"][1] or ""
+        try:
+            self.dns_sec_text.text = ip_config["dns"][1] or ""
+        except IndexError:
+            self.dns_sec_text.text = ""
 
         self.ssid_text.update()
         self.ip_text.update()
