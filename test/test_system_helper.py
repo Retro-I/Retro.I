@@ -84,38 +84,6 @@ class TestSystemHelper(unittest.TestCase):
         expected = "14.01.2026"
         self.assertEqual(actual, expected)
 
-    def test_init_party_mode(self):
-        self.system_helper.init_party_mode()
-        self.assertEqual(self.system_helper.is_party, "0")
-
-        os.environ["PARTY_MODE"] = "1"
-
-        self.system_helper.init_party_mode()
-        self.assertEqual(self.system_helper.is_party, "1")
-
-    def test_toggle_party_mode(self):
-        self.system_helper.init_party_mode()
-        self.assertEqual(self.system_helper.is_party, "0")
-
-        self.system_helper.toggle_party_mode()
-        self.assertEqual(self.system_helper.is_party, "1")
-
-        self.system_helper.toggle_party_mode()
-        self.assertEqual(self.system_helper.is_party, "0")
-
-    def test_is_party_mode(self):
-        self.assertFalse(self.system_helper.is_party_mode())
-        self.system_helper.init_party_mode()
-        self.assertFalse(self.system_helper.is_party_mode())
-        os.environ["PARTY_MODE"] = "1"
-        self.assertFalse(self.system_helper.is_party_mode())
-        self.system_helper.init_party_mode()
-        self.assertTrue(self.system_helper.is_party_mode())
-        os.environ["PARTY_MODE"] = "0"
-        self.assertTrue(self.system_helper.is_party_mode())
-        self.system_helper.init_party_mode()
-        self.assertFalse(self.system_helper.is_party_mode())
-
     def test_image_path_remote(self):
         actual = self.system_helper.get_img_path(
             "https://test.test.de/image.png"

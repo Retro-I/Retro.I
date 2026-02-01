@@ -2,9 +2,9 @@ import flet as ft
 
 from components.BaseTextField import BaseTextField
 from helper.AdminHelper import AdminHelper
-from helper.SystemHelper import SystemHelper
+from helper.PartyModeHelper import PartyModeHelper
 
-system_helper = SystemHelper()
+party_mode_helper = PartyModeHelper()
 admin_password_helper = AdminHelper()
 
 
@@ -52,7 +52,7 @@ class AdminPasswordDialog(ft.AlertDialog):
 
     def connect(self, on_connect):
         if admin_password_helper.validate_admin_password(self.password.value):
-            system_helper.toggle_party_mode()
+            party_mode_helper.toggle_party_mode()
             on_connect()
             return
 
