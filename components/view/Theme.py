@@ -2,8 +2,6 @@ import flet as ft
 
 from helper.PartyModeHelper import PartyModeHelper
 from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
-from helper.StartupErrorHelper import StartupErrorHelper
-from scripts import button
 from components.NavigationBar import NavigationBar
 from components.view.Tabs import Tabs
 from components.view.tabs.BluetoothTab import BluetoothTab
