@@ -3,7 +3,6 @@ import json
 from helper.Constants import Constants
 from helper.SettingsSyncHelper import SettingsSyncHelper
 
-c = Constants()
 settings_sync_helper = SettingsSyncHelper()
 
 
