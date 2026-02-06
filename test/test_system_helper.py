@@ -15,7 +15,6 @@ from test.helper.mock_netifaces import (
 
 class TestSystemHelper(unittest.TestCase):
     @patch.dict(sys.modules, {"alsaaudio": MagicMock()})
-    @patch.dict(sys.modules, {"vlc": MagicMock()})
     @patch.dict(sys.modules, {"playsound3": MagicMock()})
     @patch.dict(sys.modules, {"cairosvg": MagicMock()})
     @patch.dict(sys.modules, {"numpy": MagicMock()})
@@ -125,7 +124,6 @@ class TestSystemHelper(unittest.TestCase):
 
 class TestSystemHelperWifiNetwork(unittest.TestCase):
     @patch.dict(sys.modules, {"alsaaudio": MagicMock()})
-    @patch.dict(sys.modules, {"vlc": MagicMock()})
     @patch.dict(sys.modules, {"playsound3": MagicMock()})
     @patch.dict(sys.modules, {"cairosvg": MagicMock()})
     @patch.dict(sys.modules, {"numpy": MagicMock()})
@@ -211,7 +209,6 @@ class TestSystemHelperWifiNetwork(unittest.TestCase):
 
 class TestSystemHelperLanNetwork(unittest.TestCase):
     @patch.dict(sys.modules, {"alsaaudio": MagicMock()})
-    @patch.dict(sys.modules, {"vlc": MagicMock()})
     @patch.dict(sys.modules, {"playsound3": MagicMock()})
     @patch.dict(sys.modules, {"cairosvg": MagicMock()})
     @patch.dict(sys.modules, {"numpy": MagicMock()})
@@ -284,7 +281,6 @@ class TestSystemHelperLanNetwork(unittest.TestCase):
 
 class TestSystemHelperNoneNetwork(unittest.TestCase):
     @patch.dict(sys.modules, {"alsaaudio": MagicMock()})
-    @patch.dict(sys.modules, {"vlc": MagicMock()})
     @patch.dict(sys.modules, {"playsound3": MagicMock()})
     @patch.dict(sys.modules, {"cairosvg": MagicMock()})
     @patch.dict(sys.modules, {"numpy": MagicMock()})
