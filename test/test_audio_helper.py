@@ -55,7 +55,6 @@ class TestAudioHelper(BaseTest):
 
 class TestAudioSounds(unittest.TestCase):
     @mock.patch.dict(sys.modules, {"alsaaudio": mock.MagicMock()})
-    @mock.patch.dict(sys.modules, {"vlc": mock.MagicMock()})
     @mock.patch.dict(sys.modules, {"playsound3": mock.MagicMock()})
     @mock.patch.dict(sys.modules, {"cairosvg": mock.MagicMock()})
     @mock.patch.dict(sys.modules, {"numpy": mock.MagicMock()})

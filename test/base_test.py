@@ -25,7 +25,6 @@ class BaseTest(unittest.TestCase):
         sys.modules,
         {
             "alsaaudio": mock.MagicMock(),
-            "vlc": mock.MagicMock(),
             "playsound3": mock.MagicMock(),
             "cairosvg": mock.MagicMock(),
             "numpy": mock.MagicMock(),

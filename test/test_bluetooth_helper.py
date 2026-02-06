@@ -9,7 +9,6 @@ constants = Constants()
 
 class TestBluetoothHelper(unittest.TestCase):
     @patch.dict(sys.modules, {"alsaaudio": MagicMock()})
-    @patch.dict(sys.modules, {"vlc": MagicMock()})
     @patch.dict(sys.modules, {"playsound3": MagicMock()})
     @patch.dict(sys.modules, {"cairosvg": MagicMock()})
     @patch.dict(sys.modules, {"numpy": MagicMock()})
