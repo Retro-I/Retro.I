@@ -65,14 +65,12 @@ class BluetoothHelper:
 
     def connect(self, mac_address):
         subprocess.run(["bluetoothctl", "connect", mac_address])
-        print("Device connected")
 
     def disconnect(self, address=None):
         if address is None:
             address = self.get_connected_device_mac()
 
         subprocess.run(["bluetoothctl", "disconnect", address])
-        print("Device disconnected")
 
     def get_paired_devices(self) -> list:
         output = subprocess.check_output(
@@ -110,7 +108,3 @@ class BluetoothHelper:
     def get_connected_device_mac(self):
         result = self.get_connected_device()
         return result[7:24]
-
-    def is_device_connected(self):
-        result = self.get_connected_device()
-        return result is not None
