@@ -74,20 +74,23 @@ class BluetoothHelper:
         subprocess.run(["bluetoothctl", "disconnect", address])
         print("Device disconnected")
 
-    def get_paired_devices(self):
+    def get_paired_devices(self) -> list:
         output = subprocess.check_output(
             ["bluetoothctl", "devices", "Paired"], text=True
         )
 
         # Each line typically looks like: "Device XX:XX:XX:XX:XX:XX Device_Name"
-        devices = []
+        devices = {}
         for line in output.strip().split("\n"):
             match = re.match(r"Device ([0-9A-F:]+) (.+)", line)
             if match:
                 mac_address, name = match.groups()
-                devices.append({"name": name, "mac_address": mac_address})
+                devices[mac_address] = {
+                    "name": name,
+                    "mac_address": mac_address,
+                }
 
-        return devices
+        return list(devices.values())
 
     def remove_device(self, address):
         subprocess.run(["bluetoothctl", "remove", address])
