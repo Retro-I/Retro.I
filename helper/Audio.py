@@ -5,7 +5,7 @@ import subprocess
 import time
 
 import alsaaudio as a
-import vlc
+import mpv
 from playsound3 import playsound
 
 from helper.Constants import Constants
@@ -21,17 +21,8 @@ class Audio:
     SETTING = "audio-settings.json"
     AUDIO_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
-    instance = vlc.Instance(
-        "--verbose=2",
-        "--log-verbose=2",
-        "--network-caching=3000",
-        "--http-reconnect",
-        "--retry=3",
-    )
-
-    audio = instance.media_player_new()
-    media = instance.media_new("")
-    audio.set_media(media)
+    player = mpv.MPV(ytdl=True)
+    current_sound = ""
     toast_playing = False
 
     def __init__(self):
@@ -75,18 +66,17 @@ class Audio:
             self.pause()
         except Exception:
             print("Fehler beim abspielen des Radiosenders")
-        Audio.audio = vlc.MediaPlayer(src)
+        Audio.current_sound = src
         self.play()
 
     def play(self):
-        Audio.audio.play()
+        Audio.player.play(Audio.current_sound)
 
     def pause(self):
-        Audio.audio.stop()
+        Audio.player.stop()
 
     def play_sound(self, src):
-        media = Audio.instance.media_new(src)
-        Audio.audio.set_media(media)
+        Audio.current_sound = src
         self.play()
 
     def startup_sound(self):
