@@ -29,7 +29,7 @@ class Theme:
     tabs = None
     navbar = None
 
-    def __init__(self, taskbar: Taskbar, on_strip_run_color):
+    def __init__(self, taskbar: Taskbar, strip):
         self.taskbar = taskbar
 
         self.theme = ft.Theme(
@@ -38,13 +38,13 @@ class Theme:
         )
 
         self.radio_tab = RadioTab(
-            on_strip_run_color,
+            strip.update_strip,
             self.on_updated_radio_station,
             self.on_stop_radio_station,
         )
         self.bluetooth_tab = BluetoothTab(self.taskbar)
         self.soundboard_tab = SoundboardTab()
-        self.settings_tab = SettingsTab()
+        self.settings_tab = SettingsTab(strip)
         self.tabs = Tabs(
             taskbar,
             self.radio_tab,
