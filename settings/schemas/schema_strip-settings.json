@@ -17,8 +17,18 @@
             "type": "integer",
             "description": "The amount of led's on the led strip",
             "default": 38
+        },
+        "isStaticColor": {
+            "type": "boolean",
+            "description": "Whether the strip shows a static color or not",
+            "default": false
+        },
+        "staticColor": {
+            "type": "string",
+            "description": "Hex-code of static led strip color. The current default color is this nostalgic yellow color of old radios",
+            "default": "#6A540C"
         }
     },
-    "required": ["isStripEnabled", "brightness", "amountLeds"],
+    "required": ["isStripEnabled", "brightness", "amountLeds", "isStaticColor", "staticColor"],
     "additionalProperties": false
 }
