@@ -168,7 +168,7 @@ class TestSyncValues(BaseTest):
         )
         expected = [
             {
-                "color": "#00FF00",
+                "color": "#6A540C",
                 "favorite": False,
                 "id": "2a756cf7-35a4-469e-ad09-0afce7913214",
                 "logo": "bayern_1.png",
@@ -328,7 +328,7 @@ class TestSyncValues(BaseTest):
                         "type": "string",
                         "description": "Hex color code associated with the station (e.g., #00A1D6)",
                         "pattern": "^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$",
-                        "default": "#00FF00",
+                        "default": "#6A540C",
                     },
                     "favorite": {
                         "type": "boolean",
