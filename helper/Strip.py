@@ -24,6 +24,7 @@ class Strip:
     is_active = settings_helper.is_strip_active()
     sound_mode_active = False
     curr_color = GREEN
+    curr_station_color = GREEN
 
     pixel_pin = board.D10
     pixel_num = settings_helper.get_led_length()
@@ -34,14 +35,19 @@ class Strip:
     )
 
     def __init__(self):
+        start_color = (
+            color_helper.toRgb(settings_helper.get_static_color())
+            if settings_helper.is_static_color()
+            else self.curr_color
+        )
         if settings_helper.is_strip_active():
-            self.pixels.fill(GREEN)
+            self.pixels.fill(start_color)
 
         self.pixels.brightness = settings_helper.get_curr_brightness() / 100
         self.pixels.show()
 
         self.wait_proc = WaiterProcess(self.callback)
-        self.animation.color = self.curr_color
+        self.animation.color = start_color
 
     def callback(self):
         if not settings_helper.is_strip_active():
@@ -163,9 +169,14 @@ class Strip:
     def update_strip(self, color):
         self.sound_mode_active = True
         strip_color = color_helper.toRgb(color)
-        self.curr_color = strip_color
-        self.animation.color = strip_color
-        self.pixels.fill(strip_color)
+        self.curr_station_color = strip_color
+        if not settings_helper.is_static_color():
+            self.set_color(strip_color)
+
+    def set_color(self, color):
+        self.curr_color = color
+        self.animation.color = color
+        self.pixels.fill(color)
         if not audio_helper.is_mute() and settings_helper.is_strip_active():
             self.pixels.show()
 

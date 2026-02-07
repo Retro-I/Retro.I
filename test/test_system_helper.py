@@ -12,6 +12,14 @@ from test.helper.mock_netifaces import (
     mock_wifi_netifaces,
 )
 
+strip_mock = {
+    "isStripEnabled": True,
+    "brightness": 100.0,
+    "amountLeds": 38,
+    "isStaticColor": False,
+    "staticColor": "#6A540C",
+}
+
 
 class TestSystemHelper(unittest.TestCase):
     @patch.dict(sys.modules, {"alsaaudio": MagicMock()})
@@ -29,11 +37,7 @@ class TestSystemHelper(unittest.TestCase):
     )
     @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
     def setUp(self, get_strip_settings):
-        get_strip_settings.return_value = {
-            "amountLeds": 38,
-            "brightness": 100,
-            "isStripEnabled": True,
-        }
+        get_strip_settings.return_value = strip_mock
 
         from helper.SystemHelper import SystemHelper
 
@@ -138,11 +142,7 @@ class TestSystemHelperWifiNetwork(unittest.TestCase):
     )
     @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
     def setUp(self, get_strip_settings):
-        get_strip_settings.return_value = {
-            "amountLeds": 38,
-            "brightness": 100,
-            "isStripEnabled": True,
-        }
+        get_strip_settings.return_value = strip_mock
 
         from helper.SystemHelper import SystemHelper
 
@@ -223,11 +223,7 @@ class TestSystemHelperLanNetwork(unittest.TestCase):
     )
     @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
     def setUp(self, get_strip_settings):
-        get_strip_settings.return_value = {
-            "amountLeds": 38,
-            "brightness": 100,
-            "isStripEnabled": True,
-        }
+        get_strip_settings.return_value = strip_mock
 
         from helper.SystemHelper import SystemHelper
 
@@ -295,11 +291,7 @@ class TestSystemHelperNoneNetwork(unittest.TestCase):
     )
     @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
     def setUp(self, get_strip_settings):
-        get_strip_settings.return_value = {
-            "amountLeds": 38,
-            "brightness": 100,
-            "isStripEnabled": True,
-        }
+        get_strip_settings.return_value = strip_mock
 
         from helper.SystemHelper import SystemHelper
 
