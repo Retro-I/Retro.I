@@ -17,14 +17,14 @@ sounds = Sounds()
 
 
 class SettingsTab(ft.Column):
-    def __init__(self):
+    def __init__(self, strip):
         super().__init__()
 
         self.shutdown_dialog = SettingsShutdownDialog()
         self.app_control_dialog = SettingsAppControlDialog()
         self.audio_dialog = SettingsAudioDialog()
         self.display_dialog = SettingsDisplayDialog()
-        self.led_dialog = SettingsLedDialog()
+        self.led_dialog = SettingsLedDialog(strip)
         self.info_dialog = SettingsInfoDialog()
         self.update_dialog = SettingsUpdateDialog()
         self.logs_dialog = SettingsLogsDialog()
