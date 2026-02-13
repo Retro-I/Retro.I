@@ -1,4 +1,5 @@
 import math
+import threading
 
 import board
 import neopixel
@@ -21,6 +22,9 @@ audio_helper = Audio()
 
 
 class Strip:
+    _instance = None
+    _lock = threading.Lock()
+
     is_active = settings_helper.is_strip_active()
     sound_mode_active = False
     curr_color = GREEN
@@ -33,7 +37,15 @@ class Strip:
         pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK
     )
 
-    def __init__(self):
+    def __new__(cls):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+                    cls._instance._init_strip()
+        return cls._instance
+
+    def _init_strip(self):
         if settings_helper.is_strip_active():
             self.pixels.fill(GREEN)
 

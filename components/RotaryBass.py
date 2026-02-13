@@ -2,6 +2,8 @@ import threading
 
 from pyky040 import pyky040
 
+from core.app_state import AppState
+from core.strip_factory import create_strip_state
 from helper.Audio import Audio
 from helper.AudioEffects import AudioEffects
 from helper.BassStepsHelper import BassStepsHelper
@@ -21,10 +23,9 @@ class RotaryBass:
     BASS_UP_PIN = gpio_helper.rotary_bass_up()
     BASS_DOWN_PIN = gpio_helper.rotary_bass_down()
 
-    def __init__(self, on_taskbar_update, on_bass_update):
-        self.on_taskbar_update = on_taskbar_update
-        self.on_bass_update = on_bass_update
+    strip_state = create_strip_state()
 
+    def __init__(self):
         rotary = pyky040.Encoder(CLK=self.BASS_UP_PIN, DT=self.BASS_DOWN_PIN)
         rotary.setup(
             inc_callback=lambda e: self.inc_bass_boost(),
@@ -42,11 +43,11 @@ class RotaryBass:
             ):
                 Constants.current_bass_step += self.BASS_STEP
                 self.update(Constants.current_bass_step)
-                self.on_bass_update(Constants.current_bass_step)
+                self.strip_state.update_bass_strip(Constants.current_bass_step)
 
             if Constants.current_bass_step > bass_steps_helper.get_max_step():
                 self.update(bass_steps_helper.get_max_step())
-                self.on_bass_update(Constants.current_bass_step)
+                self.strip_state.update_bass_strip(Constants.current_bass_step)
 
         self.COUNTER += 1
 
@@ -59,14 +60,14 @@ class RotaryBass:
             ):
                 Constants.current_bass_step -= self.BASS_STEP
                 self.update(Constants.current_bass_step)
-                self.on_bass_update(Constants.current_bass_step)
+                self.strip_state.update_bass_strip(Constants.current_bass_step)
 
             if Constants.current_bass_step < bass_steps_helper.get_min_step():
                 self.update(bass_steps_helper.get_min_step())
-                self.on_bass_update(Constants.current_bass_step)
+                self.strip_state.update_bass_strip(Constants.current_bass_step)
 
         self.COUNTER -= 1
 
     def update(self, step):
         audio_effects.update_bass(step)
-        self.on_taskbar_update()
+        AppState.app_state.update_taskbar()

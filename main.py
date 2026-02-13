@@ -10,6 +10,8 @@ from components.RotaryTreble import RotaryTreble
 from components.RotaryVolume import RotaryVolume
 from components.view.Taskbar import Taskbar
 from components.view.Theme import Theme
+from core.app_platform import AppPlatform, get_app_platform
+from core.app_state import AppState
 from helper.Audio import Audio
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
@@ -59,24 +61,19 @@ def init():
 def main(page: ft.Page):
     init()
 
+    AppState()
+
     page.on_error = on_error
     page.theme_mode = theme_helper.get_theme()
     page.update()
-
-    start = time.time()
 
     PageState.page = page
 
     bluetooth_helper.on_startup()
 
-    strip = Strip()
-    taskbar = Taskbar(
-        on_volume_update=strip.update_sound_strip,
-        on_mute_update=strip.toggle_mute,
-        on_bass_update=strip.update_bass_strip,
-        on_treble_update=strip.update_treble_strip,
-    )
-    theme = Theme(taskbar, strip.update_strip)
+    Strip()
+    taskbar = Taskbar()
+    theme = Theme()
 
     page.navigation_bar = theme.navbar
     page.appbar = taskbar
@@ -107,32 +104,20 @@ def main(page: ft.Page):
 
     page.update()
 
-    RotaryVolume(
-        on_taskbar_update=taskbar.update,
-        on_strip_toggle_mute=strip.toggle_mute,
-        on_strip_update_sound=strip.update_sound_strip,
-    )
-    RotaryBass(
-        on_taskbar_update=taskbar.update, on_bass_update=strip.update_bass_strip
-    )
-    RotaryTreble(
-        on_taskbar_update=taskbar.update,
-        on_treble_update=strip.update_treble_strip,
-    )
+    if get_app_platform() == AppPlatform.PI:
+        RotaryVolume()
+        RotaryBass()
+        RotaryTreble()
 
-    audio_helper.startup_sound()
-    audio_effects.start()
-
-    end = time.time()
+        audio_helper.startup_sound()
+        audio_effects.start()
 
     page.on_error = None
-
-    print(f"Startup took: {end-start}")
 
     def background_processes():
         while True:
             theme.radio_tab.song_info_row.reload()
-            taskbar.update()
+            AppState.app_state.update_taskbar()
             time.sleep(2)
 
     process = threading.Thread(target=background_processes)
