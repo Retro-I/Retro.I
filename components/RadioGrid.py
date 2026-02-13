@@ -91,7 +91,11 @@ class RadioGrid(ft.GridView):
                             ref=Constants.indicator_refs[i],
                             alignment=ft.alignment.top_left,
                             on_click=lambda e: self.stop_radio_station(),
-                            visible=False,
+                            visible=(
+                                Constants.current_radio_station != {}
+                                and Constants.current_radio_station["id"]
+                                == station["id"]
+                            ),
                             padding=-10,
                             content=ft.Icon(
                                 name=ft.Icons.PLAY_CIRCLE,
