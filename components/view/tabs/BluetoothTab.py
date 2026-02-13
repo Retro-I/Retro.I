@@ -8,7 +8,6 @@ from components.BluetoothDiscoveryToggle import BluetoothDiscoveryToggle
 from components.dialogs.BluetoothDisplayNameDialog import (
     BluetoothDisplayNameDialog,
 )
-from components.view.Taskbar import Taskbar
 from helper.BluetoothHelper import BluetoothHelper
 from helper.PageState import PageState
 
@@ -16,7 +15,6 @@ bluetooth_helper = BluetoothHelper()
 
 
 class BluetoothTab(ft.Column):
-    taskbar: Taskbar = None
     btn_toggle_discovery = None
     device_connected = None
     update_device_connection = False
@@ -25,16 +23,15 @@ class BluetoothTab(ft.Column):
         "", style=ft.TextStyle(size=20, weight=ft.FontWeight.BOLD)
     )
 
-    def __init__(self, taskbar: Taskbar):
+    def __init__(self):
         super().__init__()
 
-        self.taskbar = taskbar
         self.btn_toggle_discovery = BluetoothDiscoveryToggle(
             self.start_bluetooth_update_process,
             self.stop_bluetooth_update_process,
         )
         self.device_connected = BluetoothDeviceConnected(
-            taskbar, self.btn_toggle_discovery.disable_discovery, self.show
+            self.btn_toggle_discovery.disable_discovery, self.show
         )
 
         self.bluetooth_display_name_dialog = BluetoothDisplayNameDialog(
