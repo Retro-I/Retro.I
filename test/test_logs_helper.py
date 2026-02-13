@@ -1,15 +1,33 @@
+import sys
 import unittest
-from unittest.mock import patch
-
-from helper.Constants import Constants
-from helper.LogsHelper import LogsHelper
-
-constants = Constants()
+from unittest.mock import MagicMock, patch
 
 
 class TestStripSettingsHelper(unittest.TestCase):
-    def setUp(self):
+    @patch.dict(sys.modules, {"alsaaudio": MagicMock()})
+    @patch.dict(sys.modules, {"playsound3": MagicMock()})
+    @patch.dict(sys.modules, {"cairosvg": MagicMock()})
+    @patch.dict(sys.modules, {"numpy": MagicMock()})
+    @patch.dict(sys.modules, {"joblib": MagicMock()})
+    @patch.dict(sys.modules, {"sklearn.cluster": MagicMock()})
+    @patch.dict(sys.modules, {"board": MagicMock()})
+    @patch.dict(sys.modules, {"neopixel": MagicMock()})
+    @patch.dict(sys.modules, {"adafruit_led_animation": MagicMock()})
+    @patch.dict(sys.modules, {"adafruit_led_animation.color": MagicMock()})
+    @patch.dict(
+        sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
+    )
+    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
+    def setUp(self, get_strip_settings):
+        get_strip_settings.return_value = {
+            "amountLeds": 38,
+            "brightness": 100,
+            "isStripEnabled": True,
+        }
         super().setUp()
+
+        from helper.LogsHelper import LogsHelper
+
         self.logs_helper = LogsHelper()
 
     @patch("helper.LogsHelper.subprocess.check_output")

@@ -15,6 +15,7 @@ from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
 from helper.GpioHelper import GpioHelper
+from helper.LogsHelper import LogsHelper
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
 from helper.SettingsSyncHelper import SettingsSyncHelper
@@ -40,6 +41,7 @@ page_helper = PageState()
 audio_effects = AudioEffects()
 theme_helper = ThemeHelper()
 gpio_helper = GpioHelper()
+logs_helper = LogsHelper()
 
 
 def on_error(e):
@@ -51,6 +53,7 @@ def on_error(e):
 def init():
     settings_sync_helper.validate_and_repair_all_settings()
     audio_helper.init_sound()
+    logs_helper.print_debug_infos()
 
 
 def main(page: ft.Page):
