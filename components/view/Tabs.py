@@ -4,7 +4,7 @@ from components.view.tabs.BluetoothTab import BluetoothTab
 from components.view.tabs.RadioTab import RadioTab
 from components.view.tabs.SettingsTab import SettingsTab
 from components.view.tabs.SoundboardTab import SoundboardTab
-from components.view.Taskbar import Taskbar
+from core.app_state import AppState
 from helper.Audio import Audio
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
@@ -19,20 +19,17 @@ theme_helper = ThemeHelper()
 
 
 class Tabs:
-    taskbar: Taskbar = None
     radio_tab: RadioTab = None
     bluetooth_tab: BluetoothTab = None
     settings_tab: SettingsTab = None
 
     def __init__(
         self,
-        taskbar: Taskbar,
         radio_tab: RadioTab,
         bluetooth_tab: BluetoothTab,
         soundboard_tab: SoundboardTab,
         settings_tab: SettingsTab,
     ):
-        self.taskbar = taskbar
         self.radio_tab = radio_tab
         self.bluetooth_tab = bluetooth_tab
         self.soundboard_tab = soundboard_tab
@@ -78,7 +75,7 @@ class Tabs:
 
         self.radio_tab.show()
         self.radio_tab.update()
-        self.taskbar.update()
+        AppState.app_state.update_taskbar()
 
     def switch_bluetooth_tab(self):
         Constants.current_radio_station = {}
@@ -86,7 +83,7 @@ class Tabs:
         audio_helper.pause()
         bluetooth_helper.turn_on()
 
-        self.taskbar.update()
+        AppState.app_state.update_taskbar()
 
         self.bluetooth_tab.show()
 

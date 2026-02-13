@@ -29,9 +29,7 @@ class Theme:
     tabs = None
     navbar = None
 
-    def __init__(self, taskbar: Taskbar):
-        self.taskbar = taskbar
-
+    def __init__(self):
         self.theme = ft.Theme(
             color_scheme_seed="green",
             scrollbar_theme=self.get_scrollbar_theme(),
@@ -41,11 +39,10 @@ class Theme:
             self.on_updated_radio_station,
             self.on_stop_radio_station,
         )
-        self.bluetooth_tab = BluetoothTab(self.taskbar)
+        self.bluetooth_tab = BluetoothTab()
         self.soundboard_tab = SoundboardTab()
         self.settings_tab = SettingsTab()
         self.tabs = Tabs(
-            taskbar,
             self.radio_tab,
             self.bluetooth_tab,
             self.soundboard_tab,
