@@ -1,6 +1,7 @@
 import flet as ft
 
 from components.dialogs.StationModifyDialog import StationModifyDialog
+from core.strip_factory import create_strip_state
 from helper.Audio import Audio
 from helper.Constants import Constants
 from helper.PageState import PageState
@@ -16,16 +17,16 @@ radio_helper = RadioHelper()
 
 
 class RadioGrid(ft.GridView):
+    strip_state = create_strip_state()
+
     def __init__(
         self,
-        on_strip_run_color,
         on_theme_change_radio_station,
         on_theme_stop_radio_station,
     ):
         super().__init__()
 
         self.station_modify_dialog = StationModifyDialog()
-        self.on_strip_run_color = on_strip_run_color
         self.on_theme_change_radio_station = on_theme_change_radio_station
         self.on_theme_stop_radio_station = on_theme_stop_radio_station
 
@@ -115,7 +116,7 @@ class RadioGrid(ft.GridView):
 
         audio_helper.play_src(station["src"])
 
-        self.on_strip_run_color(color)
+        self.strip_state.update_strip(color)
 
         if self.on_theme_change_radio_station is not None:
             self.on_theme_change_radio_station(color)

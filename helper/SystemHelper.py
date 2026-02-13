@@ -8,11 +8,11 @@ from datetime import datetime
 import netifaces
 import psutil
 
+from core.strip_factory import create_strip_state
 from helper.Audio import Audio
 from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.StartupErrorHelper import StartupErrorHelper
-from helper.Strip import Strip
 
 audio_helper = Audio()
 page_helper = PageState()
@@ -21,7 +21,7 @@ startup_error_helper = StartupErrorHelper()
 
 
 class SystemHelper:
-    strip = Strip()
+    strip_state = create_strip_state()
     is_party = "0"
 
     def __init__(self):
@@ -30,22 +30,22 @@ class SystemHelper:
 
     def shutdown_system(self):
         audio_helper.shutdown_sound()
-        self.strip.disable()
+        self.strip_state.disable()
         time.sleep(3)
         os.system("sudo shutdown -h 0")
 
     def restart_system(self):
         audio_helper.shutdown_sound()
-        self.strip.disable()
+        self.strip_state.disable()
         time.sleep(3)
         os.system("sudo reboot")
 
     def stop_app(self):
-        self.strip.disable()
+        self.strip_state.disable()
         os.system("sudo systemctl stop retroi")
 
     def restart_app(self):
-        self.strip.disable()
+        self.strip_state.disable()
         os.system("sudo systemctl restart retroi")
 
     def change_revision(self, revision: str):

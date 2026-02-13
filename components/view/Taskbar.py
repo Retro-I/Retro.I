@@ -5,6 +5,8 @@ from components.dialogs.SettingsShutdownDialog import SettingsShutdownDialog
 from components.dialogs.VolumeDialog import VolumeDialog
 from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
 from components.dialogs.WifiDialog import WifiDialog
+from core.app_state import AppState
+from core.strip_factory import create_strip_state
 from helper.Audio import Audio
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
@@ -25,26 +27,16 @@ system_helper = SystemHelper()
 class Taskbar(ft.AppBar):
     wifi_connection_dialog: WifiConnectionDialog = None
     wifi_dialog: WifiDialog = None
+    strip_state = create_strip_state()
 
     taskbar_icon_size = 28
 
-    def __init__(
-        self, on_volume_update, on_mute_update, on_bass_update, on_treble_update
-    ):
+    def __init__(self):
         super().__init__()
+        AppState.app_state.subscribe(self.update)
 
-        self.on_bass_update = on_bass_update
-        self.on_treble_update = on_treble_update
-
-        self.volume_dialog = VolumeDialog(
-            on_update=self.update_volume_icon,
-            on_volume_update=on_volume_update,
-            on_mute_update=on_mute_update,
-        )
-        self.audio_effects_dialog = AudioEffectsDialog(
-            on_update_bass=self.bass_update,
-            on_update_treble=self.treble_update,
-        )
+        self.audio_effects_dialog = AudioEffectsDialog()
+        self.volume_dialog = VolumeDialog()
         self.shutdown_dialog = SettingsShutdownDialog()
 
         PageState.page.add(self.volume_dialog)
@@ -148,9 +140,7 @@ class Taskbar(ft.AppBar):
 
     def update(self):
         self.update_volume_icon()
-        self.volume_dialog.update_content()
         self.update_eq_icon()
-        self.audio_effects_dialog.update_content()
         self.update_wifi()
         self.update_bluetooth_icon()
         super().update()
@@ -227,11 +217,11 @@ class Taskbar(ft.AppBar):
 
     def bass_update(self):
         self.update_eq_icon()
-        self.on_bass_update(Constants.current_bass_step)
+        self.strip_state.update_bass_strip(Constants.current_bass_step)
 
     def treble_update(self):
         self.update_eq_icon()
-        self.on_treble_update(Constants.current_treble_step)
+        self.strip_state.update_treble_strip(Constants.current_treble_step)
 
     def update_eq_icon(self):
         self.txt_eq.value = (
