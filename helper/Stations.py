@@ -1,7 +1,6 @@
 import json
 import uuid
 
-from helper.Audio import Audio
 from helper.ColorHelper import ColorHelper
 from helper.Constants import Constants
 from helper.SettingsSyncHelper import SettingsSyncHelper
@@ -9,7 +8,6 @@ from helper.SettingsSyncHelper import SettingsSyncHelper
 c = Constants()
 color_helper = ColorHelper()
 settings_sync_helper = SettingsSyncHelper()
-audio_helper = Audio()
 
 
 class Stations:

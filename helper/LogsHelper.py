@@ -1,7 +1,7 @@
 import logging
 import subprocess
 
-from helper.Audio import Audio
+from core.factories.audio_factory import create_audio_state
 from helper.Constants import Constants
 from helper.RevisionHelper import RevisionHelper
 from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
@@ -17,11 +17,13 @@ revision_helper = RevisionHelper()
 secured_mode_settings_helper = SecuredModeSettingsHelper()
 theme_helper = ThemeHelper()
 scrollbar_settings_helper = ScrollbarSettingsHelper()
-audio_helper = Audio()
 strip_settings_helper = StripSettingsHelper()
 
 
 class LogsHelper:
+    def __init__(self):
+        self.audio_state = create_audio_state()
+
     def get_logs(self) -> str:
         start_time = f"{Constants.get_service_start_time()}"
         logs = subprocess.check_output(
@@ -48,14 +50,14 @@ class LogsHelper:
             f" Scrollbar enalbed: "
             f"{scrollbar_settings_helper.is_scrollbar_enabled()}"
         )
-        logger.info(f" Audio: {audio_helper.get_current_audio_sink()}")
-        logger.info(f"     Volume: {audio_helper.get_volume()}")
-        logger.info(f"     Default-Volume: {audio_helper.get_default_volume()}")
-        logger.info(f"     Volume-Step: {audio_helper.get_volume_step()}")
-        logger.info(f"     Is muted: {audio_helper.is_mute()}")
+        logger.info(f" Audio: {self.audio_state.get_current_audio_sink()}")
+        logger.info(f"     Volume: {self.audio_state.get_volume()}")
+        logger.info(f"     Default-Volume: {self.audio_state.get_default_volume()}")
+        logger.info(f"     Volume-Step: {self.audio_state.get_volume_step()}")
+        logger.info(f"     Is muted: {self.audio_state.is_mute()}")
         logger.info(
             f"     Autoplay enabled: "
-            f"{audio_helper.is_default_station_autoplay_enabled()}"
+            f"{self.audio_state.is_default_station_autoplay_enabled()}"
         )
         logger.info(" Strip")
         logger.info(

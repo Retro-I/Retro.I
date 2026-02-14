@@ -30,36 +30,36 @@ class Audio:
         self.mixers_path = f"{home_dir}/mixers.txt"
 
     def init_sound(self):
-        self.unmute()
+        self._unmute()
         self.set_volume(self.get_default_volume())
 
-    def mixer(self):
+    def _mixer(self):
         with open(self.mixers_path, "w") as f:
             f.write(str(a.mixers()))
         return a.Mixer("Master")
 
     def set_volume(self, value):
         if 0 <= value <= 100:
-            self.mixer().setvolume(value)
+            self._mixer().setvolume(value)
 
-    def mute(self):
-        self.mixer().setmute(1)
+    def _mute(self):
+        self._mixer().setmute(1)
 
-    def unmute(self):
-        self.mixer().setmute(0)
+    def _unmute(self):
+        self._mixer().setmute(0)
 
     def get_volume(self):
-        return self.mixer().getvolume()[0]
+        return self._mixer().getvolume()[0]
 
     def toggle_mute(self):
         if self.is_mute():
-            self.unmute()
+            self._unmute()
             return False
-        self.mute()
+        self._mute()
         return True
 
     def is_mute(self):
-        return self.mixer().getmute()[0] == 1
+        return self._mixer().getmute()[0] == 1
 
     def play_src(self, src):
         try:
@@ -67,30 +67,30 @@ class Audio:
         except Exception:
             print("Fehler beim abspielen des Radiosenders")
         Audio.current_sound = src
-        self.play()
+        self._play()
 
-    def play(self):
+    def _play(self):
         Audio.player.play(Audio.current_sound)
 
     def pause(self):
         Audio.player.stop()
 
-    def play_sound(self, src):
+    def _play_sound(self, src):
         Audio.current_sound = src
-        self.play()
+        self._play()
 
     def startup_sound(self):
-        self.play_sound(f"{c.system_sound_path()}/startup.mp3")
+        self._play_sound(f"{c.system_sound_path()}/startup.mp3")
 
     def shutdown_sound(self):
         self.pause()
-        self.play_sound(f"{c.system_sound_path()}/shutdown.mp3")
+        self._play_sound(f"{c.system_sound_path()}/shutdown.mp3")
 
     def bluetooth_connected(self):
-        self.play_sound(f"{c.system_sound_path()}/bluetooth_connected.mp3")
+        self._play_sound(f"{c.system_sound_path()}/bluetooth_connected.mp3")
 
     def bluetooth_disconnected(self):
-        self.play_sound(f"{c.system_sound_path()}/bluetooth_disconnected.mp3")
+        self._play_sound(f"{c.system_sound_path()}/bluetooth_disconnected.mp3")
 
     def get_audio_sinks(self) -> list[dict]:
         result = subprocess.run(
@@ -171,7 +171,7 @@ class Audio:
             self.wait()
             self.toast = playsound(f"{c.toast_path()}/{toast_src}")
             self.wait()
-            self.play()
+            self._play()
             self.toast_playing = False
 
     def play_sound_board(self, src):

@@ -7,7 +7,7 @@ from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.color import BLACK, GREEN, RED, WHITE
 from flet.core.control_event import ControlEvent
 
-from helper.Audio import Audio
+from core.factories.audio_factory import create_audio_state
 from helper.BassStepsHelper import BassStepsHelper
 from helper.ColorHelper import ColorHelper
 from helper.Constants import Constants
@@ -18,7 +18,6 @@ c = Constants()
 settings_helper = StripSettingsHelper()
 bass_steps_helper = BassStepsHelper()
 color_helper = ColorHelper()
-audio_helper = Audio()
 
 
 class Strip:
@@ -36,6 +35,8 @@ class Strip:
     animation = Pulse(
         pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK
     )
+
+    audio_state = create_audio_state()
 
     def __new__(cls):
         if cls._instance is None:
@@ -62,7 +63,7 @@ class Strip:
             self.pixels.show()
             return
 
-        if not audio_helper.is_mute():
+        if not self.audio_state.is_mute():
             self.sound_mode_active = True
             self.pixels.fill(self.curr_color)
             self.pixels.show()
@@ -178,7 +179,7 @@ class Strip:
         self.curr_color = strip_color
         self.animation.color = strip_color
         self.pixels.fill(strip_color)
-        if not audio_helper.is_mute() and settings_helper.is_strip_active():
+        if not self.audio_state.is_mute() and settings_helper.is_strip_active():
             self.pixels.show()
 
     def toggle_strip(self, event: ControlEvent):

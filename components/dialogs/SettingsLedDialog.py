@@ -1,6 +1,6 @@
 import flet as ft
 
-from core.strip_factory import create_strip_state
+from core.factories.strip_factory import create_strip_state
 from helper.StripSettingsHelper import StripSettingsHelper
 
 settings_helper = StripSettingsHelper()

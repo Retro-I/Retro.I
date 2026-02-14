@@ -12,7 +12,7 @@ from components.view.Taskbar import Taskbar
 from components.view.Theme import Theme
 from core.app_platform import AppPlatform, get_app_platform
 from core.app_state import AppState
-from helper.Audio import Audio
+from core.factories.audio_factory import create_audio_state
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
@@ -38,12 +38,13 @@ settings_sync_helper = SettingsSyncHelper()
 stations_helper = Stations()
 constants = Constants()
 sounds = Sounds()
-audio_helper = Audio()
 page_helper = PageState()
 audio_effects = AudioEffects()
 theme_helper = ThemeHelper()
 gpio_helper = GpioHelper()
 logs_helper = LogsHelper()
+
+audio_state = create_audio_state()
 
 
 def on_error(e):
@@ -54,7 +55,7 @@ def on_error(e):
 
 def init():
     settings_sync_helper.validate_and_repair_all_settings()
-    audio_helper.init_sound()
+    audio_state.init_sound()
     logs_helper.print_debug_infos()
 
 
@@ -84,7 +85,7 @@ def main(page: ft.Page):
     page.dark_theme = theme.get()
     page.title = "Retro.I"
 
-    button = GpioButton(21, audio_helper.play_toast)
+    button = GpioButton(21, audio_state.play_toast)
     button.activate()
 
     shutdown_button = GpioButton(
@@ -109,7 +110,7 @@ def main(page: ft.Page):
         RotaryBass()
         RotaryTreble()
 
-        audio_helper.startup_sound()
+        audio_state.startup_sound()
         audio_effects.start()
 
     page.on_error = None
@@ -124,7 +125,7 @@ def main(page: ft.Page):
     process.start()
 
     if (
-        audio_helper.is_default_station_autoplay_enabled()
+        audio_state.is_default_station_autoplay_enabled()
         and stations_helper.get_favorite_station() is not None
     ):
         theme.radio_tab.radio_grid.change_radio_station(

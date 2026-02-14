@@ -8,34 +8,34 @@ from datetime import datetime
 import netifaces
 import psutil
 
-from core.strip_factory import create_strip_state
-from helper.Audio import Audio
+from core.factories.audio_factory import create_audio_state
+from core.factories.strip_factory import create_strip_state
 from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.StartupErrorHelper import StartupErrorHelper
 
-audio_helper = Audio()
 page_helper = PageState()
 c = Constants()
 startup_error_helper = StartupErrorHelper()
 
 
 class SystemHelper:
-    strip_state = create_strip_state()
     is_party = "0"
 
     def __init__(self):
         self.init_party_mode()
         self._update_process: subprocess.Popen | None = None
+        self.strip_state = create_strip_state()
+        self.audio_state = create_audio_state()
 
     def shutdown_system(self):
-        audio_helper.shutdown_sound()
+        self.audio_state.shutdown_sound()
         self.strip_state.disable()
         time.sleep(3)
         os.system("sudo shutdown -h 0")
 
     def restart_system(self):
-        audio_helper.shutdown_sound()
+        self.audio_state.shutdown_sound()
         self.strip_state.disable()
         time.sleep(3)
         os.system("sudo reboot")

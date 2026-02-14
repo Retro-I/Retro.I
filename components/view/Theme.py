@@ -1,8 +1,9 @@
 import flet as ft
 
+from core.app_platform import get_app_platform, AppPlatform
 from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
-from helper.StartupErrorHelper import StartupErrorHelper
-from scripts import button
+# if get_app_platform() == AppPlatform.PI: TODO - wieder einbauen
+#     from scripts import button
 from components.NavigationBar import NavigationBar
 from components.view.Tabs import Tabs
 from components.view.tabs.BluetoothTab import BluetoothTab
