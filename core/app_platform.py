@@ -3,8 +3,8 @@ from enum import StrEnum
 
 
 class AppPlatform(StrEnum):
-    PI = ("PI",)
-    WEB = ("WEB",)
+    PI = "PI"
+    WEB = "WEB"
 
 
 def get_app_platform() -> AppPlatform:

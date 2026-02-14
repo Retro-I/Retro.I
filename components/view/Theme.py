@@ -1,9 +1,9 @@
 import flet as ft
 
 from core.app_platform import get_app_platform, AppPlatform
-from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
-# if get_app_platform() == AppPlatform.PI: TODO - wieder einbauen
-#     from scripts import button
+from core.settings.factories.scrollbar import create_scrollbar_settings
+if get_app_platform() == AppPlatform.PI:
+    from scripts import button
 from components.NavigationBar import NavigationBar
 from components.view.Tabs import Tabs
 from components.view.tabs.BluetoothTab import BluetoothTab
@@ -15,7 +15,6 @@ from helper.PageState import PageState
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
-scrollbar_settings_helper = ScrollbarSettingsHelper()
 
 
 class Theme:
@@ -31,6 +30,8 @@ class Theme:
     navbar = None
 
     def __init__(self):
+        self.scrollbar_settings = create_scrollbar_settings()
+
         self.theme = ft.Theme(
             color_scheme_seed="green",
             scrollbar_theme=self.get_scrollbar_theme(),
@@ -81,7 +82,7 @@ class Theme:
             thumb_visibility=False, track_visibility=False
         )
 
-        if scrollbar_settings_helper.is_scrollbar_enabled():
+        if self.scrollbar_settings.is_scrollbar_enabled():
             scrollbar_theme = ft.ScrollbarTheme(
                 track_color={
                     ft.ControlState.DEFAULT: ft.Colors.TRANSPARENT,

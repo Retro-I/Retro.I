@@ -15,7 +15,7 @@ revision_helper = RevisionHelper()
 
 
 class SettingsSyncHelper:
-    def validate_by_path(self, path):
+    def _validate_by_path(self, path):
         files = [
             f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))
         ]
@@ -44,7 +44,7 @@ class SettingsSyncHelper:
 
     def validate_all_settings(self):
         settings_path = Constants.settings_path()
-        self.validate_by_path(settings_path)
+        self._validate_by_path(settings_path)
 
         self.validate_effects()
 
