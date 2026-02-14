@@ -1,16 +1,16 @@
 import flet as ft
 
 from components.BaseTextField import BaseTextField
-from helper.Audio import Audio
-
-audio_helper = Audio()
+from core.factories.audio_factory import create_audio_state
 
 
 class VolumeInputField(BaseTextField):
     def __init__(self):
         super().__init__()
 
-        self.value = str(audio_helper.get_default_volume())
+        self.audio_state = create_audio_state()
+
+        self.value = str(self.audio_state.get_default_volume())
         self.suffix_text = "%"
         self.keyboard_type = ft.KeyboardType.NUMBER
         self.input_filter = ft.InputFilter(
@@ -39,4 +39,4 @@ class VolumeInputField(BaseTextField):
         e.control.update()
 
         if error is None:
-            audio_helper.set_default_volume(int(value))
+            self.audio_state.set_default_volume(int(value))

@@ -2,16 +2,18 @@ import flet as ft
 
 from components.VolumeInputField import VolumeInputField
 from components.VolumeStepInputField import VolumeStepInputField
+from core.factories.audio_factory import create_audio_state
 from helper.Audio import Audio
 from helper.Stations import Stations
 
 stations_helper = Stations()
-audio_helper = Audio()
 
 
 class SettingsAudioDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
+
+        self.audio_state = create_audio_state()
 
         self.audio_dropdown = ft.Dropdown(
             editable=True,
@@ -38,16 +40,16 @@ class SettingsAudioDialog(ft.AlertDialog):
                     "Lieblingsradiosender nach Systemstart abspielen",
                     label_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_autoplay(),
-                    value=audio_helper.is_default_station_autoplay_enabled(),
+                    value=self.audio_state.is_default_station_autoplay_enabled(),
                 ),
             ],
         )
 
     def toggle_enable_autoplay(self):
-        audio_helper.toggle_default_station_autoplay()
+        self.audio_state.toggle_default_station_autoplay()
 
     def get_audio_output_options(self):
-        sinks = audio_helper.get_audio_sinks()
+        sinks = self.audio_state.get_audio_sinks()
         return [
             ft.DropdownOption(
                 key=sink["id"],
@@ -57,12 +59,12 @@ class SettingsAudioDialog(ft.AlertDialog):
         ]
 
     def get_default_option(self):
-        sink = audio_helper.get_current_audio_sink()
+        sink = self.audio_state.get_current_audio_sink()
         return sink["id"] if sink is not None else None
 
     def on_audio_output_change(self, e):
         sink_id = e.control.value
-        audio_helper.set_audio_output(sink_id)
+        self.audio_state.set_audio_output(sink_id)
 
     def open_dialog(self):
         self.open = True

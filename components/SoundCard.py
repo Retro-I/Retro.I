@@ -1,11 +1,10 @@
 import flet as ft
 
-from helper.Audio import Audio
+from core.factories.audio_factory import create_audio_state
 from helper.Constants import Constants
 from helper.Sounds import Sounds
 
 c = Constants()
-audio_helper = Audio()
 sounds = Sounds()
 
 
@@ -13,12 +12,14 @@ class SoundCard(ft.Column):
     def __init__(self, sound, on_delete_favorite_sound):
         super().__init__()
 
+        self.audio_state = create_audio_state()
+
         self.controls = [
             ft.Container(
                 alignment=ft.alignment.bottom_center,
                 on_click=lambda e, src=sound[
                     "mp3"
-                ]: audio_helper.play_sound_board(src),
+                ]: self.audio_state.play_sound_board(src),
                 on_long_press=lambda e, src=sound: on_delete_favorite_sound(
                     src
                 ),

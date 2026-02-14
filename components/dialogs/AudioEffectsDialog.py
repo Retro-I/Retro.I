@@ -2,12 +2,10 @@ import flet as ft
 
 from components.RotaryTreble import audio_effects, treble_steps_helper
 from core.app_state import AppState
-from core.strip_factory import create_strip_state
-from helper.Audio import Audio
+from core.factories.strip_factory import create_strip_state
 from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
 
-audio_helper = Audio()
 bass_steps_helper = BassStepsHelper()
 
 

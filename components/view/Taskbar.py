@@ -6,8 +6,8 @@ from components.dialogs.VolumeDialog import VolumeDialog
 from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
 from components.dialogs.WifiDialog import WifiDialog
 from core.app_state import AppState
-from core.strip_factory import create_strip_state
-from helper.Audio import Audio
+from core.factories.audio_factory import create_audio_state
+from core.factories.strip_factory import create_strip_state
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
@@ -16,7 +16,6 @@ from helper.SystemHelper import SystemHelper
 from helper.ThemeHelper import ThemeHelper
 from helper.WifiHelper import WifiHelper
 
-audio_helper = Audio()
 audio_effects = AudioEffects()
 wifi_helper = WifiHelper()
 bluetooth_helper = BluetoothHelper()
@@ -27,13 +26,14 @@ system_helper = SystemHelper()
 class Taskbar(ft.AppBar):
     wifi_connection_dialog: WifiConnectionDialog = None
     wifi_dialog: WifiDialog = None
-    strip_state = create_strip_state()
 
     taskbar_icon_size = 28
 
     def __init__(self):
         super().__init__()
         AppState.app_state.subscribe(self.update)
+        self.strip_state = create_strip_state()
+        self.audio_state = create_audio_state()
 
         self.audio_effects_dialog = AudioEffectsDialog()
         self.volume_dialog = VolumeDialog()
@@ -76,7 +76,7 @@ class Taskbar(ft.AppBar):
         self.ico_volume = ft.Icon(
             name=ft.Icons.VOLUME_UP_ROUNDED, size=self.taskbar_icon_size
         )
-        self.txt_volume = ft.Text(f"{audio_helper.get_volume()}%", size=18)
+        self.txt_volume = ft.Text(f"{self.audio_state.get_volume()}%", size=18)
 
         self.ico_eq = ft.Icon(
             name=ft.Icons.EQUALIZER, size=self.taskbar_icon_size
@@ -201,16 +201,16 @@ class Taskbar(ft.AppBar):
     def update_volume_icon(self):
         self.ico_volume.name = (
             ft.Icons.VOLUME_OFF_ROUNDED
-            if audio_helper.is_mute()
+            if self.audio_state.is_mute()
             else ft.Icons.VOLUME_UP_ROUNDED
         )
         self.ico_volume.color = (
-            ft.Colors.RED if audio_helper.is_mute() else ft.Colors.ON_SURFACE
+            ft.Colors.RED if self.audio_state.is_mute() else ft.Colors.ON_SURFACE
         )
         self.ico_volume.update()
         self.txt_volume.value = (
-            f"{audio_helper.get_volume()}%"
-            if not audio_helper.is_mute()
+            f"{self.audio_state.get_volume()}%"
+            if not self.audio_state.is_mute()
             else ""
         )
         self.txt_volume.update()
