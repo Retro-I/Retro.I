@@ -7,6 +7,7 @@ from components.dialogs.Credits import Credits
 from components.dialogs.Documentation import Documentation
 from components.dialogs.Info import Info
 from components.Scrollbar import with_scrollbar_space
+from helper.DeveloperModeHelper import DeveloperModeHelper
 
 
 class SettingsInfoDialog(ft.AlertDialog):
@@ -28,16 +29,19 @@ class SettingsInfoDialog(ft.AlertDialog):
                             content=ft.Column(
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER,
+                                    ft.CrossAxisAlignment.CENTER
                                 ),
                                 controls=[with_scrollbar_space(self.info)],
+                            ),
+                            visible=(
+                                DeveloperModeHelper.is_developer_mode_active()
                             ),
                         ),
                         ft.Tab(
                             text="        Dokumentation        ",
                             content=ft.Column(
                                 horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER,
+                                    ft.CrossAxisAlignment.CENTER
                                 ),
                                 controls=[Documentation()],
                             ),
@@ -46,7 +50,7 @@ class SettingsInfoDialog(ft.AlertDialog):
                             text="           Credits           ",
                             content=ft.Column(
                                 horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER,
+                                    ft.CrossAxisAlignment.CENTER
                                 ),
                                 controls=[Credits()],
                             ),

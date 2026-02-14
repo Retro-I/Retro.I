@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "PartyMode",
+    "type": "object",
+    "properties": {
+        "isPartyMode": {
+            "type": "boolean",
+            "description": "Whether the party mode is enabled or not",
+            "default": false
+        }
+    },
+    "required": ["isPartyMode"],
+    "additionalProperties": false
+}

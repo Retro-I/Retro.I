@@ -148,6 +148,25 @@ copy_settings_files() {
   done
 }
 
+enter_admin_password() {
+  local settings_file="$SETTINGS_PATH/admin-password.json"
+  local pw_input encrypted tmp_file
+
+  read -s -p "Gib ein Admin-Passwort ein: " pw_input
+  echo
+
+  encrypted="$(printf '%s' "$pw_input" | base64)"
+
+  tmp_file="$(mktemp)"
+
+  jq --arg pw "$encrypted" \
+     '.adminPassword = $pw' \
+     "$settings_file" > "$tmp_file" \
+    && mv "$tmp_file" "$settings_file"
+
+  unset pw_input
+}
+
 enter_led_length() {
   settings_file="$SETTINGS_PATH/strip-settings.json"
 
@@ -189,31 +208,6 @@ enter_enable_scrollbar() {
         tmp_file=$(mktemp)
         jq '.showScrollbar = false' "$settings_file" > "$tmp_file" && mv "$tmp_file" "$settings_file"
         echo "Scrollbar deaktiviert."
-        break
-        ;;
-      * )
-        echo 'Bitte gib entweder "J" oder "N" ein!'
-        ;;
-    esac
-  done
-}
-
-enter_secured_mode() {
-  settings_file="$SETTINGS_PATH/secured-mode-settings.json"
-
-  while true; do
-    read -p "Möchtest du den abgesicherten Modus des Radios nutzen? z.B. für offizielle Anlässe (Infotag, etc.) [J]a, [N]ein: " choice
-    case "$choice" in
-      j|J )
-        tmp_file=$(mktemp)
-        jq '.securedModeEnabled = true' "$settings_file" > "$tmp_file" && mv "$tmp_file" "$settings_file"
-        echo "Abgesicherter Modus aktiviert."
-        break
-        ;;
-      n|N )
-        tmp_file=$(mktemp)
-        jq '.securedModeEnabled = false' "$settings_file" > "$tmp_file" && mv "$tmp_file" "$settings_file"
-        echo "Abgesicherter Modus deaktiviert."
         break
         ;;
       * )
@@ -484,9 +478,9 @@ export $(grep '^SETTINGS_PATH=' "/etc/environment" | xargs)
 export $(grep '^RETROI_DIR=' "/etc/environment" | xargs)
 run_step "JQ installieren" install_jq
 copy_settings_files
+enter_admin_password
 enter_led_length
 enter_enable_scrollbar
-enter_secured_mode
 run_step "Entferne Splashscreen" remove_splashscreen
 run_step "System-Splashscreen ändern" sudo -E bash -c "$RETROI_DIR/scripts/update_system_splash.sh"
 run_step "User zur \"audio\" Gruppe hinzufügen" apply_audio_group
