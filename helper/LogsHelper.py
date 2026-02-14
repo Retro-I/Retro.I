@@ -1,6 +1,7 @@
 import logging
 import subprocess
 
+from core.app_platform import get_app_platform
 from core.factories.audio_factory import create_audio_state
 from helper.Constants import Constants
 from helper.RevisionHelper import RevisionHelper
@@ -36,6 +37,7 @@ class LogsHelper:
         logger.info("")
         logger.info(" -------- Debug Informations --------")
         logger.info(f" Date: {system_helper.get_curr_date()}")
+        logger.info(f" Platform: {get_app_platform().value}")
         logger.info(f" Version: {revision_helper.get_current_revision()}")
         logger.info(f" IP: {system_helper.get_ip_address()}")
         logger.info(f"     Over WIFI: {system_helper.get_current_ssid()}")
@@ -45,7 +47,7 @@ class LogsHelper:
             f" Secured-Mode: "
             f"{secured_mode_settings_helper.is_secured_mode_enabled()}"
         )
-        logger.info(f" Theme: {theme_helper.get_theme()}")
+        logger.info(f" Theme: {theme_helper.get_theme().value}")
         logger.info(
             f" Scrollbar enalbed: "
             f"{scrollbar_settings_helper.is_scrollbar_enabled()}"
