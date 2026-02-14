@@ -10,8 +10,6 @@ def create_scrollbar_settings():
         case AppPlatform.WEB:
             from core.settings.platforms.web.scrollbar_settings import WebScrollbarSettings
 
-            raise RuntimeError("")
-
             return WebScrollbarSettings()
         # Default: use WEB
         case _:

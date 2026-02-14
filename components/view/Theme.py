@@ -1,8 +1,9 @@
 import flet as ft
 
+from core.app_platform import get_app_platform, AppPlatform
 from core.settings.factories.scrollbar import create_scrollbar_settings
-# if get_app_platform() == AppPlatform.PI: TODO - wieder einbauen
-#     from scripts import button
+if get_app_platform() == AppPlatform.PI:
+    from scripts import button
 from components.NavigationBar import NavigationBar
 from components.view.Tabs import Tabs
 from components.view.tabs.BluetoothTab import BluetoothTab
@@ -29,12 +30,12 @@ class Theme:
     navbar = None
 
     def __init__(self):
+        self.scrollbar_settings = create_scrollbar_settings()
+
         self.theme = ft.Theme(
             color_scheme_seed="green",
             scrollbar_theme=self.get_scrollbar_theme(),
         )
-
-        self.scrollbar_settings = create_scrollbar_settings()
 
         self.radio_tab = RadioTab(
             self.on_updated_radio_station,
