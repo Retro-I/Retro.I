@@ -1,5 +1,7 @@
 {
     "isStripEnabled": true,
     "brightness": 100.0,
-    "amountLeds": 38
+    "amountLeds": 38,
+    "isStaticColor": false,
+    "staticColor": "#6A540C"
 }

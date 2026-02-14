@@ -28,13 +28,61 @@ class TestStripSettingsHelper(BaseTest):
         actual = self.strip_settings_helper.get_curr_brightness()
         self.assertEqual(actual, 100)
 
-    def test_update_curr_brightness(self):
-        actual = self.strip_settings_helper.get_curr_brightness()
-        self.assertEqual(actual, 100)
+    def test_is_static_color(self):
+        self.assertFalse(self.strip_settings_helper.is_static_color())
 
+    def test_get_static_color(self):
+        actual = self.strip_settings_helper.get_static_color()
+        self.assertEqual(actual, "#6A540C")
+
+    def test_update_curr_brightness(self):
         self.strip_settings_helper.update_settings(brightness=12.3)
         actual = self.strip_settings_helper.get_curr_brightness()
         self.assertEqual(actual, 12.3)
+
+    def test_update_is_active(self):
+        self.strip_settings_helper.update_settings(is_active=False)
+        self.assertFalse(self.strip_settings_helper.is_strip_active())
+
+        self.strip_settings_helper.update_settings(is_active=True)
+        self.assertTrue(self.strip_settings_helper.is_strip_active())
+
+    def test_update_length(self):
+        self.strip_settings_helper.update_settings(length=40)
+        actual = self.strip_settings_helper.get_led_length()
+        self.assertEqual(actual, 40)
+
+    def test_update_is_static_color(self):
+        self.strip_settings_helper.update_settings(is_static_color=True)
+        self.assertTrue(self.strip_settings_helper.is_static_color())
+
+        self.strip_settings_helper.update_settings(is_static_color=False)
+        self.assertFalse(self.strip_settings_helper.is_static_color())
+
+    def test_update_static_color(self):
+        self.strip_settings_helper.update_settings(static_color="#000000")
+        actual = self.strip_settings_helper.get_static_color()
+        self.assertEqual(actual, "#000000")
+
+    def test_update_static_color_letter(self):
+        self.strip_settings_helper.update_settings(static_color="#FFFFFF")
+        actual = self.strip_settings_helper.get_static_color()
+        self.assertEqual(actual, "#FFFFFF")
+
+    def test_update_static_color_lower_case(self):
+        self.strip_settings_helper.update_settings(static_color="#ddeeff")
+        actual = self.strip_settings_helper.get_static_color()
+        self.assertEqual(actual, "#DDEEFF")
+
+    def test_update_static_color_not_valid(self):
+        self.strip_settings_helper.update_settings(static_color="#XXYYZZ")
+        actual = self.strip_settings_helper.get_static_color()
+        self.assertEqual(actual, "#6A540C")
+
+    def test_update_static_color_invalid_length(self):
+        self.strip_settings_helper.update_settings(static_color="#ABCDEFABCDEF")
+        actual = self.strip_settings_helper.get_static_color()
+        self.assertEqual(actual, "#6A540C")
 
     def test_get_complete_settings(self):
         actual = self.strip_settings_helper.get_strip_settings()
@@ -42,5 +90,7 @@ class TestStripSettingsHelper(BaseTest):
             "isStripEnabled": True,
             "brightness": 100.0,
             "amountLeds": 38,
+            "isStaticColor": False,
+            "staticColor": "#6A540C",
         }
         self.assertCountEqual(actual, expected)

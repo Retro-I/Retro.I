@@ -76,7 +76,7 @@ def main(page: ft.Page):
         on_bass_update=strip.update_bass_strip,
         on_treble_update=strip.update_treble_strip,
     )
-    theme = Theme(taskbar, strip.update_strip)
+    theme = Theme(taskbar, strip)
 
     page.navigation_bar = theme.navbar
     page.appbar = taskbar
