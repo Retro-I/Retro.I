@@ -2,12 +2,11 @@ import flet as ft
 
 from components.dialogs.SplashscreenDialog import SplashscreenDialog
 from components.dialogs.UpdatesRestartDialog import UpdatesRestartDialog
+from core.settings.factories.scrollbar import create_scrollbar_settings
 from helper.PageState import PageState
-from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
-scrollbar_settings_helper = ScrollbarSettingsHelper()
 
 
 class SettingsDisplayDialog(ft.AlertDialog):
@@ -15,6 +14,8 @@ class SettingsDisplayDialog(ft.AlertDialog):
         super().__init__()
         self.updates_restart_dialog = UpdatesRestartDialog()
         self.splashscreen_dialog = SplashscreenDialog(self)
+
+        self.scrollbar_settings = create_scrollbar_settings()
 
         PageState.page.add(self.updates_restart_dialog)
         PageState.page.add(self.splashscreen_dialog)
@@ -29,7 +30,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
                     "Scrollbar anzeigen (Neustart erforderlich!)",
                     label_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_scrollbar(),
-                    value=scrollbar_settings_helper.is_scrollbar_enabled(),
+                    value=self.scrollbar_settings.is_scrollbar_enabled(),
                 ),
                 ft.Divider(),
                 ft.Column(
@@ -60,7 +61,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
         )
 
     def toggle_enable_scrollbar(self):
-        scrollbar_settings_helper.toggle_scrollbar_enabled()
+        self.scrollbar_settings.toggle_scrollbar_enabled()
         self.close_dialog()
         self.updates_restart_dialog.open_dialog()
 

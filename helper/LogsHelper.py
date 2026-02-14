@@ -3,9 +3,9 @@ import subprocess
 
 from core.app_platform import get_app_platform
 from core.factories.audio_factory import create_audio_state
+from core.settings.factories.scrollbar import create_scrollbar_settings
 from helper.Constants import Constants
 from helper.RevisionHelper import RevisionHelper
-from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
 from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
 from helper.StripSettingsHelper import StripSettingsHelper
 from helper.SystemHelper import SystemHelper
@@ -17,13 +17,14 @@ system_helper = SystemHelper()
 revision_helper = RevisionHelper()
 secured_mode_settings_helper = SecuredModeSettingsHelper()
 theme_helper = ThemeHelper()
-scrollbar_settings_helper = ScrollbarSettingsHelper()
 strip_settings_helper = StripSettingsHelper()
 
 
 class LogsHelper:
     def __init__(self):
         self.audio_state = create_audio_state()
+
+        self.scrollbar_settings = create_scrollbar_settings()
 
     def get_logs(self) -> str:
         start_time = f"{Constants.get_service_start_time()}"
@@ -50,7 +51,7 @@ class LogsHelper:
         logger.info(f" Theme: {theme_helper.get_theme().value}")
         logger.info(
             f" Scrollbar enalbed: "
-            f"{scrollbar_settings_helper.is_scrollbar_enabled()}"
+            f"{self.scrollbar_settings.is_scrollbar_enabled()}"
         )
         logger.info(f" Audio: {self.audio_state.get_current_audio_sink()}")
         logger.info(f"     Volume: {self.audio_state.get_volume()}")

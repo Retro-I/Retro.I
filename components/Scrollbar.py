@@ -1,8 +1,8 @@
 import flet as ft
 
-from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
+from core.settings.factories.scrollbar import create_scrollbar_settings
 
-scrollbar_settings_helper = ScrollbarSettingsHelper()
+scrollbar_settings = create_scrollbar_settings()
 
 SCROLLBAR_SPACE = 70
 
@@ -15,7 +15,7 @@ def with_scrollbar_space(content: ft.Control) -> ft.Control:
         p = ft.padding.Padding(0, 0, 0, 0)
 
     space = SCROLLBAR_SPACE + p.right
-    if not scrollbar_settings_helper.is_scrollbar_enabled():
+    if not scrollbar_settings.is_scrollbar_enabled():
         space = p.right
 
     content.padding = ft.padding.Padding(
