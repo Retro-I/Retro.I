@@ -18,7 +18,7 @@ class WebAudioHardware(BaseAudioInterface):
     def toggle_mute(self):
         logger.debug("[MOCK AUDIO] toggle_mute")
 
-    def is_mute(self):
+    def is_mute(self) -> bool:
         logger.debug("[MOCK AUDIO] is_mute")
 
     def play_src(self, src):

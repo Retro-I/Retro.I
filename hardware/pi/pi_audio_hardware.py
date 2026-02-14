@@ -18,8 +18,8 @@ class PiAudioHardware(BaseAudioInterface):
     def toggle_mute(self):
         self.audio.toggle_mute()
 
-    def is_mute(self):
-        self.audio.is_mute()
+    def is_mute(self) -> bool:
+        return self.audio.is_mute()
 
     def play_src(self, src):
         self.audio.play_src(src)
@@ -61,13 +61,13 @@ class PiAudioHardware(BaseAudioInterface):
         self.audio.toggle_default_station_autoplay()
 
     def get_default_volume(self) -> int:
-        self.audio.get_default_volume()
+        return self.audio.get_default_volume()
 
     def set_default_volume(self, value):
         self.audio.set_default_volume(value)
 
     def get_volume_step(self) -> int:
-        self.audio.get_volume_step()
+        return self.audio.get_volume_step()
 
     def set_volume_step(self, value):
         self.audio.set_volume_step(value)

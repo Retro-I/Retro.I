@@ -11,7 +11,7 @@ class BaseAudioInterface:
     def toggle_mute(self):
         raise NotImplementedError("implement in subclass")
 
-    def is_mute(self):
+    def is_mute(self) -> bool:
         raise NotImplementedError("implement in subclass")
 
     def play_src(self, src):
