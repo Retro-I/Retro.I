@@ -1,14 +1,13 @@
 import flet as ft
 
 from components.IconBtn import IconBtn
-from helper.SystemHelper import SystemHelper
-
-system_helper = SystemHelper()
+from core.helpers.factories.system import create_system_helper
 
 
 class UpdatesRestartDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
+        self.system_helper = create_system_helper()
 
         self.content = ft.Column(
             alignment=ft.MainAxisAlignment.CENTER,
@@ -22,12 +21,12 @@ class UpdatesRestartDialog(ft.AlertDialog):
                         IconBtn(
                             text="System neustarten",
                             icon=ft.Icons.RESTART_ALT,
-                            on_click=system_helper.restart_system,
+                            on_click=self.system_helper.restart_system,
                         ),
                         IconBtn(
                             text="App neustarten",
                             icon=ft.Icons.REFRESH,
-                            on_click=system_helper.restart_app,
+                            on_click=self.system_helper.restart_app,
                         ),
                     ],
                 ),

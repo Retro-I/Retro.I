@@ -84,25 +84,25 @@ class TestSystemHelper(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_init_party_mode(self):
-        self.system_helper.init_party_mode()
+        self.system_helper._init_party_mode()
         self.assertEqual(self.system_helper.is_party, "0")
 
         os.environ["PARTY_MODE"] = "1"
 
-        self.system_helper.init_party_mode()
+        self.system_helper._init_party_mode()
         self.assertEqual(self.system_helper.is_party, "1")
 
     def test_is_party_mode(self):
         self.assertFalse(self.system_helper.is_party_mode())
-        self.system_helper.init_party_mode()
+        self.system_helper._init_party_mode()
         self.assertFalse(self.system_helper.is_party_mode())
         os.environ["PARTY_MODE"] = "1"
         self.assertFalse(self.system_helper.is_party_mode())
-        self.system_helper.init_party_mode()
+        self.system_helper._init_party_mode()
         self.assertTrue(self.system_helper.is_party_mode())
         os.environ["PARTY_MODE"] = "0"
         self.assertTrue(self.system_helper.is_party_mode())
-        self.system_helper.init_party_mode()
+        self.system_helper._init_party_mode()
         self.assertFalse(self.system_helper.is_party_mode())
 
     def test_image_path_remote(self):

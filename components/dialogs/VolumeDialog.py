@@ -1,8 +1,8 @@
 import flet as ft
 
 from core.app_state import AppState
-from core.factories.audio_factory import create_audio_state
 from core.factories.strip_factory import create_strip_state
+from core.helpers.factories.audio import create_audio_helper
 
 
 class VolumeDialog(ft.AlertDialog):
@@ -10,7 +10,7 @@ class VolumeDialog(ft.AlertDialog):
         super().__init__()
 
         self.strip_state = create_strip_state()
-        self.audio_state = create_audio_state()
+        self.audio_state = create_audio_helper()
 
         max = 100
 

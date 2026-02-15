@@ -5,10 +5,8 @@ from components.Scrollbar import with_scrollbar_space
 from components.SoundboardSearchBar import SoundboardSearchBar
 from components.SoundCard import SoundCard
 from components.ToastCard import ToastCard
+from core.helpers.factories.sounds import create_sounds_helper
 from helper.PageState import PageState
-from helper.Sounds import Sounds
-
-sounds = Sounds()
 
 
 class SoundboardTab(ft.Column):
@@ -17,6 +15,8 @@ class SoundboardTab(ft.Column):
 
     def __init__(self):
         super().__init__()
+
+        self.sounds_helper = create_sounds_helper()
 
         self.sound_delete_dialog = SoundDeleteDialog()
         PageState.page.add(self.sound_delete_dialog)
@@ -48,8 +48,8 @@ class SoundboardTab(ft.Column):
     def reload(self):
         controls = [ToastCard()]
 
-        for i in range(len(sounds.load_favorite_sounds())):
-            sound = sounds.load_favorite_sounds()[i]
+        for i in range(len(self.sounds_helper.load_favorite_sounds())):
+            sound = self.sounds_helper.load_favorite_sounds()[i]
             controls.append(SoundCard(sound, self.open_delete_dialog))
 
         self.soundboard_grid.controls = controls
@@ -60,7 +60,7 @@ class SoundboardTab(ft.Column):
         )
 
     def on_add_favorite_sound(self, sound):
-        result = sounds.add_favorite_sound(sound)
+        result = self.sounds_helper.add_favorite_sound(sound)
         if result == 1:
             return
 
@@ -70,7 +70,7 @@ class SoundboardTab(ft.Column):
         self.soundboard_grid.update()
 
     def on_delete_favorite_sound(self, sound):
-        sounds.delete_favorite_sound(sound)
+        self.sounds_helper.delete_favorite_sound(sound)
         self.reload()
         self.soundboard_grid.update()
         self.sound_delete_dialog.close()

@@ -1,15 +1,17 @@
 import json
 
+from core.helpers.factories.settings_sync import create_settings_sync_helper
 from helper.Constants import Constants
-from helper.SettingsSyncHelper import SettingsSyncHelper
 
 c = Constants()
-settings_sync_helper = SettingsSyncHelper()
 
 
 class GpioHelper:
     SETTING = "gpio-pin-mapping.json"
     GPIO_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
+
+    def __init__(self):
+        self.settings_sync_helper = create_settings_sync_helper()
 
     def get_mappings(self) -> dict:
         def _get_data():
@@ -20,7 +22,7 @@ class GpioHelper:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.reset_settings_file(self.SETTING)
+            self.settings_sync_helper.reset_settings_file(self.SETTING)
             return _get_data()
 
     def rotary_volume_up(self) -> int:

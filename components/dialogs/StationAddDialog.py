@@ -2,27 +2,24 @@ import flet as ft
 
 from components.dialogs.DuplicateDialog import DuplicateDialog
 from components.RadioGrid import RadioGrid
+from core.settings.factories.radio_stations import \
+    create_radio_stations_settings
 from helper.Constants import Constants
 from helper.PageState import PageState
-from helper.Stations import Stations
 
 constants = Constants()
-stations_helper = Stations()
 
 
 class StationAddDialog(ft.AlertDialog):
     station = {"name": ""}
 
     text = ft.Text(station["name"])
-    on_play = None
 
-    btn_play = None
-    btn_add = None
-
-    radio_grid: RadioGrid = None
 
     def __init__(self, radio_grid: RadioGrid):
         super().__init__()
+
+        self.stations = create_radio_stations_settings()
 
         self.radio_grid = radio_grid
         self.duplicate_dialog = DuplicateDialog()
@@ -59,13 +56,13 @@ class StationAddDialog(ft.AlertDialog):
         self.btn_add.disabled = True
         self.btn_add.update()
 
-        stations_list = stations_helper.load_radio_stations()
+        stations_list = self.stations.load_radio_stations()
         for el in stations_list:
             if el["name"] == self.station["name"]:
                 self.duplicate_dialog.open_dialog(self.station["name"])
                 return
 
-        stations_helper.add_station(self.station)
+        self.stations.add_station(self.station)
         self.radio_grid.reload()
 
         self.close()

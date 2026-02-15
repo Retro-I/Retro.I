@@ -2,18 +2,20 @@ import json
 
 import flet as ft
 
+from core.helpers.factories.settings_sync import create_settings_sync_helper
 from helper.Constants import Constants
-from helper.SettingsSyncHelper import SettingsSyncHelper
 
 c = Constants()
-settings_sync_helper = SettingsSyncHelper()
 
 
 class ThemeHelper:
     SETTING = "theme-mode-settings.json"
     THEME_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
-    def load_theme_settings(self) -> dict:
+    def __init__(self):
+        self.settings_sync_helper = create_settings_sync_helper()
+
+    def _load_theme_settings(self) -> dict:
         def _get_data():
             with open(self.THEME_SETTINGS_PATH) as file:
                 data = json.load(file)
@@ -22,11 +24,11 @@ class ThemeHelper:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.reset_settings_file(self.SETTING)
+            self.settings_sync_helper.reset_settings_file(self.SETTING)
             return _get_data()
 
     def get_theme(self) -> ft.ThemeMode:
-        theme = self.load_theme_settings()["theme"]
+        theme = self._load_theme_settings()["theme"]
         if theme == "light":
             return ft.ThemeMode.LIGHT
         elif theme == "dark":
@@ -35,7 +37,7 @@ class ThemeHelper:
             return ft.ThemeMode.SYSTEM
 
     def toggle_theme(self):
-        settings = self.load_theme_settings()
+        settings = self._load_theme_settings()
         theme = self.get_theme()
 
         settings["theme"] = "light" if theme == ft.ThemeMode.DARK else "dark"

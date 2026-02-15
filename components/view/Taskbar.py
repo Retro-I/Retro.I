@@ -6,21 +6,19 @@ from components.dialogs.VolumeDialog import VolumeDialog
 from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
 from components.dialogs.WifiDialog import WifiDialog
 from core.app_state import AppState
-from core.factories.audio_factory import create_audio_state
 from core.factories.strip_factory import create_strip_state
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.system import create_system_helper
+from core.helpers.factories.theme import create_theme_helper
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
 from helper.PageState import PageState
-from helper.SystemHelper import SystemHelper
-from helper.ThemeHelper import ThemeHelper
 from helper.WifiHelper import WifiHelper
 
 audio_effects = AudioEffects()
 wifi_helper = WifiHelper()
 bluetooth_helper = BluetoothHelper()
-theme_helper = ThemeHelper()
-system_helper = SystemHelper()
 
 
 class Taskbar(ft.AppBar):
@@ -33,7 +31,10 @@ class Taskbar(ft.AppBar):
         super().__init__()
         AppState.app_state.subscribe(self.update)
         self.strip_state = create_strip_state()
-        self.audio_state = create_audio_state()
+        self.audio_state = create_audio_helper()
+
+        self.system_helper = create_system_helper()
+        self.theme_helper = create_theme_helper()
 
         self.audio_effects_dialog = AudioEffectsDialog()
         self.volume_dialog = VolumeDialog()
@@ -52,7 +53,7 @@ class Taskbar(ft.AppBar):
         self.ico_toggle_theme = ft.IconButton(
             icon=(
                 ft.Icons.LIGHT_MODE
-                if theme_helper.get_theme() == ft.ThemeMode.LIGHT
+                if self.theme_helper.get_theme() == ft.ThemeMode.LIGHT
                 else ft.Icons.DARK_MODE
             ),
             icon_size=self.taskbar_icon_size,
@@ -62,7 +63,7 @@ class Taskbar(ft.AppBar):
         self.ico_wifi = ft.IconButton(
             icon=(
                 ft.Icons.WIFI
-                if system_helper.get_current_ssid() != ""
+                if self.system_helper.get_current_ssid() != ""
                 else ft.Icons.LAN
             ),
             icon_size=self.taskbar_icon_size,
@@ -146,20 +147,20 @@ class Taskbar(ft.AppBar):
         super().update()
 
     def toggle_theme(self):
-        theme_helper.toggle_theme()
+        self.theme_helper.toggle_theme()
         self.ico_toggle_theme.icon = (
             ft.Icons.LIGHT_MODE
-            if theme_helper.get_theme() == ft.ThemeMode.LIGHT
+            if self.theme_helper.get_theme() == ft.ThemeMode.LIGHT
             else ft.Icons.DARK_MODE
         )
         self.ico_toggle_theme.update()
-        PageState.page.theme_mode = theme_helper.get_theme()
+        PageState.page.theme_mode = self.theme_helper.get_theme()
         PageState.page.update()
 
     def update_wifi(self):
         self.ico_wifi.icon = (
             ft.Icons.WIFI
-            if system_helper.get_current_ssid() != ""
+            if self.system_helper.get_current_ssid() != ""
             else ft.Icons.LAN
         )
         self.ico_wifi.icon_color = ft.Colors.GREEN
@@ -205,7 +206,9 @@ class Taskbar(ft.AppBar):
             else ft.Icons.VOLUME_UP_ROUNDED
         )
         self.ico_volume.color = (
-            ft.Colors.RED if self.audio_state.is_mute() else ft.Colors.ON_SURFACE
+            ft.Colors.RED
+            if self.audio_state.is_mute()
+            else ft.Colors.ON_SURFACE
         )
         self.ico_volume.update()
         self.txt_volume.value = (
@@ -237,5 +240,5 @@ class Taskbar(ft.AppBar):
         self.toggle_theme()
 
     def on_ico_wifi_click(self):
-        if system_helper.get_current_ssid() != "":
+        if self.system_helper.get_current_ssid() != "":
             self.wifi_dialog.open_dialog()

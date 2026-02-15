@@ -1,8 +1,6 @@
 import flet as ft
 
-from helper.Stations import Stations
-
-stations_helper = Stations()
+from core.settings.factories.radio_stations import create_radio_stations_settings
 
 
 class StationDeleteDialog(ft.AlertDialog):
@@ -11,6 +9,8 @@ class StationDeleteDialog(ft.AlertDialog):
 
     def __init__(self):
         super().__init__()
+
+        self.stations = create_radio_stations_settings()
 
         self.title = ft.Text("Sender löschen?")
         self.actions_alignment = ft.MainAxisAlignment.SPACE_BETWEEN
@@ -26,7 +26,7 @@ class StationDeleteDialog(ft.AlertDialog):
         self.update()
 
     def submit(self):
-        stations_helper.delete_station(self.station)
+        self.stations.delete_station(self.station)
         self.submit_callback()
         self.close()
 

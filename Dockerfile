@@ -11,10 +11,12 @@ RUN apt-get update && apt-get install -y \
 
 COPY web-requirements.txt .
 
-RUN pip install --no-cache-dir -r web-requirements.txt
+RUN python -m venv .venv
+
+RUN .venv/bin/pip install --no-cache-dir -r web-requirements.txt
 
 COPY . .
 
 EXPOSE 8550
 
-CMD ["python", "main_web.py"]
+CMD [".venv/bin/python", "main_web.py"]

@@ -1,4 +1,4 @@
-from core.settings.base.scrollbar_settings import BaseScrollbarSettings
+from core.settings.base.scrollbar import BaseScrollbarSettings
 
 
 class WebScrollbarSettings(BaseScrollbarSettings):

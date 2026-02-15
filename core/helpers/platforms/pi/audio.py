@@ -1,8 +1,8 @@
-from hardware.base_audio_interface import BaseAudioInterface
+from core.helpers.base.audio import BaseAudioHelper
 from helper.Audio import Audio
 
 
-class PiAudioHardware(BaseAudioInterface):
+class PiAudioHelper(BaseAudioHelper):
     def __init__(self):
         self.audio = Audio()
 
@@ -20,24 +20,6 @@ class PiAudioHardware(BaseAudioInterface):
 
     def is_mute(self) -> bool:
         return self.audio.is_mute()
-
-    def play_src(self, src):
-        self.audio.play_src(src)
-
-    def pause(self):
-        self.audio.pause()
-
-    def startup_sound(self):
-        self.audio.startup_sound()
-
-    def shutdown_sound(self):
-        self.audio.shutdown_sound()
-
-    def bluetooth_connected(self):
-        self.audio.bluetooth_connected()
-
-    def bluetooth_disconnected(self):
-        self.audio.bluetooth_disconnected()
 
     def get_audio_sinks(self) -> list[dict]:
         return self.audio.get_audio_sinks()

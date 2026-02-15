@@ -1,7 +1,10 @@
 import flet as ft
 
 from core.app_platform import get_app_platform, AppPlatform
+from core.enums.tabs_enum import TabsEnum
+from core.helpers.factories.system import create_system_helper
 from core.settings.factories.scrollbar import create_scrollbar_settings
+
 if get_app_platform() == AppPlatform.PI:
     from scripts import button
 from components.NavigationBar import NavigationBar
@@ -10,27 +13,20 @@ from components.view.tabs.BluetoothTab import BluetoothTab
 from components.view.tabs.RadioTab import RadioTab
 from components.view.tabs.SettingsTab import SettingsTab
 from components.view.tabs.SoundboardTab import SoundboardTab
-from components.view.Taskbar import Taskbar
 from helper.PageState import PageState
-from helper.SystemHelper import SystemHelper
-
-system_helper = SystemHelper()
 
 
 class Theme:
-    theme = None
-    taskbar: Taskbar = None
-
-    radio_tab = None
-    bluetooth_tab = None
-    soundboard_tab = None
-    settings_tab = None
-
-    tabs = None
-    navbar = None
-
-    def __init__(self):
+    def __init__(self, target_tabs=[]):
+        if target_tabs is None:
+            target_tabs = [
+                TabsEnum.RADIO,
+                TabsEnum.BLUETOOTH,
+                TabsEnum.SOUNDBOARD,
+                TabsEnum.SETTINGS,
+            ]
         self.scrollbar_settings = create_scrollbar_settings()
+        self.system_helper = create_system_helper()
 
         self.theme = ft.Theme(
             color_scheme_seed="green",
@@ -50,7 +46,7 @@ class Theme:
             self.soundboard_tab,
             self.settings_tab,
         )
-        self.navbar = NavigationBar(self.tabs)
+        self.navbar = NavigationBar(self.tabs, target_tabs)
 
     def update(self):
         PageState.page.update()
@@ -70,7 +66,7 @@ class Theme:
         tabs.append(self.radio_tab)
         tabs.append(self.bluetooth_tab)
 
-        if system_helper.is_party_mode():
+        if self.system_helper.is_party_mode():
             tabs.append(self.soundboard_tab)
 
         tabs.append(self.settings_tab)
@@ -100,6 +96,3 @@ class Theme:
 
     def get(self):
         return self.theme
-
-    def get_radio_tab(self):
-        return self.radio_tab

@@ -3,8 +3,8 @@ import threading
 from pyky040 import pyky040
 
 from core.app_state import AppState
-from core.factories.audio_factory import create_audio_state
 from core.factories.strip_factory import create_strip_state
+from core.helpers.factories.audio import create_audio_helper
 from helper.GpioHelper import GpioHelper
 
 gpio_helper = GpioHelper()
@@ -19,7 +19,7 @@ class RotaryVolume:
     strip_state = create_strip_state()
 
     def __init__(self):
-        self.audio_state = create_audio_state()
+        self.audio_state = create_audio_helper()
 
         rotary = pyky040.Encoder(
             CLK=self.VOLUME_UP_PIN,
@@ -36,7 +36,10 @@ class RotaryVolume:
 
     def inc_sound(self):
         if self.COUNTER % 2 == 0:
-            value = self.audio_state.get_volume() + self.audio_state.get_volume_step()
+            value = (
+                self.audio_state.get_volume()
+                + self.audio_state.get_volume_step()
+            )
             if 0 <= value <= 100:
                 self.update(value)
 
@@ -46,7 +49,10 @@ class RotaryVolume:
 
     def dec_sound(self):
         if self.COUNTER % 2 == 0:
-            value = self.audio_state.get_volume() - self.audio_state.get_volume_step()
+            value = (
+                self.audio_state.get_volume()
+                - self.audio_state.get_volume_step()
+            )
             if 0 <= value <= 100:
                 self.update(value)
 

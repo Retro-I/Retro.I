@@ -7,7 +7,8 @@ from components.dialogs.BluetoothDeviceEditDialog import (
 )
 from components.Scrollbar import with_scrollbar_space
 from core.app_state import AppState
-from core.factories.audio_factory import create_audio_state
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.player import create_player_helper
 from helper.BluetoothHelper import BluetoothHelper
 from helper.PageState import PageState
 
@@ -26,14 +27,15 @@ class BluetoothDeviceConnected:
         self.on_connected = on_connected
         self.on_disconnected = on_disconnected
 
-        self.audio_state = create_audio_state()
+        self.audio_state = create_audio_helper()
+        self.player = create_player_helper()
 
         PageState.page.add(self.bluetooth_device_edit_dialog)
 
     def update_connected_device(self):
         name = bluetooth_helper.get_connected_device_name()
         if name != "":
-            self.audio_state.bluetooth_connected()
+            self.player.bluetooth_connected()
             self.on_connected()
             while not any(obj["name"] == name for obj in self.paired_devices):
                 self.reload_devices()
@@ -88,7 +90,7 @@ class BluetoothDeviceConnected:
             == device["mac_address"].upper()
         ):
             bluetooth_helper.disconnect(device["mac_address"])
-            self.audio_state.bluetooth_disconnected()
+            self.player.bluetooth_disconnected()
             self.on_disconnected()
 
         self.reload_devices()
