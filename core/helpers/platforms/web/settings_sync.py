@@ -10,3 +10,6 @@ class WebSettingsSyncHelper(BaseSettingsSyncHelper):
 
     def reset_settings_file(self, filename):
         pass
+
+    def validate_and_repair_all_settings(self):
+        pass
