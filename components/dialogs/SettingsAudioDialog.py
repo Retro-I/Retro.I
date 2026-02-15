@@ -36,7 +36,9 @@ class SettingsAudioDialog(ft.AlertDialog):
                     "Lieblingsradiosender nach Systemstart abspielen",
                     label_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_autoplay(),
-                    value=self.audio_state.is_default_station_autoplay_enabled(),
+                    value=(
+                        self.audio_state.is_default_station_autoplay_enabled()
+                    ),
                 ),
             ],
         )

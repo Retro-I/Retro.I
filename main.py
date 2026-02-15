@@ -18,8 +18,9 @@ from core.helpers.factories.settings_sync import create_settings_sync_helper
 from core.helpers.factories.sounds import create_sounds_helper
 from core.helpers.factories.system import create_system_helper
 from core.helpers.factories.theme import create_theme_helper
-from core.settings.factories.radio_stations import \
-    create_radio_stations_settings
+from core.settings.factories.radio_stations import (
+    create_radio_stations_settings,
+)
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants

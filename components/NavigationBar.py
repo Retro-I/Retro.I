@@ -52,7 +52,10 @@ class NavigationBar(ft.NavigationBar):
                 )
             )
 
-        if TabsEnum.SOUNDBOARD in target_tabs and self.system_helper.is_party_mode():
+        if (
+            TabsEnum.SOUNDBOARD in target_tabs
+            and self.system_helper.is_party_mode()
+        ):
             destinations.append(
                 ft.NavigationBarDestination(
                     label="Soundboard",

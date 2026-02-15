@@ -66,9 +66,7 @@ class LogsHelper:
             f"{self.audio_state.is_default_station_autoplay_enabled()}"
         )
         logger.info(" Strip")
-        logger.info(
-            f"     Is active: {self.strip_settings.is_strip_active()}"
-        )
+        logger.info(f"     Is active: {self.strip_settings.is_strip_active()}")
         logger.info(f"     Length: {self.strip_settings.get_led_length()}")
         logger.info(
             f"     Brightness: {self.strip_settings.get_curr_brightness()}"

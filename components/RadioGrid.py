@@ -5,7 +5,9 @@ from core.factories.strip_factory import create_strip_state
 from core.helpers.factories.audio import create_audio_helper
 from core.helpers.factories.player import create_player_helper
 from core.helpers.factories.system import create_system_helper
-from core.settings.factories.radio_stations import create_radio_stations_settings
+from core.settings.factories.radio_stations import (
+    create_radio_stations_settings,
+)
 from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
