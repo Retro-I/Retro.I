@@ -7,17 +7,17 @@ from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.color import BLACK, GREEN, RED, WHITE
 from flet.core.control_event import ControlEvent
 
-from core.factories.audio_factory import create_audio_state
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.color import create_color_helper
+from core.settings.factories.strip import create_strip_settings
 from helper.BassStepsHelper import BassStepsHelper
-from helper.ColorHelper import ColorHelper
 from helper.Constants import Constants
-from helper.StripSettingsHelper import StripSettingsHelper
 from utils.WaiterProcess import WaiterProcess
 
 c = Constants()
-settings_helper = StripSettingsHelper()
+settings_helper = create_strip_settings()
 bass_steps_helper = BassStepsHelper()
-color_helper = ColorHelper()
+color_helper = create_color_helper()
 
 
 class Strip:
@@ -36,7 +36,7 @@ class Strip:
         pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK
     )
 
-    audio_state = create_audio_state()
+    audio_state = create_audio_helper()
 
     def __new__(cls):
         if cls._instance is None:
@@ -175,7 +175,7 @@ class Strip:
 
     def update_strip(self, color):
         self.sound_mode_active = True
-        strip_color = color_helper.toRgb(color)
+        strip_color = color_helper.to_rgb(color)
         self.curr_color = strip_color
         self.animation.color = strip_color
         self.pixels.fill(strip_color)

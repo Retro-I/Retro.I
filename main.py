@@ -12,7 +12,14 @@ from components.view.Taskbar import Taskbar
 from components.view.Theme import Theme
 from core.app_platform import AppPlatform, get_app_platform
 from core.app_state import AppState
-from core.factories.audio_factory import create_audio_state
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.player import create_player_helper
+from core.helpers.factories.settings_sync import create_settings_sync_helper
+from core.helpers.factories.sounds import create_sounds_helper
+from core.helpers.factories.system import create_system_helper
+from core.helpers.factories.theme import create_theme_helper
+from core.settings.factories.radio_stations import \
+    create_radio_stations_settings
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
@@ -20,31 +27,27 @@ from helper.GpioHelper import GpioHelper
 from helper.LogsHelper import LogsHelper
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
-from helper.SettingsSyncHelper import SettingsSyncHelper
-from helper.Sounds import Sounds
 from helper.StartupErrorHelper import StartupErrorHelper
-from helper.Stations import Stations
 from helper.Strip import Strip
-from helper.SystemHelper import SystemHelper
-from helper.ThemeHelper import ThemeHelper
 from helper.WifiHelper import WifiHelper
 
 wifi_helper = WifiHelper()
 radio_helper = RadioHelper()
 bluetooth_helper = BluetoothHelper()
-system_helper = SystemHelper()
+system_helper = create_system_helper()
 startup_error_helper = StartupErrorHelper()
-settings_sync_helper = SettingsSyncHelper()
-stations_helper = Stations()
+settings_sync_helper = create_settings_sync_helper()
+stations_helper = create_radio_stations_settings()
 constants = Constants()
-sounds = Sounds()
+sounds_helper = create_sounds_helper()
 page_helper = PageState()
 audio_effects = AudioEffects()
-theme_helper = ThemeHelper()
+theme_helper = create_theme_helper()
 gpio_helper = GpioHelper()
 logs_helper = LogsHelper()
 
-audio_state = create_audio_state()
+audio_state = create_audio_helper()
+player = create_player_helper()
 
 
 def on_error(e):
@@ -110,7 +113,7 @@ def main(page: ft.Page):
         RotaryBass()
         RotaryTreble()
 
-        audio_state.startup_sound()
+        player.startup_sound()
         audio_effects.start()
 
     page.on_error = None

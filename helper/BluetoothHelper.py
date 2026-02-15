@@ -3,9 +3,6 @@ import re
 import subprocess
 
 from helper.PageState import PageState
-from helper.SystemHelper import SystemHelper
-
-system_helper = SystemHelper()
 
 
 class BluetoothHelper:

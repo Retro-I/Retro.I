@@ -6,10 +6,11 @@ from flet.core.types import AppView
 
 from components.view.Theme import Theme
 from core.app_state import AppState
+from core.enums.tabs_enum import TabsEnum
+from core.helpers.factories.theme import create_theme_helper
 from helper.PageState import PageState
-from helper.ThemeHelper import ThemeHelper
 
-theme_helper = ThemeHelper()
+theme_helper = create_theme_helper()
 
 
 def main(page: ft.Page):
@@ -20,7 +21,11 @@ def main(page: ft.Page):
 
     PageState.page = page
 
-    theme = Theme()
+    audio = ft.Audio(src="https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid", autoplay=False)
+    PageState.page.overlay.append(audio)
+    PageState.audio = audio
+
+    theme = Theme([TabsEnum.RADIO])
 
     page.navigation_bar = theme.navbar
     page.window.maximized = True
@@ -48,4 +53,4 @@ def main(page: ft.Page):
     process.start()
 
 
-ft.app(main, view=AppView.WEB_BROWSER, assets_dir="assets")
+ft.app(main, view=AppView.WEB_BROWSER, port=8550, assets_dir="assets")

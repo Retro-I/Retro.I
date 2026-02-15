@@ -7,6 +7,7 @@ import unittest
 from unittest import mock
 from unittest.mock import MagicMock, patch
 
+from core.helpers.factories.player import create_player_helper
 from helper.Constants import Constants
 from test.base_test import BaseTest
 
@@ -80,6 +81,7 @@ class TestAudioSounds(unittest.TestCase):
         ):
             with mock.patch.object(Audio, "init_sound"):
                 self.audio_helper = Audio()
+                self.player = create_player_helper()
                 self.audio_helper.AUDIO_SETTINGS_PATH = (
                     self.audio_settings_temp_file
                 )
@@ -107,7 +109,7 @@ class TestAudioSounds(unittest.TestCase):
         )
 
         with patch.object(self.audio_helper, "play_sound") as mock:
-            self.audio_helper.startup_sound()
+            self.player.startup_sound()
             mock.assert_called_once_with(startup)
 
     def test_shutdown_sound(self):
@@ -122,7 +124,7 @@ class TestAudioSounds(unittest.TestCase):
 
         with patch.object(self.audio_helper, "play_sound") as mock_play_sound:
             with patch.object(self.audio_helper, "pause") as mock_pause:
-                self.audio_helper.shutdown_sound()
+                self.player.shutdown_sound()
                 mock_pause.assert_called_once()
                 mock_play_sound.assert_called_once_with(shutdown)
 
@@ -142,7 +144,7 @@ class TestAudioSounds(unittest.TestCase):
         )
 
         with patch.object(self.audio_helper, "play_sound") as mock:
-            self.audio_helper.bluetooth_connected()
+            self.player.bluetooth_connected()
             mock.assert_called_once_with(bluetooth_connected)
 
     def test_bluetooth_disconnected_sound(self):
@@ -161,7 +163,7 @@ class TestAudioSounds(unittest.TestCase):
         )
 
         with patch.object(self.audio_helper, "play_sound") as mock:
-            self.audio_helper.bluetooth_disconnected()
+            self.player.bluetooth_disconnected()
             mock.assert_called_once_with(bluetooth_disconnected)
 
         @patch("helper.Sounds.get_random_toast")

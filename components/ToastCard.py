@@ -1,6 +1,6 @@
 import flet as ft
 
-from core.factories.audio_factory import create_audio_state
+from core.helpers.factories.audio import create_audio_helper
 from helper.Constants import Constants
 
 c = Constants()
@@ -10,7 +10,7 @@ class ToastCard(ft.Column):
     def __init__(self):
         super().__init__()
 
-        self.audio_state = create_audio_state()
+        self.audio_state = create_audio_helper()
 
         self.width = 300
         self.controls = [

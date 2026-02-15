@@ -8,8 +8,9 @@ from datetime import datetime
 import netifaces
 import psutil
 
-from core.factories.audio_factory import create_audio_state
 from core.factories.strip_factory import create_strip_state
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.player import create_player_helper
 from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.StartupErrorHelper import StartupErrorHelper
@@ -23,19 +24,20 @@ class SystemHelper:
     is_party = "0"
 
     def __init__(self):
-        self.init_party_mode()
+        self._init_party_mode()
         self._update_process: subprocess.Popen | None = None
         self.strip_state = create_strip_state()
-        self.audio_state = create_audio_state()
+        self.audio_state = create_audio_helper()
+        self.player = create_player_helper()
 
     def shutdown_system(self):
-        self.audio_state.shutdown_sound()
+        self.player.shutdown_sound()
         self.strip_state.disable()
         time.sleep(3)
         os.system("sudo shutdown -h 0")
 
     def restart_system(self):
-        self.audio_state.shutdown_sound()
+        self.player.shutdown_sound()
         self.strip_state.disable()
         time.sleep(3)
         os.system("sudo reboot")
@@ -95,7 +97,7 @@ class SystemHelper:
 
         return f"{Constants.pwd()}/assets/stations/{img_src}"
 
-    def init_party_mode(self):
+    def _init_party_mode(self):
         self.is_party = os.environ.get("PARTY_MODE", "0")
 
     def is_party_mode(self):

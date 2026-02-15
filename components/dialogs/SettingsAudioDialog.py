@@ -2,18 +2,14 @@ import flet as ft
 
 from components.VolumeInputField import VolumeInputField
 from components.VolumeStepInputField import VolumeStepInputField
-from core.factories.audio_factory import create_audio_state
-from helper.Audio import Audio
-from helper.Stations import Stations
-
-stations_helper = Stations()
+from core.helpers.factories.audio import create_audio_helper
 
 
 class SettingsAudioDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
 
-        self.audio_state = create_audio_state()
+        self.audio_state = create_audio_helper()
 
         self.audio_dropdown = ft.Dropdown(
             editable=True,

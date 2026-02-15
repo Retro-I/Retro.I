@@ -5,29 +5,29 @@ import subprocess
 import time
 
 import alsaaudio as a
-import mpv
 from playsound3 import playsound
 
+from core.helpers.factories.player import create_player_helper
+from core.helpers.factories.settings_sync import create_settings_sync_helper
+from core.helpers.factories.sounds import create_sounds_helper
 from helper.Constants import Constants
-from helper.SettingsSyncHelper import SettingsSyncHelper
-from helper.Sounds import Sounds
 
 c = Constants()
-sounds = Sounds()
-settings_sync_helper = SettingsSyncHelper()
 
 
 class Audio:
     SETTING = "audio-settings.json"
     AUDIO_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
-    player = mpv.MPV(ytdl=True)
-    current_sound = ""
     toast_playing = False
 
     def __init__(self):
         home_dir = os.environ.get("HOME")
         self.mixers_path = f"{home_dir}/mixers.txt"
+
+        self.settings_sync_helper = create_settings_sync_helper()
+        self.sounds_helper = create_sounds_helper()
+        self.player = create_player_helper()
 
     def init_sound(self):
         self._unmute()
@@ -60,37 +60,6 @@ class Audio:
 
     def is_mute(self):
         return self._mixer().getmute()[0] == 1
-
-    def play_src(self, src):
-        try:
-            self.pause()
-        except Exception:
-            print("Fehler beim abspielen des Radiosenders")
-        Audio.current_sound = src
-        self._play()
-
-    def _play(self):
-        Audio.player.play(Audio.current_sound)
-
-    def pause(self):
-        Audio.player.stop()
-
-    def _play_sound(self, src):
-        Audio.current_sound = src
-        self._play()
-
-    def startup_sound(self):
-        self._play_sound(f"{c.system_sound_path()}/startup.mp3")
-
-    def shutdown_sound(self):
-        self.pause()
-        self._play_sound(f"{c.system_sound_path()}/shutdown.mp3")
-
-    def bluetooth_connected(self):
-        self._play_sound(f"{c.system_sound_path()}/bluetooth_connected.mp3")
-
-    def bluetooth_disconnected(self):
-        self._play_sound(f"{c.system_sound_path()}/bluetooth_disconnected.mp3")
 
     def get_audio_sinks(self) -> list[dict]:
         result = subprocess.run(
@@ -164,14 +133,14 @@ class Audio:
         os.system(f"wpctl set-default {sink_id}")
 
     def play_toast(self):
-        toast_src = sounds.get_random_toast()
+        toast_src = self.sounds_helper.get_random_toast()
         if not self.toast_playing:
             self.toast_playing = True
-            self.pause()
+            self.player.pause()
             self.wait()
             self.toast = playsound(f"{c.toast_path()}/{toast_src}")
             self.wait()
-            self._play()
+            self.player.play()
             self.toast_playing = False
 
     def play_sound_board(self, src):
@@ -189,7 +158,7 @@ class Audio:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.reset_settings_file(self.SETTING)
+            self.settings_sync_helper.reset_settings_file(self.SETTING)
             return _get_data()
 
     def is_default_station_autoplay_enabled(self) -> bool:

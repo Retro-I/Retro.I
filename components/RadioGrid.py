@@ -1,17 +1,16 @@
 import flet as ft
 
 from components.dialogs.StationModifyDialog import StationModifyDialog
-from core.factories.audio_factory import create_audio_state
 from core.factories.strip_factory import create_strip_state
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.player import create_player_helper
+from core.helpers.factories.system import create_system_helper
+from core.settings.factories.radio_stations import create_radio_stations_settings
 from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
-from helper.Stations import Stations
-from helper.SystemHelper import SystemHelper
 
 constants = Constants()
-stations_helper = Stations()
-system_helper = SystemHelper()
 radio_helper = RadioHelper()
 
 
@@ -25,7 +24,10 @@ class RadioGrid(ft.GridView):
         super().__init__()
 
         self.strip_state = create_strip_state()
-        self.audio_state = create_audio_state()
+        self.audio_state = create_audio_helper()
+        self.player = create_player_helper()
+        self.system_helper = create_system_helper()
+        self.stations = create_radio_stations_settings()
 
         self.station_modify_dialog = StationModifyDialog()
         self.on_theme_change_radio_station = on_theme_change_radio_station
@@ -48,9 +50,9 @@ class RadioGrid(ft.GridView):
     def reload(self):
         self.controls.clear()
         Constants.indicator_refs = []
-        favorite_station: object | None = stations_helper.get_favorite_station()
+        favorite_station: object | None = self.stations.get_favorite_station()
 
-        for i, station in enumerate(stations_helper.load_radio_stations()):
+        for i, station in enumerate(self.stations.load_radio_stations()):
             Constants.indicator_refs.append(ft.Ref[ft.Container]())
             self.controls.append(
                 ft.Stack(
@@ -115,7 +117,7 @@ class RadioGrid(ft.GridView):
 
         self.toggle_indicator(index)
 
-        self.audio_state.play_src(station["src"])
+        self.player.play_src(station["src"])
 
         self.strip_state.update_strip(color)
 
@@ -125,7 +127,7 @@ class RadioGrid(ft.GridView):
     def stop_radio_station(self):
         Constants.current_radio_station = {}
         self.toggle_indicator()
-        self.audio_state.pause()
+        self.player.pause()
         self.on_theme_stop_radio_station()
 
     def disable_indicator(self):
@@ -139,7 +141,7 @@ class RadioGrid(ft.GridView):
 
     def get_logo(self, station):
         return ft.Image(
-            src=system_helper.get_img_path(station["logo"]),
+            src=self.system_helper.get_img_path(station["logo"]),
             border_radius=ft.border_radius.all(4),
             fit=ft.ImageFit.FIT_WIDTH,
         )

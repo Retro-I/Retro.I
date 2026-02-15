@@ -1,9 +1,8 @@
 import flet as ft
 
+from core.helpers.factories.system import create_system_helper
 from helper.RevisionHelper import RevisionHelper
-from helper.SystemHelper import SystemHelper
 
-system_helper = SystemHelper()
 revision_helper = RevisionHelper()
 
 
@@ -23,6 +22,8 @@ class Info(ft.ListView):
     def __init__(self):
         super().__init__()
 
+        self.system_helper = create_system_helper()
+
         self.expand = True
         self.controls = [
             ft.Text("System", weight=ft.FontWeight.BOLD, size=28),
@@ -33,7 +34,7 @@ class Info(ft.ListView):
             ft.Text(
                 spans=[
                     ft.TextSpan("Datum: "),
-                    ft.TextSpan(system_helper.get_curr_date()),
+                    ft.TextSpan(self.system_helper.get_curr_date()),
                 ],
                 size=20,
             ),
@@ -81,18 +82,18 @@ class Info(ft.ListView):
         self.version_text.text = revision_helper.get_current_revision()
         self.version_text.update()
 
-        self.cpu_temp_text.text = system_helper.get_cpu_temp()
+        self.cpu_temp_text.text = self.system_helper.get_cpu_temp()
         self.cpu_temp_text.update()
 
         self.download_rate_text.text = round(
-            system_helper.get_download_rate(), 2
+            self.system_helper.get_download_rate(), 2
         )
         self.download_rate_text.update()
 
         self.update_ip_config()
 
     def update_ip_config(self):
-        ip_config = system_helper.get_network_config()
+        ip_config = self.system_helper.get_network_config()
 
         self.ssid_text.text = ip_config["ssid"] or ""
         self.ip_text.text = ip_config["ip"] or ""

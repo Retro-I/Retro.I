@@ -5,16 +5,14 @@ from components.view.tabs.RadioTab import RadioTab
 from components.view.tabs.SettingsTab import SettingsTab
 from components.view.tabs.SoundboardTab import SoundboardTab
 from core.app_state import AppState
-from core.factories.audio_factory import create_audio_state
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.system import create_system_helper
+from core.helpers.factories.theme import create_theme_helper
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
 from helper.PageState import PageState
-from helper.SystemHelper import SystemHelper
-from helper.ThemeHelper import ThemeHelper
 
 bluetooth_helper = BluetoothHelper()
-system_helper = SystemHelper()
-theme_helper = ThemeHelper()
 
 
 class Tabs:
@@ -29,7 +27,9 @@ class Tabs:
         soundboard_tab: SoundboardTab,
         settings_tab: SettingsTab,
     ):
-        self.audio_state = create_audio_state()
+        self.system_helper = create_system_helper()
+        self.audio_state = create_audio_helper()
+        self.theme_helper = create_theme_helper()
 
         self.radio_tab = radio_tab
         self.bluetooth_tab = bluetooth_tab
@@ -37,7 +37,7 @@ class Tabs:
         self.settings_tab = settings_tab
 
     def change_tab(self, e):
-        PageState.page.theme_mode = theme_helper.get_theme()
+        PageState.page.theme_mode = self.theme_helper.get_theme()
         PageState.page.update()
 
         new_tab_index = e.control.selected_index
@@ -58,7 +58,7 @@ class Tabs:
             self.switch_bluetooth_tab()
 
         if new_tab_index == 2:
-            if system_helper.is_party_mode():
+            if self.system_helper.is_party_mode():
                 self.switch_soundboard_tab()
             else:
                 self.switch_settings_tab()

@@ -2,20 +2,20 @@ import flet as ft
 
 from components.dialogs.SplashscreenDialog import SplashscreenDialog
 from components.dialogs.UpdatesRestartDialog import UpdatesRestartDialog
+from core.helpers.factories.system import create_system_helper
 from core.settings.factories.scrollbar import create_scrollbar_settings
 from helper.PageState import PageState
-from helper.SystemHelper import SystemHelper
-
-system_helper = SystemHelper()
 
 
 class SettingsDisplayDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
+
+        self.system_helper = create_system_helper()
+        self.scrollbar_settings = create_scrollbar_settings()
+
         self.updates_restart_dialog = UpdatesRestartDialog()
         self.splashscreen_dialog = SplashscreenDialog(self)
-
-        self.scrollbar_settings = create_scrollbar_settings()
 
         PageState.page.add(self.updates_restart_dialog)
         PageState.page.add(self.splashscreen_dialog)
@@ -44,7 +44,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
                             max=100,
                             divisions=19,
                             label="{value}%",
-                            value=system_helper.get_curr_brightness(),
+                            value=self.system_helper.get_curr_brightness(),
                             on_change=self.slider_changed,
                             expand=True,
                         ),
@@ -66,7 +66,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
         self.updates_restart_dialog.open_dialog()
 
     def slider_changed(self, e):
-        system_helper.change_screen_brightness(e.control.value)
+        self.system_helper.change_screen_brightness(e.control.value)
 
     def open_splashscreen_dialog(self):
         self.splashscreen_dialog.open_dialog()
