@@ -14,3 +14,6 @@ class PiSettingsSyncHelper(BaseSettingsSyncHelper):
 
     def reset_settings_file(self, filename):
         self.helper.reset_settings_file(filename)
+
+    def validate_and_repair_all_settings(self):
+        self.helper.validate_and_repair_all_settings()
