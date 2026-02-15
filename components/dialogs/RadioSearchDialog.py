@@ -6,9 +6,7 @@ from components.RadioGrid import RadioGrid
 from components.Scrollbar import with_scrollbar_space
 from helper.Constants import Constants
 from helper.RadioHelper import RadioHelper
-from helper.SystemHelper import SystemHelper
 
-system_helper = SystemHelper()
 radio_helper = RadioHelper()
 constants = Constants()
 

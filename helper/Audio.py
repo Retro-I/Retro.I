@@ -5,92 +5,61 @@ import subprocess
 import time
 
 import alsaaudio as a
-import mpv
 from playsound3 import playsound
 
+from core.helpers.factories.player import create_player_helper
+from core.helpers.factories.settings_sync import create_settings_sync_helper
+from core.helpers.factories.sounds import create_sounds_helper
 from helper.Constants import Constants
-from helper.SettingsSyncHelper import SettingsSyncHelper
-from helper.Sounds import Sounds
 
 c = Constants()
-sounds = Sounds()
-settings_sync_helper = SettingsSyncHelper()
 
 
 class Audio:
     SETTING = "audio-settings.json"
     AUDIO_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
-    player = mpv.MPV(ytdl=True)
-    current_sound = ""
     toast_playing = False
 
     def __init__(self):
         home_dir = os.environ.get("HOME")
         self.mixers_path = f"{home_dir}/mixers.txt"
 
+        self.settings_sync_helper = create_settings_sync_helper()
+        self.sounds_helper = create_sounds_helper()
+        self.player = create_player_helper()
+
     def init_sound(self):
-        self.unmute()
+        self._unmute()
         self.set_volume(self.get_default_volume())
 
-    def mixer(self):
+    def _mixer(self):
         with open(self.mixers_path, "w") as f:
             f.write(str(a.mixers()))
         return a.Mixer("Master")
 
     def set_volume(self, value):
         if 0 <= value <= 100:
-            self.mixer().setvolume(value)
+            self._mixer().setvolume(value)
 
-    def mute(self):
-        self.mixer().setmute(1)
+    def _mute(self):
+        self._mixer().setmute(1)
 
-    def unmute(self):
-        self.mixer().setmute(0)
+    def _unmute(self):
+        self._mixer().setmute(0)
 
     def get_volume(self):
-        return self.mixer().getvolume()[0]
+        return self._mixer().getvolume()[0]
 
     def toggle_mute(self):
         if self.is_mute():
-            self.unmute()
+            self._unmute()
             return False
-        self.mute()
+        self._mute()
         return True
 
     def is_mute(self):
-        return self.mixer().getmute()[0] == 1
-
-    def play_src(self, src):
-        try:
-            self.pause()
-        except Exception:
-            print("Fehler beim abspielen des Radiosenders")
-        Audio.current_sound = src
-        self.play()
-
-    def play(self):
-        Audio.player.play(Audio.current_sound)
-
-    def pause(self):
-        Audio.player.stop()
-
-    def play_sound(self, src):
-        Audio.current_sound = src
-        self.play()
-
-    def startup_sound(self):
-        self.play_sound(f"{c.system_sound_path()}/startup.mp3")
-
-    def shutdown_sound(self):
-        self.pause()
-        self.play_sound(f"{c.system_sound_path()}/shutdown.mp3")
-
-    def bluetooth_connected(self):
-        self.play_sound(f"{c.system_sound_path()}/bluetooth_connected.mp3")
-
-    def bluetooth_disconnected(self):
-        self.play_sound(f"{c.system_sound_path()}/bluetooth_disconnected.mp3")
+        return self._mixer().getmute()[0] == 1
 
     def get_audio_sinks(self) -> list[dict]:
         result = subprocess.run(
@@ -164,14 +133,14 @@ class Audio:
         os.system(f"wpctl set-default {sink_id}")
 
     def play_toast(self):
-        toast_src = sounds.get_random_toast()
+        toast_src = self.sounds_helper.get_random_toast()
         if not self.toast_playing:
             self.toast_playing = True
-            self.pause()
+            self.player.pause()
             self.wait()
             self.toast = playsound(f"{c.toast_path()}/{toast_src}")
             self.wait()
-            self.play()
+            self.player.play()
             self.toast_playing = False
 
     def play_sound_board(self, src):
@@ -189,7 +158,7 @@ class Audio:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.reset_settings_file(self.SETTING)
+            self.settings_sync_helper.reset_settings_file(self.SETTING)
             return _get_data()
 
     def is_default_station_autoplay_enabled(self) -> bool:

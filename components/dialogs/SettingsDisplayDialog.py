@@ -2,17 +2,18 @@ import flet as ft
 
 from components.dialogs.SplashscreenDialog import SplashscreenDialog
 from components.dialogs.UpdatesRestartDialog import UpdatesRestartDialog
+from core.helpers.factories.system import create_system_helper
+from core.settings.factories.scrollbar import create_scrollbar_settings
 from helper.PageState import PageState
-from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
-from helper.SystemHelper import SystemHelper
-
-system_helper = SystemHelper()
-scrollbar_settings_helper = ScrollbarSettingsHelper()
 
 
 class SettingsDisplayDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
+
+        self.system_helper = create_system_helper()
+        self.scrollbar_settings = create_scrollbar_settings()
+
         self.updates_restart_dialog = UpdatesRestartDialog()
         self.splashscreen_dialog = SplashscreenDialog(self)
 
@@ -29,7 +30,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
                     "Scrollbar anzeigen (Neustart erforderlich!)",
                     label_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_scrollbar(),
-                    value=scrollbar_settings_helper.is_scrollbar_enabled(),
+                    value=self.scrollbar_settings.is_scrollbar_enabled(),
                 ),
                 ft.Divider(),
                 ft.Column(
@@ -43,7 +44,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
                             max=100,
                             divisions=19,
                             label="{value}%",
-                            value=system_helper.get_curr_brightness(),
+                            value=self.system_helper.get_curr_brightness(),
                             on_change=self.slider_changed,
                             expand=True,
                         ),
@@ -60,12 +61,12 @@ class SettingsDisplayDialog(ft.AlertDialog):
         )
 
     def toggle_enable_scrollbar(self):
-        scrollbar_settings_helper.toggle_scrollbar_enabled()
+        self.scrollbar_settings.toggle_scrollbar_enabled()
         self.close_dialog()
         self.updates_restart_dialog.open_dialog()
 
     def slider_changed(self, e):
-        system_helper.change_screen_brightness(e.control.value)
+        self.system_helper.change_screen_brightness(e.control.value)
 
     def open_splashscreen_dialog(self):
         self.splashscreen_dialog.open_dialog()

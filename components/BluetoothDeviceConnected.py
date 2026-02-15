@@ -6,41 +6,42 @@ from components.dialogs.BluetoothDeviceEditDialog import (
     BluetoothDeviceEditDialog,
 )
 from components.Scrollbar import with_scrollbar_space
-from components.view.Taskbar import Taskbar
-from helper.Audio import Audio
+from core.app_state import AppState
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.player import create_player_helper
 from helper.BluetoothHelper import BluetoothHelper
 from helper.PageState import PageState
 
 bluetooth_helper = BluetoothHelper()
-audio_helper = Audio()
 
 
 class BluetoothDeviceConnected:
     listview = with_scrollbar_space(ft.ListView(spacing=10, expand=True))
-    taskbar = None
     paired_devices = []
     bluetooth_device_edit_dialog: BluetoothDeviceEditDialog = None
     on_connected = None
     on_disconnected = None
 
-    def __init__(self, taskbar: Taskbar, on_connected, on_disconnected):
-        self.taskbar = taskbar
+    def __init__(self, on_connected, on_disconnected):
         self.bluetooth_device_edit_dialog = BluetoothDeviceEditDialog()
         self.on_connected = on_connected
         self.on_disconnected = on_disconnected
+
+        self.audio_state = create_audio_helper()
+        self.player = create_player_helper()
 
         PageState.page.add(self.bluetooth_device_edit_dialog)
 
     def update_connected_device(self):
         name = bluetooth_helper.get_connected_device_name()
         if name != "":
-            audio_helper.bluetooth_connected()
+            self.player.bluetooth_connected()
             self.on_connected()
             while not any(obj["name"] == name for obj in self.paired_devices):
                 self.reload_devices()
                 time.sleep(1)
 
-        self.taskbar.update()
+        AppState.app_state.update_taskbar()
 
         return name != ""
 
@@ -89,7 +90,7 @@ class BluetoothDeviceConnected:
             == device["mac_address"].upper()
         ):
             bluetooth_helper.disconnect(device["mac_address"])
-            audio_helper.bluetooth_disconnected()
+            self.player.bluetooth_disconnected()
             self.on_disconnected()
 
         self.reload_devices()

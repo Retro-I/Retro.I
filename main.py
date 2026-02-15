@@ -10,7 +10,17 @@ from components.RotaryTreble import RotaryTreble
 from components.RotaryVolume import RotaryVolume
 from components.view.Taskbar import Taskbar
 from components.view.Theme import Theme
-from helper.Audio import Audio
+from core.app_platform import AppPlatform, get_app_platform
+from core.app_state import AppState
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.player import create_player_helper
+from core.helpers.factories.settings_sync import create_settings_sync_helper
+from core.helpers.factories.sounds import create_sounds_helper
+from core.helpers.factories.system import create_system_helper
+from core.helpers.factories.theme import create_theme_helper
+from core.settings.factories.radio_stations import (
+    create_radio_stations_settings,
+)
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
@@ -18,30 +28,27 @@ from helper.GpioHelper import GpioHelper
 from helper.LogsHelper import LogsHelper
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
-from helper.SettingsSyncHelper import SettingsSyncHelper
-from helper.Sounds import Sounds
 from helper.StartupErrorHelper import StartupErrorHelper
-from helper.Stations import Stations
 from helper.Strip import Strip
-from helper.SystemHelper import SystemHelper
-from helper.ThemeHelper import ThemeHelper
 from helper.WifiHelper import WifiHelper
 
 wifi_helper = WifiHelper()
 radio_helper = RadioHelper()
 bluetooth_helper = BluetoothHelper()
-system_helper = SystemHelper()
+system_helper = create_system_helper()
 startup_error_helper = StartupErrorHelper()
-settings_sync_helper = SettingsSyncHelper()
-stations_helper = Stations()
+settings_sync_helper = create_settings_sync_helper()
+stations_helper = create_radio_stations_settings()
 constants = Constants()
-sounds = Sounds()
-audio_helper = Audio()
+sounds_helper = create_sounds_helper()
 page_helper = PageState()
 audio_effects = AudioEffects()
-theme_helper = ThemeHelper()
+theme_helper = create_theme_helper()
 gpio_helper = GpioHelper()
 logs_helper = LogsHelper()
+
+audio_state = create_audio_helper()
+player = create_player_helper()
 
 
 def on_error(e):
@@ -52,31 +59,26 @@ def on_error(e):
 
 def init():
     settings_sync_helper.validate_and_repair_all_settings()
-    audio_helper.init_sound()
+    audio_state.init_sound()
     logs_helper.print_debug_infos()
 
 
 def main(page: ft.Page):
     init()
 
+    AppState()
+
     page.on_error = on_error
     page.theme_mode = theme_helper.get_theme()
     page.update()
-
-    start = time.time()
 
     PageState.page = page
 
     bluetooth_helper.on_startup()
 
-    strip = Strip()
-    taskbar = Taskbar(
-        on_volume_update=strip.update_sound_strip,
-        on_mute_update=strip.toggle_mute,
-        on_bass_update=strip.update_bass_strip,
-        on_treble_update=strip.update_treble_strip,
-    )
-    theme = Theme(taskbar, strip.update_strip)
+    Strip()
+    taskbar = Taskbar()
+    theme = Theme()
 
     page.navigation_bar = theme.navbar
     page.appbar = taskbar
@@ -87,7 +89,7 @@ def main(page: ft.Page):
     page.dark_theme = theme.get()
     page.title = "Retro.I"
 
-    button = GpioButton(21, audio_helper.play_toast)
+    button = GpioButton(21, audio_state.play_toast)
     button.activate()
 
     shutdown_button = GpioButton(
@@ -107,39 +109,27 @@ def main(page: ft.Page):
 
     page.update()
 
-    RotaryVolume(
-        on_taskbar_update=taskbar.update,
-        on_strip_toggle_mute=strip.toggle_mute,
-        on_strip_update_sound=strip.update_sound_strip,
-    )
-    RotaryBass(
-        on_taskbar_update=taskbar.update, on_bass_update=strip.update_bass_strip
-    )
-    RotaryTreble(
-        on_taskbar_update=taskbar.update,
-        on_treble_update=strip.update_treble_strip,
-    )
+    if get_app_platform() == AppPlatform.PI:
+        RotaryVolume()
+        RotaryBass()
+        RotaryTreble()
 
-    audio_helper.startup_sound()
-    audio_effects.start()
-
-    end = time.time()
+        player.startup_sound()
+        audio_effects.start()
 
     page.on_error = None
-
-    print(f"Startup took: {end-start}")
 
     def background_processes():
         while True:
             theme.radio_tab.song_info_row.reload()
-            taskbar.update()
+            AppState.app_state.update_taskbar()
             time.sleep(2)
 
     process = threading.Thread(target=background_processes)
     process.start()
 
     if (
-        audio_helper.is_default_station_autoplay_enabled()
+        audio_state.is_default_station_autoplay_enabled()
         and stations_helper.get_favorite_station() is not None
     ):
         theme.radio_tab.radio_grid.change_radio_station(

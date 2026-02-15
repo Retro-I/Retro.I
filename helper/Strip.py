@@ -1,4 +1,5 @@
 import math
+import threading
 
 import board
 import neopixel
@@ -6,21 +7,23 @@ from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.color import BLACK, GREEN, RED, WHITE
 from flet.core.control_event import ControlEvent
 
-from helper.Audio import Audio
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.color import create_color_helper
+from core.settings.factories.strip import create_strip_settings
 from helper.BassStepsHelper import BassStepsHelper
-from helper.ColorHelper import ColorHelper
 from helper.Constants import Constants
-from helper.StripSettingsHelper import StripSettingsHelper
 from utils.WaiterProcess import WaiterProcess
 
 c = Constants()
-settings_helper = StripSettingsHelper()
+settings_helper = create_strip_settings()
 bass_steps_helper = BassStepsHelper()
-color_helper = ColorHelper()
-audio_helper = Audio()
+color_helper = create_color_helper()
 
 
 class Strip:
+    _instance = None
+    _lock = threading.Lock()
+
     is_active = settings_helper.is_strip_active()
     sound_mode_active = False
     curr_color = GREEN
@@ -33,7 +36,17 @@ class Strip:
         pixels, min_intensity=0.1, speed=0.1, period=5, color=BLACK
     )
 
-    def __init__(self):
+    audio_state = create_audio_helper()
+
+    def __new__(cls):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+                    cls._instance._init_strip()
+        return cls._instance
+
+    def _init_strip(self):
         if settings_helper.is_strip_active():
             self.pixels.fill(GREEN)
 
@@ -50,7 +63,7 @@ class Strip:
             self.pixels.show()
             return
 
-        if not audio_helper.is_mute():
+        if not self.audio_state.is_mute():
             self.sound_mode_active = True
             self.pixels.fill(self.curr_color)
             self.pixels.show()
@@ -162,11 +175,11 @@ class Strip:
 
     def update_strip(self, color):
         self.sound_mode_active = True
-        strip_color = color_helper.toRgb(color)
+        strip_color = color_helper.to_rgb(color)
         self.curr_color = strip_color
         self.animation.color = strip_color
         self.pixels.fill(strip_color)
-        if not audio_helper.is_mute() and settings_helper.is_strip_active():
+        if not self.audio_state.is_mute() and settings_helper.is_strip_active():
             self.pixels.show()
 
     def toggle_strip(self, event: ControlEvent):

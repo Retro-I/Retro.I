@@ -8,44 +8,46 @@ from datetime import datetime
 import netifaces
 import psutil
 
-from helper.Audio import Audio
+from core.factories.strip_factory import create_strip_state
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.player import create_player_helper
 from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.StartupErrorHelper import StartupErrorHelper
-from helper.Strip import Strip
 
-audio_helper = Audio()
 page_helper = PageState()
 c = Constants()
 startup_error_helper = StartupErrorHelper()
 
 
 class SystemHelper:
-    strip = Strip()
     is_party = "0"
 
     def __init__(self):
-        self.init_party_mode()
+        self._init_party_mode()
         self._update_process: subprocess.Popen | None = None
+        self.strip_state = create_strip_state()
+        self.audio_state = create_audio_helper()
+        self.player = create_player_helper()
 
     def shutdown_system(self):
-        audio_helper.shutdown_sound()
-        self.strip.disable()
+        self.player.shutdown_sound()
+        self.strip_state.disable()
         time.sleep(3)
         os.system("sudo shutdown -h 0")
 
     def restart_system(self):
-        audio_helper.shutdown_sound()
-        self.strip.disable()
+        self.player.shutdown_sound()
+        self.strip_state.disable()
         time.sleep(3)
         os.system("sudo reboot")
 
     def stop_app(self):
-        self.strip.disable()
+        self.strip_state.disable()
         os.system("sudo systemctl stop retroi")
 
     def restart_app(self):
-        self.strip.disable()
+        self.strip_state.disable()
         os.system("sudo systemctl restart retroi")
 
     def change_revision(self, revision: str):
@@ -95,7 +97,7 @@ class SystemHelper:
 
         return f"{Constants.pwd()}/assets/stations/{img_src}"
 
-    def init_party_mode(self):
+    def _init_party_mode(self):
         self.is_party = os.environ.get("PARTY_MODE", "0")
 
     def is_party_mode(self):

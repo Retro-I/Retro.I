@@ -1,10 +1,10 @@
 import flet as ft
 
 from components.dialogs.StationDeleteDialog import StationDeleteDialog
+from core.settings.factories.radio_stations import (
+    create_radio_stations_settings,
+)
 from helper.PageState import PageState
-from helper.Stations import Stations
-
-stations_helper = Stations()
 
 
 class StationModifyDialog(ft.AlertDialog):
@@ -13,6 +13,8 @@ class StationModifyDialog(ft.AlertDialog):
 
     def __init__(self):
         super().__init__()
+
+        self.stations = create_radio_stations_settings()
 
         self.station_delete_dialog = StationDeleteDialog()
         PageState.page.add(self.station_delete_dialog)
@@ -38,7 +40,7 @@ class StationModifyDialog(ft.AlertDialog):
         )
 
     def on_set_favorite(self):
-        stations_helper.set_favorite_station(self.station)
+        self.stations.set_favorite_station(self.station)
         self.close()
         self.submit_callback()
 

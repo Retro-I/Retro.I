@@ -1,20 +1,22 @@
 import flet as ft
 
-from components.RotaryTreble import audio_effects, treble_steps_helper
-from helper.Audio import Audio
+from core.app_state import AppState
+from core.factories.strip_factory import create_strip_state
+from helper.AudioEffects import AudioEffects
 from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
+from helper.TrebleStepsHelper import TrebleStepsHelper
 
-audio_helper = Audio()
+audio_effects = AudioEffects()
 bass_steps_helper = BassStepsHelper()
+treble_steps_helper = TrebleStepsHelper()
 
 
 class AudioEffectsDialog(ft.AlertDialog):
-    def __init__(self, on_update_bass, on_update_treble):
-        super().__init__()
+    strip_state = create_strip_state()
 
-        self.on_update_bass = on_update_bass
-        self.on_update_treble = on_update_treble
+    def __init__(self):
+        super().__init__()
 
         self.bass_slider = ft.Slider(
             on_change=lambda e: self.on_bass_change(),
@@ -75,19 +77,20 @@ class AudioEffectsDialog(ft.AlertDialog):
     def on_bass_change(self):
         Constants.current_bass_step = int(self.bass_slider.value)
         audio_effects.update_bass(Constants.current_bass_step)
-        self.bass_text.value = f"{Constants.current_bass_step}"
-        self.bass_text.update()
+        self.update_content()
 
-        self.on_update_bass()
+        self.strip_state.update_bass_strip(Constants.current_bass_step)
+        AppState.app_state.update_taskbar()
 
     def on_treble_change(self):
         Constants.current_treble_step = int(self.treble_slider.value)
         audio_effects.update_treble(Constants.current_treble_step)
-        self.treble_text.value = f"{Constants.current_treble_step}"
-        self.treble_text.update()
+        self.update_content()
 
-        self.on_update_treble()
+        self.strip_state.update_treble_strip(Constants.current_treble_step)
+        AppState.app_state.update_taskbar()
 
     def open_dialog(self):
+        self.update_content()
         self.open = True
         self.update()

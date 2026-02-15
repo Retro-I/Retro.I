@@ -4,42 +4,40 @@ from components.view.tabs.BluetoothTab import BluetoothTab
 from components.view.tabs.RadioTab import RadioTab
 from components.view.tabs.SettingsTab import SettingsTab
 from components.view.tabs.SoundboardTab import SoundboardTab
-from components.view.Taskbar import Taskbar
-from helper.Audio import Audio
+from core.app_state import AppState
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.system import create_system_helper
+from core.helpers.factories.theme import create_theme_helper
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
 from helper.PageState import PageState
-from helper.SystemHelper import SystemHelper
-from helper.ThemeHelper import ThemeHelper
 
 bluetooth_helper = BluetoothHelper()
-system_helper = SystemHelper()
-audio_helper = Audio()
-theme_helper = ThemeHelper()
 
 
 class Tabs:
-    taskbar: Taskbar = None
     radio_tab: RadioTab = None
     bluetooth_tab: BluetoothTab = None
     settings_tab: SettingsTab = None
 
     def __init__(
         self,
-        taskbar: Taskbar,
         radio_tab: RadioTab,
         bluetooth_tab: BluetoothTab,
         soundboard_tab: SoundboardTab,
         settings_tab: SettingsTab,
     ):
-        self.taskbar = taskbar
+        self.system_helper = create_system_helper()
+        self.audio_state = create_audio_helper()
+        self.theme_helper = create_theme_helper()
+
         self.radio_tab = radio_tab
         self.bluetooth_tab = bluetooth_tab
         self.soundboard_tab = soundboard_tab
         self.settings_tab = settings_tab
 
     def change_tab(self, e):
-        PageState.page.theme_mode = theme_helper.get_theme()
+        PageState.page.theme_mode = self.theme_helper.get_theme()
         PageState.page.update()
 
         new_tab_index = e.control.selected_index
@@ -60,7 +58,7 @@ class Tabs:
             self.switch_bluetooth_tab()
 
         if new_tab_index == 2:
-            if system_helper.is_party_mode():
+            if self.system_helper.is_party_mode():
                 self.switch_soundboard_tab()
             else:
                 self.switch_settings_tab()
@@ -78,15 +76,15 @@ class Tabs:
 
         self.radio_tab.show()
         self.radio_tab.update()
-        self.taskbar.update()
+        AppState.app_state.update_taskbar()
 
     def switch_bluetooth_tab(self):
         Constants.current_radio_station = {}
 
-        audio_helper.pause()
+        self.audio_state.pause()
         bluetooth_helper.turn_on()
 
-        self.taskbar.update()
+        AppState.app_state.update_taskbar()
 
         self.bluetooth_tab.show()
 

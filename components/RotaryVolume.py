@@ -2,10 +2,11 @@ import threading
 
 from pyky040 import pyky040
 
-from helper.Audio import Audio
+from core.app_state import AppState
+from core.factories.strip_factory import create_strip_state
+from core.helpers.factories.audio import create_audio_helper
 from helper.GpioHelper import GpioHelper
 
-audio_helper = Audio()
 gpio_helper = GpioHelper()
 
 
@@ -15,12 +16,10 @@ class RotaryVolume:
     VOLUME_DOWN_PIN = gpio_helper.rotary_volume_down()
     VOLUME_MUTE_PIN = gpio_helper.rotary_volume_press()
 
-    def __init__(
-        self, on_taskbar_update, on_strip_toggle_mute, on_strip_update_sound
-    ):
-        self.on_taskbar_update = on_taskbar_update
-        self.on_strip_toggle_mute = on_strip_toggle_mute
-        self.on_strip_update_sound = on_strip_update_sound
+    strip_state = create_strip_state()
+
+    def __init__(self):
+        self.audio_state = create_audio_helper()
 
         rotary = pyky040.Encoder(
             CLK=self.VOLUME_UP_PIN,
@@ -37,7 +36,10 @@ class RotaryVolume:
 
     def inc_sound(self):
         if self.COUNTER % 2 == 0:
-            value = audio_helper.get_volume() + audio_helper.get_volume_step()
+            value = (
+                self.audio_state.get_volume()
+                + self.audio_state.get_volume_step()
+            )
             if 0 <= value <= 100:
                 self.update(value)
 
@@ -47,7 +49,10 @@ class RotaryVolume:
 
     def dec_sound(self):
         if self.COUNTER % 2 == 0:
-            value = audio_helper.get_volume() - audio_helper.get_volume_step()
+            value = (
+                self.audio_state.get_volume()
+                - self.audio_state.get_volume_step()
+            )
             if 0 <= value <= 100:
                 self.update(value)
 
@@ -56,12 +61,12 @@ class RotaryVolume:
         self.COUNTER -= 1
 
     def toggle_mute(self):
-        is_mute = audio_helper.toggle_mute()
-        self.on_strip_toggle_mute(is_mute)
-        self.on_taskbar_update()
+        is_mute = self.audio_state.toggle_mute()
+        self.strip_state.toggle_mute(is_mute)
+        AppState.app_state.update_taskbar()
 
     def update(self, value):
-        if not audio_helper.is_mute():
-            audio_helper.set_volume(value)
-            self.on_strip_update_sound(value)
-            self.on_taskbar_update()
+        if not self.audio_state.is_mute():
+            self.audio_state.set_volume(value)
+            self.strip_state.update_sound_strip(value)
+            AppState.app_state.update_taskbar()

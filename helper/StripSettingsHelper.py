@@ -1,15 +1,17 @@
 import json
 
+from core.helpers.factories.settings_sync import create_settings_sync_helper
 from helper.Constants import Constants
-from helper.SettingsSyncHelper import SettingsSyncHelper
 
 c = Constants()
-settings_sync_helper = SettingsSyncHelper()
 
 
 class StripSettingsHelper:
     SETTING = "strip-settings.json"
     STRIP_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
+
+    def __init__(self):
+        self.settings_sync_helper = create_settings_sync_helper()
 
     def is_strip_active(self) -> bool:
         settings = self.get_strip_settings()
@@ -32,7 +34,7 @@ class StripSettingsHelper:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.reset_settings_file(self.SETTING)
+            self.settings_sync_helper.reset_settings_file(self.SETTING)
             return _get_data()
 
     def update_settings(

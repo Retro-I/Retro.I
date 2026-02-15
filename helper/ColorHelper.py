@@ -10,7 +10,7 @@ tmp_path = "/tmp/output.png"
 
 
 class ColorHelper:
-    def toRgb(self, hex_value):
+    def to_rgb(self, hex_value):
         return ImageColor.getcolor(hex_value, "RGB")
 
     def extract_color(self, img_src):
