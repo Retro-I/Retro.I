@@ -1,6 +1,8 @@
 import flet as ft
 
-from core.settings.factories.radio_stations import create_radio_stations_settings
+from core.settings.factories.radio_stations import (
+    create_radio_stations_settings,
+)
 
 
 class StationDeleteDialog(ft.AlertDialog):

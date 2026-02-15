@@ -2,8 +2,9 @@ import flet as ft
 
 from components.dialogs.DuplicateDialog import DuplicateDialog
 from components.RadioGrid import RadioGrid
-from core.settings.factories.radio_stations import \
-    create_radio_stations_settings
+from core.settings.factories.radio_stations import (
+    create_radio_stations_settings,
+)
 from helper.Constants import Constants
 from helper.PageState import PageState
 
@@ -14,7 +15,6 @@ class StationAddDialog(ft.AlertDialog):
     station = {"name": ""}
 
     text = ft.Text(station["name"])
-
 
     def __init__(self, radio_grid: RadioGrid):
         super().__init__()

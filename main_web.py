@@ -21,7 +21,9 @@ def main(page: ft.Page):
 
     PageState.page = page
 
-    audio = ft.Audio(src="https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid", autoplay=False)
+    audio = ft.Audio(
+        src="https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid", autoplay=False
+    )
     PageState.page.overlay.append(audio)
     PageState.audio = audio
 
