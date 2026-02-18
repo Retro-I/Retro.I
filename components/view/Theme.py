@@ -1,8 +1,7 @@
 import flet as ft
 
+from helper.PartyModeHelper import PartyModeHelper
 from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
-from helper.StartupErrorHelper import StartupErrorHelper
-from scripts import button
 from components.NavigationBar import NavigationBar
 from components.view.Tabs import Tabs
 from components.view.tabs.BluetoothTab import BluetoothTab
@@ -15,6 +14,7 @@ from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
 scrollbar_settings_helper = ScrollbarSettingsHelper()
+party_mode_helper = PartyModeHelper()
 
 
 class Theme:
@@ -72,7 +72,7 @@ class Theme:
         tabs.append(self.radio_tab)
         tabs.append(self.bluetooth_tab)
 
-        if system_helper.is_party_mode():
+        if party_mode_helper.is_party_mode():
             tabs.append(self.soundboard_tab)
 
         tabs.append(self.settings_tab)

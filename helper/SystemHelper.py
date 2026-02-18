@@ -22,10 +22,8 @@ startup_error_helper = StartupErrorHelper()
 
 class SystemHelper:
     strip = Strip()
-    is_party = "0"
 
     def __init__(self):
-        self.init_party_mode()
         self._update_process: subprocess.Popen | None = None
 
     def shutdown_system(self):
@@ -94,12 +92,6 @@ class SystemHelper:
             return img_src
 
         return f"{Constants.pwd()}/assets/stations/{img_src}"
-
-    def init_party_mode(self):
-        self.is_party = os.environ.get("PARTY_MODE", "0")
-
-    def is_party_mode(self):
-        return self.is_party == "1"
 
     def open_keyboard(self):
         self.close_keyboard()
