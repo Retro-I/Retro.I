@@ -3,6 +3,7 @@ import subprocess
 
 from helper.Audio import Audio
 from helper.Constants import Constants
+from helper.PartyModeHelper import PartyModeHelper
 from helper.RevisionHelper import RevisionHelper
 from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
 from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
@@ -19,6 +20,7 @@ theme_helper = ThemeHelper()
 scrollbar_settings_helper = ScrollbarSettingsHelper()
 audio_helper = Audio()
 strip_settings_helper = StripSettingsHelper()
+party_mode_helper = PartyModeHelper()
 
 
 class LogsHelper:
@@ -38,7 +40,7 @@ class LogsHelper:
         logger.info(f" IP: {system_helper.get_ip_address()}")
         logger.info(f"     Over WIFI: {system_helper.get_current_ssid()}")
         logger.info(f"     Hostname: {system_helper.get_hostname()}")
-        logger.info(f" Party-Mode: {system_helper.is_party_mode()}")
+        logger.info(f" Party-Mode: {party_mode_helper.is_party_mode()}")
         logger.info(
             f" Secured-Mode: "
             f"{secured_mode_settings_helper.is_secured_mode_enabled()}"

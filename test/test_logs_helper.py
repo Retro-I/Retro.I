@@ -23,6 +23,8 @@ class TestStripSettingsHelper(unittest.TestCase):
             "amountLeds": 38,
             "brightness": 100,
             "isStripEnabled": True,
+            "isStaticColor": False,
+            "staticColor": "#00FF00",
         }
         super().setUp()
 
