@@ -8,6 +8,15 @@ from helper.Constants import Constants
 constants = Constants()
 
 
+strip_mock = {
+    "isStripEnabled": True,
+    "brightness": 100.0,
+    "amountLeds": 38,
+    "isStaticColor": False,
+    "staticColor": "#6A540C",
+}
+
+
 class TestBluetoothHelper(unittest.TestCase):
     @patch.dict(sys.modules, {"alsaaudio": MagicMock()})
     @patch.dict(sys.modules, {"playsound3": MagicMock()})
@@ -23,7 +32,9 @@ class TestBluetoothHelper(unittest.TestCase):
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
     @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
-    def setUp(self, _):
+    def setUp(self, get_strip_settings):
+        get_strip_settings.return_value = strip_mock
+
         from helper.BluetoothHelper import BluetoothHelper
 
         self.bluetooth_helper = BluetoothHelper()
