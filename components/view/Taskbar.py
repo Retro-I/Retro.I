@@ -70,7 +70,7 @@ class Taskbar(ft.AppBar):
         self.ico_wifi = ft.IconButton(
             icon=(
                 ft.Icons.WIFI
-                if system_helper.get_current_ssid() != ""
+                if system_helper.is_connection_over_wifi()
                 else ft.Icons.LAN
             ),
             icon_size=self.taskbar_icon_size,
@@ -167,12 +167,16 @@ class Taskbar(ft.AppBar):
         PageState.page.update()
 
     def update_wifi(self):
-        self.ico_wifi.icon = (
-            ft.Icons.WIFI
-            if system_helper.get_current_ssid() != ""
-            else ft.Icons.LAN
-        )
-        self.ico_wifi.icon_color = ft.Colors.GREEN
+        if system_helper.is_connection_over_lan():
+            self.ico_wifi.icon = ft.Icons.LAN
+            self.ico_wifi.icon_color = ft.Colors.GREEN
+            self.ico_wifi.update()
+            return
+
+        if system_helper.is_connection_over_wifi():
+            self.ico_wifi.icon = ft.Icons.WIFI
+            self.ico_wifi.icon_color = ft.Colors.GREEN
+            self.ico_wifi.update()
 
         if not wifi_helper.is_enabled():
             self.ico_wifi.icon = ft.Icons.WIFI_OFF
@@ -185,8 +189,6 @@ class Taskbar(ft.AppBar):
             self.ico_wifi.icon_color = ft.Colors.ON_SURFACE
             self.ico_wifi.update()
             return
-
-        self.ico_wifi.update()
 
     def update_bluetooth_icon(self):
         if bluetooth_helper.is_bluetooth_on():
@@ -247,5 +249,8 @@ class Taskbar(ft.AppBar):
         self.toggle_theme()
 
     def on_ico_wifi_click(self):
-        if system_helper.get_current_ssid() != "":
+        if (
+            system_helper.is_connection_over_wifi()
+            or system_helper.get_current_ssid() == ""
+        ) and not system_helper.is_connection_over_lan():
             self.wifi_dialog.open_dialog()

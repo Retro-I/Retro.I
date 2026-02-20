@@ -1,3 +1,4 @@
+import logging
 import threading
 import time
 
@@ -26,6 +27,8 @@ from helper.Strip import Strip
 from helper.SystemHelper import SystemHelper
 from helper.ThemeHelper import ThemeHelper
 from helper.WifiHelper import WifiHelper
+
+logger = logging.getLogger(__name__)
 
 wifi_helper = WifiHelper()
 radio_helper = RadioHelper()
@@ -57,13 +60,13 @@ def init():
 
 
 def main(page: ft.Page):
-    init()
+    try:
+        init()
+    except Exception as ex:
+        logger.info(ex)
 
-    page.on_error = on_error
     page.theme_mode = theme_helper.get_theme()
     page.update()
-
-    start = time.time()
 
     PageState.page = page
 
@@ -120,15 +123,6 @@ def main(page: ft.Page):
         on_treble_update=strip.update_treble_strip,
     )
 
-    audio_helper.startup_sound()
-    audio_effects.start()
-
-    end = time.time()
-
-    page.on_error = None
-
-    print(f"Startup took: {end-start}")
-
     def background_processes():
         while True:
             theme.radio_tab.song_info_row.reload()
@@ -137,6 +131,9 @@ def main(page: ft.Page):
 
     process = threading.Thread(target=background_processes)
     process.start()
+
+    audio_helper.startup_sound()
+    audio_effects.start()
 
     if (
         audio_helper.is_default_station_autoplay_enabled()
@@ -150,7 +147,4 @@ def main(page: ft.Page):
         )
 
 
-try:
-    ft.app(main, assets_dir="assets")
-except Exception as e:
-    on_error(e)
+ft.app(main, assets_dir="assets")
