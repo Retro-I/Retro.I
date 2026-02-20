@@ -106,6 +106,13 @@ class SystemHelper:
 
         return netifaces.gateways()["default"][netifaces.AF_INET][1]
 
+    def is_connection_over_wifi(self) -> bool:
+        return "wlan" in (self.get_default_interface() or "")
+
+    def is_connection_over_lan(self) -> bool:
+        interface = self.get_default_interface() or ""
+        return "eth" in interface or "usb" in interface
+
     def get_current_ssid(self):
         if (
             self.get_default_interface() is not None

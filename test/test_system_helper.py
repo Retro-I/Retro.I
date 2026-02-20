@@ -136,6 +136,22 @@ class TestSystemHelperWifiNetwork(unittest.TestCase):
 
     @patch("netifaces.gateways")
     @patch("netifaces.ifaddresses")
+    def test_is_connection_over_wifi(self, mock_ifaddresses, mock_gateways):
+        mock_wifi_netifaces(mock_gateways, mock_ifaddresses)
+
+        self.assertTrue(self.system_helper.is_connection_over_wifi())
+        self.assertFalse(self.system_helper.is_connection_over_lan())
+
+    @patch("netifaces.gateways")
+    @patch("netifaces.ifaddresses")
+    def test_is_connection_over_lan(self, mock_ifaddresses, mock_gateways):
+        mock_lan_netifaces(mock_gateways, mock_ifaddresses)
+
+        self.assertTrue(self.system_helper.is_connection_over_lan())
+        self.assertFalse(self.system_helper.is_connection_over_wifi())
+
+    @patch("netifaces.gateways")
+    @patch("netifaces.ifaddresses")
     @patch("subprocess.run")
     def test_get_current_ssid_wifi(
         self, ssid_mock, mock_ifaddresses, mock_gateways
