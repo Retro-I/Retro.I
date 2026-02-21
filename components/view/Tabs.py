@@ -4,6 +4,7 @@ from components.view.tabs.BluetoothTab import BluetoothTab
 from components.view.tabs.RadioTab import RadioTab
 from components.view.tabs.SettingsTab import SettingsTab
 from components.view.tabs.SoundboardTab import SoundboardTab
+from core.app_platform import AppPlatform, get_app_platform
 from core.app_state import AppState
 from core.helpers.factories.audio import create_audio_helper
 from core.helpers.factories.system import create_system_helper
@@ -37,6 +38,9 @@ class Tabs:
         self.settings_tab = settings_tab
 
     def change_tab(self, e):
+        if get_app_platform() == AppPlatform.WEB:
+            return
+
         PageState.page.theme_mode = self.theme_helper.get_theme()
         PageState.page.update()
 

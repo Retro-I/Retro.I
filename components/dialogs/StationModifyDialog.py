@@ -14,7 +14,7 @@ class StationModifyDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
 
-        self.stations = create_radio_stations_settings()
+        self.stations = create_radio_stations_settings(PageState.page)
 
         self.station_delete_dialog = StationDeleteDialog()
         PageState.page.add(self.station_delete_dialog)

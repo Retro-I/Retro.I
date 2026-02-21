@@ -8,6 +8,7 @@ from components.view.Theme import Theme
 from core.app_state import AppState
 from core.enums.tabs_enum import TabsEnum
 from core.helpers.factories.theme import create_theme_helper
+from helper.Constants import Constants
 from helper.PageState import PageState
 
 theme_helper = create_theme_helper()
@@ -15,6 +16,8 @@ theme_helper = create_theme_helper()
 
 def main(page: ft.Page):
     AppState()
+
+    Constants.current_radio_station = {}
 
     page.theme_mode = theme_helper.get_theme()
     page.update()

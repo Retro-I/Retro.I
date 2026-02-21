@@ -29,7 +29,7 @@ class RadioGrid(ft.GridView):
         self.audio_state = create_audio_helper()
         self.player = create_player_helper()
         self.system_helper = create_system_helper()
-        self.stations = create_radio_stations_settings()
+        self.stations = create_radio_stations_settings(PageState.page)
 
         self.station_modify_dialog = StationModifyDialog()
         self.on_theme_change_radio_station = on_theme_change_radio_station

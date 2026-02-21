@@ -3,6 +3,7 @@ import flet as ft
 from core.settings.factories.radio_stations import (
     create_radio_stations_settings,
 )
+from helper.PageState import PageState
 
 
 class StationDeleteDialog(ft.AlertDialog):
@@ -12,7 +13,7 @@ class StationDeleteDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
 
-        self.stations = create_radio_stations_settings()
+        self.stations = create_radio_stations_settings(PageState.page)
 
         self.title = ft.Text("Sender löschen?")
         self.actions_alignment = ft.MainAxisAlignment.SPACE_BETWEEN

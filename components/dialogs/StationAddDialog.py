@@ -19,7 +19,7 @@ class StationAddDialog(ft.AlertDialog):
     def __init__(self, radio_grid: RadioGrid):
         super().__init__()
 
-        self.stations = create_radio_stations_settings()
+        self.stations = create_radio_stations_settings(PageState.page)
 
         self.radio_grid = radio_grid
         self.duplicate_dialog = DuplicateDialog()

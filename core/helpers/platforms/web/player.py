@@ -4,10 +4,10 @@ from helper.PageState import PageState
 
 class WebPlayerHelper(BasePlayerHelper):
     def play_src(self, src):
-        self.pause()
         PageState.audio.release()
+        PageState.audio.pause()
         PageState.audio.src = src
-        self.play()
+        PageState.audio.play()
 
     def play(self):
         PageState.audio.play()

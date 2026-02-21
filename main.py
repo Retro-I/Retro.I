@@ -38,7 +38,6 @@ bluetooth_helper = BluetoothHelper()
 system_helper = create_system_helper()
 startup_error_helper = StartupErrorHelper()
 settings_sync_helper = create_settings_sync_helper()
-stations_helper = create_radio_stations_settings()
 constants = Constants()
 sounds_helper = create_sounds_helper()
 page_helper = PageState()
@@ -67,6 +66,8 @@ def main(page: ft.Page):
     init()
 
     AppState()
+
+    stations_helper = create_radio_stations_settings(page)
 
     page.on_error = on_error
     page.theme_mode = theme_helper.get_theme()
