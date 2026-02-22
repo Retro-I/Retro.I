@@ -7,6 +7,7 @@ class WebPlayerHelper(BasePlayerHelper):
         PageState.audio.release()
         PageState.audio.pause()
         PageState.audio.src = src
+        PageState.audio.update()
         PageState.audio.play()
 
     def play(self):

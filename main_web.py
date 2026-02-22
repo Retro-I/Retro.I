@@ -2,6 +2,7 @@ import threading
 import time
 
 import flet as ft
+import flet_audio as fta
 from flet.core.types import AppView
 
 from components.view.Theme import Theme
@@ -24,8 +25,9 @@ def main(page: ft.Page):
 
     PageState.page = page
 
-    audio = ft.Audio(
-        src="https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid", autoplay=False
+    audio = fta.Audio(
+        src="https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid",
+        autoplay=False,
     )
     PageState.page.overlay.append(audio)
     PageState.audio = audio
