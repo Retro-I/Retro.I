@@ -2,6 +2,7 @@ import json
 import os
 from unittest import mock
 
+from helper.Constants import Constants
 from test.base_test import BaseTest
 
 
@@ -361,3 +362,140 @@ class TestSyncValues(BaseTest):
                 "additionalProperties": False,
             },
         }
+
+
+class TestDefaultDataUpdate(BaseTest):
+    def test_no_update(self):
+        expected = self.stations.load_radio_stations()
+        self.settings_sync_helper.update_default_stations_data()
+        actual = self.stations.load_radio_stations()
+        self.assertEqual(expected, actual)
+
+    # Tests when the default changes
+    def test_update_name_from_default(self):
+        first = self._get_default_setting()
+
+        stations = self._get_default_setting()
+        stations[0]["name"] = "UPDATED"
+        self._write_default_settings(stations)
+
+        self.settings_sync_helper.update_default_stations_data()
+        actual = self.stations.load_radio_stations()
+
+        self.assertNotEqual(first, actual)
+        self.assertEqual(
+            self.stations.load_radio_stations()[0],
+            {
+                "color": "#00A1D6",
+                "favorite": False,
+                "id": "2a756cf7-35a4-469e-ad09-0afce7913214",
+                "logo": "https://api.ardmediathek.de/image-service/images/urn:ard:image:b366004f6196d70c?w=512",
+                "name": "UPDATED",
+                "src": "https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid",
+            },
+        )
+
+    def test_update_logo_from_default(self):
+        first = self._get_default_setting()
+
+        stations = self._get_default_setting()
+        stations[0]["logo"] = "https://radio.retroi.de/UPDATED_LOGO"
+        self._write_default_settings(stations)
+
+        self.settings_sync_helper.update_default_stations_data()
+        actual = self.stations.load_radio_stations()
+
+        self.assertNotEqual(first, actual)
+        self.assertEqual(
+            self.stations.load_radio_stations()[0],
+            {
+                "color": "#00A1D6",
+                "favorite": False,
+                "id": "2a756cf7-35a4-469e-ad09-0afce7913214",
+                "logo": "https://radio.retroi.de/UPDATED_LOGO",
+                "name": "Bayern 1",
+                "src": "https://dispatcher.rndfnk.com/br/br1/nbopf/mp3/mid",
+            },
+        )
+
+    def test_update_src_from_default(self):
+        first = self._get_default_setting()
+
+        stations = self._get_default_setting()
+        stations[0]["src"] = "https://radio.retroi.de/GEILER_RADIO_SENDER"
+        self._write_default_settings(stations)
+
+        self.settings_sync_helper.update_default_stations_data()
+        actual = self.stations.load_radio_stations()
+
+        self.assertNotEqual(first, actual)
+        self.assertEqual(
+            self.stations.load_radio_stations()[0],
+            {
+                "color": "#00A1D6",
+                "favorite": False,
+                "id": "2a756cf7-35a4-469e-ad09-0afce7913214",
+                "logo": "https://api.ardmediathek.de/image-service/images/urn:ard:image:b366004f6196d70c?w=512",
+                "name": "Bayern 1",
+                "src": "https://radio.retroi.de/GEILER_RADIO_SENDER",
+            },
+        )
+
+    # Tests when the actual settings changed (somehow)
+    def test_update_name_from_setting(self):
+        first = self._get_default_setting()
+
+        stations = self.stations.load_radio_stations()
+        stations[0]["name"] = "UPDATED"
+        self._write_settings(stations)
+
+        self.settings_sync_helper.update_default_stations_data()
+        actual = self.stations.load_radio_stations()
+
+        self.assertEqual(first, actual)
+
+    def test_update_logo_from_setting(self):
+        first = self._get_default_setting()
+
+        stations = self.stations.load_radio_stations()
+        stations[0]["logo"] = "https://radio.retroi.de/UPDATED_LOGO"
+        self._write_settings(stations)
+
+        self.settings_sync_helper.update_default_stations_data()
+        actual = self.stations.load_radio_stations()
+
+        self.assertEqual(first, actual)
+
+    def test_update_src_from_setting(self):
+        first = self._get_default_setting()
+
+        stations = self.stations.load_radio_stations()
+        stations[0]["src"] = "https://radio.retroi.de/GEILER_RADIO_SENDER"
+        self._write_settings(stations)
+
+        self.settings_sync_helper.update_default_stations_data()
+        actual = self.stations.load_radio_stations()
+
+        self.assertEqual(first, actual)
+
+    def _get_default_setting(self):
+        with open(
+            f"{Constants.default_settings_path()}/radio-stations.json", "r+"
+        ) as f:
+            data = json.load(f)
+
+        return data
+
+    def _write_default_settings(self, data):
+        with open(
+            f"{Constants.default_settings_path()}/radio-stations.json", "r+"
+        ) as f:
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()
+
+    def _write_settings(self, data):
+        with open(self.stations.STATIONS_SETTINGS_PATH, "r+") as f:
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()
