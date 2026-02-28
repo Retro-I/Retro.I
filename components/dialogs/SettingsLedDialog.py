@@ -89,5 +89,7 @@ class SettingsLedDialog(ft.AlertDialog):
         self.led_color_dialog.open_dialog()
 
     def open_dialog(self):
+        self.btn_open_led_dialog.visible = settings_helper.is_static_color()
+        self.btn_open_led_dialog.update()
         self.open = True
         self.update()
