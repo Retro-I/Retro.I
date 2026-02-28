@@ -109,9 +109,11 @@ class SettingsSyncHelper:
                 if not self.is_valid(data, schema):
                     raise RuntimeError(f"Fix not applied to {full_path}!")
 
+        logger.info("Update default stations data...")
+        self.update_default_stations_data()
         logger.info("Cleanup local branches...")
         revision_helper.cleanup_local_branches()
-        logger.info("Cleanup completed!")
+        logger.info("Settings validation completed!")
 
     def is_valid(self, data: dict | list, schema: dict) -> bool:
         validator = Draft7Validator(schema)
@@ -177,6 +179,35 @@ class SettingsSyncHelper:
 
             return repaired_list
         return data
+
+    def update_default_stations_data(self):
+        default_path = (
+            f"{Constants.default_settings_path()}/radio-stations.json"
+        )
+        target_path = f"{Constants.settings_path()}/radio-stations.json"
+
+        with open(default_path, "r") as f:
+            default_stations = json.load(f)
+
+        with open(target_path, "r") as f:
+            target_stations = json.load(f)
+
+        for s in default_stations:
+            for target in target_stations:
+                if s["id"] == target["id"]:
+                    if s["logo"] != target["logo"]:
+                        target["logo"] = s["logo"]
+
+                    if s["src"] != target["src"]:
+                        target["src"] = s["src"]
+
+                    if s["name"] != target["name"]:
+                        target["name"] = s["name"]
+
+        with open(target_path, "r+") as file:
+            file.seek(0)
+            json.dump(target_stations, file, indent=4)
+            file.truncate()
 
     def get_data_for_filename(self, full_path):
         with open(full_path, "r") as f:
