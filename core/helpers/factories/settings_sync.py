@@ -4,7 +4,7 @@ from core.app_platform import AppPlatform, get_app_platform
 def create_settings_sync_helper():
     match get_app_platform():
         case AppPlatform.PI:
-            from core.helpers.platforms.pi.settings_sync import (
+            from core.helpers.pi.settings_sync import (
                 PiSettingsSyncHelper,
             )
 

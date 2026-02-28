@@ -4,7 +4,7 @@ from core.app_platform import AppPlatform, get_app_platform
 def create_strip_settings():
     match get_app_platform():
         case AppPlatform.PI:
-            from core.settings.platforms.pi.strip import PiStripSettings
+            from core.settings.pi import PiStripSettings
 
             return PiStripSettings()
         case AppPlatform.WEB:

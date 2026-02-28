@@ -4,7 +4,7 @@ from core.app_platform import AppPlatform, get_app_platform
 def create_system_helper():
     match get_app_platform():
         case AppPlatform.PI:
-            from core.helpers.platforms.pi.system import PiSystemHelper
+            from core.helpers.pi.system import PiSystemHelper
 
             return PiSystemHelper()
         case AppPlatform.WEB:

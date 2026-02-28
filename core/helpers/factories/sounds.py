@@ -4,7 +4,7 @@ from core.app_platform import AppPlatform, get_app_platform
 def create_sounds_helper():
     match get_app_platform():
         case AppPlatform.PI:
-            from core.helpers.platforms.pi.sounds import PiSoundsHelper
+            from core.helpers.pi import PiSoundsHelper
 
             return PiSoundsHelper()
         case AppPlatform.WEB:
