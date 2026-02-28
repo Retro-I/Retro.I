@@ -25,7 +25,7 @@ class SettingsInfoDialog(ft.AlertDialog):
                     expand=True,
                     tabs=[
                         ft.Tab(
-                            text="            Info            ",
+                            text="         Systeminfo         ",
                             content=ft.Column(
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 horizontal_alignment=(
