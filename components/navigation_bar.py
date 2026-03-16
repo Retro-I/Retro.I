@@ -3,8 +3,6 @@ import flet as ft
 from components.view.tabs import Tabs
 from core.factories.settings_factories import create_party_mode_settings
 
-ICON_SIZE = 28
-
 
 class NavigationBar(ft.NavigationBar):
     def __init__(self, tabs: Tabs):
@@ -12,7 +10,7 @@ class NavigationBar(ft.NavigationBar):
 
         self.party_mode_settings = create_party_mode_settings()
 
-        self.bgcolor = "green"
+        self.bgcolor = ft.Colors.GREEN
         self.on_change = tabs.change_tab
         self.selected_index = 0
         self.destinations = self.get_destinations()
@@ -27,21 +25,13 @@ class NavigationBar(ft.NavigationBar):
         destinations = [
             ft.NavigationBarDestination(
                 label="Radiosender",
-                icon=ft.Icon(
-                    ft.Icons.RADIO_OUTLINED,
-                    size=ICON_SIZE,
-                    color=ft.Colors.ON_SURFACE,
-                ),
-                selected_icon=ft.Icon(ft.Icons.RADIO, size=ICON_SIZE),
+                icon=ft.Icons.RADIO_OUTLINED,
+                selected_icon=ft.Icons.RADIO,
             ),
             ft.NavigationBarDestination(
                 label="Bluetooth",
-                icon=ft.Icon(
-                    ft.Icons.BLUETOOTH_OUTLINED,
-                    size=ICON_SIZE,
-                    color=ft.Colors.ON_SURFACE,
-                ),
-                selected_icon=ft.Icon(ft.Icons.BLUETOOTH, size=ICON_SIZE),
+                icon=ft.Icons.BLUETOOTH_OUTLINED,
+                selected_icon=ft.Icons.BLUETOOTH,
             ),
         ]
 
@@ -49,26 +39,16 @@ class NavigationBar(ft.NavigationBar):
             destinations.append(
                 ft.NavigationBarDestination(
                     label="Soundboard",
-                    icon=ft.Icon(
-                        ft.Icons.SPACE_DASHBOARD_OUTLINED,
-                        size=ICON_SIZE,
-                        color=ft.Colors.ON_SURFACE,
-                    ),
-                    selected_icon=ft.Icon(
-                        ft.Icons.SPACE_DASHBOARD, size=ICON_SIZE
-                    ),
+                    icon=ft.Icons.SPACE_DASHBOARD_OUTLINED,
+                    selected_icon=ft.Icons.SPACE_DASHBOARD,
                 ),
             )
 
         destinations.append(
             ft.NavigationBarDestination(
                 label="Einstellungen",
-                icon=ft.Icon(
-                    ft.Icons.SETTINGS_OUTLINED,
-                    size=ICON_SIZE,
-                    color=ft.Colors.ON_SURFACE,
-                ),
-                selected_icon=ft.Icon(ft.Icons.SETTINGS, size=ICON_SIZE),
+                icon=ft.Icons.SETTINGS_OUTLINED,
+                selected_icon=ft.Icons.SETTINGS,
             )
         )
 
