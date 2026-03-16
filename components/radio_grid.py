@@ -144,7 +144,7 @@ class RadioGrid(ft.GridView):
         return ft.Image(
             src=self.system_helper.get_img_path(station["logo"]),
             border_radius=ft.border_radius.all(4),
-            fit=ft.ImageFit.FIT_WIDTH,
+            fit=ft.BoxFit.FIT_WIDTH,
         )
 
     def get_text(self, station):

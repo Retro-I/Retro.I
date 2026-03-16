@@ -97,7 +97,7 @@ class SoundboardSearchDialog(ft.AlertDialog):
 
             img = ft.Image(
                 constants.get_button_img(),
-                fit=ft.ImageFit.SCALE_DOWN,
+                fit=ft.BoxFit.SCALE_DOWN,
                 border_radius=ft.border_radius.all(10),
                 width=66,
                 height=66,
