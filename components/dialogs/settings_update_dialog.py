@@ -51,37 +51,40 @@ class SettingsUpdateDialog(ft.AlertDialog):
             controls=[
                 ft.Divider(),
                 ft.Tabs(
+                    selected_index=0,
+                    length=2,
                     animation_duration=300,
-                    tab_alignment=ft.TabAlignment.CENTER,
-                    tabs=[
-                        ft.Tab(
-                            text="          Branches          ",
-                            content=ft.Column(
-                                alignment=ft.MainAxisAlignment.CENTER,
-                                horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER
-                                ),
+                    content=ft.Column(
+                        [
+                            ft.TabBar(
+                                tabs=[
+                                    ft.Tab(
+                                        label="          Branches          "
+                                    ),
+                                    ft.Tab(
+                                        label="            Tags            "
+                                    ),
+                                ]
+                            ),
+                            ft.TabBarView(
+                                expand=True,
                                 controls=[
-                                    self.branches_list,
-                                    self.branches_loading_spinner,
+                                    ft.Column(
+                                        controls=[
+                                            self.branches_list,
+                                            self.branches_loading_spinner,
+                                        ],
+                                    ),
+                                    ft.Column(
+                                        controls=[
+                                            self.tags_list,
+                                            self.tags_loading_spinner,
+                                        ],
+                                    ),
                                 ],
                             ),
-                        ),
-                        ft.Tab(
-                            text="            Tags            ",
-                            content=ft.Column(
-                                alignment=ft.MainAxisAlignment.CENTER,
-                                horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER
-                                ),
-                                controls=[
-                                    self.tags_list,
-                                    self.tags_loading_spinner,
-                                ],
-                            ),
-                        ),
-                    ],
-                    expand=True,
+                        ]
+                    ),
                 ),
             ],
         )
