@@ -22,42 +22,45 @@ class SettingsInfoDialog(ft.AlertDialog):
             tight=True,
             controls=[
                 ft.Tabs(
+                    selected_index=0,
+                    length=3,
                     animation_duration=300,
-                    tab_alignment=ft.TabAlignment.CENTER,
                     expand=True,
-                    tabs=[
-                        ft.Tab(
-                            text="         Systeminfo         ",
-                            content=ft.Column(
-                                alignment=ft.MainAxisAlignment.CENTER,
-                                horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER
-                                ),
-                                controls=[with_scrollbar_space(self.info)],
+                    content=ft.Column(
+                        [
+                            ft.TabBar(
+                                tabs=[
+                                    ft.Tab(
+                                        label="         Systeminfo         "
+                                    ),
+                                    ft.Tab(
+                                        label="         Dokumentation         "
+                                    ),
+                                    ft.Tab(label="         Credits         "),
+                                ]
                             ),
-                            visible=(
-                                developer_settings().is_developer_mode_active()
+                            ft.TabBarView(
+                                controls=[
+                                    ft.Container(
+                                        content=with_scrollbar_space(self.info),
+                                        alignment=ft.Alignment.CENTER,
+                                        visible=(
+                                            developer_settings().is_developer_mode_active()  # noqa:E501
+                                        ),
+                                    ),
+                                    ft.Container(
+                                        content=Documentation(),
+                                        alignment=ft.Alignment.CENTER,
+                                    ),
+                                    ft.Container(
+                                        content=Credits(),
+                                        alignment=ft.Alignment.CENTER,
+                                    ),
+                                ],
+                                expand=True,
                             ),
-                        ),
-                        ft.Tab(
-                            text="        Dokumentation        ",
-                            content=ft.Column(
-                                horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER
-                                ),
-                                controls=[Documentation()],
-                            ),
-                        ),
-                        ft.Tab(
-                            text="           Credits           ",
-                            content=ft.Column(
-                                horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER
-                                ),
-                                controls=[Credits()],
-                            ),
-                        ),
-                    ],
+                        ]
+                    ),
                 ),
             ],
         )
