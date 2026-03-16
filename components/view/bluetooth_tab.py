@@ -38,7 +38,7 @@ class BluetoothTab(ft.Column):
         )
         PageState.page.add(self.bluetooth_display_name_dialog)
 
-        self.alignment = ft.alignment.center
+        self.alignment = ft.MainAxisAlignment.CENTER
         self.expand = True
         self.visible = False
         self.controls = [

@@ -57,11 +57,11 @@ class RadioGrid(ft.GridView):
             Constants.indicator_refs.append(ft.Ref[ft.Container]())
             self.controls.append(
                 ft.Stack(
-                    alignment=ft.alignment.center,
+                    alignment=ft.Alignment.CENTER,
                     fit=ft.StackFit.EXPAND,
                     controls=[
                         ft.Container(
-                            alignment=ft.alignment.center,
+                            alignment=ft.Alignment.CENTER,
                             bgcolor=ft.Colors.SURFACE_CONTAINER_HIGHEST,
                             on_click=lambda e, src=station, index=i: (
                                 self.change_radio_station(src, index),
@@ -74,7 +74,7 @@ class RadioGrid(ft.GridView):
                             padding=10,
                         ),
                         ft.Container(
-                            alignment=ft.alignment.top_right,
+                            alignment=ft.Alignment.TOP_RIGHT,
                             on_click=lambda e, src=station, index=i: (
                                 self.change_radio_station(src, index),
                             ),
@@ -94,7 +94,7 @@ class RadioGrid(ft.GridView):
                         ),
                         ft.Container(
                             ref=Constants.indicator_refs[i],
-                            alignment=ft.alignment.top_left,
+                            alignment=ft.Alignment.TOP_LEFT,
                             on_click=lambda e: self.stop_radio_station(),
                             visible=(
                                 Constants.current_radio_station != {}

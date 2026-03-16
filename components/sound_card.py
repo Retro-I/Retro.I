@@ -14,7 +14,7 @@ class SoundCard(ft.Column):
 
         self.controls = [
             ft.Container(
-                alignment=ft.alignment.bottom_center,
+                alignment=ft.Alignment.BOTTOM_CENTER,
                 on_click=lambda e, src=sound[
                     "mp3"
                 ]: self.audio_state.play_sound_board(src),
