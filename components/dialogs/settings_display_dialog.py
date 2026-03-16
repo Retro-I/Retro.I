@@ -30,8 +30,8 @@ class SettingsDisplayDialog(ft.AlertDialog):
         PageState.page.add(self.admin_password_dialog)
 
         self.soundboard_switch = ft.Switch(
-            "Soundboard anzeigen (Neustart erforderlich!)",
-            label_style=ft.TextStyle(size=18),
+            label="Soundboard anzeigen (Neustart erforderlich!)",
+            label_text_style=ft.TextStyle(size=18),
             on_change=lambda e: self.open_admin_password_dialog(),
             value=self.party_mode_settings.is_party_mode(),
         )
@@ -43,8 +43,8 @@ class SettingsDisplayDialog(ft.AlertDialog):
             tight=True,
             controls=[
                 ft.Switch(
-                    "Scrollbar anzeigen (Neustart erforderlich!)",
-                    label_style=ft.TextStyle(size=18),
+                    label="Scrollbar anzeigen (Neustart erforderlich!)",
+                    label_text_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_scrollbar(),
                     value=self.scrollbar_settings_helper.is_scrollbar_enabled(),
                 ),

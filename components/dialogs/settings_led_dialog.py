@@ -46,8 +46,8 @@ class SettingsLedDialog(ft.AlertDialog):
             expand=True,
             controls=[
                 ft.Switch(
-                    "LED-Streifen einschalten",
-                    label_style=ft.TextStyle(size=18),
+                    label="LED-Streifen einschalten",
+                    label_text_style=ft.TextStyle(size=18),
                     on_change=strip.toggle_strip,
                     value=self.settings_helper.is_strip_active(),
                 ),

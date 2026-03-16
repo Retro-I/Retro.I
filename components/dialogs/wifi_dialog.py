@@ -27,8 +27,8 @@ class WifiDialog(ft.AlertDialog):
         self.on_toggle_wifi = on_toggle_wifi
 
         self.toggle_wifi_switch = ft.Switch(
-            "Wifi einschalten",
-            label_style=ft.TextStyle(size=18),
+            label="Wifi einschalten",
+            label_text_style=ft.TextStyle(size=18),
             on_change=lambda e: self.toggle_wifi(),
             value=self.wifi_helper.is_enabled(),
         )
