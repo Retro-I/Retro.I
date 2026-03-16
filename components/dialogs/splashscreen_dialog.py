@@ -42,7 +42,7 @@ class SplashscreenDialog(ft.AlertDialog):
     def get_splashscreen_images(self) -> list[ft.Image]:
         return [
             ft.Image(
-                fit=ft.ImageFit.CONTAIN,
+                fit=ft.BoxFit.CONTAIN,
                 src=f"{Constants.pwd()}/assets/splashscreen/{i}",
             )
             for i in self.splashscreen_helper.get_splashscreens()

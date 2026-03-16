@@ -24,7 +24,7 @@ class SoundCard(ft.Column):
                 content=ft.Image(
                     src=c.get_button_img(),
                     border_radius=ft.border_radius.all(4),
-                    fit=ft.ImageFit.FIT_WIDTH,
+                    fit=ft.BoxFit.FIT_WIDTH,
                 ),
                 height=130,
             ),
