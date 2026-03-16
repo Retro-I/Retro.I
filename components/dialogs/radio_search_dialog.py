@@ -92,7 +92,7 @@ class RadioSearchDialog(ft.AlertDialog):
             if el["logo"] != "":
                 img = ft.Image(
                     el["logo"],
-                    fit=ft.ImageFit.SCALE_DOWN,
+                    fit=ft.BoxFit.SCALE_DOWN,
                     border_radius=ft.border_radius.all(10),
                     width=50,
                     height=50,
