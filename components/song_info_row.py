@@ -31,7 +31,7 @@ class SongInfoRow(ft.Container):
                 self.song_info_station,
                 self.song_info_title,
                 ft.TextButton(
-                    text="Sendersuche",
+                    "Sendersuche",
                     icon=ft.Icons.SEARCH,
                     on_click=lambda e: self.radio_search_dialog.open_dialog(),
                 ),
