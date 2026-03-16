@@ -87,7 +87,7 @@ class RadioGrid(ft.GridView):
                             ),
                             padding=-10,
                             content=ft.Icon(
-                                name=ft.Icons.FAVORITE,
+                                ft.Icons.FAVORITE,
                                 color=ft.Colors.RED,
                                 size=42,
                             ),
@@ -103,7 +103,7 @@ class RadioGrid(ft.GridView):
                             ),
                             padding=-10,
                             content=ft.Icon(
-                                name=ft.Icons.PLAY_CIRCLE,
+                                ft.Icons.PLAY_CIRCLE,
                                 size=42,
                             ),
                         ),

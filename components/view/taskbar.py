@@ -68,18 +68,16 @@ class Taskbar(ft.AppBar):
             on_click=lambda e: self.on_ico_wifi_click(),
         )
         self.ico_bluetooth = ft.Icon(
-            name=ft.Icons.BLUETOOTH,
+            ft.Icons.BLUETOOTH,
             size=self.taskbar_icon_size,
         )
 
         self.ico_volume = ft.Icon(
-            name=ft.Icons.VOLUME_UP_ROUNDED, size=self.taskbar_icon_size
+            ft.Icons.VOLUME_UP_ROUNDED, size=self.taskbar_icon_size
         )
         self.txt_volume = ft.Text(f"{audio_helper.get_volume()}%", size=18)
 
-        self.ico_eq = ft.Icon(
-            name=ft.Icons.EQUALIZER, size=self.taskbar_icon_size
-        )
+        self.ico_eq = ft.Icon(ft.Icons.EQUALIZER, size=self.taskbar_icon_size)
         self.txt_eq = ft.Text(
             f"Bass: {Constants.current_bass_step}  |  "
             f"Treble: {Constants.current_treble_step}",
@@ -183,7 +181,7 @@ class Taskbar(ft.AppBar):
 
     def update_bluetooth_icon(self):
         if self.bluetooth_helper.is_bluetooth_on():
-            self.ico_bluetooth.name = ft.Icons.BLUETOOTH_ROUNDED
+            self.ico_bluetooth.icon = ft.Icons.BLUETOOTH_ROUNDED
             self.ico_bluetooth.color = ft.Colors.ON_SURFACE
 
             if self.bluetooth_helper.is_discovery_on():
@@ -192,17 +190,17 @@ class Taskbar(ft.AppBar):
                 self.ico_bluetooth.color = ft.Colors.ON_SURFACE
 
         else:
-            self.ico_bluetooth.name = ft.Icons.BLUETOOTH_DISABLED_ROUNDED
+            self.ico_bluetooth.icon = ft.Icons.BLUETOOTH_DISABLED_ROUNDED
             self.ico_bluetooth.color = ft.Colors.ON_SURFACE
 
         if self.bluetooth_helper.is_connected():
-            self.ico_bluetooth.name = ft.Icons.BLUETOOTH_CONNECTED_ROUNDED
+            self.ico_bluetooth.icon = ft.Icons.BLUETOOTH_CONNECTED_ROUNDED
             self.ico_bluetooth.color = ft.Colors.GREEN
 
         self.ico_bluetooth.update()
 
     def update_volume_icon(self):
-        self.ico_volume.name = (
+        self.ico_volume.icon = (
             ft.Icons.VOLUME_OFF_ROUNDED
             if audio_helper.is_mute()
             else ft.Icons.VOLUME_UP_ROUNDED
