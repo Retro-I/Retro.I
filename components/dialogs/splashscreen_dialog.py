@@ -53,7 +53,7 @@ class SplashscreenDialog(ft.AlertDialog):
         self.btn_apply.update()
         self.loading_spinner.visible = True
         self.loading_spinner.update()
-        self.btn_apply.text = "Wird gespeichert..."
+        self.btn_apply.content = "Wird gespeichert..."
         self.update()
 
         selected_image = self.splashscreen_helper.get_splashscreens()[
@@ -64,7 +64,7 @@ class SplashscreenDialog(ft.AlertDialog):
         self.loading_spinner.visible = False
         self.loading_spinner.update()
         self.btn_apply.disabled = False
-        self.btn_apply.text = "Auswählen"
+        self.btn_apply.content = "Auswählen"
         self.update()
 
     def open_dialog(self):
@@ -72,7 +72,7 @@ class SplashscreenDialog(ft.AlertDialog):
         self.loading_spinner.visible = False
         self.loading_spinner.update()
         self.btn_apply.disabled = False
-        self.btn_apply.text = "Auswählen"
+        self.btn_apply.content = "Auswählen"
         self.update()
 
     def close(self):

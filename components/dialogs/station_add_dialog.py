@@ -50,7 +50,7 @@ class StationAddDialog(ft.AlertDialog):
         self.radio_grid.change_radio_station(self.station)
 
     def add_to_list(self):
-        self.btn_add.text = "Wird hinzugefügt..."
+        self.btn_add.content = "Wird hinzugefügt..."
         self.btn_add.disabled = True
         self.btn_add.update()
 
@@ -75,7 +75,7 @@ class StationAddDialog(ft.AlertDialog):
         self.open = True
 
         self.btn_add.disabled = False
-        self.btn_add.text = "Zu Liste hinzufügen"
+        self.btn_add.content = "Zu Liste hinzufügen"
         self.btn_add.update()
 
         self.btn_play.disabled = False
