@@ -15,17 +15,6 @@ from helper.page_state import PageState
 
 
 class Theme:
-    theme = None
-    taskbar: Taskbar = None
-
-    radio_tab = None
-    bluetooth_tab = None
-    soundboard_tab = None
-    settings_tab = None
-
-    tabs = None
-    navbar = None
-
     def __init__(self, taskbar: Taskbar, strip):
         self.scrollbar_settings_helper = create_scrollbar_settings()
         self.party_mode_settings = create_party_mode_settings()
@@ -61,9 +50,16 @@ class Theme:
         self.update()
 
     def on_updated_radio_station(self, color):
-        self.theme.color_scheme_seed = color
+        self.theme = ft.Theme(
+            color_scheme_seed=color,
+            scrollbar_theme=self.get_scrollbar_theme(),
+        )
+
+        PageState.page.theme = self.theme
+        PageState.page.dark_theme = self.theme
         self.navbar.update_color(color)
         self.radio_tab.update()
+
         PageState.page.update()
 
     def get_tabs(self):
