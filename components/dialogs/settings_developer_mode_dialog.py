@@ -21,8 +21,8 @@ class SettingsDeveloperModeDialog(ft.AlertDialog):
             tight=True,
             controls=[
                 ft.Switch(
-                    "Entwicklermodus einschalten (Neustart erforderlich!)",
-                    label_style=ft.TextStyle(size=18),
+                    label="Entwicklermodus einschalten (Neustart erforderlich!)",
+                    label_text_style=ft.TextStyle(size=18),
                     on_change=self.on_toggle,
                     value=(developer_settings().is_developer_mode_active()),
                 ),
