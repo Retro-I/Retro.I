@@ -15,7 +15,7 @@ class SettingsAudioDialog(ft.AlertDialog):
             editable=True,
             label="Ausgabegeräte",
             options=self.get_audio_output_options(),
-            on_change=self.on_audio_output_change,
+            on_select=self.on_audio_output_change,
             value=self.get_default_option(),
             expand=True,
         )
