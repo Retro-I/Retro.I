@@ -1,6 +1,5 @@
+import asyncio
 import logging
-import threading
-import time
 
 import flet as ft
 
@@ -75,7 +74,6 @@ def main(page: ft.Page):
         logger.info(ex)
 
     page.theme_mode = theme_helper.get_theme()
-    page.update()
 
     PageState.page = page
 
@@ -122,17 +120,16 @@ def main(page: ft.Page):
     RotaryBass()
     RotaryTreble()
 
-    def background_processes():
+    async def background_processes():
         while True:
             theme.radio_tab.song_info_row.reload()
             taskbar.update()
             if power_management.shutdown_time_reached():
                 system_helper.shutdown_system()
 
-            time.sleep(2)
+            await asyncio.sleep(2)
 
-    process = threading.Thread(target=background_processes)
-    process.start()
+    page.run_task(background_processes)
 
     player.startup_sound()
     audio_effects.start()
