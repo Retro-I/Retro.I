@@ -67,7 +67,7 @@ class SoundboardSearchDialog(ft.AlertDialog):
         self.listview.visible = False
         self.listview.update()
 
-        self.not_found_text.visble = False
+        self.not_found_text.visible = False
         self.not_found_text.update()
 
         self.loading.visible = True
