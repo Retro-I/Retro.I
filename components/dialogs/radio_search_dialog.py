@@ -43,7 +43,7 @@ class RadioSearchDialog(ft.AlertDialog):
                             "Suchen", on_click=lambda e: self.search_stations()
                         ),
                     ],
-                    spacing=ft.MainAxisAlignment.SPACE_BETWEEN,
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 ),
                 ft.Column(
                     controls=[self.loading, self.not_found_text, self.listview],
