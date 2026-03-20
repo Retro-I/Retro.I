@@ -45,7 +45,7 @@ class SoundboardSearchDialog(ft.AlertDialog):
                             "Suchen", on_click=lambda e: self.search_sounds()
                         ),
                     ],
-                    spacing=ft.MainAxisAlignment.SPACE_BETWEEN,
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 ),
                 ft.Column(
                     controls=[self.loading, self.not_found_text, self.listview],
@@ -81,9 +81,6 @@ class SoundboardSearchDialog(ft.AlertDialog):
 
         self.not_found_text.visible = len(sounds) == 0
         self.not_found_text.update()
-
-        self.loading.visible = False
-        self.loading.update()
 
         self.listview.controls = []
         for el in sounds:
