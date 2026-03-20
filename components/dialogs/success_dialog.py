@@ -12,8 +12,6 @@ class SuccessDialog(ft.AlertDialog):
         super().__init__()
         self.updates_restart_dialog = UpdatesRestartDialog()
 
-        PageState.page.add(self.updates_restart_dialog)
-
         self.title = ft.Text("")
         self.content = ft.Column(
             [
@@ -27,7 +25,9 @@ class SuccessDialog(ft.AlertDialog):
         self.actions = [
             ft.FilledButton(
                 "Neustart",
-                on_click=lambda e: self.updates_restart_dialog.open_dialog(),
+                on_click=lambda e: PageState.page.show_dialog(
+                    self.updates_restart_dialog
+                ),
             ),
         ]
         self.actions_alignment = ft.MainAxisAlignment.END

@@ -33,14 +33,14 @@ class SongInfoRow(ft.Container):
                 ft.TextButton(
                     "Sendersuche",
                     icon=ft.Icons.SEARCH,
-                    on_click=lambda e: self.radio_search_dialog.open_dialog(),
+                    on_click=lambda e: PageState.page.show_dialog(
+                        self.radio_search_dialog
+                    ),
                 ),
             ]
         )
         self.border = ft.border.only(bottom=ft.border.BorderSide(1, "gray"))
         self.padding = ft.padding.only(bottom=10)
-
-        PageState.page.add(self.radio_search_dialog)
 
     def reload(self):
         try:

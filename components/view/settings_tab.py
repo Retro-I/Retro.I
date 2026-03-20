@@ -25,7 +25,6 @@ class SettingsTab(ft.Column):
     def __init__(self, strip):
         super().__init__()
 
-        self.shutdown_dialog = SettingsShutdownDialog()
         self.app_control_dialog = SettingsAppControlDialog()
         self.audio_dialog = SettingsAudioDialog()
         self.display_dialog = SettingsDisplayDialog()
@@ -52,7 +51,9 @@ class SettingsTab(ft.Column):
                             ft.Icons.EXIT_TO_APP,
                             text="App",
                             callback=(
-                                lambda e: self.app_control_dialog.open_dialog()
+                                lambda e: PageState.page.show_dialog(
+                                    self.app_control_dialog
+                                )
                             ),
                             visible=(
                                 developer_settings().is_developer_mode_active()
@@ -61,19 +62,23 @@ class SettingsTab(ft.Column):
                         SettingsButton(
                             ft.Icons.AUDIOTRACK,
                             text="Audio",
-                            callback=lambda e: self.audio_dialog.open_dialog(),
+                            callback=lambda e: PageState.page.show_dialog(
+                                self.audio_dialog
+                            ),
                         ),
                         SettingsButton(
                             ft.Icons.DISPLAY_SETTINGS,
                             text="Anzeige",
                             callback=lambda e: (
-                                self.display_dialog.open_dialog()
+                                PageState.page.show_dialog(self.display_dialog)
                             ),
                         ),
                         SettingsButton(
                             ft.Icons.COLOR_LENS,
                             text="LED-Streifen",
-                            callback=lambda e: self.led_dialog.open_dialog(),
+                            callback=lambda e: PageState.page.show_dialog(
+                                self.led_dialog
+                            ),
                         ),
                         SettingsButton(
                             ft.Icons.INFO_OUTLINED,
@@ -83,7 +88,9 @@ class SettingsTab(ft.Column):
                         SettingsButton(
                             ft.Icons.BROWSER_UPDATED,
                             text="Updates",
-                            callback=lambda e: self.update_dialog.open_dialog(),
+                            callback=lambda e: PageState.page.show_dialog(
+                                self.update_dialog
+                            ),
                             visible=(
                                 developer_settings().is_developer_mode_active()
                             ),
@@ -91,7 +98,9 @@ class SettingsTab(ft.Column):
                         SettingsButton(
                             ft.Icons.NOTES,
                             text="Logs",
-                            callback=lambda e: self.logs_dialog.open_dialog(),
+                            callback=lambda e: PageState.page.show_dialog(
+                                self.logs_dialog
+                            ),
                             visible=(
                                 developer_settings().is_developer_mode_active()
                             ),
@@ -100,22 +109,17 @@ class SettingsTab(ft.Column):
                             ft.Icons.BUILD,
                             text="Entwickler",
                             callback=lambda e: (
-                                self.developer_mode_dialog.open_dialog()
+                                PageState.page.show_dialog(
+                                    self.developer_mode_dialog
+                                )
                             ),
                         ),
                     ],
                 ),
             ),
         ]
-        PageState.page.add(self.shutdown_dialog)
-        PageState.page.add(self.app_control_dialog)
-        PageState.page.add(self.audio_dialog)
-        PageState.page.add(self.display_dialog)
-        PageState.page.add(self.led_dialog)
+
         PageState.page.add(self.info_dialog)
-        PageState.page.add(self.update_dialog)
-        PageState.page.add(self.logs_dialog)
-        PageState.page.add(self.developer_mode_dialog)
 
     def show(self):
         self.visible = True
