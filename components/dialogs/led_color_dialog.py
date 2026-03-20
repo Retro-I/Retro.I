@@ -13,7 +13,7 @@ class LedTypeEnum(StrEnum):
 
 
 class LedColorDialog(ft.AlertDialog):
-    def __init__(self, strip, parent_dialog):
+    def __init__(self, strip):
         super().__init__(on_dismiss=self._on_dismiss)
         self.settings_helper = create_strip_settings()
 
@@ -26,7 +26,7 @@ class LedColorDialog(ft.AlertDialog):
 
         self.btn_back = ft.TextButton(
             "Zurück",
-            on_click=lambda e: parent_dialog.open_dialog(),
+            on_click=lambda e: self.close(),
             icon=ft.Icons.ARROW_BACK,
         )
 
@@ -53,6 +53,10 @@ class LedColorDialog(ft.AlertDialog):
         self.open = True
         self.color_picker.visible = self.settings_helper.is_static_color()
         self.color_picker.color = self.settings_helper.get_static_color()
+        self.update()
+
+    def close(self):
+        self.open = False
         self.update()
 
 
