@@ -20,7 +20,9 @@ class SoundboardSearchBar(ft.Container):
                 ft.TextButton(
                     "Soundboard durchsuchen",
                     icon=ft.Icons.SEARCH,
-                    on_click=lambda e: self.soundboard_search_dialog.open_dialog(),  # noqa:E501
+                    on_click=lambda e: PageState.page.show_dialog(
+                        self.soundboard_search_dialog
+                    ),  # noqa:E501
                     # style=ft.ButtonStyle(
                     #    text_style=ft.TextStyle(size=16)
                     # )
@@ -29,5 +31,3 @@ class SoundboardSearchBar(ft.Container):
         )
         self.border = ft.border.only(bottom=ft.border.BorderSide(1, "gray"))
         self.padding = ft.padding.only(bottom=10)
-
-        PageState.page.add(self.soundboard_search_dialog)
