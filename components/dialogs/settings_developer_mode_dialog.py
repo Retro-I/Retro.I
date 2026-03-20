@@ -12,7 +12,6 @@ class SettingsDeveloperModeDialog(ft.AlertDialog):
         super().__init__()
 
         self.restart_dialog = UpdatesRestartDialog()
-        PageState.page.add(self.restart_dialog)
 
         self.title = ft.Text("Entwicklermodus")
         self.content = ft.Column(
@@ -33,7 +32,7 @@ class SettingsDeveloperModeDialog(ft.AlertDialog):
 
     def on_toggle(self, control):
         developer_settings().toggle_developer_mode_active(control)
-        self.restart_dialog.open_dialog()
+        PageState.page.show_dialog(self.restart_dialog)
 
     def open_dialog(self):
         self.open = True

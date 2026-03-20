@@ -26,7 +26,7 @@ class LedColorDialog(ft.AlertDialog):
 
         self.btn_back = ft.TextButton(
             "Zurück",
-            on_click=lambda e: self.close(),
+            on_click=lambda e: PageState.page.pop_dialog(),
             icon=ft.Icons.ARROW_BACK,
         )
 
@@ -53,10 +53,6 @@ class LedColorDialog(ft.AlertDialog):
         self.open = True
         self.color_picker.visible = self.settings_helper.is_static_color()
         self.color_picker.color = self.settings_helper.get_static_color()
-        self.update()
-
-    def close(self):
-        self.open = False
         self.update()
 
 

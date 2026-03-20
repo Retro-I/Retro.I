@@ -80,7 +80,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
     def toggle_enable_scrollbar(self):
         self.scrollbar_settings_helper.toggle_scrollbar_enabled()
         self.close_dialog()
-        self.updates_restart_dialog.open_dialog()
+        PageState.page.show_dialog(self.updates_restart_dialog)
 
     def slider_changed(self, e):
         self.system_helper.change_screen_brightness(e.control.value)
@@ -89,7 +89,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
         PageState.page.show_dialog(self.splashscreen_dialog)
 
     def open_admin_password_dialog(self):
-        self.admin_password_dialog.open_dialog()
+        PageState.page.show_dialog(self.admin_password_dialog)
 
     def open_dialog(self):
         self.soundboard_switch.value = self.party_mode_settings.is_party_mode()
