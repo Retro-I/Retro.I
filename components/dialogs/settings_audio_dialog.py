@@ -26,7 +26,11 @@ class SettingsAudioDialog(ft.AlertDialog):
             width=500,
             tight=True,
             controls=[
-                self.audio_dropdown,
+                ft.Row(
+                    controls=[
+                        self.audio_dropdown,
+                    ],
+                ),
                 ft.Divider(),
                 VolumeInputField(),
                 ft.Divider(),
