@@ -17,7 +17,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
         self.party_mode_settings = create_party_mode_settings()
 
         self.updates_restart_dialog = UpdatesRestartDialog()
-        self.splashscreen_dialog = SplashscreenDialog(self)
+        self.splashscreen_dialog = SplashscreenDialog()
         self.admin_password_dialog = AdminPasswordDialog(
             self.updates_restart_dialog.open_dialog
         )
@@ -26,7 +26,6 @@ class SettingsDisplayDialog(ft.AlertDialog):
         self.scrollbar_settings_helper = create_scrollbar_settings()
 
         PageState.page.add(self.updates_restart_dialog)
-        PageState.page.add(self.splashscreen_dialog)
         PageState.page.add(self.admin_password_dialog)
 
         self.soundboard_switch = ft.Switch(
@@ -87,7 +86,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
         self.system_helper.change_screen_brightness(e.control.value)
 
     def open_splashscreen_dialog(self):
-        self.splashscreen_dialog.open_dialog()
+        PageState.page.show_dialog(self.splashscreen_dialog)
 
     def open_admin_password_dialog(self):
         self.admin_password_dialog.open_dialog()

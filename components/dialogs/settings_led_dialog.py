@@ -15,7 +15,7 @@ class SettingsLedDialog(ft.AlertDialog):
 
         self.strip = strip
 
-        self.led_color_dialog = LedColorDialog(strip, self)
+        self.led_color_dialog = LedColorDialog(strip)
         PageState.page.add(self.led_color_dialog)
 
         self.radio_group = ft.RadioGroup(

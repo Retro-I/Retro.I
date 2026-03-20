@@ -6,14 +6,14 @@ from helper.constants import Constants
 
 
 class SplashscreenDialog(ft.AlertDialog):
-    def __init__(self, display_dialog):
+    def __init__(self):
         super().__init__()
         self.splashscreen_helper = create_splashscreen_helper()
 
         self.image_slider = ImageSlider(images=self.get_splashscreen_images())
         self.btn_back = ft.TextButton(
             "Zurück",
-            on_click=lambda e: display_dialog.open_dialog(),
+            on_click=lambda e: PageState.page.pop_dialog(),
             icon=ft.Icons.ARROW_BACK,
         )
         self.loading_spinner = ft.ProgressRing(
@@ -50,10 +50,10 @@ class SplashscreenDialog(ft.AlertDialog):
 
     def apply_splashscreen(self):
         self.btn_apply.disabled = True
+        self.btn_apply.content = "Wird gespeichert..."
         self.btn_apply.update()
         self.loading_spinner.visible = True
         self.loading_spinner.update()
-        self.btn_apply.content = "Wird gespeichert..."
         self.update()
 
         selected_image = self.splashscreen_helper.get_splashscreens()[
