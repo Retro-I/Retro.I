@@ -88,9 +88,7 @@ class SettingsTab(ft.Column):
                         SettingsButton(
                             ft.Icons.BROWSER_UPDATED,
                             text="Updates",
-                            callback=lambda e: PageState.page.show_dialog(
-                                self.update_dialog
-                            ),
+                            callback=lambda e: self.update_dialog.open_dialog(),
                             visible=(
                                 developer_settings().is_developer_mode_active()
                             ),
@@ -120,6 +118,7 @@ class SettingsTab(ft.Column):
         ]
 
         PageState.page.add(self.info_dialog)
+        PageState.page.add(self.update_dialog)
 
     def show(self):
         self.visible = True

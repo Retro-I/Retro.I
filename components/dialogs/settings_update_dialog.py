@@ -1,3 +1,5 @@
+import asyncio
+
 import flet as ft
 
 from components.dialogs.download_dialog import DownloadDialog
@@ -13,23 +15,24 @@ from helper.page_state import PageState
 
 
 class SettingsUpdateDialog(ft.AlertDialog):
-    branches_list = with_scrollbar_space(
-        ft.ListView(visible=False, expand=True)
-    )
-    tags_list = with_scrollbar_space(ft.ListView(visible=False, expand=True))
-
-    branches_loading_spinner = ft.ProgressRing()
-    tags_loading_spinner = ft.ProgressRing()
-
-    curr_revision_span = ft.TextSpan(
-        "", style=ft.TextStyle(weight=ft.FontWeight.BOLD)
-    )
-
     def __init__(self):
         super().__init__()
         self.system_helper = create_system_helper()
         self.settings_sync_helper = create_settings_sync_helper()
         self.revision_helper = create_revision_helper()
+
+        self.branches_list = with_scrollbar_space(
+            ft.ListView(visible=False, expand=True)
+        )
+        self.tags_list = with_scrollbar_space(
+            ft.ListView(visible=False, expand=True))
+
+        self.branches_loading_spinner = ft.ProgressRing()
+        self.tags_loading_spinner = ft.ProgressRing()
+
+        self.curr_revision_span = ft.TextSpan(
+            "", style=ft.TextStyle(weight=ft.FontWeight.BOLD)
+        )
 
         self.download_dialog = DownloadDialog()
         self.error_dialog = ErrorDialog()
@@ -93,39 +96,38 @@ class SettingsUpdateDialog(ft.AlertDialog):
         self.open = True
         self.update()
 
-        self.reload()
+        async def _retrieve_logs():
+            while self.open:
+                self.reload()
 
-        self.fill_branches_list()
-        self.fill_tags_list()
-        self.curr_revision_span.text = self._get_current_revision()
-        self.curr_revision_span.update()
+                self.fill_branches_list()
+                self.fill_tags_list()
+                self.curr_revision_span.text = self._get_current_revision()
+                self.update()
 
-        self.reload(show_spinner=False)
+                self.reload(show_spinner=False)
+                await asyncio.sleep(1)
+
+        self.page.run_task(_retrieve_logs)
 
     def fill_branches_list(self):
         branches = self.revision_helper.get_branches()
 
-        self.branches_list.controls.clear()
         self.branches_list.controls = self._get_items(branches)
+        self.update()
 
     def fill_tags_list(self):
         tags = self.revision_helper.get_tags()
 
-        self.tags_list.controls.clear()
         self.tags_list.controls = self._get_items(tags)
+        self.update()
 
     def reload(self, show_spinner: bool = True):
         self.branches_loading_spinner.visible = show_spinner
-        self.branches_loading_spinner.update()
-
         self.branches_list.visible = not show_spinner
-        self.branches_list.update()
-
         self.tags_loading_spinner.visible = show_spinner
-        self.tags_loading_spinner.update()
-
         self.tags_list.visible = not show_spinner
-        self.tags_list.update()
+        self.update()
 
     def _get_items(self, revisions: list[dict]):
         return [
