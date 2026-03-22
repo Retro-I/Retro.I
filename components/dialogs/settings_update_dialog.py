@@ -25,7 +25,8 @@ class SettingsUpdateDialog(ft.AlertDialog):
             ft.ListView(visible=False, expand=True)
         )
         self.tags_list = with_scrollbar_space(
-            ft.ListView(visible=False, expand=True))
+            ft.ListView(visible=False, expand=True)
+        )
 
         self.branches_loading_spinner = ft.ProgressRing()
         self.tags_loading_spinner = ft.ProgressRing()
@@ -72,13 +73,27 @@ class SettingsUpdateDialog(ft.AlertDialog):
                             ft.TabBarView(
                                 expand=True,
                                 controls=[
+                                    # TODO - this is not aligned yet.
+                                    #  maybe a flet bug??
                                     ft.Column(
+                                        width=500,
+                                        expand=True,
+                                        alignment=ft.MainAxisAlignment.CENTER,
+                                        horizontal_alignment=(
+                                            ft.CrossAxisAlignment.CENTER
+                                        ),
                                         controls=[
                                             self.branches_list,
                                             self.branches_loading_spinner,
                                         ],
                                     ),
                                     ft.Column(
+                                        width=500,
+                                        expand=True,
+                                        alignment=ft.MainAxisAlignment.CENTER,
+                                        horizontal_alignment=(
+                                            ft.CrossAxisAlignment.CENTER
+                                        ),
                                         controls=[
                                             self.tags_list,
                                             self.tags_loading_spinner,
