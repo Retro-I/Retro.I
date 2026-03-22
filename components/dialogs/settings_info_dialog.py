@@ -1,5 +1,4 @@
-import threading
-import time
+import asyncio
 
 import flet as ft
 
@@ -69,11 +68,10 @@ class SettingsInfoDialog(ft.AlertDialog):
         self.open = True
         self.update()
 
-        def _retrieve_system_info():
+        async def _retrieve_system_info():
             while self.open:
                 self.info.set_system_info()
 
-                time.sleep(0.5)
+                await asyncio.sleep(0.5)
 
-        process = threading.Thread(target=_retrieve_system_info)
-        process.start()
+        self.page.run_task(_retrieve_system_info)
