@@ -1,3 +1,5 @@
+import asyncio
+
 import flet as ft
 
 from components.dialogs.wifi_connection_dialog import WifiConnectionDialog
@@ -54,30 +56,24 @@ class WifiDialog(ft.AlertDialog):
             ]
         )
 
-    def open_dialog(self):
+    async def open_dialog(self):
         self.open = True
-        self.update()
-
-        self.toggle_wifi_switch.value = self.wifi_helper.is_enabled()
+        self.toggle_wifi_switch.value = wifi_helper.is_enabled()
         self.toggle_wifi_switch.update()
 
         self.listview.visible = False
-        self.listview.update()
-
         self.not_found.visible = False
-        self.not_found.update()
+        self.update()
 
         if not self.wifi_helper.is_enabled():
             return
 
         self.loading.visible = True
-        self.loading.update()
-
         self.listview.controls = []
-        self.listview.update()
+        self.update()
 
         curr_ssid = self.system_helper.get_current_ssid()
-        networks = self.wifi_helper.get_networks()
+        networks = await asyncio.to_thread(self.wifi_helper.get_networks)
 
         for n in networks:
             ico = ft.Icon(ft.Icons.DONE, size=28, visible=False)
@@ -96,27 +92,19 @@ class WifiDialog(ft.AlertDialog):
             self.listview.controls.append(btn)
 
         self.loading.visible = False
-        self.loading.update()
 
         if len(networks) == 0:
             self.not_found.visible = True
-            self.not_found.update()
 
         self.listview.visible = True
-        self.listview.update()
+        self.update()
 
     def toggle_wifi(self):
         self.wifi_helper.toggle_wifi()
         self.on_toggle_wifi()
 
-        if self.wifi_helper.is_enabled():
-            self.listview.visible = False
-            self.open_dialog()
-        else:
-            self.listview.visible = True
-            self.open_dialog()
-
-        self.listview.update()
+        self.listview.visible = not self.wifi_helper.is_enabled()
+        self.page.run_task(self.open_dialog)
 
     def close(self):
         self.open = False

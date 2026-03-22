@@ -245,4 +245,4 @@ class Taskbar(ft.AppBar):
             self.system_helper.is_connection_over_wifi()
             or self.system_helper.get_current_ssid() == ""
         ) and not self.system_helper.is_connection_over_lan():
-            self.wifi_dialog.open_dialog()
+            self.page.run_task(self.wifi_dialog.open_dialog)
