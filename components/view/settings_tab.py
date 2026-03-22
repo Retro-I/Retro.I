@@ -96,9 +96,7 @@ class SettingsTab(ft.Column):
                         SettingsButton(
                             ft.Icons.NOTES,
                             text="Logs",
-                            callback=lambda e: PageState.page.show_dialog(
-                                self.logs_dialog
-                            ),
+                            callback=lambda e: self.logs_dialog.open_dialog(),
                             visible=(
                                 developer_settings().is_developer_mode_active()
                             ),
@@ -119,6 +117,7 @@ class SettingsTab(ft.Column):
 
         PageState.page.add(self.info_dialog)
         PageState.page.add(self.update_dialog)
+        PageState.page.add(self.logs_dialog)
 
     def show(self):
         self.visible = True

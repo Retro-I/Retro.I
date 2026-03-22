@@ -1,5 +1,4 @@
-import threading
-import time
+import asyncio
 
 import flet as ft
 
@@ -34,21 +33,17 @@ class SettingsLogsDialog(ft.AlertDialog):
             ft.FilledButton("Abbrechen", on_click=lambda e: self.close_dialog())
         ]
 
-    def update_logs(self):
-        while self.get_logs:
+    async def update_logs(self):
+        while self.open:
             self.logs_text_field.value = self.logs_helper.get_logs()
             self.logs_text_field.update()
-            time.sleep(0.5)
+            await asyncio.sleep(0.5)
 
     def open_dialog(self):
-        self.get_logs = True
-        logs_thread = threading.Thread(target=self.update_logs)
-        logs_thread.start()
-
         self.open = True
+        self.page.run_task(self.update_logs)
         self.update()
 
     def close_dialog(self):
-        self.get_logs = False
         self.open = False
         self.update()
