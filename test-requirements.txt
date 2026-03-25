@@ -1,7 +1,7 @@
 flet==0.28.3
 pillow==12.1.1
 CairoSVG==2.9.0
-requests==2.32.5
+requests==2.33.0
 isort==8.0.1
 flake8==7.3.0
 black==26.3.1
