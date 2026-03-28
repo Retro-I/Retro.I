@@ -4,6 +4,7 @@ from helper.Audio import Audio
 
 audio_helper = Audio()
 from core.app_state import AppState
+from core.factories.strip_factory import create_strip_state
 
 
 class VolumeDialog(ft.AlertDialog):
@@ -13,6 +14,7 @@ class VolumeDialog(ft.AlertDialog):
         self.on_update = on_update
         self.on_volume_update = on_volume_update
         self.on_mute_update = on_mute_update
+        self.strip_state = create_strip_state()
 
         max = 100
 
@@ -60,8 +62,7 @@ class VolumeDialog(ft.AlertDialog):
         self.volume_slider.disabled = audio_helper.is_mute()
         self.volume_slider.update()
 
-        self.on_mute_update(audio_helper.is_mute())
-        self.on_update()
+        self.strip_state.toggle_mute(self.audio_state.is_mute())
         AppState.app_state.update_taskbar()
 
     def on_volume_change(self):
@@ -69,8 +70,7 @@ class VolumeDialog(ft.AlertDialog):
         self.volume_text.value = f"{audio_helper.get_volume()}%"
         self.volume_text.update()
 
-        self.on_volume_update(int(audio_helper.get_volume()))
-        self.on_update()
+        self.strip_state.update_sound_strip(int(self.audio_state.get_volume()))
         AppState.app_state.update_taskbar()
 
     def open_dialog(self):

@@ -26,6 +26,7 @@ class RotaryTreble:
     def __init__(self, on_taskbar_update, on_treble_update):
         self.on_taskbar_update = on_taskbar_update
         self.on_treble_update = on_treble_update
+        self.strip_state = create_strip_state()
 
         rotary = pyky040.Encoder(
             CLK=self.TREBLE_UP_PIN, DT=self.TREBLE_DOWN_PIN
@@ -46,14 +47,18 @@ class RotaryTreble:
             ):
                 Constants.current_treble_step += self.TREBLE_STEP
                 self.update(Constants.current_treble_step)
-                self.on_treble_update(Constants.current_treble_step)
+                self.strip_state.update_treble_strip(
+                    Constants.current_treble_step
+                )
 
             if (
                 Constants.current_treble_step
                 > treble_steps_helper.get_max_step()
             ):
                 self.update(treble_steps_helper.get_max_step())
-                self.on_treble_update(Constants.current_treble_step)
+                self.strip_state.update_treble_strip(
+                    Constants.current_treble_step
+                )
 
         self.COUNTER += 1
 
@@ -66,14 +71,18 @@ class RotaryTreble:
             ):
                 Constants.current_treble_step -= self.TREBLE_STEP
                 self.update(Constants.current_treble_step)
-                self.on_treble_update(Constants.current_treble_step)
+                self.strip_state.update_treble_strip(
+                    Constants.current_treble_step
+                )
 
             if (
                 Constants.current_treble_step
                 < treble_steps_helper.get_min_step()
             ):
                 self.update(treble_steps_helper.get_min_step())
-                self.on_treble_update(Constants.current_treble_step)
+                self.strip_state.update_treble_strip(
+                    Constants.current_treble_step
+                )
 
         self.COUNTER -= 1
 

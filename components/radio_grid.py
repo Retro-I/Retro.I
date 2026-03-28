@@ -2,6 +2,7 @@ import flet as ft
 
 from components.dialogs.StationModifyDialog import StationModifyDialog
 from helper.Audio import Audio
+from core.factories.strip_factory import create_strip_state
 from core.helpers.factories.system import create_system_helper
 from core.settings.factories.radio_stations import (
     create_radio_stations_settings,
@@ -24,6 +25,7 @@ class RadioGrid(ft.GridView):
     ):
         super().__init__()
 
+        self.strip_state = create_strip_state()
         self.system_helper = create_system_helper()
         self.stations = create_radio_stations_settings()
 
@@ -117,7 +119,7 @@ class RadioGrid(ft.GridView):
 
         audio_helper.play_src(station["src"])
 
-        self.on_strip_run_color(color)
+        self.strip_state.update_strip(color)
 
         if self.on_theme_change_radio_station is not None:
             self.on_theme_change_radio_station(color)

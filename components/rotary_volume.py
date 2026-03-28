@@ -4,6 +4,8 @@ from pyky040 import pyky040
 
 from helper.Audio import Audio
 from core.app_state import AppState
+from core.factories.strip_factory import create_strip_state
+from core.helpers.factories.audio import create_audio_helper
 from helper.GpioHelper import GpioHelper
 
 audio_helper = Audio()
@@ -22,6 +24,8 @@ class RotaryVolume:
         self.on_taskbar_update = on_taskbar_update
         self.on_strip_toggle_mute = on_strip_toggle_mute
         self.on_strip_update_sound = on_strip_update_sound
+
+        self.strip_state = create_strip_state()
 
         rotary = pyky040.Encoder(
             CLK=self.VOLUME_UP_PIN,
@@ -58,13 +62,13 @@ class RotaryVolume:
 
     def toggle_mute(self):
         is_mute = audio_helper.toggle_mute()
-        self.on_strip_toggle_mute(is_mute)
         self.on_taskbar_update()
+        self.strip_state.toggle_mute(is_mute)
         AppState.app_state.update_taskbar()
 
     def update(self, value):
         if not audio_helper.is_mute():
             audio_helper.set_volume(value)
-            self.on_strip_update_sound(value)
             self.on_taskbar_update()
+            self.strip_state.update_sound_strip(value)
             AppState.app_state.update_taskbar()

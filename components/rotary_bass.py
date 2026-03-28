@@ -4,6 +4,7 @@ from pyky040 import pyky040
 
 from helper.Audio import Audio
 from core.app_state import AppState
+from core.factories.strip_factory import create_strip_state
 from helper.AudioEffects import AudioEffects
 from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
@@ -26,6 +27,9 @@ class RotaryBass:
         self.on_taskbar_update = on_taskbar_update
         self.on_bass_update = on_bass_update
 
+    def __init__(self):
+        self.strip_state = create_strip_state()
+
         rotary = pyky040.Encoder(CLK=self.BASS_UP_PIN, DT=self.BASS_DOWN_PIN)
         rotary.setup(
             inc_callback=lambda e: self.inc_bass_boost(),
@@ -43,11 +47,11 @@ class RotaryBass:
             ):
                 Constants.current_bass_step += self.BASS_STEP
                 self.update(Constants.current_bass_step)
-                self.on_bass_update(Constants.current_bass_step)
+                self.strip_state.update_bass_strip(Constants.current_bass_step)
 
             if Constants.current_bass_step > bass_steps_helper.get_max_step():
                 self.update(bass_steps_helper.get_max_step())
-                self.on_bass_update(Constants.current_bass_step)
+                self.strip_state.update_bass_strip(Constants.current_bass_step)
 
         self.COUNTER += 1
 
@@ -60,11 +64,11 @@ class RotaryBass:
             ):
                 Constants.current_bass_step -= self.BASS_STEP
                 self.update(Constants.current_bass_step)
-                self.on_bass_update(Constants.current_bass_step)
+                self.strip_state.update_bass_strip(Constants.current_bass_step)
 
             if Constants.current_bass_step < bass_steps_helper.get_min_step():
                 self.update(bass_steps_helper.get_min_step())
-                self.on_bass_update(Constants.current_bass_step)
+                self.strip_state.update_bass_strip(Constants.current_bass_step)
 
         self.COUNTER -= 1
 
