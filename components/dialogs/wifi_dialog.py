@@ -2,10 +2,9 @@ import flet as ft
 
 from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
 from components.Scrollbar import with_scrollbar_space
-from helper.SystemHelper import SystemHelper
+from core.helpers.factories.system import create_system_helper
 from helper.WifiHelper import WifiHelper
 
-system_helper = SystemHelper()
 wifi_helper = WifiHelper()
 
 
@@ -20,6 +19,8 @@ class WifiDialog(ft.AlertDialog):
 
     def __init__(self, connection_dialog: WifiConnectionDialog, on_toggle_wifi):
         super().__init__()
+
+        self.system_helper = create_system_helper()
 
         self.connection_dialog = connection_dialog
         self.on_toggle_wifi = on_toggle_wifi
@@ -74,7 +75,7 @@ class WifiDialog(ft.AlertDialog):
         self.listview.controls = []
         self.listview.update()
 
-        curr_ssid = system_helper.get_current_ssid()
+        curr_ssid = self.system_helper.get_current_ssid()
         networks = wifi_helper.get_networks()
 
         for n in networks:

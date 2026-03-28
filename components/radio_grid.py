@@ -2,13 +2,13 @@ import flet as ft
 
 from components.dialogs.StationModifyDialog import StationModifyDialog
 from helper.Audio import Audio
+from core.helpers.factories.system import create_system_helper
 from core.settings.factories.radio_stations import (
     create_radio_stations_settings,
 )
 from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
-from helper.SystemHelper import SystemHelper
 
 constants = Constants()
 stations_helper = Stations()
@@ -24,6 +24,7 @@ class RadioGrid(ft.GridView):
     ):
         super().__init__()
 
+        self.system_helper = create_system_helper()
         self.stations = create_radio_stations_settings()
 
         self.station_modify_dialog = StationModifyDialog()
@@ -138,7 +139,7 @@ class RadioGrid(ft.GridView):
 
     def get_logo(self, station):
         return ft.Image(
-            src=system_helper.get_img_path(station["logo"]),
+            src=self.system_helper.get_img_path(station["logo"]),
             border_radius=ft.border_radius.all(4),
             fit=ft.ImageFit.FIT_WIDTH,
         )

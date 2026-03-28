@@ -1,8 +1,6 @@
 import flet as ft
 
-from helper.SystemHelper import SystemHelper
-
-system_helper = SystemHelper()
+from core.helpers.factories.system import create_system_helper
 
 
 class DownloadDialog(ft.AlertDialog):
@@ -13,6 +11,8 @@ class DownloadDialog(ft.AlertDialog):
 
     def __init__(self):
         super().__init__()
+
+        self.system_helper = create_system_helper()
 
         self.content = ft.Column(
             [
@@ -53,5 +53,5 @@ class DownloadDialog(ft.AlertDialog):
         self.update()
 
     def cancel(self):
-        system_helper.cancel_revision_update()
+        self.system_helper.cancel_revision_update()
         self.close_dialog()

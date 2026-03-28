@@ -2,9 +2,7 @@ import flet as ft
 
 from core.helpers.factories.qrcode import create_qrcode_helper
 from helper.RevisionHelper import RevisionHelper
-from helper.SystemHelper import SystemHelper
 
-system_helper = SystemHelper()
 revision_helper = RevisionHelper()
 
 

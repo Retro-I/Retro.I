@@ -22,7 +22,6 @@ from helper.RadioHelper import RadioHelper
 from helper.StartupErrorHelper import StartupErrorHelper
 from helper.Stations import Stations
 from helper.Strip import Strip
-from helper.SystemHelper import SystemHelper
 from helper.WifiHelper import WifiHelper
 
 from core.helpers.factories.settings_sync import create_settings_sync_helper
@@ -35,7 +34,7 @@ logger = logging.getLogger(__name__)
 wifi_helper = WifiHelper()
 radio_helper = RadioHelper()
 bluetooth_helper = BluetoothHelper()
-system_helper = SystemHelper()
+system_helper = create_system_helper()
 startup_error_helper = StartupErrorHelper()
 settings_sync_helper = create_settings_sync_helper()
 stations_helper = Stations()

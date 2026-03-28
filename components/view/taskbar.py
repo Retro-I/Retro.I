@@ -10,16 +10,15 @@ from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
 from helper.PageState import PageState
-from helper.SystemHelper import SystemHelper
 from helper.WifiHelper import WifiHelper
 
+from core.helpers.factories.system import create_system_helper
 from core.helpers.factories.theme import create_theme_helper
 
 audio_helper = Audio()
 audio_effects = AudioEffects()
 wifi_helper = WifiHelper()
 bluetooth_helper = BluetoothHelper()
-system_helper = SystemHelper()
 
 
 class Taskbar(ft.AppBar):
@@ -72,7 +71,7 @@ class Taskbar(ft.AppBar):
         self.ico_wifi = ft.IconButton(
             icon=(
                 ft.Icons.WIFI
-                if system_helper.is_connection_over_wifi()
+                if self.system_helper.is_connection_over_wifi()
                 else ft.Icons.LAN
             ),
             icon_size=self.taskbar_icon_size,
@@ -169,13 +168,13 @@ class Taskbar(ft.AppBar):
         PageState.page.update()
 
     def update_wifi(self):
-        if system_helper.is_connection_over_lan():
+        if self.system_helper.is_connection_over_lan():
             self.ico_wifi.icon = ft.Icons.LAN
             self.ico_wifi.icon_color = ft.Colors.GREEN
             self.ico_wifi.update()
             return
 
-        if system_helper.is_connection_over_wifi():
+        if self.system_helper.is_connection_over_wifi():
             self.ico_wifi.icon = ft.Icons.WIFI
             self.ico_wifi.icon_color = ft.Colors.GREEN
             self.ico_wifi.update()
@@ -252,7 +251,7 @@ class Taskbar(ft.AppBar):
 
     def on_ico_wifi_click(self):
         if (
-            system_helper.is_connection_over_wifi()
-            or system_helper.get_current_ssid() == ""
-        ) and not system_helper.is_connection_over_lan():
+            self.system_helper.is_connection_over_wifi()
+            or self.system_helper.get_current_ssid() == ""
+        ) and not self.system_helper.is_connection_over_lan():
             self.wifi_dialog.open_dialog()
