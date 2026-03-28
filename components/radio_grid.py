@@ -1,8 +1,8 @@
 import flet as ft
 
 from components.dialogs.StationModifyDialog import StationModifyDialog
-from helper.Audio import Audio
 from core.factories.strip_factory import create_strip_state
+from core.helpers.factories.player import create_player_helper
 from core.helpers.factories.system import create_system_helper
 from core.settings.factories.radio_stations import (
     create_radio_stations_settings,
@@ -13,7 +13,6 @@ from helper.RadioHelper import RadioHelper
 
 constants = Constants()
 stations_helper = Stations()
-audio_helper = Audio()
 radio_helper = RadioHelper()
 
 
@@ -26,6 +25,7 @@ class RadioGrid(ft.GridView):
         super().__init__()
 
         self.strip_state = create_strip_state()
+        self.player = create_player_helper()
         self.system_helper = create_system_helper()
         self.stations = create_radio_stations_settings()
 
@@ -117,7 +117,7 @@ class RadioGrid(ft.GridView):
 
         self.toggle_indicator(index)
 
-        audio_helper.play_src(station["src"])
+        self.player.play_src(station["src"])
 
         self.strip_state.update_strip(color)
 
@@ -127,7 +127,7 @@ class RadioGrid(ft.GridView):
     def stop_radio_station(self):
         Constants.current_radio_station = {}
         self.toggle_indicator()
-        audio_helper.pause()
+        self.player.pause()
         self.on_theme_stop_radio_station()
 
     def disable_indicator(self):
