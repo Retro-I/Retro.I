@@ -9,14 +9,14 @@ from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
 from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
 from helper.StripSettingsHelper import StripSettingsHelper
 from helper.SystemHelper import SystemHelper
-from helper.ThemeHelper import ThemeHelper
+from core.helpers.factories.theme import create_theme_helper
 
 logger = logging.getLogger(__name__)
 
 system_helper = SystemHelper()
 revision_helper = RevisionHelper()
 secured_mode_settings_helper = SecuredModeSettingsHelper()
-theme_helper = ThemeHelper()
+theme_helper = create_theme_helper()
 scrollbar_settings_helper = ScrollbarSettingsHelper()
 audio_helper = Audio()
 strip_settings_helper = StripSettingsHelper()

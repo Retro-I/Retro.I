@@ -11,14 +11,14 @@ from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.SystemHelper import SystemHelper
-from helper.ThemeHelper import ThemeHelper
 from helper.WifiHelper import WifiHelper
+
+from core.helpers.factories.theme import create_theme_helper
 
 audio_helper = Audio()
 audio_effects = AudioEffects()
 wifi_helper = WifiHelper()
 bluetooth_helper = BluetoothHelper()
-theme_helper = ThemeHelper()
 system_helper = SystemHelper()
 
 
@@ -32,6 +32,8 @@ class Taskbar(ft.AppBar):
         self, on_volume_update, on_mute_update, on_bass_update, on_treble_update
     ):
         super().__init__()
+        self.theme_helper = create_theme_helper()
+        self.system_helper = create_system_helper()
 
         self.on_bass_update = on_bass_update
         self.on_treble_update = on_treble_update
@@ -60,7 +62,7 @@ class Taskbar(ft.AppBar):
         self.ico_toggle_theme = ft.IconButton(
             icon=(
                 ft.Icons.LIGHT_MODE
-                if theme_helper.get_theme() == ft.ThemeMode.LIGHT
+                if self.theme_helper.get_theme() == ft.ThemeMode.LIGHT
                 else ft.Icons.DARK_MODE
             ),
             icon_size=self.taskbar_icon_size,
@@ -156,14 +158,14 @@ class Taskbar(ft.AppBar):
         super().update()
 
     def toggle_theme(self):
-        theme_helper.toggle_theme()
+        self.theme_helper.toggle_theme()
         self.ico_toggle_theme.icon = (
             ft.Icons.LIGHT_MODE
-            if theme_helper.get_theme() == ft.ThemeMode.LIGHT
+            if self.theme_helper.get_theme() == ft.ThemeMode.LIGHT
             else ft.Icons.DARK_MODE
         )
         self.ico_toggle_theme.update()
-        PageState.page.theme_mode = theme_helper.get_theme()
+        PageState.page.theme_mode = self.theme_helper.get_theme()
         PageState.page.update()
 
     def update_wifi(self):

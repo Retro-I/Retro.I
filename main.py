@@ -24,10 +24,10 @@ from helper.StartupErrorHelper import StartupErrorHelper
 from helper.Stations import Stations
 from helper.Strip import Strip
 from helper.SystemHelper import SystemHelper
-from helper.ThemeHelper import ThemeHelper
 from helper.WifiHelper import WifiHelper
 
 from core.helpers.factories.settings_sync import create_settings_sync_helper
+from core.helpers.factories.theme import create_theme_helper
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ sounds = Sounds()
 audio_helper = Audio()
 page_helper = PageState()
 audio_effects = AudioEffects()
-theme_helper = ThemeHelper()
+theme_helper = create_theme_helper()
 gpio_helper = GpioHelper()
 logs_helper = LogsHelper()
 

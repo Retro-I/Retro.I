@@ -11,12 +11,12 @@ from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.PartyModeHelper import PartyModeHelper
 from helper.SystemHelper import SystemHelper
-from helper.ThemeHelper import ThemeHelper
+
+from core.helpers.factories.theme import create_theme_helper
 
 bluetooth_helper = BluetoothHelper()
 system_helper = SystemHelper()
 audio_helper = Audio()
-theme_helper = ThemeHelper()
 party_mode_helper = PartyModeHelper()
 
 
@@ -34,6 +34,8 @@ class Tabs:
         soundboard_tab: SoundboardTab,
         settings_tab: SettingsTab,
     ):
+        self.theme_helper = create_theme_helper()
+
         self.taskbar = taskbar
         self.radio_tab = radio_tab
         self.bluetooth_tab = bluetooth_tab
@@ -41,7 +43,7 @@ class Tabs:
         self.settings_tab = settings_tab
 
     def change_tab(self, e):
-        PageState.page.theme_mode = theme_helper.get_theme()
+        PageState.page.theme_mode = self.theme_helper.get_theme()
         PageState.page.update()
 
         new_tab_index = e.control.selected_index
