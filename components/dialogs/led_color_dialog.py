@@ -3,13 +3,13 @@ from enum import StrEnum
 import flet as ft
 from flet_contrib.color_picker.src.color_picker import ColorPicker
 
-from helper.ColorHelper import ColorHelper
 from helper.SplashscreenHelper import SplashscreenHelper
 from helper.StripSettingsHelper import StripSettingsHelper
 
+from core.helpers.factories.color import create_color_helper
+
 splashscreen_helper = SplashscreenHelper()
 settings_helper = StripSettingsHelper()
-color_helper = ColorHelper()
 
 
 class LedTypeEnum(StrEnum):
@@ -61,6 +61,8 @@ class LedColorDialog(ft.AlertDialog):
 class MyColorPicker(ColorPicker):
     def __init__(self, strip, color):
         super().__init__()
+        self.color_helper = create_color_helper()
+
         self.strip = strip
         self.color = color
 
@@ -68,4 +70,4 @@ class MyColorPicker(ColorPicker):
     def color(self, value):
         ColorPicker.color.fset(self, value)
         if settings_helper.is_static_color():
-            self.strip.set_color(color_helper.toRgb(value))
+            self.strip.set_color(self.color_helper.toRgb(value))

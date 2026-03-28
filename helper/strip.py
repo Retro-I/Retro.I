@@ -8,15 +8,15 @@ from flet.core.control_event import ControlEvent
 
 from helper.Audio import Audio
 from helper.BassStepsHelper import BassStepsHelper
-from helper.ColorHelper import ColorHelper
 from helper.Constants import Constants
 from helper.StripSettingsHelper import StripSettingsHelper
+
+from core.helpers.factories.color import create_color_helper
 from utils.WaiterProcess import WaiterProcess
 
 c = Constants()
 settings_helper = StripSettingsHelper()
 bass_steps_helper = BassStepsHelper()
-color_helper = ColorHelper()
 audio_helper = Audio()
 
 
@@ -35,8 +35,10 @@ class Strip:
     )
 
     def __init__(self):
+        self.color_helper = create_color_helper()
+
         start_color = (
-            color_helper.toRgb(settings_helper.get_static_color())
+            self.color_helper.toRgb(settings_helper.get_static_color())
             if settings_helper.is_static_color()
             else self.curr_color
         )
@@ -168,7 +170,7 @@ class Strip:
 
     def update_strip(self, color):
         self.sound_mode_active = True
-        strip_color = color_helper.toRgb(color)
+        strip_color = self.color_helper.toRgb(color)
         self.curr_station_color = strip_color
         if not settings_helper.is_static_color():
             self.set_color(strip_color)

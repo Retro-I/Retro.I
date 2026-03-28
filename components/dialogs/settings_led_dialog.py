@@ -1,17 +1,19 @@
 import flet as ft
 
 from components.dialogs.LedColorDialog import LedColorDialog, LedTypeEnum
-from helper.ColorHelper import ColorHelper
 from helper.PageState import PageState
 from helper.StripSettingsHelper import StripSettingsHelper
 
+from core.helpers.factories.color import create_color_helper
+
 settings_helper = StripSettingsHelper()
-color_helper = ColorHelper()
 
 
 class SettingsLedDialog(ft.AlertDialog):
     def __init__(self, strip):
         super().__init__()
+
+        self.color_helper = create_color_helper()
 
         self.strip = strip
 
@@ -80,9 +82,10 @@ class SettingsLedDialog(ft.AlertDialog):
         elif e.control.value == LedTypeEnum.STATIC:
             settings_helper.update_settings(is_static_color=True)
             self.btn_open_led_dialog.visible = True
-            self.strip.set_color(
-                color_helper.toRgb(self.led_color_dialog.color_picker.color)
+            color = self.color_helper.toRgb(
+                self.led_color_dialog.color_picker.color
             )
+            self.strip.set_color(color)
         self.btn_open_led_dialog.update()
 
     def open_led_color_dialog(self):

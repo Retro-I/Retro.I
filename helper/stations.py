@@ -2,12 +2,11 @@ import json
 import uuid
 
 from helper.Audio import Audio
-from helper.ColorHelper import ColorHelper
+from core.helpers.factories.color import create_color_helper
 from core.helpers.factories.settings_sync import create_settings_sync_helper
 from helper.Constants import Constants
 
 c = Constants()
-color_helper = ColorHelper()
 audio_helper = Audio()
 
 
@@ -16,6 +15,7 @@ class Stations:
     STATIONS_SETTINGS_PATH = f"{Constants.settings_path()}/{STATION_SETTING}"
 
     def __init__(self):
+        self.color_helper = create_color_helper()
         self.settings_sync_helper = create_settings_sync_helper()
 
     def load_radio_stations(self):
@@ -35,7 +35,7 @@ class Stations:
         station["favorite"] = False
 
         if station["name"] != "":
-            station["color"] = color_helper.extract_color(station["logo"])
+            station["color"] = self.color_helper.extract_color(station["logo"])
 
         with open(self.STATIONS_SETTINGS_PATH, "r+") as file:
             data = json.load(file)

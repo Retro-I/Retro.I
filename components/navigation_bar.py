@@ -1,12 +1,10 @@
 import flet as ft
 
 from components.view.Tabs import Tabs
-from helper.ColorHelper import ColorHelper
 from helper.PartyModeHelper import PartyModeHelper
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
-color_helper = ColorHelper()
 party_mode_helper = PartyModeHelper()
 
 ICON_SIZE = 28
