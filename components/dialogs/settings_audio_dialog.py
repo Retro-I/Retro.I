@@ -2,9 +2,6 @@ import flet as ft
 
 from components.VolumeInputField import VolumeInputField
 from components.VolumeStepInputField import VolumeStepInputField
-from helper.Stations import Stations
-
-stations_helper = Stations()
 from core.helpers.factories.audio import create_audio_helper
 
 

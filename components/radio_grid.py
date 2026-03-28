@@ -12,7 +12,6 @@ from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
 
 constants = Constants()
-stations_helper = Stations()
 radio_helper = RadioHelper()
 
 

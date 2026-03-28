@@ -6,7 +6,6 @@ from components.dialogs.BluetoothDeviceEditDialog import (
     BluetoothDeviceEditDialog,
 )
 from components.Scrollbar import with_scrollbar_space
-from components.view.Taskbar import Taskbar
 from core.app_state import AppState
 from core.helpers.factories.player import create_player_helper
 from helper.BluetoothHelper import BluetoothHelper
@@ -16,18 +15,18 @@ bluetooth_helper = BluetoothHelper()
 
 
 class BluetoothDeviceConnected:
-    listview = with_scrollbar_space(ft.ListView(spacing=10, expand=True))
-    taskbar = None
-    paired_devices = []
-    bluetooth_device_edit_dialog: BluetoothDeviceEditDialog = None
-    on_connected = None
-    on_disconnected = None
+    def __init__(self, on_connected, on_disconnected):
+        self.listview = with_scrollbar_space(
+            ft.ListView(spacing=10, expand=True)
+        )
 
-    def __init__(self, taskbar: Taskbar, on_connected, on_disconnected):
-        self.taskbar = taskbar
         self.bluetooth_device_edit_dialog = BluetoothDeviceEditDialog()
         self.on_connected = on_connected
         self.on_disconnected = on_disconnected
+
+        self.paired_devices = []
+
+        self.player = create_player_helper()
 
         PageState.page.add(self.bluetooth_device_edit_dialog)
 

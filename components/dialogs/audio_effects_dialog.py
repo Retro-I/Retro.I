@@ -1,22 +1,21 @@
 import flet as ft
 
-from components.RotaryTreble import audio_effects, treble_steps_helper
-from helper.Audio import Audio
 from core.app_state import AppState
 from core.factories.strip_factory import create_strip_state
+from helper.AudioEffects import AudioEffects
 from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
+from helper.TrebleStepsHelper import TrebleStepsHelper
 
-audio_helper = Audio()
+audio_effects = AudioEffects()
 bass_steps_helper = BassStepsHelper()
+treble_steps_helper = TrebleStepsHelper()
 
 
 class AudioEffectsDialog(ft.AlertDialog):
-    def __init__(self, on_update_bass, on_update_treble):
+    def __init__(self):
         super().__init__()
 
-        self.on_update_bass = on_update_bass
-        self.on_update_treble = on_update_treble
         self.strip_state = create_strip_state()
 
         self.bass_slider = ft.Slider(
