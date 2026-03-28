@@ -1,31 +1,31 @@
 import logging
 import subprocess
 
-from helper.Audio import Audio
-from helper.Constants import Constants
-from helper.PartyModeHelper import PartyModeHelper
-from helper.RevisionHelper import RevisionHelper
-from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
-from helper.StripSettingsHelper import StripSettingsHelper
-from helper.SystemHelper import SystemHelper
+from core.helpers.factories.audio import create_audio_helper
+from helper.constants import Constants
+from helper.party_mode_helper import PartyModeHelper
+from helper.revision_helper import RevisionHelper
+from helper.secured_mode_settings_helper import SecuredModeSettingsHelper
 
+from core.helpers.factories.system import create_system_helper
 from core.helpers.factories.theme import create_theme_helper
 from core.settings.factories.scrollbar import create_scrollbar_settings
+from core.settings.factories.strip import create_strip_settings
 
 logger = logging.getLogger(__name__)
 
-system_helper = SystemHelper()
+system_helper = create_system_helper()
 revision_helper = RevisionHelper()
 secured_mode_settings_helper = SecuredModeSettingsHelper()
-theme_helper = create_theme_helper()
-audio_helper = Audio()
-strip_settings_helper = StripSettingsHelper()
+audio_helper = create_audio_helper()
 party_mode_helper = PartyModeHelper()
 
 
 class LogsHelper:
     def __init__(self):
+        self.theme_helper = create_theme_helper()
         self.scrollbar_settings_helper = create_scrollbar_settings()
+        self.strip_settings_helper = create_strip_settings()
 
     def get_logs(self) -> str:
         start_time = f"{Constants.get_service_start_time()}"
@@ -48,7 +48,7 @@ class LogsHelper:
             f" Secured-Mode: "
             f"{secured_mode_settings_helper.is_secured_mode_enabled()}"
         )
-        logger.info(f" Theme: {theme_helper.get_theme()}")
+        logger.info(f" Theme: {self.theme_helper.get_theme()}")
         logger.info(
             f" Scrollbar enalbed: "
             f"{self.scrollbar_settings_helper.is_scrollbar_enabled()}"
@@ -64,11 +64,14 @@ class LogsHelper:
         )
         logger.info(" Strip")
         logger.info(
-            f"     Is active: {strip_settings_helper.is_strip_active()}"
+            f"     Is active: {self.strip_settings_helper.is_strip_active()}"
         )
-        logger.info(f"     Length: {strip_settings_helper.get_led_length()}")
         logger.info(
-            f"     Brightness: {strip_settings_helper.get_curr_brightness()}"
+            f"     Length: {self.strip_settings_helper.get_led_length()}"
+        )
+        logger.info(
+            f"     Brightness: "
+            f"{self.strip_settings_helper.get_curr_brightness()}"
         )
         logger.info(" -------- Debug Informations --------")
         logger.info("")
