@@ -1,6 +1,6 @@
 import flet as ft
 
-from helper import QrCodeHelper
+from core.helpers.factories.qrcode import create_qrcode_helper
 from helper.RevisionHelper import RevisionHelper
 from helper.SystemHelper import SystemHelper
 
@@ -30,7 +30,7 @@ class Documentation(ft.Column):
             ft.Row(
                 [
                     ft.Image(
-                        src_base64=QrCodeHelper.str_to_qr_code(
+                        src_base64=create_qrcode_helper().str_to_qr_code(
                             "https://docs.retroi.de"
                         ),
                         width=200,
