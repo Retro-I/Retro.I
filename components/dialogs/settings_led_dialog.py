@@ -2,17 +2,16 @@ import flet as ft
 
 from components.dialogs.LedColorDialog import LedColorDialog, LedTypeEnum
 from helper.PageState import PageState
-from helper.StripSettingsHelper import StripSettingsHelper
 
 from core.helpers.factories.color import create_color_helper
-
-settings_helper = StripSettingsHelper()
+from core.settings.factories.strip import create_strip_settings
 
 
 class SettingsLedDialog(ft.AlertDialog):
     def __init__(self, strip):
         super().__init__()
 
+        self.settings_helper = create_strip_settings()
         self.color_helper = create_color_helper()
 
         self.strip = strip
@@ -24,7 +23,7 @@ class SettingsLedDialog(ft.AlertDialog):
             on_change=self.handle_selection_change,
             value=(
                 LedTypeEnum.STATIC
-                if settings_helper.is_static_color()
+                if self.settings_helper.is_static_color()
                 else LedTypeEnum.AUTOMATIC
             ),
             content=ft.Column(
@@ -51,7 +50,7 @@ class SettingsLedDialog(ft.AlertDialog):
                     "LED-Streifen einschalten",
                     label_style=ft.TextStyle(size=18),
                     on_change=strip.toggle_strip,
-                    value=settings_helper.is_strip_active(),
+                    value=self.settings_helper.is_strip_active(),
                 ),
                 ft.Divider(),
                 ft.Column(
@@ -63,7 +62,7 @@ class SettingsLedDialog(ft.AlertDialog):
                             ),
                             min=0,
                             max=100,
-                            value=settings_helper.get_curr_brightness(),
+                            value=self.settings_helper.get_curr_brightness(),
                             expand=True,
                         ),
                     ]
@@ -76,11 +75,11 @@ class SettingsLedDialog(ft.AlertDialog):
 
     def handle_selection_change(self, e):
         if e.control.value == LedTypeEnum.AUTOMATIC:
-            settings_helper.update_settings(is_static_color=False)
+            self.settings_helper.update_settings(is_static_color=False)
             self.btn_open_led_dialog.visible = False
             self.strip.set_color(self.strip.curr_station_color)
         elif e.control.value == LedTypeEnum.STATIC:
-            settings_helper.update_settings(is_static_color=True)
+            self.settings_helper.update_settings(is_static_color=True)
             self.btn_open_led_dialog.visible = True
             color = self.color_helper.toRgb(
                 self.led_color_dialog.color_picker.color
@@ -92,7 +91,9 @@ class SettingsLedDialog(ft.AlertDialog):
         self.led_color_dialog.open_dialog()
 
     def open_dialog(self):
-        self.btn_open_led_dialog.visible = settings_helper.is_static_color()
+        self.btn_open_led_dialog.visible = (
+            self.settings_helper.is_static_color()
+        )
         self.btn_open_led_dialog.update()
         self.open = True
         self.update()

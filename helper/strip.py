@@ -9,13 +9,13 @@ from flet.core.control_event import ControlEvent
 from helper.Audio import Audio
 from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
-from helper.StripSettingsHelper import StripSettingsHelper
 
 from core.helpers.factories.color import create_color_helper
+from core.settings.factories.strip import create_strip_settings
 from utils.WaiterProcess import WaiterProcess
 
 c = Constants()
-settings_helper = StripSettingsHelper()
+settings_helper = create_strip_settings()
 bass_steps_helper = BassStepsHelper()
 audio_helper = Audio()
 

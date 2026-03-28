@@ -4,12 +4,11 @@ import flet as ft
 from flet_contrib.color_picker.src.color_picker import ColorPicker
 
 from helper.SplashscreenHelper import SplashscreenHelper
-from helper.StripSettingsHelper import StripSettingsHelper
 
 from core.helpers.factories.color import create_color_helper
+from core.settings.factories.strip import create_strip_settings
 
 splashscreen_helper = SplashscreenHelper()
-settings_helper = StripSettingsHelper()
 
 
 class LedTypeEnum(StrEnum):
@@ -20,13 +19,14 @@ class LedTypeEnum(StrEnum):
 class LedColorDialog(ft.AlertDialog):
     def __init__(self, strip, parent_dialog):
         super().__init__(on_dismiss=self._on_dismiss)
+        self.settings_helper = create_strip_settings()
 
         self.strip = strip
 
         self.color_picker = MyColorPicker(
-            strip=self.strip, color=settings_helper.get_static_color()
+            strip=self.strip, color=self.settings_helper.get_static_color()
         )
-        self.color_picker.visible = settings_helper.is_static_color()
+        self.color_picker.visible = self.settings_helper.is_static_color()
 
         self.btn_back = ft.TextButton(
             "Zurück",
@@ -49,12 +49,14 @@ class LedColorDialog(ft.AlertDialog):
 
     def _on_dismiss(self, _):
         # Just save color on dialog close -> less times write to settings file
-        settings_helper.update_settings(static_color=self.color_picker.color)
+        self.settings_helper.update_settings(
+            static_color=self.color_picker.color
+        )
 
     def open_dialog(self):
         self.open = True
-        self.color_picker.visible = settings_helper.is_static_color()
-        self.color_picker.color = settings_helper.get_static_color()
+        self.color_picker.visible = self.settings_helper.is_static_color()
+        self.color_picker.color = self.settings_helper.get_static_color()
         self.update()
 
 
@@ -62,6 +64,7 @@ class MyColorPicker(ColorPicker):
     def __init__(self, strip, color):
         super().__init__()
         self.color_helper = create_color_helper()
+        self.settings_helper = create_strip_settings()
 
         self.strip = strip
         self.color = color
@@ -69,5 +72,5 @@ class MyColorPicker(ColorPicker):
     @ColorPicker.color.setter
     def color(self, value):
         ColorPicker.color.fset(self, value)
-        if settings_helper.is_static_color():
+        if self.settings_helper.is_static_color():
             self.strip.set_color(self.color_helper.toRgb(value))
