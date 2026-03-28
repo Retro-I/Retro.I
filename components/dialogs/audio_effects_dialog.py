@@ -78,8 +78,7 @@ class AudioEffectsDialog(ft.AlertDialog):
     def on_bass_change(self):
         Constants.current_bass_step = int(self.bass_slider.value)
         audio_effects.update_bass(Constants.current_bass_step)
-        self.bass_text.value = f"{Constants.current_bass_step}"
-        self.bass_text.update()
+        self.update_content()
 
         self.strip_state.update_bass_strip(Constants.current_bass_step)
         AppState.app_state.update_taskbar()
@@ -87,12 +86,12 @@ class AudioEffectsDialog(ft.AlertDialog):
     def on_treble_change(self):
         Constants.current_treble_step = int(self.treble_slider.value)
         audio_effects.update_treble(Constants.current_treble_step)
-        self.treble_text.value = f"{Constants.current_treble_step}"
-        self.treble_text.update()
+        self.update_content()
 
         self.strip_state.update_treble_strip(Constants.current_treble_step)
         AppState.app_state.update_taskbar()
 
     def open_dialog(self):
+        self.update_content()
         self.open = True
         self.update()
