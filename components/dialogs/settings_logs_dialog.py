@@ -4,9 +4,7 @@ import time
 import flet as ft
 
 from helper.LogsHelper import LogsHelper
-from helper.Strip import Strip
 
-strip = Strip()
 logs_helper = LogsHelper()
 
 

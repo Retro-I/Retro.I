@@ -11,14 +11,12 @@ class RadioTab(ft.Column):
 
     def __init__(
         self,
-        on_strip_run_color,
         on_theme_change_radio_station,
         on_theme_stop_radio_station,
     ):
         super().__init__()
 
         self.radio_grid = RadioGrid(
-            on_strip_run_color,
             on_theme_change_radio_station,
             on_theme_stop_radio_station,
         )

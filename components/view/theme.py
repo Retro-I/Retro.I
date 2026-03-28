@@ -9,9 +9,7 @@ from components.view.tabs.SettingsTab import SettingsTab
 from components.view.tabs.SoundboardTab import SoundboardTab
 from components.view.Taskbar import Taskbar
 from helper.PageState import PageState
-from helper.SystemHelper import SystemHelper
 
-system_helper = SystemHelper()
 from core.settings.factories.scrollbar import create_scrollbar_settings
 
 party_mode_helper = PartyModeHelper()

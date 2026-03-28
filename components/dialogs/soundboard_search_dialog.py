@@ -5,9 +5,7 @@ from components.Scrollbar import with_scrollbar_space
 from helper.Audio import Audio
 from core.helpers.factories.sounds import create_sounds_helper
 from helper.Constants import Constants
-from helper.SystemHelper import SystemHelper
 
-system_helper = SystemHelper()
 constants = Constants()
 audio = Audio()
 

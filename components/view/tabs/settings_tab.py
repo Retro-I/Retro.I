@@ -15,9 +15,6 @@ from components.Scrollbar import with_scrollbar_space
 from components.SettingsButton import SettingsButton
 from helper.DeveloperModeHelper import DeveloperModeHelper
 from helper.PageState import PageState
-from helper.Sounds import Sounds
-
-sounds = Sounds()
 
 
 class SettingsTab(ft.Column):

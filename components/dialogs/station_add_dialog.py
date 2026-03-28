@@ -15,12 +15,6 @@ class StationAddDialog(ft.AlertDialog):
     station = {"name": ""}
 
     text = ft.Text(station["name"])
-    on_play = None
-
-    btn_play = None
-    btn_add = None
-
-    radio_grid: RadioGrid = None
 
     def __init__(self, radio_grid: RadioGrid):
         super().__init__()

@@ -1,13 +1,11 @@
 import json
 import uuid
 
-from helper.Audio import Audio
 from core.helpers.factories.color import create_color_helper
 from core.helpers.factories.settings_sync import create_settings_sync_helper
 from helper.Constants import Constants
 
 c = Constants()
-audio_helper = Audio()
 
 
 class Stations:

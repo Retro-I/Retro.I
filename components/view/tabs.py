@@ -10,12 +10,10 @@ from helper.BluetoothHelper import BluetoothHelper
 from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.PartyModeHelper import PartyModeHelper
-from helper.SystemHelper import SystemHelper
 
 from core.helpers.factories.theme import create_theme_helper
 
 bluetooth_helper = BluetoothHelper()
-system_helper = SystemHelper()
 audio_helper = Audio()
 party_mode_helper = PartyModeHelper()
 
