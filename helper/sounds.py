@@ -4,17 +4,19 @@ import random
 
 import requests
 
+from core.helpers.factories.settings_sync import create_settings_sync_helper
 from helper.Constants import Constants
-from helper.SettingsSyncHelper import SettingsSyncHelper
 
 c = Constants()
-settings_sync_helper = SettingsSyncHelper()
 
 
 class Sounds:
     last_toast = ""
     SETTING = "favorite-sounds.json"
     FAV_SOUNDS_PATH = f"{Constants.settings_path()}/{SETTING}"
+
+    def __init__(self):
+        self.settings_sync_helper = create_settings_sync_helper()
 
     def search_sounds(self, query):
         response = requests.get(
@@ -65,7 +67,7 @@ class Sounds:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.reset_settings_file(self.SETTING)
+            self.settings_sync_helper.reset_settings_file(self.SETTING)
             return _get_data()
 
     def load_toasts(self):

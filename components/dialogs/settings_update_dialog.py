@@ -4,13 +4,13 @@ from components.dialogs.DownloadDialog import DownloadDialog
 from components.dialogs.ErrorDialog import ErrorDialog
 from components.dialogs.SuccessDialog import SuccessDialog
 from components.Scrollbar import with_scrollbar_space
+from core.helpers.factories.settings_sync import create_settings_sync_helper
+from core.helpers.factories.system import create_system_helper
 from helper.PageState import PageState
 from helper.RevisionHelper import RevisionHelper
-from helper.SettingsSyncHelper import SettingsSyncHelper
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
-settings_sync_helper = SettingsSyncHelper()
 revision_helper = RevisionHelper()
 
 
@@ -29,6 +29,8 @@ class SettingsUpdateDialog(ft.AlertDialog):
 
     def __init__(self):
         super().__init__()
+        self.settings_sync_helper = create_settings_sync_helper()
+
         self.download_dialog = DownloadDialog()
         self.error_dialog = ErrorDialog()
         self.success_dialog = SuccessDialog()
@@ -157,8 +159,8 @@ class SettingsUpdateDialog(ft.AlertDialog):
             )
             system_helper.change_revision(revision["name"])
             self.download_dialog.update_info("Dateien reparieren...")
-            settings_sync_helper.validate_and_repair_all_settings()
-            settings_sync_helper.validate_all_settings()
+            self.settings_sync_helper.validate_and_repair_all_settings()
+            self.settings_sync_helper.validate_all_settings()
             self.success_dialog.open_dialog(
                 "Updates",
                 f'Updates für "{revision["name"]}" '

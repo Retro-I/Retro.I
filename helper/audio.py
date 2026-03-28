@@ -8,13 +8,12 @@ import alsaaudio as a
 import mpv
 from playsound3 import playsound
 
+from core.helpers.factories.settings_sync import create_settings_sync_helper
 from helper.Constants import Constants
-from helper.SettingsSyncHelper import SettingsSyncHelper
 from helper.Sounds import Sounds
 
 c = Constants()
 sounds = Sounds()
-settings_sync_helper = SettingsSyncHelper()
 
 
 class Audio:
@@ -28,6 +27,8 @@ class Audio:
     def __init__(self):
         home_dir = os.environ.get("HOME")
         self.mixers_path = f"{home_dir}/mixers.txt"
+
+        self.settings_sync_helper = create_settings_sync_helper()
 
     def init_sound(self):
         self.unmute()
@@ -189,7 +190,7 @@ class Audio:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.reset_settings_file(self.SETTING)
+            self.settings_sync_helper.reset_settings_file(self.SETTING)
             return _get_data()
 
     def is_default_station_autoplay_enabled(self) -> bool:

@@ -1,16 +1,14 @@
 import flet as ft
 
 from components.IconBtn import IconBtn
-from helper.SettingsSyncHelper import SettingsSyncHelper
-from helper.SystemHelper import SystemHelper
-
-system_helper = SystemHelper()
-settings_sync_helper = SettingsSyncHelper()
+from core.helpers.factories.system import create_system_helper
 
 
 class SettingsAppControlDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
+
+        self.system_helper = create_system_helper()
 
         self.content = ft.Column(
             alignment=ft.MainAxisAlignment.CENTER,
@@ -24,12 +22,12 @@ class SettingsAppControlDialog(ft.AlertDialog):
                         IconBtn(
                             text="App beenden",
                             icon=ft.Icons.LOGOUT,
-                            on_click=system_helper.stop_app,
+                            on_click=self.system_helper.stop_app,
                         ),
                         IconBtn(
                             text="App neustarten",
                             icon=ft.Icons.REFRESH,
-                            on_click=system_helper.restart_app,
+                            on_click=self.system_helper.restart_app,
                         ),
                     ],
                 ),

@@ -1,14 +1,16 @@
 import json
 
 from helper.Constants import Constants
-from helper.SettingsSyncHelper import SettingsSyncHelper
 
-settings_sync_helper = SettingsSyncHelper()
+from core.helpers.factories.settings_sync import create_settings_sync_helper
 
 
 class PartyModeHelper:
     SETTING = "party-mode.json"
     SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
+
+    def __init__(self):
+        self.settings_sync_helper = create_settings_sync_helper()
 
     def is_party_mode(self) -> bool:
         settings = self.get_settings()
@@ -47,5 +49,5 @@ class PartyModeHelper:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.reset_settings_file(self.SETTING)
+            self.settings_sync_helper.reset_settings_file(self.SETTING)
             return _get_data()

@@ -3,18 +3,20 @@ import uuid
 
 from helper.Audio import Audio
 from helper.ColorHelper import ColorHelper
+from core.helpers.factories.settings_sync import create_settings_sync_helper
 from helper.Constants import Constants
-from helper.SettingsSyncHelper import SettingsSyncHelper
 
 c = Constants()
 color_helper = ColorHelper()
-settings_sync_helper = SettingsSyncHelper()
 audio_helper = Audio()
 
 
 class Stations:
     STATION_SETTING = "radio-stations.json"
     STATIONS_SETTINGS_PATH = f"{Constants.settings_path()}/{STATION_SETTING}"
+
+    def __init__(self):
+        self.settings_sync_helper = create_settings_sync_helper()
 
     def load_radio_stations(self):
         def _get_data():
@@ -25,7 +27,7 @@ class Stations:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.reset_settings_file(self.STATION_SETTING)
+            self.settings_sync_helper.reset_settings_file(self.STATION_SETTING)
             return _get_data()
 
     def add_station(self, station):

@@ -1,10 +1,11 @@
 import json
 
 from helper.Constants import Constants
-from helper.SettingsSyncHelper import SettingsSyncHelper
+
+from core.helpers.factories.settings_sync import create_settings_sync_helper
 
 c = Constants()
-settings_sync_helper = SettingsSyncHelper()
+settings_sync_helper = create_settings_sync_helper()
 
 
 class DeveloperModeHelper:

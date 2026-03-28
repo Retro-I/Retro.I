@@ -2,14 +2,16 @@ import base64
 import json
 
 from helper.Constants import Constants
-from helper.SettingsSyncHelper import SettingsSyncHelper
 
-settings_sync_helper = SettingsSyncHelper()
+from core.helpers.factories.settings_sync import create_settings_sync_helper
 
 
 class AdminHelper:
     SETTING = "admin-password.json"
     SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
+
+    def __init__(self):
+        self.settings_sync_helper = create_settings_sync_helper()
 
     def get_admin_password(self) -> str:
         settings = self.get_settings()
@@ -28,5 +30,5 @@ class AdminHelper:
         try:
             return _get_data()
         except Exception:
-            settings_sync_helper.reset_settings_file(self.SETTING)
+            self.settings_sync_helper.reset_settings_file(self.SETTING)
             return _get_data()
