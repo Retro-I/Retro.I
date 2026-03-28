@@ -43,7 +43,7 @@ class BaseTest(unittest.TestCase):
     def setUp(self):
         from helper.Audio import Audio
         from helper.GpioHelper import GpioHelper
-        from helper.SettingsSyncHelper import SettingsSyncHelper
+        from helper.settings_sync_helper import SettingsSyncHelper
         from helper.Stations import Stations
 
         self.test_dir = self._create_temp_files(
