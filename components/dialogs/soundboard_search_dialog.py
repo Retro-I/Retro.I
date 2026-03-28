@@ -2,12 +2,11 @@ import flet as ft
 
 from components.BaseTextField import BaseTextField
 from components.Scrollbar import with_scrollbar_space
-from helper.Audio import Audio
+from core.helpers.factories.audio import create_audio_helper
 from core.helpers.factories.sounds import create_sounds_helper
 from helper.Constants import Constants
 
 constants = Constants()
-audio = Audio()
 
 
 class SoundboardSearchDialog(ft.AlertDialog):
@@ -27,6 +26,7 @@ class SoundboardSearchDialog(ft.AlertDialog):
 
         self.on_favorite_add = on_favorite_add
 
+        self.audio_state = create_audio_helper()
         self.sounds_helper = create_sounds_helper()
 
         self.content = ft.Column(
@@ -127,4 +127,4 @@ class SoundboardSearchDialog(ft.AlertDialog):
         self.listview.update()
 
     def play_sound(self, item):
-        audio.play_sound_board(item["mp3"])
+        self.audio_state.play_sound_board(item["mp3"])
