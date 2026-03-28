@@ -2,15 +2,16 @@ import flet as ft
 
 from components.dialogs.StationModifyDialog import StationModifyDialog
 from helper.Audio import Audio
+from core.settings.factories.radio_stations import (
+    create_radio_stations_settings,
+)
 from helper.Constants import Constants
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
-from helper.Stations import Stations
 from helper.SystemHelper import SystemHelper
 
 constants = Constants()
 stations_helper = Stations()
-system_helper = SystemHelper()
 audio_helper = Audio()
 radio_helper = RadioHelper()
 
@@ -18,14 +19,14 @@ radio_helper = RadioHelper()
 class RadioGrid(ft.GridView):
     def __init__(
         self,
-        on_strip_run_color,
         on_theme_change_radio_station,
         on_theme_stop_radio_station,
     ):
         super().__init__()
 
+        self.stations = create_radio_stations_settings()
+
         self.station_modify_dialog = StationModifyDialog()
-        self.on_strip_run_color = on_strip_run_color
         self.on_theme_change_radio_station = on_theme_change_radio_station
         self.on_theme_stop_radio_station = on_theme_stop_radio_station
 
@@ -46,9 +47,9 @@ class RadioGrid(ft.GridView):
     def reload(self):
         self.controls.clear()
         Constants.indicator_refs = []
-        favorite_station: object | None = stations_helper.get_favorite_station()
+        favorite_station: object | None = self.stations.get_favorite_station()
 
-        for i, station in enumerate(stations_helper.load_radio_stations()):
+        for i, station in enumerate(self.stations.load_radio_stations()):
             Constants.indicator_refs.append(ft.Ref[ft.Container]())
             self.controls.append(
                 ft.Stack(
