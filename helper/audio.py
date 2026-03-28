@@ -9,11 +9,10 @@ import mpv
 from playsound3 import playsound
 
 from core.helpers.factories.settings_sync import create_settings_sync_helper
+from core.helpers.factories.sounds import create_sounds_helper
 from helper.Constants import Constants
-from helper.Sounds import Sounds
 
 c = Constants()
-sounds = Sounds()
 
 
 class Audio:
@@ -29,6 +28,8 @@ class Audio:
         self.mixers_path = f"{home_dir}/mixers.txt"
 
         self.settings_sync_helper = create_settings_sync_helper()
+        self.sounds_helper = create_sounds_helper()
+        self.player = create_player_helper()
 
     def init_sound(self):
         self.unmute()
@@ -165,7 +166,7 @@ class Audio:
         os.system(f"wpctl set-default {sink_id}")
 
     def play_toast(self):
-        toast_src = sounds.get_random_toast()
+        toast_src = self.sounds_helper.get_random_toast()
         if not self.toast_playing:
             self.toast_playing = True
             self.pause()

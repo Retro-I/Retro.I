@@ -19,7 +19,6 @@ from helper.GpioHelper import GpioHelper
 from helper.LogsHelper import LogsHelper
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
-from helper.Sounds import Sounds
 from helper.StartupErrorHelper import StartupErrorHelper
 from helper.Stations import Stations
 from helper.Strip import Strip
@@ -27,6 +26,8 @@ from helper.SystemHelper import SystemHelper
 from helper.WifiHelper import WifiHelper
 
 from core.helpers.factories.settings_sync import create_settings_sync_helper
+from core.helpers.factories.sounds import create_sounds_helper
+from core.helpers.factories.system import create_system_helper
 from core.helpers.factories.theme import create_theme_helper
 
 logger = logging.getLogger(__name__)
@@ -39,7 +40,7 @@ startup_error_helper = StartupErrorHelper()
 settings_sync_helper = create_settings_sync_helper()
 stations_helper = Stations()
 constants = Constants()
-sounds = Sounds()
+sounds = create_sounds_helper()
 audio_helper = Audio()
 page_helper = PageState()
 audio_effects = AudioEffects()
