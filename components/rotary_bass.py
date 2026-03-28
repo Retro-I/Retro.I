@@ -2,7 +2,6 @@ import threading
 
 from pyky040 import pyky040
 
-from helper.Audio import Audio
 from core.app_state import AppState
 from core.factories.strip_factory import create_strip_state
 from helper.AudioEffects import AudioEffects
@@ -10,7 +9,6 @@ from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
 from helper.GpioHelper import GpioHelper
 
-audio_helper = Audio()
 audio_effects = AudioEffects()
 gpio_helper = GpioHelper()
 bass_steps_helper = BassStepsHelper()
@@ -23,9 +21,6 @@ class RotaryBass:
     BASS_UP_PIN = gpio_helper.rotary_bass_up()
     BASS_DOWN_PIN = gpio_helper.rotary_bass_down()
 
-    def __init__(self, on_taskbar_update, on_bass_update):
-        self.on_taskbar_update = on_taskbar_update
-        self.on_bass_update = on_bass_update
 
     def __init__(self):
         self.strip_state = create_strip_state()

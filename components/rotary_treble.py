@@ -21,11 +21,7 @@ class RotaryTreble:
     TREBLE_UP_PIN = gpio_helper.rotary_treble_up()
     TREBLE_DOWN_PIN = gpio_helper.rotary_treble_down()
 
-    taskbar = None
-
-    def __init__(self, on_taskbar_update, on_treble_update):
-        self.on_taskbar_update = on_taskbar_update
-        self.on_treble_update = on_treble_update
+    def __init__(self):
         self.strip_state = create_strip_state()
 
         rotary = pyky040.Encoder(

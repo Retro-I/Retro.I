@@ -2,10 +2,8 @@ import flet as ft
 
 from core.helpers.factories.audio import create_audio_helper
 from helper.Constants import Constants
-from helper.Sounds import Sounds
 
 c = Constants()
-sounds = Sounds()
 
 
 class SoundCard(ft.Column):
