@@ -3,6 +3,7 @@ import flet as ft
 from helper.Audio import Audio
 
 audio_helper = Audio()
+from core.app_state import AppState
 
 
 class VolumeDialog(ft.AlertDialog):
@@ -61,6 +62,7 @@ class VolumeDialog(ft.AlertDialog):
 
         self.on_mute_update(audio_helper.is_mute())
         self.on_update()
+        AppState.app_state.update_taskbar()
 
     def on_volume_change(self):
         audio_helper.set_volume(int(self.volume_slider.value))
@@ -69,6 +71,7 @@ class VolumeDialog(ft.AlertDialog):
 
         self.on_volume_update(int(audio_helper.get_volume()))
         self.on_update()
+        AppState.app_state.update_taskbar()
 
     def open_dialog(self):
         self.open = True

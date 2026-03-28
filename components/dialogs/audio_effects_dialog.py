@@ -2,6 +2,7 @@ import flet as ft
 
 from components.RotaryTreble import audio_effects, treble_steps_helper
 from helper.Audio import Audio
+from core.app_state import AppState
 from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
 
@@ -79,6 +80,7 @@ class AudioEffectsDialog(ft.AlertDialog):
         self.bass_text.update()
 
         self.on_update_bass()
+        AppState.app_state.update_taskbar()
 
     def on_treble_change(self):
         Constants.current_treble_step = int(self.treble_slider.value)
@@ -87,6 +89,7 @@ class AudioEffectsDialog(ft.AlertDialog):
         self.treble_text.update()
 
         self.on_update_treble()
+        AppState.app_state.update_taskbar()
 
     def open_dialog(self):
         self.open = True

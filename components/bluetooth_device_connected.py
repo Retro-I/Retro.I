@@ -8,6 +8,7 @@ from components.dialogs.BluetoothDeviceEditDialog import (
 from components.Scrollbar import with_scrollbar_space
 from components.view.Taskbar import Taskbar
 from helper.Audio import Audio
+from core.app_state import AppState
 from helper.BluetoothHelper import BluetoothHelper
 from helper.PageState import PageState
 
@@ -40,7 +41,7 @@ class BluetoothDeviceConnected:
                 self.reload_devices()
                 time.sleep(1)
 
-        self.taskbar.update()
+        AppState.app_state.update_taskbar()
 
         return name != ""
 

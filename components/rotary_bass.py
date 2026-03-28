@@ -3,6 +3,7 @@ import threading
 from pyky040 import pyky040
 
 from helper.Audio import Audio
+from core.app_state import AppState
 from helper.AudioEffects import AudioEffects
 from helper.BassStepsHelper import BassStepsHelper
 from helper.Constants import Constants
@@ -69,4 +70,4 @@ class RotaryBass:
 
     def update(self, step):
         audio_effects.update_bass(step)
-        self.on_taskbar_update()
+        AppState.app_state.update_taskbar()

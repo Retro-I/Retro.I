@@ -3,6 +3,7 @@ import threading
 from pyky040 import pyky040
 
 from helper.Audio import Audio
+from core.app_state import AppState
 from helper.GpioHelper import GpioHelper
 
 audio_helper = Audio()
@@ -59,9 +60,11 @@ class RotaryVolume:
         is_mute = audio_helper.toggle_mute()
         self.on_strip_toggle_mute(is_mute)
         self.on_taskbar_update()
+        AppState.app_state.update_taskbar()
 
     def update(self, value):
         if not audio_helper.is_mute():
             audio_helper.set_volume(value)
             self.on_strip_update_sound(value)
             self.on_taskbar_update()
+            AppState.app_state.update_taskbar()
