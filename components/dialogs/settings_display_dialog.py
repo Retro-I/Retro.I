@@ -5,11 +5,11 @@ from components.dialogs.SplashscreenDialog import SplashscreenDialog
 from components.dialogs.UpdatesRestartDialog import UpdatesRestartDialog
 from helper.PageState import PageState
 from helper.PartyModeHelper import PartyModeHelper
-from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
-scrollbar_settings_helper = ScrollbarSettingsHelper()
+from core.settings.factories.scrollbar import create_scrollbar_settings
+
 party_mode_helper = PartyModeHelper()
 
 
@@ -21,6 +21,8 @@ class SettingsDisplayDialog(ft.AlertDialog):
         self.admin_password_dialog = AdminPasswordDialog(
             self.updates_restart_dialog.open_dialog
         )
+
+        self.scrollbar_settings_helper = create_scrollbar_settings()
 
         PageState.page.add(self.updates_restart_dialog)
         PageState.page.add(self.splashscreen_dialog)
@@ -43,7 +45,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
                     "Scrollbar anzeigen (Neustart erforderlich!)",
                     label_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_scrollbar(),
-                    value=scrollbar_settings_helper.is_scrollbar_enabled(),
+                    value=self.scrollbar_settings_helper.is_scrollbar_enabled(),
                 ),
                 ft.Divider(),
                 self.soundboard_switch,
@@ -76,7 +78,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
         )
 
     def toggle_enable_scrollbar(self):
-        scrollbar_settings_helper.toggle_scrollbar_enabled()
+        self.scrollbar_settings_helper.toggle_scrollbar_enabled()
         self.close_dialog()
         self.updates_restart_dialog.open_dialog()
 

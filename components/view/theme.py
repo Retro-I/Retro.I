@@ -1,7 +1,6 @@
 import flet as ft
 
 from helper.PartyModeHelper import PartyModeHelper
-from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
 from components.NavigationBar import NavigationBar
 from components.view.Tabs import Tabs
 from components.view.tabs.BluetoothTab import BluetoothTab
@@ -13,7 +12,8 @@ from helper.PageState import PageState
 from helper.SystemHelper import SystemHelper
 
 system_helper = SystemHelper()
-scrollbar_settings_helper = ScrollbarSettingsHelper()
+from core.settings.factories.scrollbar import create_scrollbar_settings
+
 party_mode_helper = PartyModeHelper()
 
 
@@ -30,6 +30,8 @@ class Theme:
     navbar = None
 
     def __init__(self, taskbar: Taskbar, strip):
+        self.scrollbar_settings_helper = create_scrollbar_settings()
+
         self.taskbar = taskbar
 
         self.theme = ft.Theme(
@@ -84,7 +86,7 @@ class Theme:
             thumb_visibility=False, track_visibility=False
         )
 
-        if scrollbar_settings_helper.is_scrollbar_enabled():
+        if self.scrollbar_settings_helper.is_scrollbar_enabled():
             scrollbar_theme = ft.ScrollbarTheme(
                 track_color={
                     ft.ControlState.DEFAULT: ft.Colors.TRANSPARENT,
