@@ -73,4 +73,4 @@ class MyColorPicker(ColorPicker):
     def color(self, value):
         ColorPicker.color.fset(self, value)
         if self.settings_helper.is_static_color():
-            self.strip.set_color(self.color_helper.toRgb(value))
+            self.strip.set_color(self.color_helper.to_rgb(value))

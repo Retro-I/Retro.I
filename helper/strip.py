@@ -38,7 +38,7 @@ class Strip:
         self.color_helper = create_color_helper()
 
         start_color = (
-            self.color_helper.toRgb(settings_helper.get_static_color())
+            self.color_helper.to_rgb(settings_helper.get_static_color())
             if settings_helper.is_static_color()
             else self.curr_color
         )
@@ -170,7 +170,7 @@ class Strip:
 
     def update_strip(self, color):
         self.sound_mode_active = True
-        strip_color = self.color_helper.toRgb(color)
+        strip_color = self.color_helper.to_rgb(color)
         self.curr_station_color = strip_color
         if not settings_helper.is_static_color():
             self.set_color(strip_color)

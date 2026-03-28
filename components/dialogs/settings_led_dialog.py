@@ -81,7 +81,7 @@ class SettingsLedDialog(ft.AlertDialog):
         elif e.control.value == LedTypeEnum.STATIC:
             self.settings_helper.update_settings(is_static_color=True)
             self.btn_open_led_dialog.visible = True
-            color = self.color_helper.toRgb(
+            color = self.color_helper.to_rgb(
                 self.led_color_dialog.color_picker.color
             )
             self.strip.set_color(color)
