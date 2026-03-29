@@ -55,3 +55,11 @@ def create_developer_mode_settings():
             from core.settings.pi.developer_mode import PiDeveloperModeSettings
 
             return PiDeveloperModeSettings()
+
+
+def create_gpio_settings():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.settings.pi.gpio import PiGpioSettings
+
+            return PiGpioSettings()

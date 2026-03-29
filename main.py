@@ -21,11 +21,13 @@ from core.factories.helper_factories import (
     create_system_helper,
     create_theme_helper,
 )
-from core.factories.settings_factories import create_radio_stations_settings
+from core.factories.settings_factories import (
+    create_radio_stations_settings,
+    create_gpio_settings,
+)
 from helper.audio_effects import AudioEffects
 from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
-from helper.gpio_helper import GpioHelper
 from helper.logs_helper import LogsHelper
 from helper.page_state import PageState
 from helper.radio_helper import RadioHelper
@@ -47,7 +49,7 @@ audio_helper = create_audio_helper()
 page_helper = PageState()
 audio_effects = AudioEffects()
 theme_helper = create_theme_helper()
-gpio_helper = GpioHelper()
+gpio_helper = create_gpio_settings()
 logs_helper = LogsHelper()
 player = create_player_helper()
 

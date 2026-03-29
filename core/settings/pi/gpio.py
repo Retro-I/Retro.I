@@ -1,12 +1,13 @@
 import json
 
 from core.factories.helper_factories import create_settings_sync_helper
+from core.settings.base.gpio import BaseGpioSettings
 from helper.constants import Constants
 
 c = Constants()
 
 
-class GpioHelper:
+class PiGpioSettings(BaseGpioSettings):
     SETTING = "gpio-pin-mapping.json"
     GPIO_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 

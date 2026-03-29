@@ -7,9 +7,9 @@ from core.factories.helper_factories import (
     create_audio_helper,
     create_strip_state,
 )
-from helper.gpio_helper import GpioHelper
+from core.factories.settings_factories import create_gpio_settings
 
-gpio_helper = GpioHelper()
+gpio_helper = create_gpio_settings()
 
 
 class RotaryVolume:

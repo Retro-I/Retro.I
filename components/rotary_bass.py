@@ -4,13 +4,15 @@ from pyky040 import pyky040
 
 from core.app_state import AppState
 from core.factories.helper_factories import create_strip_state
-from core.factories.settings_factories import create_bass_settings
+from core.factories.settings_factories import (
+    create_bass_settings,
+    create_gpio_settings,
+)
 from helper.audio_effects import AudioEffects
 from helper.constants import Constants
-from helper.gpio_helper import GpioHelper
 
 audio_effects = AudioEffects()
-gpio_helper = GpioHelper()
+gpio_helper = create_gpio_settings()
 
 
 class RotaryBass:
