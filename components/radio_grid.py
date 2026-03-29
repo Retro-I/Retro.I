@@ -4,6 +4,7 @@ from components.dialogs.station_modify_dialog import StationModifyDialog
 from core.factories.strip_factory import create_strip_state
 from core.helpers.factories.player import create_player_helper
 from core.helpers.factories.system import create_system_helper
+from core.helpers.factories.theme import create_theme_helper
 from core.settings.factories.radio_stations import (
     create_radio_stations_settings,
 )
@@ -27,6 +28,7 @@ class RadioGrid(ft.GridView):
         self.player = create_player_helper()
         self.system_helper = create_system_helper()
         self.stations = create_radio_stations_settings()
+        self.theme = create_theme_helper()
 
         self.station_modify_dialog = StationModifyDialog()
         self.on_theme_change_radio_station = on_theme_change_radio_station
