@@ -22,8 +22,8 @@ from core.factories.helper_factories import (
     create_theme_helper,
 )
 from core.factories.settings_factories import (
-    create_radio_stations_settings,
     create_gpio_settings,
+    create_radio_stations_settings,
 )
 from helper.audio_effects import AudioEffects
 from helper.bluetooth_helper import BluetoothHelper

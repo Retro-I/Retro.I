@@ -1,10 +1,11 @@
 import json
 
 from core.factories.helper_factories import create_settings_sync_helper
+from core.settings.base.party_mode import BasePartyModeSettings
 from helper.constants import Constants
 
 
-class PartyModeHelper:
+class PiPartyModeSettings(BasePartyModeSettings):
     SETTING = "party-mode.json"
     SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 
@@ -19,7 +20,7 @@ class PartyModeHelper:
         settings = self.get_settings()
         settings["isPartyMode"] = True
 
-        with open(PartyModeHelper.SETTINGS_PATH, "r+") as file:
+        with open(PiPartyModeSettings.SETTINGS_PATH, "r+") as file:
             file.seek(0)
             json.dump(settings, file, indent=4)
             file.truncate()
@@ -28,7 +29,7 @@ class PartyModeHelper:
         settings = self.get_settings()
         settings["isPartyMode"] = False
 
-        with open(PartyModeHelper.SETTINGS_PATH, "r+") as file:
+        with open(PiPartyModeSettings.SETTINGS_PATH, "r+") as file:
             file.seek(0)
             json.dump(settings, file, indent=4)
             file.truncate()

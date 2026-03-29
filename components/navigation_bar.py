@@ -1,9 +1,7 @@
 import flet as ft
 
 from components.view.tabs import Tabs
-from helper.party_mode_helper import PartyModeHelper
-
-party_mode_helper = PartyModeHelper()
+from core.factories.settings_factories import create_party_mode_settings
 
 ICON_SIZE = 28
 
@@ -11,6 +9,8 @@ ICON_SIZE = 28
 class NavigationBar(ft.NavigationBar):
     def __init__(self, tabs: Tabs):
         super().__init__()
+
+        self.party_mode_settings = create_party_mode_settings()
 
         self.bgcolor = "green"
         self.on_change = tabs.change_tab
@@ -45,7 +45,7 @@ class NavigationBar(ft.NavigationBar):
             ),
         ]
 
-        if party_mode_helper.is_party_mode():
+        if self.party_mode_settings.is_party_mode():
             destinations.append(
                 ft.NavigationBarDestination(
                     label="Soundboard",

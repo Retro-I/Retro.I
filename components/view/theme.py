@@ -7,11 +7,11 @@ from components.view.settings_tab import SettingsTab
 from components.view.soundboard_tab import SoundboardTab
 from components.view.tabs import Tabs
 from components.view.taskbar import Taskbar
-from core.factories.settings_factories import create_scrollbar_settings
+from core.factories.settings_factories import (
+    create_party_mode_settings,
+    create_scrollbar_settings,
+)
 from helper.page_state import PageState
-from helper.party_mode_helper import PartyModeHelper
-
-party_mode_helper = PartyModeHelper()
 
 
 class Theme:
@@ -28,6 +28,7 @@ class Theme:
 
     def __init__(self, taskbar: Taskbar, strip):
         self.scrollbar_settings_helper = create_scrollbar_settings()
+        self.party_mode_settings = create_party_mode_settings()
 
         self.taskbar = taskbar
 
@@ -70,7 +71,7 @@ class Theme:
         tabs.append(self.radio_tab)
         tabs.append(self.bluetooth_tab)
 
-        if party_mode_helper.is_party_mode():
+        if self.party_mode_settings.is_party_mode():
             tabs.append(self.soundboard_tab)
 
         tabs.append(self.settings_tab)

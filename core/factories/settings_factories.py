@@ -63,3 +63,11 @@ def create_gpio_settings():
             from core.settings.pi.gpio import PiGpioSettings
 
             return PiGpioSettings()
+
+
+def create_party_mode_settings():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.settings.pi.party_mode import PiPartyModeSettings
+
+            return PiPartyModeSettings()

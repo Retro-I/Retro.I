@@ -1,10 +1,10 @@
 import flet as ft
 
 from components.base_text_field import BaseTextField
-from core.factories.settings_factories import create_admin_settings
-from helper.party_mode_helper import PartyModeHelper
-
-party_mode_helper = PartyModeHelper()
+from core.factories.settings_factories import (
+    create_admin_settings,
+    create_party_mode_settings,
+)
 
 
 class AdminPasswordDialog(ft.AlertDialog):
@@ -16,6 +16,7 @@ class AdminPasswordDialog(ft.AlertDialog):
     def __init__(self, on_connect):
         super().__init__()
         self.admin_settings = create_admin_settings()
+        self.party_mode_settings = create_party_mode_settings()
 
         self.btn_ok = ft.FilledButton(
             "Ok",
@@ -52,7 +53,7 @@ class AdminPasswordDialog(ft.AlertDialog):
 
     def connect(self, on_connect):
         if self.admin_settings.validate_admin_password(self.password.value):
-            party_mode_helper.toggle_party_mode()
+            self.party_mode_settings.toggle_party_mode()
             on_connect()
             return
 

@@ -4,16 +4,18 @@ from components.dialogs.admin_password_dialog import AdminPasswordDialog
 from components.dialogs.splashscreen_dialog import SplashscreenDialog
 from components.dialogs.updates_restart_dialog import UpdatesRestartDialog
 from core.factories.helper_factories import create_system_helper
-from core.factories.settings_factories import create_scrollbar_settings
+from core.factories.settings_factories import (
+    create_party_mode_settings,
+    create_scrollbar_settings,
+)
 from helper.page_state import PageState
-from helper.party_mode_helper import PartyModeHelper
-
-party_mode_helper = PartyModeHelper()
 
 
 class SettingsDisplayDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
+        self.party_mode_settings = create_party_mode_settings()
+
         self.updates_restart_dialog = UpdatesRestartDialog()
         self.splashscreen_dialog = SplashscreenDialog(self)
         self.admin_password_dialog = AdminPasswordDialog(
@@ -31,7 +33,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
             "Soundboard anzeigen (Neustart erforderlich!)",
             label_style=ft.TextStyle(size=18),
             on_change=lambda e: self.open_admin_password_dialog(),
-            value=party_mode_helper.is_party_mode(),
+            value=self.party_mode_settings.is_party_mode(),
         )
 
         self.title = ft.Text("Anzeige")
@@ -91,7 +93,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
         self.admin_password_dialog.open_dialog()
 
     def open_dialog(self):
-        self.soundboard_switch.value = party_mode_helper.is_party_mode()
+        self.soundboard_switch.value = self.party_mode_settings.is_party_mode()
         self.soundboard_switch.update()
         self.open = True
         self.update()

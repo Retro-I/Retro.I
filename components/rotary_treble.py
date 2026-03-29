@@ -5,8 +5,8 @@ from pyky040 import pyky040
 from core.app_state import AppState
 from core.factories.helper_factories import create_strip_state
 from core.factories.settings_factories import (
-    create_treble_settings,
     create_gpio_settings,
+    create_treble_settings,
 )
 from helper.audio_effects import AudioEffects
 from helper.constants import Constants

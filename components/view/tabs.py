@@ -9,13 +9,12 @@ from core.factories.helper_factories import (
     create_player_helper,
     create_theme_helper,
 )
+from core.factories.settings_factories import create_party_mode_settings
 from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
 from helper.page_state import PageState
-from helper.party_mode_helper import PartyModeHelper
 
 bluetooth_helper = BluetoothHelper()
-party_mode_helper = PartyModeHelper()
 
 
 class Tabs:
@@ -33,6 +32,7 @@ class Tabs:
         settings_tab: SettingsTab,
     ):
         self.theme_helper = create_theme_helper()
+        self.party_mode_settings = create_party_mode_settings()
 
         self.taskbar = taskbar
         self.radio_tab = radio_tab
@@ -64,7 +64,7 @@ class Tabs:
             self.switch_bluetooth_tab()
 
         if new_tab_index == 2:
-            if party_mode_helper.is_party_mode():
+            if self.party_mode_settings.is_party_mode():
                 self.switch_soundboard_tab()
             else:
                 self.switch_settings_tab()
