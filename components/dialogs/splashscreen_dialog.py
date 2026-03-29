@@ -1,8 +1,8 @@
 import flet as ft
 
-from components.ImageSlider import ImageSlider
+from components.image_slider import ImageSlider
 from helper.constants import Constants
-from helper.SplashscreenHelper import SplashscreenHelper
+from helper.splashscreen_helper import SplashscreenHelper
 
 splashscreen_helper = SplashscreenHelper()
 

@@ -1,8 +1,8 @@
 import flet as ft
 
-from components.RadioGrid import RadioGrid
-from components.Scrollbar import with_scrollbar_space
-from components.SongInfoRow import SongInfoRow
+from components.radio_grid import RadioGrid
+from components.scrollbar import with_scrollbar_space
+from components.song_info_row import SongInfoRow
 
 
 class RadioTab(ft.Column):

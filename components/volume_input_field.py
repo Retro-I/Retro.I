@@ -1,6 +1,6 @@
 import flet as ft
 
-from components.BaseTextField import BaseTextField
+from components.base_text_field import BaseTextField
 from core.helpers.factories.audio import create_audio_helper
 
 

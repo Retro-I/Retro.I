@@ -1,7 +1,7 @@
 import flet as ft
 
-from components.BaseTextField import BaseTextField
-from helper.BluetoothHelper import BluetoothHelper
+from components.base_text_field import BaseTextField
+from helper.bluetooth_helper import BluetoothHelper
 
 bluetooth_helper = BluetoothHelper()
 

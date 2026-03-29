@@ -1,9 +1,9 @@
 import flet as ft
 
-from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
-from components.Scrollbar import with_scrollbar_space
+from components.dialogs.wifi_connection_dialog import WifiConnectionDialog
+from components.scrollbar import with_scrollbar_space
 from core.helpers.factories.system import create_system_helper
-from helper.WifiHelper import WifiHelper
+from helper.wifi_helper import WifiHelper
 
 wifi_helper = WifiHelper()
 

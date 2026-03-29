@@ -1,8 +1,8 @@
 import flet as ft
 
-from components.BaseTextField import BaseTextField
-from helper.AdminHelper import AdminHelper
-from helper.PartyModeHelper import PartyModeHelper
+from components.base_text_field import BaseTextField
+from helper.admin_helper import AdminHelper
+from helper.party_mode_helper import PartyModeHelper
 
 party_mode_helper = PartyModeHelper()
 admin_password_helper = AdminHelper()

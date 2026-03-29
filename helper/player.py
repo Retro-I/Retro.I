@@ -1,6 +1,6 @@
 import mpv
 
-from helper.constants import Constants
+from helper.Constants import Constants
 
 c = Constants()
 

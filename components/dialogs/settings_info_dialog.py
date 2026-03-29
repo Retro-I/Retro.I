@@ -3,11 +3,11 @@ import time
 
 import flet as ft
 
-from components.dialogs.Credits import Credits
-from components.dialogs.Documentation import Documentation
-from components.dialogs.Info import Info
-from components.Scrollbar import with_scrollbar_space
-from helper.DeveloperModeHelper import DeveloperModeHelper
+from components.dialogs.credits import Credits
+from components.dialogs.documentation import Documentation
+from components.dialogs.info import Info
+from components.scrollbar import with_scrollbar_space
+from helper.developer_mode_helper import DeveloperModeHelper
 
 
 class SettingsInfoDialog(ft.AlertDialog):

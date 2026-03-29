@@ -2,10 +2,10 @@ import flet as ft
 
 from core.app_state import AppState
 from core.factories.strip_factory import create_strip_state
-from helper.AudioEffects import AudioEffects
-from helper.BassStepsHelper import BassStepsHelper
+from helper.audio_effects import AudioEffects
+from helper.bass_steps_helper import BassStepsHelper
 from helper.constants import Constants
-from helper.TrebleStepsHelper import TrebleStepsHelper
+from helper.treble_steps_helper import TrebleStepsHelper
 
 audio_effects = AudioEffects()
 bass_steps_helper = BassStepsHelper()

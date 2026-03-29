@@ -1,7 +1,7 @@
 import flet as ft
 
 from core.helpers.factories.system import create_system_helper
-from helper.RevisionHelper import RevisionHelper
+from helper.revision_helper import RevisionHelper
 
 revision_helper = RevisionHelper()
 

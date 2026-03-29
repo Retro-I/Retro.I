@@ -4,25 +4,26 @@ import time
 
 import flet as ft
 
-from components.dialogs.StartupErrorDialog import StartupErrorDialog
-from components.GpioButton import GpioButton
-from components.RotaryBass import RotaryBass
-from components.RotaryTreble import RotaryTreble
-from components.RotaryVolume import RotaryVolume
-from components.view.Taskbar import Taskbar
-from components.view.Theme import Theme
-from helper.Audio import Audio
-from helper.AudioEffects import AudioEffects
-from helper.BluetoothHelper import BluetoothHelper
+from components.dialogs.startup_error_dialog import StartupErrorDialog
+from components.gpio_button import GpioButton
+from components.rotary_bass import RotaryBass
+from components.rotary_treble import RotaryTreble
+from components.rotary_volume import RotaryVolume
+from components.view.taskbar import Taskbar
+from components.view.theme import Theme
+from core.factories.strip_factory import create_strip_state
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.player import create_player_helper
+from helper.audio_effects import AudioEffects
+from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
-from helper.GpioHelper import GpioHelper
-from helper.LogsHelper import LogsHelper
-from helper.PageState import PageState
-from helper.RadioHelper import RadioHelper
-from helper.StartupErrorHelper import StartupErrorHelper
-from helper.Stations import Stations
-from helper.Strip import Strip
-from helper.WifiHelper import WifiHelper
+from helper.gpio_helper import GpioHelper
+from helper.logs_helper import LogsHelper
+from helper.page_state import PageState
+from helper.radio_helper import RadioHelper
+from helper.startup_error_helper import StartupErrorHelper
+from helper.stations import Stations
+from helper.wifi_helper import WifiHelper
 
 from core.helpers.factories.settings_sync import create_settings_sync_helper
 from core.helpers.factories.sounds import create_sounds_helper
@@ -40,12 +41,13 @@ settings_sync_helper = create_settings_sync_helper()
 stations_helper = Stations()
 constants = Constants()
 sounds = create_sounds_helper()
-audio_helper = Audio()
+audio_helper = create_audio_helper()
 page_helper = PageState()
 audio_effects = AudioEffects()
 theme_helper = create_theme_helper()
 gpio_helper = GpioHelper()
 logs_helper = LogsHelper()
+player = create_player_helper()
 
 
 def on_error(e):
@@ -73,7 +75,7 @@ def main(page: ft.Page):
 
     bluetooth_helper.on_startup()
 
-    strip = Strip()
+    strip = create_strip_state()
     taskbar = Taskbar(
         on_volume_update=strip.update_sound_strip,
         on_mute_update=strip.toggle_mute,
@@ -133,7 +135,7 @@ def main(page: ft.Page):
     process = threading.Thread(target=background_processes)
     process.start()
 
-    audio_helper.startup_sound()
+    player.startup_sound()
     audio_effects.start()
 
     if (

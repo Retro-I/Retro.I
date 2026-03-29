@@ -4,10 +4,10 @@ from pyky040 import pyky040
 
 from core.app_state import AppState
 from core.factories.strip_factory import create_strip_state
-from helper.AudioEffects import AudioEffects
+from helper.audio_effects import AudioEffects
 from helper.constants import Constants
-from helper.GpioHelper import GpioHelper
-from helper.TrebleStepsHelper import TrebleStepsHelper
+from helper.gpio_helper import GpioHelper
+from helper.treble_steps_helper import TrebleStepsHelper
 
 audio_effects = AudioEffects()
 gpio_helper = GpioHelper()

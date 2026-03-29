@@ -1,7 +1,7 @@
 import flet as ft
 
-from components.BaseTextField import BaseTextField
-from helper.WifiHelper import WifiHelper
+from components.base_text_field import BaseTextField
+from helper.wifi_helper import WifiHelper
 
 wifi_helper = WifiHelper()
 

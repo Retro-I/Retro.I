@@ -8,20 +8,20 @@ from datetime import datetime
 import netifaces
 import psutil
 
-from helper.Audio import Audio
+from core.factories.strip_factory import create_strip_state
+from core.helpers.factories.audio import create_audio_helper
 from helper.constants import Constants
-from helper.PageState import PageState
-from helper.StartupErrorHelper import StartupErrorHelper
-from helper.Strip import Strip
+from helper.page_state import PageState
+from helper.startup_error_helper import StartupErrorHelper
 
-audio_helper = Audio()
+audio_helper = create_audio_helper()
 page_helper = PageState()
 c = Constants()
 startup_error_helper = StartupErrorHelper()
 
 
 class SystemHelper:
-    strip = Strip()
+    strip = create_strip_state()
 
     def __init__(self):
         self._update_process: subprocess.Popen | None = None

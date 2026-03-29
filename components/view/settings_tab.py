@@ -1,20 +1,20 @@
 import flet as ft
 
-from components.dialogs.SettingsAppControlDialog import SettingsAppControlDialog
-from components.dialogs.SettingsAudioDialog import SettingsAudioDialog
-from components.dialogs.SettingsDeveloperModeDialog import (
+from components.dialogs.settings_app_control_dialog import SettingsAppControlDialog
+from components.dialogs.settings_audio_dialog import SettingsAudioDialog
+from components.dialogs.settings_developer_mode_dialog import (
     SettingsDeveloperModeDialog,
 )
-from components.dialogs.SettingsDisplayDialog import SettingsDisplayDialog
-from components.dialogs.SettingsInfoDialog import SettingsInfoDialog
-from components.dialogs.SettingsLedDialog import SettingsLedDialog
-from components.dialogs.SettingsLogsDialog import SettingsLogsDialog
-from components.dialogs.SettingsShutdownDialog import SettingsShutdownDialog
-from components.dialogs.SettingsUpdateDialog import SettingsUpdateDialog
-from components.Scrollbar import with_scrollbar_space
-from components.SettingsButton import SettingsButton
-from helper.DeveloperModeHelper import DeveloperModeHelper
-from helper.PageState import PageState
+from components.dialogs.settings_display_dialog import SettingsDisplayDialog
+from components.dialogs.settings_info_dialog import SettingsInfoDialog
+from components.dialogs.settings_led_dialog import SettingsLedDialog
+from components.dialogs.settings_logs_dialog import SettingsLogsDialog
+from components.dialogs.settings_shutdown_dialog import SettingsShutdownDialog
+from components.dialogs.settings_update_dialog import SettingsUpdateDialog
+from components.scrollbar import with_scrollbar_space
+from components.settings_button import SettingsButton
+from helper.developer_mode_helper import DeveloperModeHelper
+from helper.page_state import PageState
 
 
 class SettingsTab(ft.Column):

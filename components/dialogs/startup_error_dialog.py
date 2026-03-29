@@ -1,6 +1,6 @@
 import flet as ft
 
-from helper.StartupErrorHelper import StartupErrorHelper
+from helper.startup_error_helper import StartupErrorHelper
 
 startup_error_helper = StartupErrorHelper()
 

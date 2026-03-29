@@ -1,10 +1,10 @@
 import flet as ft
 
-from components.dialogs.RadioSearchDialog import RadioSearchDialog
-from components.RadioGrid import RadioGrid
+from components.dialogs.radio_search_dialog import RadioSearchDialog
+from components.radio_grid import RadioGrid
 from helper.constants import Constants
-from helper.PageState import PageState
-from helper.RadioHelper import RadioHelper
+from helper.page_state import PageState
+from helper.radio_helper import RadioHelper
 
 constants = Constants()
 radio_helper = RadioHelper()

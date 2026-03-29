@@ -1,6 +1,6 @@
 import flet as ft
 
-from components.IconBtn import IconBtn
+from components.icon_btn import IconBtn
 from core.helpers.factories.system import create_system_helper
 
 

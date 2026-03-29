@@ -1,5 +1,5 @@
 from core.settings.base.radio_stations import BaseRadioStationsSettings
-from helper.Stations import Stations
+from helper.stations import Stations
 
 
 class PiRadioStationsSettings(BaseRadioStationsSettings):

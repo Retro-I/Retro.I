@@ -1,7 +1,7 @@
 import flet as ft
 
-from components.dialogs.UpdatesRestartDialog import UpdatesRestartDialog
-from helper.PageState import PageState
+from components.dialogs.updates_restart_dialog import UpdatesRestartDialog
+from helper.page_state import PageState
 
 
 class SuccessDialog(ft.AlertDialog):

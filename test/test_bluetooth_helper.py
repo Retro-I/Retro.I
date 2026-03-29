@@ -35,7 +35,7 @@ class TestBluetoothHelper(unittest.TestCase):
     def setUp(self, get_strip_settings):
         get_strip_settings.return_value = strip_mock
 
-        from helper.BluetoothHelper import BluetoothHelper
+        from helper.bluetooth_helper import BluetoothHelper
 
         self.bluetooth_helper = BluetoothHelper()
 

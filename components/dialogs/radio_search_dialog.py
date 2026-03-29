@@ -1,11 +1,11 @@
 import flet as ft
 
-from components.BaseTextField import BaseTextField
-from components.dialogs.StationAddDialog import StationAddDialog
-from components.RadioGrid import RadioGrid
-from components.Scrollbar import with_scrollbar_space
+from components.base_text_field import BaseTextField
+from components.dialogs.station_add_dialog import StationAddDialog
+from components.radio_grid import RadioGrid
+from components.scrollbar import with_scrollbar_space
 from helper.constants import Constants
-from helper.RadioHelper import RadioHelper
+from helper.radio_helper import RadioHelper
 
 radio_helper = RadioHelper()
 constants = Constants()

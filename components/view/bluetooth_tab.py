@@ -3,13 +3,13 @@ import time
 
 import flet as ft
 
-from components.BluetoothDeviceConnected import BluetoothDeviceConnected
-from components.BluetoothDiscoveryToggle import BluetoothDiscoveryToggle
-from components.dialogs.BluetoothDisplayNameDialog import (
+from components.bluetooth_device_connected import BluetoothDeviceConnected
+from components.bluetooth_discovery_toggle import BluetoothDiscoveryToggle
+from components.dialogs.bluetooth_display_name_dialog import (
     BluetoothDisplayNameDialog,
 )
-from helper.BluetoothHelper import BluetoothHelper
-from helper.PageState import PageState
+from helper.bluetooth_helper import BluetoothHelper
+from helper.page_state import PageState
 
 bluetooth_helper = BluetoothHelper()
 

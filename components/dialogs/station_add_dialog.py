@@ -1,12 +1,12 @@
 import flet as ft
 
-from components.dialogs.DuplicateDialog import DuplicateDialog
-from components.RadioGrid import RadioGrid
+from components.dialogs.duplicate_dialog import DuplicateDialog
+from components.radio_grid import RadioGrid
 from core.settings.factories.radio_stations import (
     create_radio_stations_settings,
 )
 from helper.constants import Constants
-from helper.PageState import PageState
+from helper.page_state import PageState
 
 constants = Constants()
 

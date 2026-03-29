@@ -1,7 +1,7 @@
 import flet as ft
 
-from components.view.Tabs import Tabs
-from helper.PartyModeHelper import PartyModeHelper
+from components.view.tabs import Tabs
+from helper.party_mode_helper import PartyModeHelper
 
 party_mode_helper = PartyModeHelper()
 

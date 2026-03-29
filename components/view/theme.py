@@ -1,14 +1,14 @@
 import flet as ft
 
-from helper.PartyModeHelper import PartyModeHelper
-from components.NavigationBar import NavigationBar
-from components.view.Tabs import Tabs
-from components.view.tabs.BluetoothTab import BluetoothTab
-from components.view.tabs.RadioTab import RadioTab
-from components.view.tabs.SettingsTab import SettingsTab
-from components.view.tabs.SoundboardTab import SoundboardTab
-from components.view.Taskbar import Taskbar
-from helper.PageState import PageState
+from helper.party_mode_helper import PartyModeHelper
+from components.navigation_bar import NavigationBar
+from components.view.tabs import Tabs
+from components.view.bluetooth_tab import BluetoothTab
+from components.view.radio_tab import RadioTab
+from components.view.settings_tab import SettingsTab
+from components.view.soundboard_tab import SoundboardTab
+from components.view.taskbar import Taskbar
+from helper.page_state import PageState
 
 from core.settings.factories.scrollbar import create_scrollbar_settings
 

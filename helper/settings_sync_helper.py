@@ -7,7 +7,7 @@ import jsonschema_default
 from jsonschema import Draft7Validator
 
 from helper.constants import Constants
-from helper.RevisionHelper import RevisionHelper
+from helper.revision_helper import RevisionHelper
 
 logger = logging.getLogger(__name__)
 c = Constants()

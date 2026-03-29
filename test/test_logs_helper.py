@@ -28,7 +28,7 @@ class TestStripSettingsHelper(unittest.TestCase):
         }
         super().setUp()
 
-        from helper.LogsHelper import LogsHelper
+        from helper.logs_helper import LogsHelper
 
         self.logs_helper = LogsHelper()
 

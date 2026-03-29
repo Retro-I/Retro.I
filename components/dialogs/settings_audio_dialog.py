@@ -1,7 +1,7 @@
 import flet as ft
 
-from components.VolumeInputField import VolumeInputField
-from components.VolumeStepInputField import VolumeStepInputField
+from components.volume_input_field import VolumeInputField
+from components.volume_step_input_field import VolumeStepInputField
 from core.helpers.factories.audio import create_audio_helper
 
 

@@ -6,8 +6,8 @@ import unittest
 from unittest import mock
 from unittest.mock import patch
 
-from helper.AudioEffects import AudioEffects
-from helper.BassStepsHelper import BassStepsHelper
+from helper.audio_effects import AudioEffects
+from helper.bass_steps_helper import BassStepsHelper
 
 from core.helpers.factories.audio import create_audio_helper
 from core.helpers.factories.settings_sync import create_settings_sync_helper
@@ -16,17 +16,17 @@ from core.helpers.factories.theme import create_theme_helper
 from core.settings.factories.scrollbar import create_scrollbar_settings
 from core.settings.factories.strip import create_strip_settings
 from helper.constants import Constants
-from helper.DeveloperModeHelper import DeveloperModeHelper
-from helper.PartyModeHelper import PartyModeHelper
-from helper.RevisionHelper import RevisionHelper
-from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
-from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
-from helper.Sounds import Sounds
-from helper.SplashscreenHelper import SplashscreenHelper
-from helper.StartupErrorHelper import StartupErrorHelper
-from helper.StripSettingsHelper import StripSettingsHelper
-from helper.ThemeHelper import ThemeHelper
-from helper.TrebleStepsHelper import TrebleStepsHelper
+from helper.developer_mode_helper import DeveloperModeHelper
+from helper.party_mode_helper import PartyModeHelper
+from helper.revision_helper import RevisionHelper
+from helper.scrollbar_settings_helper import ScrollbarSettingsHelper
+from helper.secured_mode_settings_helper import SecuredModeSettingsHelper
+from helper.sounds import Sounds
+from helper.splashscreen_helper import SplashscreenHelper
+from helper.startup_error_helper import StartupErrorHelper
+from helper.strip_settings_helper import StripSettingsHelper
+from helper.theme_helper import ThemeHelper
+from helper.treble_steps_helper import TrebleStepsHelper
 
 
 class BaseTest(unittest.TestCase):
@@ -48,10 +48,10 @@ class BaseTest(unittest.TestCase):
         },
     )
     def setUp(self):
-        from helper.Audio import Audio
-        from helper.GpioHelper import GpioHelper
+        from helper.audio import Audio
+        from helper.gpio_helper import GpioHelper
         from helper.settings_sync_helper import SettingsSyncHelper
-        from helper.Stations import Stations
+        from helper.stations import Stations
 
         self.test_dir = self._create_temp_files(
             src_dir="./settings", dst_dir=f"{tempfile.mkdtemp()}/settings"

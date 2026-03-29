@@ -3,7 +3,7 @@ import time
 
 import flet as ft
 
-from helper.LogsHelper import LogsHelper
+from helper.logs_helper import LogsHelper
 
 logs_helper = LogsHelper()
 

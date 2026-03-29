@@ -1,10 +1,10 @@
 import flet as ft
 
-from components.dialogs.StationDeleteDialog import StationDeleteDialog
+from components.dialogs.station_delete_dialog import StationDeleteDialog
 from core.settings.factories.radio_stations import (
     create_radio_stations_settings,
 )
-from helper.PageState import PageState
+from helper.page_state import PageState
 
 
 class StationModifyDialog(ft.AlertDialog):

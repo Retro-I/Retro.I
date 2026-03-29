@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from helper.RevisionHelper import RevisionHelper
+from helper.revision_helper import RevisionHelper
 
 
 class RevisionHelperTests(unittest.TestCase):

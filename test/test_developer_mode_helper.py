@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 
-from helper.DeveloperModeHelper import DeveloperModeHelper
+from helper.developer_mode_helper import DeveloperModeHelper
 from test.base_test import BaseTest
 
 

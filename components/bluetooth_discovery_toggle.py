@@ -1,6 +1,6 @@
 import flet as ft
 
-from helper.BluetoothHelper import BluetoothHelper
+from helper.bluetooth_helper import BluetoothHelper
 
 bluetooth_helper = BluetoothHelper()
 

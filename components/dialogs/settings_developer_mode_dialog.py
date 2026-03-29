@@ -1,8 +1,8 @@
 import flet as ft
 
-from components.dialogs.UpdatesRestartDialog import UpdatesRestartDialog
-from helper.DeveloperModeHelper import DeveloperModeHelper
-from helper.PageState import PageState
+from components.dialogs.updates_restart_dialog import UpdatesRestartDialog
+from helper.developer_mode_helper import DeveloperModeHelper
+from helper.page_state import PageState
 
 
 class SettingsDeveloperModeDialog(ft.AlertDialog):

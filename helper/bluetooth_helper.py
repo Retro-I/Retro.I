@@ -2,7 +2,7 @@ import os
 import re
 import subprocess
 
-from helper.PageState import PageState
+from helper.page_state import PageState
 
 
 class BluetoothHelper:

@@ -1,13 +1,13 @@
 import flet as ft
 
-from components.dialogs.DownloadDialog import DownloadDialog
-from components.dialogs.ErrorDialog import ErrorDialog
-from components.dialogs.SuccessDialog import SuccessDialog
-from components.Scrollbar import with_scrollbar_space
+from components.dialogs.download_dialog import DownloadDialog
+from components.dialogs.error_dialog import ErrorDialog
+from components.dialogs.success_dialog import SuccessDialog
+from components.scrollbar import with_scrollbar_space
 from core.helpers.factories.settings_sync import create_settings_sync_helper
 from core.helpers.factories.system import create_system_helper
-from helper.PageState import PageState
-from helper.RevisionHelper import RevisionHelper
+from helper.page_state import PageState
+from helper.revision_helper import RevisionHelper
 
 revision_helper = RevisionHelper()
 

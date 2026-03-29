@@ -1,4 +1,4 @@
-from helper.RadioHelper import RadioHelper
+from helper.radio_helper import RadioHelper
 from test.base_test import BaseTest
 
 radio_helper = RadioHelper()

@@ -1,9 +1,9 @@
 import json
 import subprocess
 
-from helper.BassStepsHelper import BassStepsHelper
+from helper.bass_steps_helper import BassStepsHelper
 from helper.constants import Constants
-from helper.TrebleStepsHelper import TrebleStepsHelper
+from helper.treble_steps_helper import TrebleStepsHelper
 
 c = Constants()
 

@@ -1,6 +1,6 @@
 import flet as ft
 
-from components.dialogs.StationModifyDialog import StationModifyDialog
+from components.dialogs.station_modify_dialog import StationModifyDialog
 from core.factories.strip_factory import create_strip_state
 from core.helpers.factories.player import create_player_helper
 from core.helpers.factories.system import create_system_helper
@@ -8,8 +8,8 @@ from core.settings.factories.radio_stations import (
     create_radio_stations_settings,
 )
 from helper.constants import Constants
-from helper.PageState import PageState
-from helper.RadioHelper import RadioHelper
+from helper.page_state import PageState
+from helper.radio_helper import RadioHelper
 
 constants = Constants()
 radio_helper = RadioHelper()

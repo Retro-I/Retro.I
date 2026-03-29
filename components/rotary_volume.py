@@ -5,7 +5,7 @@ from pyky040 import pyky040
 from core.app_state import AppState
 from core.factories.strip_factory import create_strip_state
 from core.helpers.factories.audio import create_audio_helper
-from helper.GpioHelper import GpioHelper
+from helper.gpio_helper import GpioHelper
 
 gpio_helper = GpioHelper()
 

@@ -1,6 +1,6 @@
 import flet as ft
 
-from helper.SplashscreenHelper import SplashscreenHelper
+from helper.splashscreen_helper import SplashscreenHelper
 
 splashscreen_helper = SplashscreenHelper()
 

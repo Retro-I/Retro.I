@@ -1,21 +1,21 @@
 import flet as ft
 
-from components.dialogs.AudioEffectsDialog import AudioEffectsDialog
-from components.dialogs.SettingsShutdownDialog import SettingsShutdownDialog
-from components.dialogs.VolumeDialog import VolumeDialog
-from components.dialogs.WifiConnectionDialog import WifiConnectionDialog
-from components.dialogs.WifiDialog import WifiDialog
-from helper.Audio import Audio
-from helper.AudioEffects import AudioEffects
-from helper.BluetoothHelper import BluetoothHelper
+from components.dialogs.audio_effects_dialog import AudioEffectsDialog
+from components.dialogs.settings_shutdown_dialog import SettingsShutdownDialog
+from components.dialogs.volume_dialog import VolumeDialog
+from components.dialogs.wifi_connection_dialog import WifiConnectionDialog
+from components.dialogs.wifi_dialog import WifiDialog
+from core.helpers.factories.audio import create_audio_helper
+from helper.audio_effects import AudioEffects
+from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
-from helper.PageState import PageState
-from helper.WifiHelper import WifiHelper
+from helper.page_state import PageState
+from helper.wifi_helper import WifiHelper
 
 from core.helpers.factories.system import create_system_helper
 from core.helpers.factories.theme import create_theme_helper
 
-audio_helper = Audio()
+audio_helper = create_audio_helper()
 audio_effects = AudioEffects()
 wifi_helper = WifiHelper()
 bluetooth_helper = BluetoothHelper()

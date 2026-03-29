@@ -2,14 +2,14 @@ import time
 
 import flet as ft
 
-from components.dialogs.BluetoothDeviceEditDialog import (
+from components.dialogs.bluetooth_device_edit_dialog import (
     BluetoothDeviceEditDialog,
 )
-from components.Scrollbar import with_scrollbar_space
+from components.scrollbar import with_scrollbar_space
 from core.app_state import AppState
 from core.helpers.factories.player import create_player_helper
-from helper.BluetoothHelper import BluetoothHelper
-from helper.PageState import PageState
+from helper.bluetooth_helper import BluetoothHelper
+from helper.page_state import PageState
 
 bluetooth_helper = BluetoothHelper()
 

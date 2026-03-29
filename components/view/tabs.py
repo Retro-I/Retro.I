@@ -1,20 +1,21 @@
 import time
 
-from components.view.tabs.BluetoothTab import BluetoothTab
-from components.view.tabs.RadioTab import RadioTab
-from components.view.tabs.SettingsTab import SettingsTab
-from components.view.tabs.SoundboardTab import SoundboardTab
-from components.view.Taskbar import Taskbar
-from helper.Audio import Audio
-from helper.BluetoothHelper import BluetoothHelper
+from components.view.bluetooth_tab import BluetoothTab
+from components.view.radio_tab import RadioTab
+from components.view.settings_tab import SettingsTab
+from components.view.soundboard_tab import SoundboardTab
+from components.view.taskbar import Taskbar
+
+from core.helpers.factories.audio import create_audio_helper
+from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
-from helper.PageState import PageState
-from helper.PartyModeHelper import PartyModeHelper
+from helper.page_state import PageState
+from helper.party_mode_helper import PartyModeHelper
 
 from core.helpers.factories.theme import create_theme_helper
 
 bluetooth_helper = BluetoothHelper()
-audio_helper = Audio()
+audio_helper = create_audio_helper()
 party_mode_helper = PartyModeHelper()
 
 
