@@ -2,10 +2,10 @@ import flet as ft
 
 from components.dialogs.wifi_connection_dialog import WifiConnectionDialog
 from components.scrollbar import with_scrollbar_space
-from core.factories.helper_factories import create_system_helper
-from helper.wifi_helper import WifiHelper
-
-wifi_helper = WifiHelper()
+from core.factories.helper_factories import (
+    create_system_helper,
+    create_wifi_helper,
+)
 
 
 class WifiDialog(ft.AlertDialog):
@@ -21,6 +21,7 @@ class WifiDialog(ft.AlertDialog):
         super().__init__()
 
         self.system_helper = create_system_helper()
+        self.wifi_helper = create_wifi_helper()
 
         self.connection_dialog = connection_dialog
         self.on_toggle_wifi = on_toggle_wifi
@@ -29,7 +30,7 @@ class WifiDialog(ft.AlertDialog):
             "Wifi einschalten",
             label_style=ft.TextStyle(size=18),
             on_change=lambda e: self.toggle_wifi(),
-            value=wifi_helper.is_enabled(),
+            value=self.wifi_helper.is_enabled(),
         )
 
         self.content = ft.Column(
@@ -57,7 +58,7 @@ class WifiDialog(ft.AlertDialog):
         self.open = True
         self.update()
 
-        self.toggle_wifi_switch.value = wifi_helper.is_enabled()
+        self.toggle_wifi_switch.value = self.wifi_helper.is_enabled()
         self.toggle_wifi_switch.update()
 
         self.listview.visible = False
@@ -66,7 +67,7 @@ class WifiDialog(ft.AlertDialog):
         self.not_found.visible = False
         self.not_found.update()
 
-        if not wifi_helper.is_enabled():
+        if not self.wifi_helper.is_enabled():
             return
 
         self.loading.visible = True
@@ -76,7 +77,7 @@ class WifiDialog(ft.AlertDialog):
         self.listview.update()
 
         curr_ssid = self.system_helper.get_current_ssid()
-        networks = wifi_helper.get_networks()
+        networks = self.wifi_helper.get_networks()
 
         for n in networks:
             ico = ft.Icon(ft.Icons.DONE, size=28, visible=False)
@@ -105,10 +106,10 @@ class WifiDialog(ft.AlertDialog):
         self.listview.update()
 
     def toggle_wifi(self):
-        wifi_helper.toggle_wifi()
+        self.wifi_helper.toggle_wifi()
         self.on_toggle_wifi()
 
-        if wifi_helper.is_enabled():
+        if self.wifi_helper.is_enabled():
             self.listview.visible = False
             self.open_dialog()
         else:

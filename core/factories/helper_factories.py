@@ -87,3 +87,11 @@ def create_strip_state():
             from hardware.pi.pi_strip_hardware import PiStripHardware
 
             return PiStripHardware()
+
+
+def create_wifi_helper():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.helpers.pi.wifi import PiWifiHelper
+
+            return PiWifiHelper()

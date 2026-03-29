@@ -2,8 +2,10 @@ import os
 import re
 import subprocess
 
+from core.helpers.base.wifi import BaseWifiHelper
 
-class WifiHelper:
+
+class PiWifiHelper(BaseWifiHelper):
     def is_enabled(self):
         result = subprocess.run(
             ["rfkill", "list", "wifi"], capture_output=True, text=True

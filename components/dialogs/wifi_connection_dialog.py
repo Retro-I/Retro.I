@@ -1,9 +1,7 @@
 import flet as ft
 
 from components.base_text_field import BaseTextField
-from helper.wifi_helper import WifiHelper
-
-wifi_helper = WifiHelper()
+from core.factories.helper_factories import create_wifi_helper
 
 
 class WifiConnectionDialog(ft.AlertDialog):
@@ -14,6 +12,7 @@ class WifiConnectionDialog(ft.AlertDialog):
 
     def __init__(self, on_connect):
         super().__init__()
+        self.wifi_helper = create_wifi_helper()
 
         self.btn_connect = ft.FilledButton(
             "Verbinden",
@@ -60,7 +59,7 @@ class WifiConnectionDialog(ft.AlertDialog):
         self.btn_connect.update()
         on_connect()
 
-        wifi_helper.connect_to_wifi(self.ssid.value, self.password.value)
+        self.wifi_helper.connect_to_wifi(self.ssid.value, self.password.value)
 
         self.password.value = ""
 

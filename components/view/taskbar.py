@@ -10,13 +10,12 @@ from core.factories.helper_factories import (
     create_bluetooth_helper,
     create_system_helper,
     create_theme_helper,
+    create_wifi_helper,
 )
 from helper.constants import Constants
 from helper.page_state import PageState
-from helper.wifi_helper import WifiHelper
 
 audio_helper = create_audio_helper()
-wifi_helper = WifiHelper()
 
 
 class Taskbar(ft.AppBar):
@@ -30,6 +29,7 @@ class Taskbar(ft.AppBar):
         self.theme_helper = create_theme_helper()
         self.system_helper = create_system_helper()
         self.bluetooth_helper = create_bluetooth_helper()
+        self.wifi_helper = create_wifi_helper()
 
         self.on_bass_update = on_bass_update
         self.on_treble_update = on_treble_update
@@ -169,13 +169,13 @@ class Taskbar(ft.AppBar):
             self.ico_wifi.icon_color = ft.Colors.GREEN
             self.ico_wifi.update()
 
-        if not wifi_helper.is_enabled():
+        if not self.wifi_helper.is_enabled():
             self.ico_wifi.icon = ft.Icons.WIFI_OFF
             self.ico_wifi.icon_color = ft.Colors.ON_SURFACE
             self.ico_wifi.update()
             return
 
-        if not wifi_helper.is_connected():
+        if not self.wifi_helper.is_connected():
             self.ico_wifi.icon = ft.Icons.WIFI_FIND
             self.ico_wifi.icon_color = ft.Colors.ON_SURFACE
             self.ico_wifi.update()
