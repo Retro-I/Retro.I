@@ -6,7 +6,7 @@ from core.settings.base.strip import BaseStripSettings
 from helper.constants import Constants
 
 
-class StripSettingsHelper(BaseStripSettings):
+class PiStripSettings(BaseStripSettings):
     SETTING = "strip-settings.json"
     STRIP_SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 

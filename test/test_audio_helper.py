@@ -62,7 +62,7 @@ class TestAudioSounds(unittest.TestCase):
     @mock.patch.dict(sys.modules, {"joblib": mock.MagicMock()})
     @mock.patch.dict(sys.modules, {"sklearn.cluster": mock.MagicMock()})
     def setUp(self):
-        from helper.Audio import Audio
+        from core.helpers.pi.audio import PiAudioHelper
 
         self.test_dir = tempfile.mkdtemp()
 
@@ -77,10 +77,10 @@ class TestAudioSounds(unittest.TestCase):
         shutil.copy(self.audio_settings_file, self.audio_settings_temp_file)
 
         with patch.object(
-            Audio, "AUDIO_SETTINGS_PATH", self.audio_settings_temp_file
+            PiAudioHelper, "AUDIO_SETTINGS_PATH", self.audio_settings_temp_file
         ):
-            with mock.patch.object(Audio, "init_sound"):
-                self.audio_helper = Audio()
+            with mock.patch.object(PiAudioHelper, "init_sound"):
+                self.audio_helper = PiAudioHelper()
                 self.player = create_player_helper()
                 self.audio_helper.AUDIO_SETTINGS_PATH = (
                     self.audio_settings_temp_file
@@ -90,7 +90,7 @@ class TestAudioSounds(unittest.TestCase):
         shutil.rmtree(self.test_dir)
 
     def test_audio_init(self):
-        with patch.object(self.audio_helper, "unmute") as unmute_mock:
+        with patch.object(self.audio_helper, "_unmute") as unmute_mock:
             with patch.object(self.audio_helper, "set_volume") as volume_mock:
                 self.audio_helper.init_sound()
                 unmute_mock.assert_called_once()
@@ -108,7 +108,7 @@ class TestAudioSounds(unittest.TestCase):
             (str(startup_sound_path), True),
         )
 
-        with patch.object(self.audio_helper, "play_sound") as mock:
+        with patch.object(self.player, "_play_sound") as mock:
             self.player.startup_sound()
             mock.assert_called_once_with(startup)
 
@@ -122,8 +122,8 @@ class TestAudioSounds(unittest.TestCase):
             (str(shutdown_sound_path), True),
         )
 
-        with patch.object(self.audio_helper, "play_sound") as mock_play_sound:
-            with patch.object(self.audio_helper, "pause") as mock_pause:
+        with patch.object(self.player, "_play_sound") as mock_play_sound:
+            with patch.object(self.player, "pause") as mock_pause:
                 self.player.shutdown_sound()
                 mock_pause.assert_called_once()
                 mock_play_sound.assert_called_once_with(shutdown)
@@ -143,7 +143,7 @@ class TestAudioSounds(unittest.TestCase):
             (str(bluetooth_connected_sound_path), True),
         )
 
-        with patch.object(self.audio_helper, "play_sound") as mock:
+        with patch.object(self.player, "_play_sound") as mock:
             self.player.bluetooth_connected()
             mock.assert_called_once_with(bluetooth_connected)
 
@@ -162,59 +162,67 @@ class TestAudioSounds(unittest.TestCase):
             (str(bluetooth_connected_sound_path), True),
         )
 
-        with patch.object(self.audio_helper, "play_sound") as mock:
+        with patch.object(self.player, "_play_sound") as mock:
             self.player.bluetooth_disconnected()
             mock.assert_called_once_with(bluetooth_disconnected)
 
-        @patch("helper.Sounds.get_random_toast")
-        @patch("helper.Audio.play")
-        @patch("helper.Audio.wait")
-        @patch("helper.Audio.pause")
-        @patch("helper.Audio.playsound")
-        def test_play_toast(
-            mock_random_toast, mock_playsound, mock_pause, mock_wait, mock_play
-        ):
-            self.audio_helper.play_toast()
-            mock_random_toast.assert_called_once()
-            mock_pause.assert_called_once()
-            mock_wait.assert_called()
-            mock_playsound.assert_called_once()
-            mock_play.assert_called_once()
+    @patch("core.helpers.pi.sounds.PiSoundsHelper.get_random_toast")
+    @patch("core.helpers.pi.player.PiPlayerHelper.play")
+    @patch("core.helpers.pi.audio.PiAudioHelper.wait")
+    @patch("core.helpers.pi.player.PiPlayerHelper.pause")
+    @patch("core.helpers.pi.audio.playsound")
+    def test_play_toast(
+        self,
+        mock_random_toast,
+        mock_playsound,
+        mock_wait,
+        mock_pause,
+        mock_play,
+    ):
+        self.audio_helper.play_toast()
+        mock_random_toast.assert_called_once()
+        mock_pause.assert_called_once()
+        mock_wait.assert_called()
+        mock_playsound.assert_called_once()
+        mock_play.assert_called_once()
 
-            self.assertFalse(self.audio_helper.toast_playing)
+        self.assertFalse(self.audio_helper.toast_playing)
 
-        @patch("helper.Sounds.get_random_toast")
-        @patch("helper.Audio.play")
-        @patch("helper.Audio.wait")
-        @patch("helper.Audio.pause")
-        @patch("helper.Audio.playsound")
-        def test_dont_play_toast(
-            mock_random_toast, mock_playsound, mock_pause, mock_wait, mock_play
-        ):
-            self.audio_helper.toast_playing = True
+    @patch("core.helpers.pi.sounds.PiSoundsHelper.get_random_toast")
+    @patch("core.helpers.pi.player.PiPlayerHelper.play")
+    @patch("core.helpers.pi.audio.PiAudioHelper.wait")
+    @patch("core.helpers.pi.player.PiPlayerHelper.pause")
+    @patch("core.helpers.pi.audio.playsound")
+    def test_dont_play_toast(
+        self,
+        mock_playsound,
+        mock_pause,
+        mock_wait,
+        mock_play,
+        mock_random_toast,
+    ):
+        self.audio_helper.toast_playing = True
 
-            self.audio_helper.play_toast()
-            mock_random_toast.assert_called_once()
-            mock_pause.assert_not_called()
-            mock_wait.assert_not_called()
-            mock_playsound.assert_not_called()
-            mock_play.assert_not_called()
+        self.audio_helper.play_toast()
+        mock_random_toast.assert_called_once()
+        mock_pause.assert_not_called()
+        mock_wait.assert_not_called()
+        mock_playsound.assert_not_called()
+        mock_play.assert_not_called()
 
-            self.assertFalse(self.audio_helper.toast_playing)
-
-    @mock.patch("helper.Audio.playsound")
+    @mock.patch("core.helpers.pi.audio.playsound")
     def test_local_sound(self, mock_playsound):
         self.audio_helper.play_sound_board("test.mp3")
         mock_playsound.assert_called_once_with(
             f"{constants.sound_path()}/test.mp3"
         )
 
-    @mock.patch("helper.Audio.playsound")
+    @mock.patch("core.helpers.pi.audio.playsound")
     def test_remote_https_sound(self, mock_playsound):
         self.audio_helper.play_sound_board("https://google.de/test.mp3")
         mock_playsound.assert_called_once_with("https://google.de/test.mp3")
 
-    @mock.patch("helper.Audio.playsound")
+    @mock.patch("core.helpers.pi.audio.playsound")
     def test_remote_http_sound(self, mock_playsound):
         self.audio_helper.play_sound_board("http://google.de/test.mp3")
         mock_playsound.assert_called_once_with("http://google.de/test.mp3")

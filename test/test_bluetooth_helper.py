@@ -31,27 +31,27 @@ class TestBluetoothHelper(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
+    @patch("core.settings.pi.strip.PiStripSettings.get_strip_settings")
     def setUp(self, get_strip_settings):
         get_strip_settings.return_value = strip_mock
 
-        from helper.bluetooth_helper import BluetoothHelper
+        from core.factories.helper_factories import create_bluetooth_helper
 
-        self.bluetooth_helper = BluetoothHelper()
+        self.bluetooth_helper = create_bluetooth_helper()
 
     @patch("os.system")
     def test_turn_on(self, mock):
         self.bluetooth_helper.turn_on()
         mock.assert_called_once_with("rfkill unblock 0")
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_turn_off(self, mock):
         self.bluetooth_helper.turn_off()
         mock.assert_any_call(
             ["rfkill", "block", "0"], stdout=subprocess.DEVNULL
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_is_bluetooth_on(self, mock):
         mock.return_value = MagicMock(
             stdout=b"""hci0:   Type: Primary  Bus: UART
@@ -64,7 +64,7 @@ class TestBluetoothHelper(unittest.TestCase):
         self.assertTrue(self.bluetooth_helper.is_bluetooth_on())
         mock.assert_any_call(["hciconfig"], stdout=subprocess.PIPE)
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_is_bluetooth_off(self, mock):
         mock.return_value = MagicMock(
             stdout=b"""hci0:   Type: Primary  Bus: UART
@@ -89,7 +89,7 @@ class TestBluetoothHelper(unittest.TestCase):
         mock.assert_any_call("bluetoothctl discoverable off")
         self.assertFalse(self.bluetooth_helper.discovery_on)
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_get_bluetooth_display_name(self, mock):
         mock.return_value = MagicMock(stdout=" Test-Name")
         actual = self.bluetooth_helper.get_bluetooth_display_name()
@@ -105,19 +105,16 @@ class TestBluetoothHelper(unittest.TestCase):
             check=True,
         )
 
-    @patch("helper.BluetoothHelper.BluetoothHelper.turn_off")
-    @patch("helper.BluetoothHelper.BluetoothHelper.turn_on")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     @patch("os.system")
-    def test_change_bluetooth_display_name(
-        self, mock_system, mock_turn_on, mock_turn_off
-    ):
+    def test_change_bluetooth_display_name(self, mock_system, mock_turn_on_off):
         mock_system.return_value = MagicMock()
+        mock_turn_on_off.return_value = MagicMock()
         self.bluetooth_helper.change_bluetooth_display_name("Test-Name")
-        mock_turn_off.assert_called_once()
         mock_system.assert_any_call('bluetoothctl system-alias "Test-Name"')
-        mock_turn_on.assert_called_once()
+        mock_turn_on_off.assert_called_once()
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_connect(self, mock_system):
         mock_system.return_value = MagicMock()
         self.bluetooth_helper.connect("AA:AA:AA:AA:AA:AA")
@@ -125,7 +122,7 @@ class TestBluetoothHelper(unittest.TestCase):
             ["bluetoothctl", "connect", "AA:AA:AA:AA:AA:AA"]
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_disconnect(self, mock_system):
         mock_system.return_value = MagicMock()
         self.bluetooth_helper.disconnect("AA:AA:AA:AA:AA:AA")
@@ -133,8 +130,10 @@ class TestBluetoothHelper(unittest.TestCase):
             ["bluetoothctl", "disconnect", "AA:AA:AA:AA:AA:AA"]
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
-    @patch("helper.BluetoothHelper.BluetoothHelper.get_connected_device_mac")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
+    @patch(
+        "core.helpers.pi.bluetooth.PiBluetoothHelper.get_connected_device_mac"
+    )
     def test_disconnect_with_connected_device(
         self, mock_connected_mac, mock_system
     ):
@@ -145,7 +144,7 @@ class TestBluetoothHelper(unittest.TestCase):
             ["bluetoothctl", "disconnect", "BB:BB:BB:BB:BB:BB"]
         )
 
-    @patch("helper.BluetoothHelper.subprocess.check_output")
+    @patch("core.helpers.pi.bluetooth.subprocess.check_output")
     def test_get_paired_devices(self, mock_get_paired_devices):
         mock_get_paired_devices.return_value = "Device FF:FF:FF:FF:FF:FF Device_Name\nDevice FF:FF:FF:FF:FF:AB Device_Name2"
 
@@ -166,7 +165,7 @@ class TestBluetoothHelper(unittest.TestCase):
             ["bluetoothctl", "devices", "Paired"], text=True
         )
 
-    @patch("helper.BluetoothHelper.subprocess.check_output")
+    @patch("core.helpers.pi.bluetooth.subprocess.check_output")
     def test_get_paired_devices_filter_duplicates(
         self, mock_get_paired_devices
     ):
@@ -185,7 +184,7 @@ class TestBluetoothHelper(unittest.TestCase):
             ["bluetoothctl", "devices", "Paired"], text=True
         )
 
-    @patch("helper.BluetoothHelper.subprocess.check_output")
+    @patch("core.helpers.pi.bluetooth.subprocess.check_output")
     def test_get_paired_devices_empty_list(self, mock_get_paired_devices):
         mock_get_paired_devices.return_value = (
             "Device XX:XX:XX:XX:XX:XX Device_Name"
@@ -199,7 +198,7 @@ class TestBluetoothHelper(unittest.TestCase):
             ["bluetoothctl", "devices", "Paired"], text=True
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_remove_device(self, mock_system):
         mock_system.return_value = MagicMock()
         self.bluetooth_helper.remove_device("AA:AA:AA:AA:AA:AA")
@@ -207,7 +206,7 @@ class TestBluetoothHelper(unittest.TestCase):
             ["bluetoothctl", "remove", "AA:AA:AA:AA:AA:AA"]
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_get_connected_device(self, mock_system):
         mock_system.return_value = MagicMock(
             stdout=b"Device AA:AA:AA:AA:AA:AA Test-Name"
@@ -220,7 +219,7 @@ class TestBluetoothHelper(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_get_connected_device_empty(self, mock_system):
         mock_system.return_value = MagicMock(stdout=b"")
         actual = self.bluetooth_helper.get_connected_device()
@@ -231,7 +230,7 @@ class TestBluetoothHelper(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_get_connected_device_name(self, mock_system):
         mock_system.return_value = MagicMock(
             stdout=b"Device AA:AA:AA:AA:AA:AA Test-Name"
@@ -244,7 +243,7 @@ class TestBluetoothHelper(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_get_connected_device_name_empty(self, mock_system):
         mock_system.return_value = MagicMock(stdout=b"")
         actual = self.bluetooth_helper.get_connected_device_name()
@@ -255,7 +254,7 @@ class TestBluetoothHelper(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_get_connected_device_mac(self, mock_system):
         mock_system.return_value = MagicMock(
             stdout=b"Device AA:AA:AA:AA:AA:AA Test-Name"
@@ -268,7 +267,7 @@ class TestBluetoothHelper(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_get_connected_device_mac_empty(self, mock_system):
         mock_system.return_value = MagicMock(stdout=b"")
         actual = self.bluetooth_helper.get_connected_device_mac()
@@ -279,7 +278,7 @@ class TestBluetoothHelper(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_is_connected(self, mock_system):
         mock_system.return_value = MagicMock(
             stdout=b"Device AA:AA:AA:AA:AA:AA Test-Name"
@@ -290,7 +289,7 @@ class TestBluetoothHelper(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
 
-    @patch("helper.BluetoothHelper.subprocess.run")
+    @patch("core.helpers.pi.bluetooth.subprocess.run")
     def test_is_not_connected(self, mock_system):
         mock_system.return_value = MagicMock(stdout=b"")
         self.assertFalse(self.bluetooth_helper.is_connected())

@@ -9,7 +9,7 @@ import netifaces
 import psutil
 
 from core.factories.helper_factories import (
-    create_audio_helper,
+    create_player_helper,
     create_strip_state,
 )
 from core.factories.settings_factories import create_startup_error_settings
@@ -17,26 +17,25 @@ from core.helpers.base.system import BaseSystemHelper
 from helper.constants import Constants
 from helper.page_state import PageState
 
-audio_helper = create_audio_helper()
 page_helper = PageState()
 c = Constants()
 startup_error_helper = create_startup_error_settings()
 
 
 class PiSystemHelper(BaseSystemHelper):
-    strip = create_strip_state()
-
     def __init__(self):
         self._update_process: subprocess.Popen | None = None
+        self.strip = create_strip_state()
+        self.player = create_player_helper()
 
     def shutdown_system(self):
-        audio_helper.shutdown_sound()
+        self.player.shutdown_sound()
         self.strip.disable()
         time.sleep(3)
         os.system("sudo shutdown -h 0")
 
     def restart_system(self):
-        audio_helper.shutdown_sound()
+        self.player.shutdown_sound()
         self.strip.disable()
         time.sleep(3)
         os.system("sudo reboot")

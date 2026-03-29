@@ -35,9 +35,11 @@ class TestSystemHelper(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
-    def setUp(self, get_strip_settings):
+    @patch("core.factories.helper_factories.create_strip_state")
+    @patch("core.settings.pi.strip.PiStripSettings.get_strip_settings")
+    def setUp(self, get_strip_settings, create_strip_state):
         get_strip_settings.return_value = strip_mock
+        create_strip_state.return_value = MagicMock()
 
         from core.factories.helper_factories import create_system_helper
 
@@ -118,9 +120,11 @@ class TestSystemHelperWifiNetwork(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
-    def setUp(self, get_strip_settings):
+    @patch("core.factories.helper_factories.create_strip_state")
+    @patch("core.settings.pi.strip.PiStripSettings.get_strip_settings")
+    def setUp(self, get_strip_settings, create_strip_state):
         get_strip_settings.return_value = strip_mock
+        create_strip_state.return_value = MagicMock()
 
         from core.factories.helper_factories import create_system_helper
 
@@ -215,9 +219,11 @@ class TestSystemHelperLanNetwork(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
-    def setUp(self, get_strip_settings):
+    @patch("core.factories.helper_factories.create_strip_state")
+    @patch("core.settings.pi.strip.PiStripSettings.get_strip_settings")
+    def setUp(self, get_strip_settings, create_strip_state):
         get_strip_settings.return_value = strip_mock
+        create_strip_state.return_value = MagicMock()
 
         from core.factories.helper_factories import create_system_helper
 
@@ -283,9 +289,11 @@ class TestSystemHelperNoneNetwork(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
-    def setUp(self, get_strip_settings):
+    @patch("core.factories.helper_factories.create_strip_state")
+    @patch("core.settings.pi.strip.PiStripSettings.get_strip_settings")
+    def setUp(self, get_strip_settings, create_strip_state):
         get_strip_settings.return_value = strip_mock
+        create_strip_state.return_value = MagicMock()
 
         from core.factories.helper_factories import create_system_helper
 
