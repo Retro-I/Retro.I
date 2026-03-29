@@ -16,7 +16,13 @@ def create_audio_effects_helper():
 
             return PiAudioEffectsHelper()
 
-            return PiAudioHelper()
+
+def create_bluetooth_helper():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.helpers.pi.bluetooth import PiBluetoothHelper
+
+            return PiBluetoothHelper()
 
 
 def create_color_helper():

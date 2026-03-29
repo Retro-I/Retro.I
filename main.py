@@ -13,20 +13,21 @@ from components.view.taskbar import Taskbar
 from components.view.theme import Theme
 from core.app_state import AppState
 from core.factories.helper_factories import (
+    create_audio_effects_helper,
     create_audio_helper,
+    create_bluetooth_helper,
     create_player_helper,
     create_settings_sync_helper,
     create_sounds_helper,
     create_strip_state,
     create_system_helper,
-    create_theme_helper, create_audio_effects_helper,
+    create_theme_helper,
 )
 from core.factories.settings_factories import (
     create_gpio_settings,
     create_radio_stations_settings,
     create_startup_error_settings,
 )
-from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
 from helper.logs_helper import LogsHelper
 from helper.page_state import PageState
@@ -37,7 +38,7 @@ logger = logging.getLogger(__name__)
 
 wifi_helper = WifiHelper()
 radio_helper = RadioHelper()
-bluetooth_helper = BluetoothHelper()
+bluetooth_helper = create_bluetooth_helper()
 system_helper = create_system_helper()
 startup_error_helper = create_startup_error_settings()
 settings_sync_helper = create_settings_sync_helper()

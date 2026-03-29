@@ -7,15 +7,17 @@ from components.dialogs.bluetooth_device_edit_dialog import (
 )
 from components.scrollbar import with_scrollbar_space
 from core.app_state import AppState
-from core.factories.helper_factories import create_player_helper
-from helper.bluetooth_helper import BluetoothHelper
+from core.factories.helper_factories import (
+    create_bluetooth_helper,
+    create_player_helper,
+)
 from helper.page_state import PageState
-
-bluetooth_helper = BluetoothHelper()
 
 
 class BluetoothDeviceConnected:
     def __init__(self, on_connected, on_disconnected):
+        self.bluetooth_helper = create_bluetooth_helper()
+
         self.listview = with_scrollbar_space(
             ft.ListView(spacing=10, expand=True)
         )
@@ -31,7 +33,7 @@ class BluetoothDeviceConnected:
         PageState.page.add(self.bluetooth_device_edit_dialog)
 
     def update_connected_device(self):
-        name = bluetooth_helper.get_connected_device_name()
+        name = self.bluetooth_helper.get_connected_device_name()
         if name != "":
             self.player.bluetooth_connected()
             self.on_connected()
@@ -44,7 +46,7 @@ class BluetoothDeviceConnected:
         return name != ""
 
     def reload_devices(self):
-        devices = bluetooth_helper.get_paired_devices()
+        devices = self.bluetooth_helper.get_paired_devices()
         self.paired_devices = devices
         self.listview.controls = []
         for device in devices:
@@ -74,7 +76,7 @@ class BluetoothDeviceConnected:
             )
 
             if (
-                bluetooth_helper.get_connected_device_mac().upper()
+                self.bluetooth_helper.get_connected_device_mac().upper()
                 == device["mac_address"].upper()
             ):
                 ico.visible = True
@@ -84,10 +86,10 @@ class BluetoothDeviceConnected:
 
     def on_device_click(self, device):
         if (
-            bluetooth_helper.get_connected_device_mac().upper()
+            self.bluetooth_helper.get_connected_device_mac().upper()
             == device["mac_address"].upper()
         ):
-            bluetooth_helper.disconnect(device["mac_address"])
+            self.bluetooth_helper.disconnect(device["mac_address"])
             self.player.bluetooth_disconnected()
             self.on_disconnected()
 
@@ -95,7 +97,7 @@ class BluetoothDeviceConnected:
 
     def on_device_long_click(self, device):
         def on_device_remove():
-            bluetooth_helper.remove_device(device["mac_address"])
+            self.bluetooth_helper.remove_device(device["mac_address"])
             self.reload_devices()
 
         self.bluetooth_device_edit_dialog.open_dialog(

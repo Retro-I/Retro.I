@@ -8,10 +8,8 @@ from components.bluetooth_discovery_toggle import BluetoothDiscoveryToggle
 from components.dialogs.bluetooth_display_name_dialog import (
     BluetoothDisplayNameDialog,
 )
-from helper.bluetooth_helper import BluetoothHelper
+from core.factories.helper_factories import create_bluetooth_helper
 from helper.page_state import PageState
-
-bluetooth_helper = BluetoothHelper()
 
 
 class BluetoothTab(ft.Column):
@@ -25,6 +23,7 @@ class BluetoothTab(ft.Column):
 
     def __init__(self):
         super().__init__()
+        self.bluetooth_helper = create_bluetooth_helper()
 
         self.btn_toggle_discovery = BluetoothDiscoveryToggle(
             self.start_bluetooth_update_process,
@@ -77,12 +76,12 @@ class BluetoothTab(ft.Column):
         ]
 
     def show(self):
-        if not bluetooth_helper.is_connected():
+        if not self.bluetooth_helper.is_connected():
             self.update_device_connection = True
             self.process_bluetooth_connection()
 
         self.bluetooth_display_name.text = (
-            bluetooth_helper.get_bluetooth_display_name()
+            self.bluetooth_helper.get_bluetooth_display_name()
         )
         self.bluetooth_display_name.update()
 

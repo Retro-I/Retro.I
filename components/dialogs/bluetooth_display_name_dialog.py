@@ -1,19 +1,18 @@
 import flet as ft
 
 from components.base_text_field import BaseTextField
-from helper.bluetooth_helper import BluetoothHelper
-
-bluetooth_helper = BluetoothHelper()
+from core.factories.helper_factories import create_bluetooth_helper
 
 
 class BluetoothDisplayNameDialog(ft.AlertDialog):
     def __init__(self, on_submit):
         super().__init__()
+        self.bluetooth_helper = create_bluetooth_helper()
 
         self.on_submit = on_submit
 
         self.display_name_textfield = BaseTextField(
-            value=bluetooth_helper.get_bluetooth_display_name(),
+            value=self.bluetooth_helper.get_bluetooth_display_name(),
             label="Anzeigename",
         )
 
@@ -30,7 +29,7 @@ class BluetoothDisplayNameDialog(ft.AlertDialog):
         ]
 
     def on_save(self):
-        bluetooth_helper.change_bluetooth_display_name(
+        self.bluetooth_helper.change_bluetooth_display_name(
             self.display_name_textfield.value
         )
         self.on_submit()

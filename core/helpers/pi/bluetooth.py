@@ -2,10 +2,11 @@ import os
 import re
 import subprocess
 
+from core.helpers.base.bluetooth import BaseBluetoothHelper
 from helper.page_state import PageState
 
 
-class BluetoothHelper:
+class PiBluetoothHelper(BaseBluetoothHelper):
     discovery_on = False
 
     def on_startup(self):

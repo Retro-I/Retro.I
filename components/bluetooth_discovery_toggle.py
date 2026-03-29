@@ -1,8 +1,6 @@
 import flet as ft
 
-from helper.bluetooth_helper import BluetoothHelper
-
-bluetooth_helper = BluetoothHelper()
+from core.factories.helper_factories import create_bluetooth_helper
 
 
 class BluetoothDiscoveryToggle(ft.FilledButton):
@@ -16,6 +14,8 @@ class BluetoothDiscoveryToggle(ft.FilledButton):
 
     def __init__(self, on_dicovery_enabled, on_dicovery_disabled):
         super().__init__()
+        self.bluetooth_helper = create_bluetooth_helper()
+
         self.on_discovery_enabled = on_dicovery_enabled
         self.on_discovery_disabled = on_dicovery_disabled
 
@@ -30,7 +30,7 @@ class BluetoothDiscoveryToggle(ft.FilledButton):
         self.on_click = lambda e: self.toggle_bluetooth_discovery()
 
     def enable_discovery(self):
-        bluetooth_helper.bluetooth_discovery_on()
+        self.bluetooth_helper.bluetooth_discovery_on()
         self.txt_discovery_status.value = "Bluetooth sichtbar"
         self.ico_discovery_status.name = ft.Icons.BLUETOOTH
         self.style.bgcolor = ft.Colors.GREEN
@@ -42,7 +42,7 @@ class BluetoothDiscoveryToggle(ft.FilledButton):
         self.on_discovery_enabled()
 
     def disable_discovery(self):
-        bluetooth_helper.bluetooth_discovery_off()
+        self.bluetooth_helper.bluetooth_discovery_off()
         self.txt_discovery_status.value = "Bluetooth nicht sichtbar"
         self.ico_discovery_status.name = ft.Icons.BLUETOOTH_DISABLED
         self.style.bgcolor = ft.Colors.RED
@@ -54,7 +54,7 @@ class BluetoothDiscoveryToggle(ft.FilledButton):
         self.on_discovery_disabled()
 
     def toggle_bluetooth_discovery(self):
-        discovery_on = bluetooth_helper.is_discovery_on()
+        discovery_on = self.bluetooth_helper.is_discovery_on()
         if discovery_on:
             self.disable_discovery()
         else:

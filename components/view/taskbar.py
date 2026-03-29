@@ -7,17 +7,16 @@ from components.dialogs.wifi_connection_dialog import WifiConnectionDialog
 from components.dialogs.wifi_dialog import WifiDialog
 from core.factories.helper_factories import (
     create_audio_helper,
+    create_bluetooth_helper,
     create_system_helper,
     create_theme_helper,
 )
-from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
 from helper.page_state import PageState
 from helper.wifi_helper import WifiHelper
 
 audio_helper = create_audio_helper()
 wifi_helper = WifiHelper()
-bluetooth_helper = BluetoothHelper()
 
 
 class Taskbar(ft.AppBar):
@@ -30,6 +29,7 @@ class Taskbar(ft.AppBar):
         super().__init__()
         self.theme_helper = create_theme_helper()
         self.system_helper = create_system_helper()
+        self.bluetooth_helper = create_bluetooth_helper()
 
         self.on_bass_update = on_bass_update
         self.on_treble_update = on_treble_update
@@ -182,11 +182,11 @@ class Taskbar(ft.AppBar):
             return
 
     def update_bluetooth_icon(self):
-        if bluetooth_helper.is_bluetooth_on():
+        if self.bluetooth_helper.is_bluetooth_on():
             self.ico_bluetooth.name = ft.Icons.BLUETOOTH_ROUNDED
             self.ico_bluetooth.color = ft.Colors.ON_SURFACE
 
-            if bluetooth_helper.is_discovery_on():
+            if self.bluetooth_helper.is_discovery_on():
                 self.ico_bluetooth.color = ft.Colors.GREEN
             else:
                 self.ico_bluetooth.color = ft.Colors.ON_SURFACE
@@ -195,7 +195,7 @@ class Taskbar(ft.AppBar):
             self.ico_bluetooth.name = ft.Icons.BLUETOOTH_DISABLED_ROUNDED
             self.ico_bluetooth.color = ft.Colors.ON_SURFACE
 
-        if bluetooth_helper.is_connected():
+        if self.bluetooth_helper.is_connected():
             self.ico_bluetooth.name = ft.Icons.BLUETOOTH_CONNECTED_ROUNDED
             self.ico_bluetooth.color = ft.Colors.GREEN
 
