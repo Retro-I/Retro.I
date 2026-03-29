@@ -8,7 +8,7 @@ from components.dialogs.WifiDialog import WifiDialog
 from helper.Audio import Audio
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
-from helper.Constants import Constants
+from helper.constants import Constants
 from helper.PageState import PageState
 from helper.WifiHelper import WifiHelper
 

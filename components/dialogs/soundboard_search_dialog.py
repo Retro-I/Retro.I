@@ -4,7 +4,7 @@ from components.BaseTextField import BaseTextField
 from components.Scrollbar import with_scrollbar_space
 from core.helpers.factories.audio import create_audio_helper
 from core.helpers.factories.sounds import create_sounds_helper
-from helper.Constants import Constants
+from helper.constants import Constants
 
 constants = Constants()
 

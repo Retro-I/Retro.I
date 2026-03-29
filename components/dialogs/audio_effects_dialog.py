@@ -4,7 +4,7 @@ from core.app_state import AppState
 from core.factories.strip_factory import create_strip_state
 from helper.AudioEffects import AudioEffects
 from helper.BassStepsHelper import BassStepsHelper
-from helper.Constants import Constants
+from helper.constants import Constants
 from helper.TrebleStepsHelper import TrebleStepsHelper
 
 audio_effects = AudioEffects()

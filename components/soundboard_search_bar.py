@@ -1,7 +1,7 @@
 import flet as ft
 
 from components.dialogs.SoundboardSearchDialog import SoundboardSearchDialog
-from helper.Constants import Constants
+from helper.constants import Constants
 from helper.PageState import PageState
 
 constants = Constants()

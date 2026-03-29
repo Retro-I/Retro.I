@@ -2,7 +2,7 @@ import json
 import subprocess
 
 from helper.BassStepsHelper import BassStepsHelper
-from helper.Constants import Constants
+from helper.constants import Constants
 from helper.TrebleStepsHelper import TrebleStepsHelper
 
 c = Constants()

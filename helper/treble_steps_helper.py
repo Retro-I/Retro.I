@@ -1,6 +1,6 @@
 import json
 
-from helper.Constants import Constants
+from helper.constants import Constants
 
 c = Constants()
 

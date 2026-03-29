@@ -8,7 +8,7 @@ from unittest import mock
 from unittest.mock import MagicMock, patch
 
 from core.helpers.factories.player import create_player_helper
-from helper.Constants import Constants
+from helper.constants import Constants
 from test.base_test import BaseTest
 
 constants = Constants()

@@ -4,7 +4,7 @@ from components.BaseTextField import BaseTextField
 from components.dialogs.StationAddDialog import StationAddDialog
 from components.RadioGrid import RadioGrid
 from components.Scrollbar import with_scrollbar_space
-from helper.Constants import Constants
+from helper.constants import Constants
 from helper.RadioHelper import RadioHelper
 
 radio_helper = RadioHelper()

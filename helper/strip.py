@@ -8,7 +8,7 @@ from flet.core.control_event import ControlEvent
 
 from helper.Audio import Audio
 from helper.BassStepsHelper import BassStepsHelper
-from helper.Constants import Constants
+from helper.constants import Constants
 
 from core.helpers.factories.color import create_color_helper
 from core.settings.factories.strip import create_strip_settings

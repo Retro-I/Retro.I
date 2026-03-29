@@ -9,7 +9,7 @@ import netifaces
 import psutil
 
 from helper.Audio import Audio
-from helper.Constants import Constants
+from helper.constants import Constants
 from helper.PageState import PageState
 from helper.StartupErrorHelper import StartupErrorHelper
 from helper.Strip import Strip

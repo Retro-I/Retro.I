@@ -2,7 +2,7 @@ import flet as ft
 
 from components.dialogs.RadioSearchDialog import RadioSearchDialog
 from components.RadioGrid import RadioGrid
-from helper.Constants import Constants
+from helper.constants import Constants
 from helper.PageState import PageState
 from helper.RadioHelper import RadioHelper
 

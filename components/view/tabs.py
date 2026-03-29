@@ -7,7 +7,7 @@ from components.view.tabs.SoundboardTab import SoundboardTab
 from components.view.Taskbar import Taskbar
 from helper.Audio import Audio
 from helper.BluetoothHelper import BluetoothHelper
-from helper.Constants import Constants
+from helper.constants import Constants
 from helper.PageState import PageState
 from helper.PartyModeHelper import PartyModeHelper
 

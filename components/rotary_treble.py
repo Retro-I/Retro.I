@@ -5,7 +5,7 @@ from pyky040 import pyky040
 from core.app_state import AppState
 from core.factories.strip_factory import create_strip_state
 from helper.AudioEffects import AudioEffects
-from helper.Constants import Constants
+from helper.constants import Constants
 from helper.GpioHelper import GpioHelper
 from helper.TrebleStepsHelper import TrebleStepsHelper
 

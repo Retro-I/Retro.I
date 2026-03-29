@@ -33,7 +33,7 @@ class TestStripSettingsHelper(unittest.TestCase):
         self.logs_helper = LogsHelper()
 
     @patch("helper.LogsHelper.subprocess.check_output")
-    @patch("helper.Constants.Constants.get_service_start_time")
+    @patch("helper.constants.Constants.get_service_start_time")
     def test_logs(self, mock_time, mock_get_logs):
         mock_time.return_value = "2026-01-14 20:00:00"
         mock_get_logs.return_value = "some_nice_logs\nmore_logs\neven_more_logs"

@@ -2,7 +2,7 @@ import json
 import os
 from unittest import mock
 
-from helper.Constants import Constants
+from helper.constants import Constants
 from test.base_test import BaseTest
 
 

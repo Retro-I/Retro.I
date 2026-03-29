@@ -3,7 +3,7 @@ import sys
 import unittest
 from unittest.mock import MagicMock, patch
 
-from helper.Constants import Constants
+from helper.constants import Constants
 
 constants = Constants()
 

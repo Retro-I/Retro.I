@@ -6,7 +6,7 @@ from copy import deepcopy
 import jsonschema_default
 from jsonschema import Draft7Validator
 
-from helper.Constants import Constants
+from helper.constants import Constants
 from helper.RevisionHelper import RevisionHelper
 
 logger = logging.getLogger(__name__)

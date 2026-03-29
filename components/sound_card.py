@@ -1,7 +1,7 @@
 import flet as ft
 
 from core.helpers.factories.audio import create_audio_helper
-from helper.Constants import Constants
+from helper.constants import Constants
 
 c = Constants()
 

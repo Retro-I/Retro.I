@@ -14,7 +14,7 @@ from components.view.Theme import Theme
 from helper.Audio import Audio
 from helper.AudioEffects import AudioEffects
 from helper.BluetoothHelper import BluetoothHelper
-from helper.Constants import Constants
+from helper.constants import Constants
 from helper.GpioHelper import GpioHelper
 from helper.LogsHelper import LogsHelper
 from helper.PageState import PageState

@@ -2,7 +2,7 @@ import os
 import unittest
 from unittest.mock import patch
 
-from helper.Constants import Constants
+from helper.constants import Constants
 
 
 class TestConstants(unittest.TestCase):
@@ -36,7 +36,7 @@ class TestConstants(unittest.TestCase):
     def test_default_indicator_refs(self):
         self.assertEqual([], self.constants.indicator_refs)
 
-    @patch("helper.Constants.subprocess.check_output")
+    @patch("helper.constants.subprocess.check_output")
     def test_service_start_time(self, mock_time):
         mock_time.return_value = (
             "ActiveEnterTimestamp=Wed 2026-01-14 20:00:00 CET"
