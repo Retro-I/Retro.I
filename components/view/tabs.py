@@ -5,8 +5,8 @@ from components.view.radio_tab import RadioTab
 from components.view.settings_tab import SettingsTab
 from components.view.soundboard_tab import SoundboardTab
 from components.view.taskbar import Taskbar
+from core.helpers.factories.player import create_player_helper
 
-from core.helpers.factories.audio import create_audio_helper
 from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
 from helper.page_state import PageState
@@ -15,7 +15,6 @@ from helper.party_mode_helper import PartyModeHelper
 from core.helpers.factories.theme import create_theme_helper
 
 bluetooth_helper = BluetoothHelper()
-audio_helper = create_audio_helper()
 party_mode_helper = PartyModeHelper()
 
 
@@ -40,6 +39,8 @@ class Tabs:
         self.bluetooth_tab = bluetooth_tab
         self.soundboard_tab = soundboard_tab
         self.settings_tab = settings_tab
+
+        self.player = create_player_helper()
 
     def change_tab(self, e):
         PageState.page.theme_mode = self.theme_helper.get_theme()
@@ -86,7 +87,7 @@ class Tabs:
     def switch_bluetooth_tab(self):
         Constants.current_radio_station = {}
 
-        audio_helper.pause()
+        self.player.pause()
         bluetooth_helper.turn_on()
 
         self.taskbar.update()
