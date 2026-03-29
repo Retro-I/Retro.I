@@ -15,5 +15,11 @@ class PiStripSettings(BaseStripSettings):
     def get_curr_brightness(self) -> float:
         return self.settings.get_curr_brightness()
 
+    def is_static_color(self) -> bool:
+        return self.settings.is_static_color()
+
+    def get_static_color(self) -> str:
+        return self.settings.get_static_color()
+
     def update_settings(self, is_active, brightness, length):
         self.settings.update_settings(is_active, brightness, length)
