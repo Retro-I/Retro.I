@@ -8,7 +8,14 @@ from unittest.mock import patch
 
 from helper.AudioEffects import AudioEffects
 from helper.BassStepsHelper import BassStepsHelper
-from helper.Constants import Constants
+
+from core.helpers.factories.audio import create_audio_helper
+from core.helpers.factories.settings_sync import create_settings_sync_helper
+from core.helpers.factories.sounds import create_sounds_helper
+from core.helpers.factories.theme import create_theme_helper
+from core.settings.factories.scrollbar import create_scrollbar_settings
+from core.settings.factories.strip import create_strip_settings
+from helper.constants import Constants
 from helper.DeveloperModeHelper import DeveloperModeHelper
 from helper.PartyModeHelper import PartyModeHelper
 from helper.RevisionHelper import RevisionHelper
@@ -142,14 +149,14 @@ class BaseTest(unittest.TestCase):
         DeveloperModeHelper.SETTINGS_PATH = developer_mode_settings_path
         PartyModeHelper.SETTINGS_PATH = party_mode_path
 
-        self.audio_helper = Audio()
+        self.audio_helper = create_audio_helper()
         self.gpio_helper = GpioHelper()
-        self.settings_sync_helper = SettingsSyncHelper()
-        self.sounds_helper = Sounds()
+        self.settings_sync_helper = create_settings_sync_helper()
+        self.sounds_helper = create_sounds_helper()
         self.stations = Stations()
-        self.strip_settings_helper = StripSettingsHelper()
-        self.theme_helper = ThemeHelper()
-        self.scrollbar_settings_helper = ScrollbarSettingsHelper()
+        self.strip_settings_helper = create_strip_settings()
+        self.theme_helper = create_theme_helper()
+        self.scrollbar_settings_helper = create_scrollbar_settings()
         self.secured_mode_settings = SecuredModeSettingsHelper()
         self.startup_error_helper = StartupErrorHelper()
         self.bass_steps_helper = BassStepsHelper()

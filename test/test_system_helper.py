@@ -39,9 +39,9 @@ class TestSystemHelper(unittest.TestCase):
     def setUp(self, get_strip_settings):
         get_strip_settings.return_value = strip_mock
 
-        from helper.SystemHelper import SystemHelper
+        from core.helpers.factories.system import create_system_helper
 
-        self.system_helper = SystemHelper()
+        self.system_helper = create_system_helper()
 
     def tearDown(self):
         os.environ["PARTY_MODE"] = "0"
@@ -122,9 +122,9 @@ class TestSystemHelperWifiNetwork(unittest.TestCase):
     def setUp(self, get_strip_settings):
         get_strip_settings.return_value = strip_mock
 
-        from helper.SystemHelper import SystemHelper
+        from core.helpers.factories.system import create_system_helper
 
-        self.system_helper = SystemHelper()
+        self.system_helper = create_system_helper()
 
     @patch("netifaces.gateways")
     @patch("netifaces.ifaddresses")
@@ -219,9 +219,9 @@ class TestSystemHelperLanNetwork(unittest.TestCase):
     def setUp(self, get_strip_settings):
         get_strip_settings.return_value = strip_mock
 
-        from helper.SystemHelper import SystemHelper
+        from core.helpers.factories.system import create_system_helper
 
-        self.system_helper = SystemHelper()
+        self.system_helper = create_system_helper()
 
     @patch("netifaces.gateways")
     @patch("netifaces.ifaddresses")
@@ -287,9 +287,9 @@ class TestSystemHelperNoneNetwork(unittest.TestCase):
     def setUp(self, get_strip_settings):
         get_strip_settings.return_value = strip_mock
 
-        from helper.SystemHelper import SystemHelper
+        from core.helpers.factories.system import create_system_helper
 
-        self.system_helper = SystemHelper()
+        self.system_helper = create_system_helper()
 
     @patch("netifaces.gateways")
     @patch("netifaces.ifaddresses")
