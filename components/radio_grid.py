@@ -1,9 +1,9 @@
 import flet as ft
 
 from components.dialogs.station_modify_dialog import StationModifyDialog
-from core.factories.helper_factories import create_strip_state
 from core.factories.helper_factories import (
     create_player_helper,
+    create_strip_state,
     create_system_helper,
     create_theme_helper,
 )

@@ -12,12 +12,12 @@ from components.rotary_volume import RotaryVolume
 from components.view.taskbar import Taskbar
 from components.view.theme import Theme
 from core.app_state import AppState
-from core.factories.helper_factories import create_strip_state
 from core.factories.helper_factories import (
     create_audio_helper,
     create_player_helper,
     create_settings_sync_helper,
     create_sounds_helper,
+    create_strip_state,
     create_system_helper,
     create_theme_helper,
 )

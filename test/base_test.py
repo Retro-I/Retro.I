@@ -12,10 +12,13 @@ from core.factories.helper_factories import (
     create_sounds_helper,
     create_theme_helper,
 )
-from core.factories.settings_factories import create_scrollbar_settings
-from core.factories.settings_factories import create_strip_settings
+from core.factories.settings_factories import (
+    create_scrollbar_settings,
+    create_strip_settings,
+)
+from core.settings.pi.bass_steps import BassStepsHelper
+from core.settings.pi.treble_steps import TrebleStepsHelper
 from helper.audio_effects import AudioEffects
-from helper.bass_steps_helper import BassStepsHelper
 from helper.constants import Constants
 from helper.developer_mode_helper import DeveloperModeHelper
 from helper.party_mode_helper import PartyModeHelper
@@ -27,7 +30,6 @@ from helper.splashscreen_helper import SplashscreenHelper
 from helper.startup_error_helper import StartupErrorHelper
 from helper.strip_settings_helper import StripSettingsHelper
 from helper.theme_helper import ThemeHelper
-from helper.treble_steps_helper import TrebleStepsHelper
 
 
 class BaseTest(unittest.TestCase):
@@ -49,9 +51,9 @@ class BaseTest(unittest.TestCase):
         },
     )
     def setUp(self):
+        from core.settings.pi.radio_stations import Stations
         from helper.audio import Audio
         from helper.gpio_helper import GpioHelper
-        from core.settings.pi.radio_stations import Stations
 
         self.test_dir = self._create_temp_files(
             src_dir="./settings", dst_dir=f"{tempfile.mkdtemp()}/settings"

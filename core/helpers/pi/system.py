@@ -8,8 +8,10 @@ from datetime import datetime
 import netifaces
 import psutil
 
-from core.factories.helper_factories import create_strip_state
-from core.factories.helper_factories import create_audio_helper
+from core.factories.helper_factories import (
+    create_audio_helper,
+    create_strip_state,
+)
 from core.helpers.base.system import BaseSystemHelper
 from helper.constants import Constants
 from helper.page_state import PageState

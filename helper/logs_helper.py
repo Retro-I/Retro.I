@@ -6,8 +6,10 @@ from core.factories.helper_factories import (
     create_system_helper,
     create_theme_helper,
 )
-from core.factories.settings_factories import create_scrollbar_settings
-from core.factories.settings_factories import create_strip_settings
+from core.factories.settings_factories import (
+    create_scrollbar_settings,
+    create_strip_settings,
+)
 from helper.constants import Constants
 from helper.party_mode_helper import PartyModeHelper
 from helper.revision_helper import RevisionHelper
