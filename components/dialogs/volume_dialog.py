@@ -12,13 +12,13 @@ class VolumeDialog(ft.AlertDialog):
         self.strip_state = create_strip_state()
         self.audio_state = create_audio_helper()
 
-        max = 100
+        max_volume = 100
 
         self.volume_slider = ft.Slider(
             on_change=lambda e: self.on_volume_change(),
             min=0,
-            max=max,
-            divisions=max // self.audio_state.get_volume_step(),
+            max=max_volume,
+            divisions=max_volume // self.audio_state.get_volume_step(),
             value=self.audio_state.get_volume(),
             expand=True,
         )
