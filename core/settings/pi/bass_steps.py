@@ -1,15 +1,16 @@
 import json
 
+from core.settings.base.bass_treble_steps import BaseStepsSettings
 from helper.constants import Constants
 
 c = Constants()
 
 
-class TrebleStepsHelper:
-    TREBLE_STEPS_PATH = f"{Constants.settings_path()}/treble-steps.json"
+class PiBassStepsSettings(BaseStepsSettings):
+    BASS_STEPS_PATH = f"{Constants.settings_path()}/bass-steps.json"
 
     def get_slider(self):
-        with open(self.TREBLE_STEPS_PATH) as file:
+        with open(self.BASS_STEPS_PATH) as file:
             data = json.load(file)
 
         return data

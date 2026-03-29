@@ -10,14 +10,15 @@ from core.factories.helper_factories import (
     create_audio_helper,
     create_color_helper,
 )
-from core.factories.settings_factories import create_strip_settings
-from helper.bass_steps_helper import BassStepsHelper
+from core.factories.settings_factories import (
+    create_bass_settings,
+    create_strip_settings,
+)
 from helper.constants import Constants
 from utils.WaiterProcess import WaiterProcess
 
 c = Constants()
 settings_helper = create_strip_settings()
-bass_steps_helper = BassStepsHelper()
 audio_helper = create_audio_helper()
 
 
@@ -37,6 +38,7 @@ class Strip:
 
     def __init__(self):
         self.color_helper = create_color_helper()
+        self.bass_settings = create_bass_settings()
 
         start_color = (
             self.color_helper.to_rgb(settings_helper.get_static_color())
@@ -166,7 +168,7 @@ class Strip:
     def _get_pixels_for_step(self) -> int:
         return (
             settings_helper.get_led_length()
-            // bass_steps_helper.get_steps_count()
+            // self.bass_settings.get_steps_count()
         )
 
     def update_strip(self, color):

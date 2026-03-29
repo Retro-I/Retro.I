@@ -2,36 +2,38 @@ import flet as ft
 
 from core.app_state import AppState
 from core.factories.helper_factories import create_strip_state
+from core.factories.settings_factories import (
+    create_bass_settings,
+    create_treble_settings,
+)
 from helper.audio_effects import AudioEffects
-from helper.bass_steps_helper import BassStepsHelper
 from helper.constants import Constants
-from helper.treble_steps_helper import TrebleStepsHelper
 
 audio_effects = AudioEffects()
-bass_steps_helper = BassStepsHelper()
-treble_steps_helper = TrebleStepsHelper()
 
 
 class AudioEffectsDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
 
+        self.bass_steps = create_bass_settings()
+        self.treble_steps = create_treble_settings()
         self.strip_state = create_strip_state()
 
         self.bass_slider = ft.Slider(
             on_change=lambda e: self.on_bass_change(),
-            min=bass_steps_helper.get_min_step(),
-            max=bass_steps_helper.get_max_step(),
-            divisions=bass_steps_helper.get_steps_count() - 1,
+            min=self.bass_steps.get_min_step(),
+            max=self.bass_steps.get_max_step(),
+            divisions=self.bass_steps.get_steps_count() - 1,
             width=350,
             value=Constants.current_bass_step,
         )
 
         self.treble_slider = ft.Slider(
             on_change=lambda e: self.on_treble_change(),
-            min=treble_steps_helper.get_min_step(),
-            max=treble_steps_helper.get_max_step(),
-            divisions=treble_steps_helper.get_steps_count() - 1,
+            min=self.treble_steps.get_min_step(),
+            max=self.treble_steps.get_max_step(),
+            divisions=self.treble_steps.get_steps_count() - 1,
             width=350,
             value=Constants.current_treble_step,
         )

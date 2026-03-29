@@ -1,19 +1,22 @@
 import json
 import subprocess
 
+from core.factories.settings_factories import (
+    create_bass_settings,
+    create_treble_settings,
+)
 from core.settings.base.audio_effects import BaseAudioEffects
-from helper.bass_steps_helper import BassStepsHelper
 from helper.constants import Constants
-from helper.treble_steps_helper import TrebleStepsHelper
 
 c = Constants()
-
-bass_steps_helper = BassStepsHelper()
-treble_steps_helper = TrebleStepsHelper()
 
 
 class AudioEffects(BaseAudioEffects):
     EFFECTS_PATH = Constants.effects_path()
+
+    def __init__(self):
+        self.bass_settings = create_bass_settings()
+        self.treble_settings = create_treble_settings()
 
     def start(self):
         self.stop()
@@ -42,16 +45,16 @@ class AudioEffects(BaseAudioEffects):
     def update_bass(self, step):
         config = self.get_config()
 
-        for slider in bass_steps_helper.get_slider():
+        for slider in self.bass_settings.get_slider():
             for _, props in config["output"]["equalizer#0"]["left"].items():
-                gain = bass_steps_helper.get_gain_for_step(
+                gain = self.bass_settings.get_gain_for_step(
                     step, props["frequency"]
                 )
                 if props["frequency"] == slider["hertz"]:
                     props["gain"] = gain
 
             for _, props in config["output"]["equalizer#0"]["right"].items():
-                gain = bass_steps_helper.get_gain_for_step(
+                gain = self.bass_settings.get_gain_for_step(
                     step, props["frequency"]
                 )
                 if props["frequency"] == slider["hertz"]:
@@ -63,16 +66,16 @@ class AudioEffects(BaseAudioEffects):
     def update_treble(self, step):
         config = self.get_config()
 
-        for slider in treble_steps_helper.get_slider():
+        for slider in self.treble_settings.get_slider():
             for _, props in config["output"]["equalizer#0"]["left"].items():
-                gain = treble_steps_helper.get_gain_for_step(
+                gain = self.treble_settings.get_gain_for_step(
                     step, props["frequency"]
                 )
                 if props["frequency"] == slider["hertz"]:
                     props["gain"] = gain
 
             for _, props in config["output"]["equalizer#0"]["right"].items():
-                gain = treble_steps_helper.get_gain_for_step(
+                gain = self.treble_settings.get_gain_for_step(
                     step, props["frequency"]
                 )
                 if props["frequency"] == slider["hertz"]:

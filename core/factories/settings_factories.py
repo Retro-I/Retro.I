@@ -31,3 +31,19 @@ def create_strip_settings():
             from core.settings.pi.strip import PiStripSettings
 
             return PiStripSettings()
+
+
+def create_bass_settings():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.settings.pi.bass_steps import PiBassStepsSettings
+
+            return PiBassStepsSettings()
+
+
+def create_treble_settings():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.settings.pi.treble_steps import PiTrebleStepsSettings
+
+            return PiTrebleStepsSettings()
