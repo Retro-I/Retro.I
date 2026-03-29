@@ -1,12 +1,12 @@
 import base64
 import json
 
+from core.helper_factories import create_settings_sync_helper
+from core.settings.base.admin import BaseAdminSettings
 from helper.constants import Constants
 
-from core.helpers.factories.settings_sync import create_settings_sync_helper
 
-
-class AdminHelper:
+class AdminHelper(BaseAdminSettings):
     SETTING = "admin-password.json"
     SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
 

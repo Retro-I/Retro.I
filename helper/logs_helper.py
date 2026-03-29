@@ -1,16 +1,17 @@
 import logging
 import subprocess
 
-from core.helpers.factories.audio import create_audio_helper
+from core.helper_factories import (
+    create_audio_helper,
+    create_system_helper,
+    create_theme_helper,
+)
+from core.settings.factories.scrollbar import create_scrollbar_settings
+from core.settings.factories.strip import create_strip_settings
 from helper.constants import Constants
 from helper.party_mode_helper import PartyModeHelper
 from helper.revision_helper import RevisionHelper
 from helper.secured_mode_settings_helper import SecuredModeSettingsHelper
-
-from core.helpers.factories.system import create_system_helper
-from core.helpers.factories.theme import create_theme_helper
-from core.settings.factories.scrollbar import create_scrollbar_settings
-from core.settings.factories.strip import create_strip_settings
 
 logger = logging.getLogger(__name__)
 

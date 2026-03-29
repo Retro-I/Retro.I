@@ -6,15 +6,16 @@ import unittest
 from unittest import mock
 from unittest.mock import patch
 
-from helper.audio_effects import AudioEffects
-from helper.bass_steps_helper import BassStepsHelper
-
-from core.helpers.factories.audio import create_audio_helper
-from core.helpers.factories.settings_sync import create_settings_sync_helper
-from core.helpers.factories.sounds import create_sounds_helper
-from core.helpers.factories.theme import create_theme_helper
+from core.helper_factories import (
+    create_audio_helper,
+    create_settings_sync_helper,
+    create_sounds_helper,
+    create_theme_helper,
+)
 from core.settings.factories.scrollbar import create_scrollbar_settings
 from core.settings.factories.strip import create_strip_settings
+from helper.audio_effects import AudioEffects
+from helper.bass_steps_helper import BassStepsHelper
 from helper.constants import Constants
 from helper.developer_mode_helper import DeveloperModeHelper
 from helper.party_mode_helper import PartyModeHelper

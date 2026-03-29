@@ -2,7 +2,7 @@ import flet as ft
 
 from components.dialogs.wifi_connection_dialog import WifiConnectionDialog
 from components.scrollbar import with_scrollbar_space
-from core.helpers.factories.system import create_system_helper
+from core.helper_factories import create_system_helper
 from helper.wifi_helper import WifiHelper
 
 wifi_helper = WifiHelper()

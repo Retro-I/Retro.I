@@ -13,8 +13,14 @@ from components.view.taskbar import Taskbar
 from components.view.theme import Theme
 from core.app_state import AppState
 from core.factories.strip_factory import create_strip_state
-from core.helpers.factories.audio import create_audio_helper
-from core.helpers.factories.player import create_player_helper
+from core.helper_factories import (
+    create_audio_helper,
+    create_player_helper,
+    create_settings_sync_helper,
+    create_sounds_helper,
+    create_system_helper,
+    create_theme_helper,
+)
 from helper.audio_effects import AudioEffects
 from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
@@ -25,11 +31,6 @@ from helper.radio_helper import RadioHelper
 from helper.startup_error_helper import StartupErrorHelper
 from helper.stations import Stations
 from helper.wifi_helper import WifiHelper
-
-from core.helpers.factories.settings_sync import create_settings_sync_helper
-from core.helpers.factories.sounds import create_sounds_helper
-from core.helpers.factories.system import create_system_helper
-from core.helpers.factories.theme import create_theme_helper
 
 logger = logging.getLogger(__name__)
 

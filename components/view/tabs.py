@@ -5,14 +5,11 @@ from components.view.radio_tab import RadioTab
 from components.view.settings_tab import SettingsTab
 from components.view.soundboard_tab import SoundboardTab
 from components.view.taskbar import Taskbar
-from core.helpers.factories.player import create_player_helper
-
+from core.helper_factories import create_player_helper, create_theme_helper
 from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
 from helper.page_state import PageState
 from helper.party_mode_helper import PartyModeHelper
-
-from core.helpers.factories.theme import create_theme_helper
 
 bluetooth_helper = BluetoothHelper()
 party_mode_helper = PartyModeHelper()

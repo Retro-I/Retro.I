@@ -2,7 +2,7 @@ import flet as ft
 
 from components.volume_input_field import VolumeInputField
 from components.volume_step_input_field import VolumeStepInputField
-from core.helpers.factories.audio import create_audio_helper
+from core.helper_factories import create_audio_helper
 
 
 class SettingsAudioDialog(ft.AlertDialog):

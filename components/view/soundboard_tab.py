@@ -2,10 +2,10 @@ import flet as ft
 
 from components.dialogs.sound_delete_dialog import SoundDeleteDialog
 from components.scrollbar import with_scrollbar_space
-from components.soundboard_search_bar import SoundboardSearchBar
 from components.sound_card import SoundCard
+from components.soundboard_search_bar import SoundboardSearchBar
 from components.toast_card import ToastCard
-from core.helpers.factories.sounds import create_sounds_helper
+from core.helper_factories import create_sounds_helper
 from helper.page_state import PageState
 
 

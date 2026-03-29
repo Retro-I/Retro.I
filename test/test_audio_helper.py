@@ -7,7 +7,7 @@ import unittest
 from unittest import mock
 from unittest.mock import MagicMock, patch
 
-from core.helpers.factories.player import create_player_helper
+from core.helper_factories import create_player_helper
 from helper.constants import Constants
 from test.base_test import BaseTest
 

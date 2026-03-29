@@ -9,7 +9,7 @@ import netifaces
 import psutil
 
 from core.factories.strip_factory import create_strip_state
-from core.helpers.factories.audio import create_audio_helper
+from core.helper_factories import create_audio_helper
 from helper.constants import Constants
 from helper.page_state import PageState
 from helper.startup_error_helper import StartupErrorHelper

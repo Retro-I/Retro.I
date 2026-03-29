@@ -1,6 +1,6 @@
 import flet as ft
 
-from core.helpers.factories.qrcode import create_qrcode_helper
+from core.helper_factories import create_qrcode_helper
 from helper.revision_helper import RevisionHelper
 
 revision_helper = RevisionHelper()

@@ -4,7 +4,7 @@ import random
 
 import requests
 
-from core.helpers.factories.settings_sync import create_settings_sync_helper
+from core.helper_factories import create_settings_sync_helper
 from helper.constants import Constants
 
 c = Constants()

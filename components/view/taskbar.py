@@ -5,15 +5,16 @@ from components.dialogs.settings_shutdown_dialog import SettingsShutdownDialog
 from components.dialogs.volume_dialog import VolumeDialog
 from components.dialogs.wifi_connection_dialog import WifiConnectionDialog
 from components.dialogs.wifi_dialog import WifiDialog
-from core.helpers.factories.audio import create_audio_helper
+from core.helper_factories import (
+    create_audio_helper,
+    create_system_helper,
+    create_theme_helper,
+)
 from helper.audio_effects import AudioEffects
 from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
 from helper.page_state import PageState
 from helper.wifi_helper import WifiHelper
-
-from core.helpers.factories.system import create_system_helper
-from core.helpers.factories.theme import create_theme_helper
 
 audio_helper = create_audio_helper()
 audio_effects = AudioEffects()
@@ -27,9 +28,7 @@ class Taskbar(ft.AppBar):
 
     taskbar_icon_size = 28
 
-    def __init__(
-        self, on_bass_update, on_treble_update
-    ):
+    def __init__(self, on_bass_update, on_treble_update):
         super().__init__()
         self.theme_helper = create_theme_helper()
         self.system_helper = create_system_helper()

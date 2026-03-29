@@ -1,6 +1,8 @@
 import flet as ft
 
-from components.dialogs.settings_app_control_dialog import SettingsAppControlDialog
+from components.dialogs.settings_app_control_dialog import (
+    SettingsAppControlDialog,
+)
 from components.dialogs.settings_audio_dialog import SettingsAudioDialog
 from components.dialogs.settings_developer_mode_dialog import (
     SettingsDeveloperModeDialog,

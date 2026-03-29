@@ -1,4 +1,4 @@
-from core.helpers.factories.qrcode import create_qrcode_helper
+from core.helper_factories import create_qrcode_helper
 from test.base_test import BaseTest
 
 

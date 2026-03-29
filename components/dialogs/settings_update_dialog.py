@@ -4,8 +4,10 @@ from components.dialogs.download_dialog import DownloadDialog
 from components.dialogs.error_dialog import ErrorDialog
 from components.dialogs.success_dialog import SuccessDialog
 from components.scrollbar import with_scrollbar_space
-from core.helpers.factories.settings_sync import create_settings_sync_helper
-from core.helpers.factories.system import create_system_helper
+from core.helper_factories import (
+    create_settings_sync_helper,
+    create_system_helper,
+)
 from helper.page_state import PageState
 from helper.revision_helper import RevisionHelper
 

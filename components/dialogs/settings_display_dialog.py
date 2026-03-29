@@ -3,11 +3,10 @@ import flet as ft
 from components.dialogs.admin_password_dialog import AdminPasswordDialog
 from components.dialogs.splashscreen_dialog import SplashscreenDialog
 from components.dialogs.updates_restart_dialog import UpdatesRestartDialog
+from core.helper_factories import create_system_helper
+from core.settings.factories.scrollbar import create_scrollbar_settings
 from helper.page_state import PageState
 from helper.party_mode_helper import PartyModeHelper
-
-from core.helpers.factories.system import create_system_helper
-from core.settings.factories.scrollbar import create_scrollbar_settings
 
 party_mode_helper = PartyModeHelper()
 

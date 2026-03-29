@@ -2,8 +2,7 @@ import flet as ft
 
 from components.base_text_field import BaseTextField
 from components.scrollbar import with_scrollbar_space
-from core.helpers.factories.audio import create_audio_helper
-from core.helpers.factories.sounds import create_sounds_helper
+from core.helper_factories import create_audio_helper, create_sounds_helper
 from helper.constants import Constants
 
 constants = Constants()

@@ -21,7 +21,6 @@ class RotaryBass:
     BASS_UP_PIN = gpio_helper.rotary_bass_up()
     BASS_DOWN_PIN = gpio_helper.rotary_bass_down()
 
-
     def __init__(self):
         self.strip_state = create_strip_state()
 

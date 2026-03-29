@@ -3,10 +3,9 @@ from enum import StrEnum
 import flet as ft
 from flet_contrib.color_picker.src.color_picker import ColorPicker
 
-from helper.splashscreen_helper import SplashscreenHelper
-
-from core.helpers.factories.color import create_color_helper
+from core.helper_factories import create_color_helper
 from core.settings.factories.strip import create_strip_settings
+from helper.splashscreen_helper import SplashscreenHelper
 
 splashscreen_helper = SplashscreenHelper()
 
