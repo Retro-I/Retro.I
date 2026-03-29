@@ -15,7 +15,9 @@ from components.dialogs.settings_shutdown_dialog import SettingsShutdownDialog
 from components.dialogs.settings_update_dialog import SettingsUpdateDialog
 from components.scrollbar import with_scrollbar_space
 from components.settings_button import SettingsButton
-from helper.developer_mode_helper import DeveloperModeHelper
+from core.factories.settings_factories import (
+    create_developer_mode_settings as developer_settings,
+)
 from helper.page_state import PageState
 
 
@@ -53,7 +55,7 @@ class SettingsTab(ft.Column):
                                 lambda e: self.app_control_dialog.open_dialog()
                             ),
                             visible=(
-                                DeveloperModeHelper.is_developer_mode_active()
+                                developer_settings().is_developer_mode_active()
                             ),
                         ),
                         SettingsButton(
@@ -83,7 +85,7 @@ class SettingsTab(ft.Column):
                             text="Updates",
                             callback=lambda e: self.update_dialog.open_dialog(),
                             visible=(
-                                DeveloperModeHelper.is_developer_mode_active()
+                                developer_settings().is_developer_mode_active()
                             ),
                         ),
                         SettingsButton(
@@ -91,7 +93,7 @@ class SettingsTab(ft.Column):
                             text="Logs",
                             callback=lambda e: self.logs_dialog.open_dialog(),
                             visible=(
-                                DeveloperModeHelper.is_developer_mode_active()
+                                developer_settings().is_developer_mode_active()
                             ),
                         ),
                         SettingsButton(

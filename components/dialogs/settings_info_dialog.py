@@ -7,7 +7,9 @@ from components.dialogs.credits import Credits
 from components.dialogs.documentation import Documentation
 from components.dialogs.info import Info
 from components.scrollbar import with_scrollbar_space
-from helper.developer_mode_helper import DeveloperModeHelper
+from core.factories.settings_factories import (
+    create_developer_mode_settings as developer_settings,
+)
 
 
 class SettingsInfoDialog(ft.AlertDialog):
@@ -34,7 +36,7 @@ class SettingsInfoDialog(ft.AlertDialog):
                                 controls=[with_scrollbar_space(self.info)],
                             ),
                             visible=(
-                                DeveloperModeHelper.is_developer_mode_active()
+                                developer_settings().is_developer_mode_active()
                             ),
                         ),
                         ft.Tab(

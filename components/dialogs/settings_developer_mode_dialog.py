@@ -1,7 +1,9 @@
 import flet as ft
 
 from components.dialogs.updates_restart_dialog import UpdatesRestartDialog
-from helper.developer_mode_helper import DeveloperModeHelper
+from core.factories.settings_factories import (
+    create_developer_mode_settings as developer_settings,
+)
 from helper.page_state import PageState
 
 
@@ -22,13 +24,13 @@ class SettingsDeveloperModeDialog(ft.AlertDialog):
                     "Entwicklermodus einschalten (Neustart erforderlich!)",
                     label_style=ft.TextStyle(size=18),
                     on_change=self.on_toggle,
-                    value=DeveloperModeHelper.is_developer_mode_active(),
+                    value=(developer_settings().is_developer_mode_active()),
                 ),
             ],
         )
 
     def on_toggle(self, control):
-        DeveloperModeHelper.toggle_developer_mode_active(control)
+        developer_settings().toggle_developer_mode_active(control)
         self.restart_dialog.open_dialog()
 
     def open_dialog(self):

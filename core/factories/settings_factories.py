@@ -47,3 +47,11 @@ def create_treble_settings():
             from core.settings.pi.treble_steps import PiTrebleStepsSettings
 
             return PiTrebleStepsSettings()
+
+
+def create_developer_mode_settings():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.settings.pi.developer_mode import PiDeveloperModeSettings
+
+            return PiDeveloperModeSettings()
