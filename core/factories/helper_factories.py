@@ -9,6 +9,16 @@ def create_audio_helper():
             return PiAudioHelper()
 
 
+def create_audio_effects_helper():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.helpers.pi.audio_effects import PiAudioEffectsHelper
+
+            return PiAudioEffectsHelper()
+
+            return PiAudioHelper()
+
+
 def create_color_helper():
     match get_app_platform():
         case AppPlatform.PI:

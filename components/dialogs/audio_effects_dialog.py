@@ -1,15 +1,15 @@
 import flet as ft
 
 from core.app_state import AppState
-from core.factories.helper_factories import create_strip_state
+from core.factories.helper_factories import (
+    create_audio_effects_helper,
+    create_strip_state,
+)
 from core.factories.settings_factories import (
     create_bass_settings,
     create_treble_settings,
 )
-from helper.audio_effects import AudioEffects
 from helper.constants import Constants
-
-audio_effects = AudioEffects()
 
 
 class AudioEffectsDialog(ft.AlertDialog):
@@ -19,6 +19,7 @@ class AudioEffectsDialog(ft.AlertDialog):
         self.bass_steps = create_bass_settings()
         self.treble_steps = create_treble_settings()
         self.strip_state = create_strip_state()
+        self.audio_effects = create_audio_effects_helper()
 
         self.bass_slider = ft.Slider(
             on_change=lambda e: self.on_bass_change(),
@@ -78,7 +79,7 @@ class AudioEffectsDialog(ft.AlertDialog):
 
     def on_bass_change(self):
         Constants.current_bass_step = int(self.bass_slider.value)
-        audio_effects.update_bass(Constants.current_bass_step)
+        self.audio_effects.update_bass(Constants.current_bass_step)
         self.update_content()
 
         self.strip_state.update_bass_strip(Constants.current_bass_step)
@@ -86,7 +87,7 @@ class AudioEffectsDialog(ft.AlertDialog):
 
     def on_treble_change(self):
         Constants.current_treble_step = int(self.treble_slider.value)
-        audio_effects.update_treble(Constants.current_treble_step)
+        self.audio_effects.update_treble(Constants.current_treble_step)
         self.update_content()
 
         self.strip_state.update_treble_strip(Constants.current_treble_step)

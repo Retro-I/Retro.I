@@ -10,14 +10,12 @@ from core.factories.helper_factories import (
     create_system_helper,
     create_theme_helper,
 )
-from helper.audio_effects import AudioEffects
 from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
 from helper.page_state import PageState
 from helper.wifi_helper import WifiHelper
 
 audio_helper = create_audio_helper()
-audio_effects = AudioEffects()
 wifi_helper = WifiHelper()
 bluetooth_helper = BluetoothHelper()
 

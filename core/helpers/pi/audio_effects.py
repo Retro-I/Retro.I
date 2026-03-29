@@ -5,13 +5,13 @@ from core.factories.settings_factories import (
     create_bass_settings,
     create_treble_settings,
 )
-from core.settings.base.audio_effects import BaseAudioEffects
+from core.helpers.base.audio_effects import BaseAudioEffectsHelper
 from helper.constants import Constants
 
 c = Constants()
 
 
-class AudioEffects(BaseAudioEffects):
+class PiAudioEffectsHelper(BaseAudioEffectsHelper):
     EFFECTS_PATH = Constants.effects_path()
 
     def __init__(self):

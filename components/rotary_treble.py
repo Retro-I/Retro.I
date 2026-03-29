@@ -3,15 +3,16 @@ import threading
 from pyky040 import pyky040
 
 from core.app_state import AppState
-from core.factories.helper_factories import create_strip_state
+from core.factories.helper_factories import (
+    create_audio_effects_helper,
+    create_strip_state,
+)
 from core.factories.settings_factories import (
     create_gpio_settings,
     create_treble_settings,
 )
-from helper.audio_effects import AudioEffects
 from helper.constants import Constants
 
-audio_effects = AudioEffects()
 gpio_helper = create_gpio_settings()
 
 
@@ -25,6 +26,7 @@ class RotaryTreble:
     def __init__(self):
         self.strip_state = create_strip_state()
         self.treble_settings = create_treble_settings()
+        self.audio_effects = create_audio_effects_helper()
 
         rotary = pyky040.Encoder(
             CLK=self.TREBLE_UP_PIN, DT=self.TREBLE_DOWN_PIN
@@ -85,5 +87,5 @@ class RotaryTreble:
         self.COUNTER -= 1
 
     def update(self, step):
-        audio_effects.update_treble(step)
+        self.audio_effects.update_treble(step)
         AppState.app_state.update_taskbar()

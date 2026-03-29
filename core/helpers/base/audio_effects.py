@@ -1,4 +1,4 @@
-class BaseAudioEffects:
+class BaseAudioEffectsHelper:
     def start(self):
         raise NotImplementedError
 
