@@ -62,3 +62,9 @@ class PiSystemHelper(BaseSystemHelper):
 
     def get_curr_brightness(self):
         return self.helper.get_curr_brightness()
+
+    def is_connection_over_wifi(self) -> bool:
+        return self.helper.is_connection_over_wifi()
+
+    def is_connection_over_lan(self) -> bool:
+        return self.helper.is_connection_over_lan()

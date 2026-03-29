@@ -29,3 +29,6 @@ class PiStripHardware(BaseStripInterface):
 
     def disable(self, save=True):
         self.strip.disable(save)
+
+    def set_color(self, color):
+        self.strip.set_color(color)
