@@ -11,6 +11,7 @@ from components.rotary_treble import RotaryTreble
 from components.rotary_volume import RotaryVolume
 from components.view.taskbar import Taskbar
 from components.view.theme import Theme
+from core.app_state import AppState
 from core.factories.strip_factory import create_strip_state
 from core.helpers.factories.audio import create_audio_helper
 from core.helpers.factories.player import create_player_helper
@@ -60,6 +61,7 @@ def init():
     settings_sync_helper.validate_and_repair_all_settings()
     audio_helper.init_sound()
     logs_helper.print_debug_infos()
+    AppState()
 
 
 def main(page: ft.Page):
