@@ -28,7 +28,7 @@ class Taskbar(ft.AppBar):
     taskbar_icon_size = 28
 
     def __init__(
-        self, on_volume_update, on_mute_update, on_bass_update, on_treble_update
+        self, on_bass_update, on_treble_update
     ):
         super().__init__()
         self.theme_helper = create_theme_helper()
@@ -37,15 +37,8 @@ class Taskbar(ft.AppBar):
         self.on_bass_update = on_bass_update
         self.on_treble_update = on_treble_update
 
-        self.volume_dialog = VolumeDialog(
-            on_update=self.update_volume_icon,
-            on_volume_update=on_volume_update,
-            on_mute_update=on_mute_update,
-        )
-        self.audio_effects_dialog = AudioEffectsDialog(
-            on_update_bass=self.bass_update,
-            on_update_treble=self.treble_update,
-        )
+        self.volume_dialog = VolumeDialog()
+        self.audio_effects_dialog = AudioEffectsDialog()
         self.shutdown_dialog = SettingsShutdownDialog()
 
         PageState.page.add(self.volume_dialog)

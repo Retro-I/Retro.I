@@ -77,8 +77,6 @@ def main(page: ft.Page):
 
     strip = create_strip_state()
     taskbar = Taskbar(
-        on_volume_update=strip.update_sound_strip,
-        on_mute_update=strip.toggle_mute,
         on_bass_update=strip.update_bass_strip,
         on_treble_update=strip.update_treble_strip,
     )
