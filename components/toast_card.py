@@ -1,6 +1,6 @@
 import flet as ft
 
-from core.helper_factories import create_audio_helper
+from core.factories.helper_factories import create_audio_helper
 from helper.constants import Constants
 
 c = Constants()

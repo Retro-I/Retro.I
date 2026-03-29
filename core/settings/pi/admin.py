@@ -1,7 +1,7 @@
 import base64
 import json
 
-from core.helper_factories import create_settings_sync_helper
+from core.factories.helper_factories import create_settings_sync_helper
 from core.settings.base.admin import BaseAdminSettings
 from helper.constants import Constants
 

@@ -1,8 +1,8 @@
 import flet as ft
 
 from components.dialogs.led_color_dialog import LedColorDialog, LedTypeEnum
-from core.helper_factories import create_color_helper
-from core.settings.factories.strip import create_strip_settings
+from core.factories.helper_factories import create_color_helper
+from core.factories.strip import create_strip_settings
 from helper.page_state import PageState
 
 

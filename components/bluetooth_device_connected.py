@@ -7,7 +7,7 @@ from components.dialogs.bluetooth_device_edit_dialog import (
 )
 from components.scrollbar import with_scrollbar_space
 from core.app_state import AppState
-from core.helper_factories import create_player_helper
+from core.factories.helper_factories import create_player_helper
 from helper.bluetooth_helper import BluetoothHelper
 from helper.page_state import PageState
 

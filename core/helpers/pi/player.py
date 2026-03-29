@@ -1,28 +1,42 @@
+import mpv
+
 from core.helpers.base.player import BasePlayerHelper
-from helper.player import Player
+from helper.constants import Constants
+
+c = Constants()
 
 
 class PiPlayerHelper(BasePlayerHelper):
-    def __init__(self):
-        self.helper = Player()
+    player = mpv.MPV(ytdl=True)
+    current_sound = ""
 
     def play_src(self, src):
-        self.helper.play_src(src)
+        try:
+            self.pause()
+        except Exception:
+            print("Fehler beim abspielen des Radiosenders")
+        PiPlayerHelper.current_sound = src
+        self.play()
 
     def play(self):
-        self.helper.play()
+        PiPlayerHelper.player.play(PiPlayerHelper.current_sound)
 
     def pause(self):
-        self.helper.pause()
+        PiPlayerHelper.player.stop()
+
+    def _play_sound(self, src):
+        PiPlayerHelper.current_sound = src
+        self.play()
 
     def startup_sound(self):
-        self.helper.startup_sound()
+        self._play_sound(f"{c.system_sound_path()}/startup.mp3")
 
     def shutdown_sound(self):
-        self.helper.shutdown_sound()
+        self.pause()
+        self._play_sound(f"{c.system_sound_path()}/shutdown.mp3")
 
     def bluetooth_connected(self):
-        self.helper.bluetooth_connected()
+        self._play_sound(f"{c.system_sound_path()}/bluetooth_connected.mp3")
 
     def bluetooth_disconnected(self):
-        self.helper.bluetooth_disconnected()
+        self._play_sound(f"{c.system_sound_path()}/bluetooth_disconnected.mp3")

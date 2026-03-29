@@ -39,7 +39,7 @@ class TestSystemHelper(unittest.TestCase):
     def setUp(self, get_strip_settings):
         get_strip_settings.return_value = strip_mock
 
-        from core.helper_factories import create_system_helper
+        from core.factories.helper_factories import create_system_helper
 
         self.system_helper = create_system_helper()
 
@@ -122,7 +122,7 @@ class TestSystemHelperWifiNetwork(unittest.TestCase):
     def setUp(self, get_strip_settings):
         get_strip_settings.return_value = strip_mock
 
-        from core.helper_factories import create_system_helper
+        from core.factories.helper_factories import create_system_helper
 
         self.system_helper = create_system_helper()
 
@@ -219,7 +219,7 @@ class TestSystemHelperLanNetwork(unittest.TestCase):
     def setUp(self, get_strip_settings):
         get_strip_settings.return_value = strip_mock
 
-        from core.helper_factories import create_system_helper
+        from core.factories.helper_factories import create_system_helper
 
         self.system_helper = create_system_helper()
 
@@ -287,7 +287,7 @@ class TestSystemHelperNoneNetwork(unittest.TestCase):
     def setUp(self, get_strip_settings):
         get_strip_settings.return_value = strip_mock
 
-        from core.helper_factories import create_system_helper
+        from core.factories.helper_factories import create_system_helper
 
         self.system_helper = create_system_helper()
 

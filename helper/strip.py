@@ -6,8 +6,8 @@ from adafruit_led_animation.animation.pulse import Pulse
 from adafruit_led_animation.color import BLACK, GREEN, RED, WHITE
 from flet.core.control_event import ControlEvent
 
-from core.helper_factories import create_audio_helper, create_color_helper
-from core.settings.factories.strip import create_strip_settings
+from core.factories.helper_factories import create_audio_helper, create_color_helper
+from core.factories.strip import create_strip_settings
 from helper.bass_steps_helper import BassStepsHelper
 from helper.constants import Constants
 from utils.WaiterProcess import WaiterProcess

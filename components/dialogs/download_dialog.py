@@ -1,6 +1,6 @@
 import flet as ft
 
-from core.helper_factories import create_system_helper
+from core.factories.helper_factories import create_system_helper
 
 
 class DownloadDialog(ft.AlertDialog):

@@ -2,7 +2,7 @@ import flet as ft
 
 from components.dialogs.duplicate_dialog import DuplicateDialog
 from components.radio_grid import RadioGrid
-from core.settings.factories.radio_stations import (
+from core.factories.radio_stations import (
     create_radio_stations_settings,
 )
 from helper.constants import Constants

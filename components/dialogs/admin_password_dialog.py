@@ -1,7 +1,7 @@
 import flet as ft
 
 from components.base_text_field import BaseTextField
-from core.settings_factories import create_admin_settings
+from core.factories.settings_factories import create_admin_settings
 from helper.party_mode_helper import PartyModeHelper
 
 party_mode_helper = PartyModeHelper()

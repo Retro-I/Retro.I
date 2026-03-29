@@ -6,14 +6,14 @@ import unittest
 from unittest import mock
 from unittest.mock import patch
 
-from core.helper_factories import (
+from core.factories.helper_factories import (
     create_audio_helper,
     create_settings_sync_helper,
     create_sounds_helper,
     create_theme_helper,
 )
-from core.settings.factories.scrollbar import create_scrollbar_settings
-from core.settings.factories.strip import create_strip_settings
+from core.factories.settings_factories import create_scrollbar_settings
+from core.factories.strip import create_strip_settings
 from helper.audio_effects import AudioEffects
 from helper.bass_steps_helper import BassStepsHelper
 from helper.constants import Constants
@@ -51,8 +51,7 @@ class BaseTest(unittest.TestCase):
     def setUp(self):
         from helper.audio import Audio
         from helper.gpio_helper import GpioHelper
-        from helper.settings_sync_helper import SettingsSyncHelper
-        from helper.stations import Stations
+        from core.settings.pi.radio_stations import Stations
 
         self.test_dir = self._create_temp_files(
             src_dir="./settings", dst_dir=f"{tempfile.mkdtemp()}/settings"

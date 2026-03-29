@@ -1,7 +1,7 @@
 import flet as ft
 
 from core.app_state import AppState
-from core.factories.strip_factory import create_strip_state
+from core.factories.helper_factories import create_strip_state
 from helper.audio_effects import AudioEffects
 from helper.bass_steps_helper import BassStepsHelper
 from helper.constants import Constants

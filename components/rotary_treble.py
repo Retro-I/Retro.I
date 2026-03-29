@@ -3,7 +3,7 @@ import threading
 from pyky040 import pyky040
 
 from core.app_state import AppState
-from core.factories.strip_factory import create_strip_state
+from core.factories.helper_factories import create_strip_state
 from helper.audio_effects import AudioEffects
 from helper.constants import Constants
 from helper.gpio_helper import GpioHelper

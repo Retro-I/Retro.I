@@ -4,7 +4,7 @@ from components.dialogs.download_dialog import DownloadDialog
 from components.dialogs.error_dialog import ErrorDialog
 from components.dialogs.success_dialog import SuccessDialog
 from components.scrollbar import with_scrollbar_space
-from core.helper_factories import (
+from core.factories.helper_factories import (
     create_settings_sync_helper,
     create_system_helper,
 )

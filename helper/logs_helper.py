@@ -1,13 +1,13 @@
 import logging
 import subprocess
 
-from core.helper_factories import (
+from core.factories.helper_factories import (
     create_audio_helper,
     create_system_helper,
     create_theme_helper,
 )
-from core.settings.factories.scrollbar import create_scrollbar_settings
-from core.settings.factories.strip import create_strip_settings
+from core.factories.settings_factories import create_scrollbar_settings
+from core.factories.strip import create_strip_settings
 from helper.constants import Constants
 from helper.party_mode_helper import PartyModeHelper
 from helper.revision_helper import RevisionHelper

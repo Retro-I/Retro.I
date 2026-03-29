@@ -7,7 +7,7 @@ from components.view.settings_tab import SettingsTab
 from components.view.soundboard_tab import SoundboardTab
 from components.view.tabs import Tabs
 from components.view.taskbar import Taskbar
-from core.settings.factories.scrollbar import create_scrollbar_settings
+from core.factories.settings_factories import create_scrollbar_settings
 from helper.page_state import PageState
 from helper.party_mode_helper import PartyModeHelper
 

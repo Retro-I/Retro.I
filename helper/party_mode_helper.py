@@ -1,6 +1,6 @@
 import json
 
-from core.helper_factories import create_settings_sync_helper
+from core.factories.helper_factories import create_settings_sync_helper
 from helper.constants import Constants
 
 

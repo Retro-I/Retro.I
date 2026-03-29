@@ -1,7 +1,7 @@
 import flet as ft
 
 from components.base_text_field import BaseTextField
-from core.helper_factories import create_audio_helper
+from core.factories.helper_factories import create_audio_helper
 
 
 class VolumeInputField(BaseTextField):

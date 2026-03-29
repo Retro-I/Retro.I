@@ -1,6 +1,6 @@
 import flet as ft
 
-from core.settings.factories.scrollbar import create_scrollbar_settings
+from core.factories.settings_factories import create_scrollbar_settings
 
 scrollbar_settings = create_scrollbar_settings()
 

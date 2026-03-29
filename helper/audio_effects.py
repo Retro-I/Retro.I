@@ -1,6 +1,7 @@
 import json
 import subprocess
 
+from core.settings.base.audio_effects import BaseAudioEffects
 from helper.bass_steps_helper import BassStepsHelper
 from helper.constants import Constants
 from helper.treble_steps_helper import TrebleStepsHelper
@@ -11,7 +12,7 @@ bass_steps_helper = BassStepsHelper()
 treble_steps_helper = TrebleStepsHelper()
 
 
-class AudioEffects:
+class AudioEffects(BaseAudioEffects):
     EFFECTS_PATH = Constants.effects_path()
 
     def start(self):

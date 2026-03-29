@@ -5,7 +5,7 @@ from components.scrollbar import with_scrollbar_space
 from components.sound_card import SoundCard
 from components.soundboard_search_bar import SoundboardSearchBar
 from components.toast_card import ToastCard
-from core.helper_factories import create_sounds_helper
+from core.factories.helper_factories import create_sounds_helper
 from helper.page_state import PageState
 
 

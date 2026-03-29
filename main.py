@@ -12,8 +12,8 @@ from components.rotary_volume import RotaryVolume
 from components.view.taskbar import Taskbar
 from components.view.theme import Theme
 from core.app_state import AppState
-from core.factories.strip_factory import create_strip_state
-from core.helper_factories import (
+from core.factories.helper_factories import create_strip_state
+from core.factories.helper_factories import (
     create_audio_helper,
     create_player_helper,
     create_settings_sync_helper,
@@ -21,6 +21,7 @@ from core.helper_factories import (
     create_system_helper,
     create_theme_helper,
 )
+from core.factories.settings_factories import create_radio_stations_settings
 from helper.audio_effects import AudioEffects
 from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
@@ -29,7 +30,6 @@ from helper.logs_helper import LogsHelper
 from helper.page_state import PageState
 from helper.radio_helper import RadioHelper
 from helper.startup_error_helper import StartupErrorHelper
-from helper.stations import Stations
 from helper.wifi_helper import WifiHelper
 
 logger = logging.getLogger(__name__)
@@ -40,7 +40,7 @@ bluetooth_helper = BluetoothHelper()
 system_helper = create_system_helper()
 startup_error_helper = StartupErrorHelper()
 settings_sync_helper = create_settings_sync_helper()
-stations_helper = Stations()
+stations_helper = create_radio_stations_settings()
 constants = Constants()
 sounds = create_sounds_helper()
 audio_helper = create_audio_helper()

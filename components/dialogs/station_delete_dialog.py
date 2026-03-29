@@ -1,6 +1,6 @@
 import flet as ft
 
-from core.settings.factories.radio_stations import (
+from core.factories.radio_stations import (
     create_radio_stations_settings,
 )
 

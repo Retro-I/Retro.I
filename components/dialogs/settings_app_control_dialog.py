@@ -1,7 +1,7 @@
 import flet as ft
 
 from components.icon_btn import IconBtn
-from core.helper_factories import create_system_helper
+from core.factories.helper_factories import create_system_helper
 
 
 class SettingsAppControlDialog(ft.AlertDialog):

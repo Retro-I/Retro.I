@@ -1,70 +1,228 @@
+import glob
+import os
+import socket
+import subprocess
+import time
+from datetime import datetime
+
+import netifaces
+import psutil
+
+from core.factories.helper_factories import create_strip_state
+from core.factories.helper_factories import create_audio_helper
 from core.helpers.base.system import BaseSystemHelper
-from helper.system_helper import SystemHelper
+from helper.constants import Constants
+from helper.page_state import PageState
+from helper.startup_error_helper import StartupErrorHelper
+
+audio_helper = create_audio_helper()
+page_helper = PageState()
+c = Constants()
+startup_error_helper = StartupErrorHelper()
 
 
 class PiSystemHelper(BaseSystemHelper):
+    strip = create_strip_state()
+
     def __init__(self):
-        self.helper = SystemHelper()
+        self._update_process: subprocess.Popen | None = None
 
     def shutdown_system(self):
-        self.helper.shutdown_system()
+        audio_helper.shutdown_sound()
+        self.strip.disable()
+        time.sleep(3)
+        os.system("sudo shutdown -h 0")
 
     def restart_system(self):
-        self.helper.shutdown_system()
+        audio_helper.shutdown_sound()
+        self.strip.disable()
+        time.sleep(3)
+        os.system("sudo reboot")
 
     def stop_app(self):
-        self.helper.stop_app()
+        self.strip.disable()
+        os.system("sudo systemctl stop retroi")
 
     def restart_app(self):
-        self.helper.stop_app()
+        self.strip.disable()
+        os.system("sudo systemctl restart retroi")
 
-    def change_revision(self, revision):
-        self.helper.change_revision(revision)
+    def change_revision(self, revision: str):
+        self._update_process = subprocess.Popen(
+            ["bash", "scripts/update_project.sh", revision],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        stdout, stderr = self._update_process.communicate()
+        if self._update_process.returncode != 0:
+            print("Error:", stderr)
 
     def cancel_revision_update(self):
-        self.helper.cancel_revision_update()
+        if self._update_process and self._update_process.poll() is None:
+            self._update_process.terminate()
+            try:
+                self._update_process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                self._update_process.kill()  # Force kill with SIGKILL
 
-    def get_cpu_temp(self):
-        return self.helper.get_cpu_temp()
+        startup_error_helper.write_startup_error("Letztes Update abgebrochen!")
+        self._update_process = None
 
-    def get_curr_date(self):
-        return self.helper.get_curr_date()
+    def get_cpu_temp(self) -> str:
+        line = subprocess.run(
+            ["vcgencmd", "measure_temp"], stdout=subprocess.PIPE
+        ).stdout.decode("utf-8")
+        temp = line[5:].strip()
+        return temp
 
-    def get_download_rate(self):
-        return self.helper.get_download_rate()
+    def get_curr_date(self) -> str:
+        return datetime.today().strftime("%d.%m.%Y")
+
+    def get_download_rate(self) -> float:
+        old_value = psutil.net_io_counters()
+        old_recv = old_value.bytes_recv
+
+        new_value = psutil.net_io_counters()
+        download_speed = (new_value.bytes_recv - old_recv) / 1024  # KB/s
+
+        return download_speed
 
     def get_img_path(self, img_src):
-        return self.helper.get_img_path(img_src)
+        if "http" in img_src:
+            return img_src
 
-    def is_party_mode(self):
-        return self.helper.is_party_mode()
+        return f"{Constants.pwd()}/assets/stations/{img_src}"
 
     def open_keyboard(self):
-        self.helper.open_keyboard()
+        self.close_keyboard()
+        os.system("squeekboard &")
 
     def close_keyboard(self):
-        self.helper.close_keyboard()
+        os.system("pkill squeekboard")
 
-    def get_current_ssid(self):
-        return self.helper.get_current_ssid()
+    def get_default_interface(self):
+        if netifaces.gateways()["default"] == {}:
+            return None
 
-    def get_ip_address(self):
-        return self.helper.get_ip_address()
-
-    def get_hostname(self):
-        return self.helper.get_hostname()
-
-    def get_network_config(self):
-        return self.helper.get_network_config()
-
-    def change_screen_brightness(self, brightness):
-        self.helper.change_screen_brightness(brightness)
-
-    def get_curr_brightness(self):
-        return self.helper.get_curr_brightness()
+        return netifaces.gateways()["default"][netifaces.AF_INET][1]
 
     def is_connection_over_wifi(self) -> bool:
-        return self.helper.is_connection_over_wifi()
+        return "wlan" in (self.get_default_interface() or "")
 
     def is_connection_over_lan(self) -> bool:
-        return self.helper.is_connection_over_lan()
+        interface = self.get_default_interface() or ""
+        return "eth" in interface or "usb" in interface
+
+    def get_current_ssid(self):
+        if (
+            self.get_default_interface() is not None
+            and "wlan" not in self.get_default_interface()
+        ):
+            return ""
+
+        ssid = (
+            subprocess.run(["iwgetid", "-r"], stdout=subprocess.PIPE)
+            .stdout.decode("utf-8")
+            .strip()
+        )
+        return ssid
+
+    def get_ip_address(self):
+        ifname = self.get_default_interface()
+        return (
+            ""
+            if ifname is None
+            else netifaces.ifaddresses(ifname)[netifaces.AF_INET][0]["addr"]
+        )
+
+    def get_hostname(self):
+        return socket.gethostname()
+
+    def get_netmask(self):
+        ifname = self.get_default_interface()
+        return (
+            ""
+            if ifname is None
+            else netifaces.ifaddresses(ifname)[netifaces.AF_INET][0]["netmask"]
+        )
+
+    def get_mac_address(self):
+        ifname = self.get_default_interface()
+        return (
+            ""
+            if ifname is None
+            else netifaces.ifaddresses(ifname)[netifaces.AF_LINK][0]["addr"]
+        )
+
+    def get_gateway(self):
+        ifname = self.get_default_interface()
+        return (
+            ""
+            if ifname is None
+            else netifaces.gateways()["default"][netifaces.AF_INET][0]
+        )
+
+    def get_dns_servers(self):
+        dns_servers = []
+        with open("/etc/resolv.conf", "r") as f:
+            for line in f:
+                if line.startswith("nameserver"):
+                    dns_servers.append(line.strip().split()[1])
+        return dns_servers
+
+    def get_network_config(self):
+        if self.get_default_interface() is None:
+            return {
+                "ssid": "",
+                "ip": "",
+                "hostname": "",
+                "subnetmask": "",
+                "mac_address": "",
+                "gateway": "",
+                "dns": ["", ""],
+            }
+
+        return {
+            "ssid": self.get_current_ssid(),
+            "ip": self.get_ip_address(),
+            "hostname": self.get_hostname(),
+            "subnetmask": self.get_netmask(),
+            "mac_address": self.get_mac_address(),
+            "gateway": self.get_gateway(),
+            "dns": self.get_dns_servers(),
+        }
+
+    def change_screen_brightness(self, value):
+        factor = value / 100
+        brightness = int(factor * 255)
+
+        def try_dsi_screens():
+            paths = glob.glob("/sys/class/backlight/*/brightness")
+            for path in paths:
+                subprocess.run(
+                    ["sudo", "tee", path],
+                    input=str(brightness).encode(),
+                    check=True,
+                )
+
+        def try_hdmi_screens():
+            os.system(f"xrandr --output HDMI-0 --brightness {factor}")
+            os.system(f"xrandr --output HDMI-1 --brightness {factor}")
+
+        try_dsi_screens()
+        try_hdmi_screens()
+
+    def get_curr_brightness(self):
+        try:
+            line = subprocess.run(
+                ["sudo", "cat", "/sys/class/backlight/10-0045/brightness"],
+                stdout=subprocess.PIPE,
+            ).stdout.decode("utf-8")
+            value = int(line) / 255 * 100
+            if value < 10:
+                return 10
+
+            return value
+        except Exception:
+            return 100

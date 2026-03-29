@@ -5,7 +5,7 @@ from components.dialogs.settings_shutdown_dialog import SettingsShutdownDialog
 from components.dialogs.volume_dialog import VolumeDialog
 from components.dialogs.wifi_connection_dialog import WifiConnectionDialog
 from components.dialogs.wifi_dialog import WifiDialog
-from core.helper_factories import (
+from core.factories.helper_factories import (
     create_audio_helper,
     create_system_helper,
     create_theme_helper,

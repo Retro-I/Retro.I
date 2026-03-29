@@ -63,3 +63,11 @@ def create_theme_helper():
             from core.helpers.pi.theme import PiThemeHelper
 
             return PiThemeHelper()
+
+
+def create_strip_state():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from hardware.pi.pi_strip_hardware import PiStripHardware
+
+            return PiStripHardware()
