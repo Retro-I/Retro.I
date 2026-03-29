@@ -24,6 +24,7 @@ from core.factories.helper_factories import (
 from core.factories.settings_factories import (
     create_gpio_settings,
     create_radio_stations_settings,
+    create_startup_error_settings,
 )
 from helper.audio_effects import AudioEffects
 from helper.bluetooth_helper import BluetoothHelper
@@ -31,7 +32,6 @@ from helper.constants import Constants
 from helper.logs_helper import LogsHelper
 from helper.page_state import PageState
 from helper.radio_helper import RadioHelper
-from helper.startup_error_helper import StartupErrorHelper
 from helper.wifi_helper import WifiHelper
 
 logger = logging.getLogger(__name__)
@@ -40,7 +40,7 @@ wifi_helper = WifiHelper()
 radio_helper = RadioHelper()
 bluetooth_helper = BluetoothHelper()
 system_helper = create_system_helper()
-startup_error_helper = StartupErrorHelper()
+startup_error_helper = create_startup_error_settings()
 settings_sync_helper = create_settings_sync_helper()
 stations_helper = create_radio_stations_settings()
 constants = Constants()

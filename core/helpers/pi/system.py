@@ -12,15 +12,15 @@ from core.factories.helper_factories import (
     create_audio_helper,
     create_strip_state,
 )
+from core.factories.settings_factories import create_startup_error_settings
 from core.helpers.base.system import BaseSystemHelper
 from helper.constants import Constants
 from helper.page_state import PageState
-from helper.startup_error_helper import StartupErrorHelper
 
 audio_helper = create_audio_helper()
 page_helper = PageState()
 c = Constants()
-startup_error_helper = StartupErrorHelper()
+startup_error_helper = create_startup_error_settings()
 
 
 class PiSystemHelper(BaseSystemHelper):

@@ -1,8 +1,6 @@
 import flet as ft
 
-from helper.startup_error_helper import StartupErrorHelper
-
-startup_error_helper = StartupErrorHelper()
+from core.factories.settings_factories import create_startup_error_settings
 
 
 class StartupErrorDialog(ft.AlertDialog):
@@ -10,6 +8,8 @@ class StartupErrorDialog(ft.AlertDialog):
 
     def __init__(self):
         super().__init__()
+
+        self.startup_error_settings = create_startup_error_settings()
 
         self.title = ft.Text("Fehler beim Herunterladen des letzten Updates")
         self.content = self.text
@@ -20,13 +20,13 @@ class StartupErrorDialog(ft.AlertDialog):
         self.actions_alignment = ft.MainAxisAlignment.END
 
     def open_dialog(self):
-        err = startup_error_helper.startup_error()
+        err = self.startup_error_settings.startup_error()
         self.text.value = err if err is not None else "Unbekannter Fehler"
         self.text.update()
         self.open = True
         self.update()
 
-        startup_error_helper.reset_startup_error()
+        self.startup_error_settings.reset_startup_error()
 
     def close_dialog(self):
         self.open = False

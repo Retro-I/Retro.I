@@ -1,12 +1,13 @@
 import json
 
 from core.factories.helper_factories import create_settings_sync_helper
+from core.settings.base.startup_error import BaseStartupErrorSettings
 from helper.constants import Constants
 
 c = Constants()
 
 
-class StartupErrorHelper:
+class PiStartupErrorSettings(BaseStartupErrorSettings):
     SETTING = "startup-error.json"
     STARTUP_ERROR_PATH = f"{Constants.settings_path()}/{SETTING}"
 
