@@ -16,13 +16,7 @@ class RotaryVolume:
     VOLUME_DOWN_PIN = gpio_helper.rotary_volume_down()
     VOLUME_MUTE_PIN = gpio_helper.rotary_volume_press()
 
-    def __init__(
-        self, on_taskbar_update, on_strip_toggle_mute, on_strip_update_sound
-    ):
-        self.on_taskbar_update = on_taskbar_update
-        self.on_strip_toggle_mute = on_strip_toggle_mute
-        self.on_strip_update_sound = on_strip_update_sound
-
+    def __init__(self):
         self.audio_state = create_audio_helper()
         self.strip_state = create_strip_state()
 

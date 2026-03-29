@@ -111,18 +111,9 @@ def main(page: ft.Page):
 
     page.update()
 
-    RotaryVolume(
-        on_taskbar_update=taskbar.update,
-        on_strip_toggle_mute=strip.toggle_mute,
-        on_strip_update_sound=strip.update_sound_strip,
-    )
-    RotaryBass(
-        on_taskbar_update=taskbar.update, on_bass_update=strip.update_bass_strip
-    )
-    RotaryTreble(
-        on_taskbar_update=taskbar.update,
-        on_treble_update=strip.update_treble_strip,
-    )
+    RotaryVolume()
+    RotaryBass()
+    RotaryTreble()
 
     def background_processes():
         while True:
