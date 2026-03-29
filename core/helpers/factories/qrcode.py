@@ -6,8 +6,8 @@ def create_qrcode_helper():
         case AppPlatform.PI:
             from core.helpers.pi.qrcode import PiQrCodeHelper
 
-            return PiQrCodeHelper
+            return PiQrCodeHelper()
         case _:
             from core.helpers.pi.qrcode import PiQrCodeHelper
 
-            return PiQrCodeHelper
+            return PiQrCodeHelper()
