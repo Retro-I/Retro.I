@@ -71,3 +71,11 @@ def create_party_mode_settings():
             from core.settings.pi.party_mode import PiPartyModeSettings
 
             return PiPartyModeSettings()
+
+
+def create_secured_mode_settings():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.settings.pi.secured_mode import PiSecuredModeSettings
+
+            return PiSecuredModeSettings()

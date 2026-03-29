@@ -9,17 +9,17 @@ from core.factories.helper_factories import (
 from core.factories.settings_factories import (
     create_party_mode_settings,
     create_scrollbar_settings,
+    create_secured_mode_settings,
     create_strip_settings,
 )
 from helper.constants import Constants
 from helper.revision_helper import RevisionHelper
-from helper.secured_mode_settings_helper import SecuredModeSettingsHelper
 
 logger = logging.getLogger(__name__)
 
 system_helper = create_system_helper()
 revision_helper = RevisionHelper()
-secured_mode_settings_helper = SecuredModeSettingsHelper()
+secured_mode_settings_helper = create_secured_mode_settings()
 audio_helper = create_audio_helper()
 party_mode_helper = create_party_mode_settings()
 

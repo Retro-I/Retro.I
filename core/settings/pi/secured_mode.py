@@ -1,12 +1,13 @@
 import json
 
 from core.factories.helper_factories import create_settings_sync_helper
+from core.settings.base.secured_mode import BaseSecuredModeSettings
 from helper.constants import Constants
 
 c = Constants()
 
 
-class SecuredModeSettingsHelper:
+class PiSecuredModeSettings(BaseSecuredModeSettings):
     SETTING = "secured-mode-settings.json"
     SECURED_MODE_PATH = f"{Constants.settings_path()}/{SETTING}"
 
