@@ -13,7 +13,7 @@ from core.factories.helper_factories import (
     create_theme_helper,
 )
 from core.factories.settings_factories import create_scrollbar_settings
-from core.factories.strip import create_strip_settings
+from core.factories.settings_factories import create_strip_settings
 from helper.audio_effects import AudioEffects
 from helper.bass_steps_helper import BassStepsHelper
 from helper.constants import Constants
