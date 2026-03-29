@@ -5,7 +5,10 @@ from components.view.radio_tab import RadioTab
 from components.view.settings_tab import SettingsTab
 from components.view.soundboard_tab import SoundboardTab
 from components.view.taskbar import Taskbar
-from core.factories.helper_factories import create_player_helper, create_theme_helper
+from core.factories.helper_factories import (
+    create_player_helper,
+    create_theme_helper,
+)
 from helper.bluetooth_helper import BluetoothHelper
 from helper.constants import Constants
 from helper.page_state import PageState

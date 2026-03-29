@@ -7,7 +7,7 @@ from core.factories.helper_factories import (
     create_system_helper,
     create_theme_helper,
 )
-from core.factories.radio_stations import (
+from core.factories.settings_factories import (
     create_radio_stations_settings,
 )
 from helper.constants import Constants
