@@ -5,3 +5,4 @@ venv
 
 # JetBrains-IDE's
 .idea
+!.idea/icon.png
