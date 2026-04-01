@@ -214,16 +214,13 @@ class PiSystemHelper(BaseSystemHelper):
         try_dsi_screens()
         try_hdmi_screens()
 
-    def get_curr_brightness(self):
+    def get_curr_brightness(self) -> float:
         try:
-            line = subprocess.run(
-                ["sudo", "cat", "/sys/class/backlight/10-0045/brightness"],
-                stdout=subprocess.PIPE,
-            ).stdout.decode("utf-8")
-            value = int(line) / 255 * 100
-            if value < 10:
-                return 10
-
-            return value
+            with open("/sys/class/backlight/10-0045/brightness", "r") as f:
+                for line in f:
+                    value = int(line) / 255 * 100
+                    return 10 if value < 10 else value
         except Exception:
-            return 100
+            pass
+
+        return 100
