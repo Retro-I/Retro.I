@@ -96,9 +96,25 @@ class TestSystemHelper(unittest.TestCase):
         expected = "https://test.test.de/image.png"
         self.assertEqual(actual, expected)
 
-    @unittest.skip
-    def test_change_curr_brightness(self):
-        pass
+    @mock.patch("os.system")
+    def test_change_curr_brightness(self, os_system_patch):
+        with self.subTest("with int"):
+            self.system_helper.change_screen_brightness(50)
+            os_system_patch.assert_any_call(
+                "xrandr --output HDMI-0 --brightness 0.5"
+            )
+            os_system_patch.assert_any_call(
+                "xrandr --output HDMI-1 --brightness 0.5"
+            )
+
+        with self.subTest("with decimal"):
+            self.system_helper.change_screen_brightness(12.3456)
+            os_system_patch.assert_any_call(
+                "xrandr --output HDMI-0 --brightness 0.123456"
+            )
+            os_system_patch.assert_any_call(
+                "xrandr --output HDMI-1 --brightness 0.123456"
+            )
 
     def test_get_curr_brightness(self):
         actual = self.system_helper.get_curr_brightness()
