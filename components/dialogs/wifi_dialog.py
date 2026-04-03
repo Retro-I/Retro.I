@@ -58,7 +58,7 @@ class WifiDialog(ft.AlertDialog):
 
     async def open_dialog(self):
         self.open = True
-        self.toggle_wifi_switch.value = wifi_helper.is_enabled()
+        self.toggle_wifi_switch.value = self.wifi_helper.is_enabled()
         self.toggle_wifi_switch.update()
 
         self.listview.visible = False

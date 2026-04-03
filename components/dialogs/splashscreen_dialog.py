@@ -3,6 +3,7 @@ import flet as ft
 from components.image_slider import ImageSlider
 from core.factories.helper_factories import create_splashscreen_helper
 from helper.constants import Constants
+from helper.page_state import PageState
 
 
 class SplashscreenDialog(ft.AlertDialog):
