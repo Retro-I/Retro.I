@@ -1,9 +1,9 @@
 import flet as ft
 
-from core.factories.helper_factories import create_system_helper
-from helper.revision_helper import RevisionHelper
-
-revision_helper = RevisionHelper()
+from core.factories.helper_factories import (
+    create_revision_helper,
+    create_system_helper,
+)
 
 
 class Info(ft.ListView):
@@ -23,6 +23,7 @@ class Info(ft.ListView):
         super().__init__()
 
         self.system_helper = create_system_helper()
+        self.revision_helper = create_revision_helper()
 
         self.expand = True
         self.controls = [
@@ -79,7 +80,7 @@ class Info(ft.ListView):
         ]
 
     def set_system_info(self):
-        self.version_text.text = revision_helper.get_current_revision()
+        self.version_text.text = self.revision_helper.get_current_revision()
         self.version_text.update()
 
         self.cpu_temp_text.text = self.system_helper.get_cpu_temp()

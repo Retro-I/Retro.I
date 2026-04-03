@@ -5,13 +5,11 @@ from components.dialogs.error_dialog import ErrorDialog
 from components.dialogs.success_dialog import SuccessDialog
 from components.scrollbar import with_scrollbar_space
 from core.factories.helper_factories import (
+    create_revision_helper,
     create_settings_sync_helper,
     create_system_helper,
 )
 from helper.page_state import PageState
-from helper.revision_helper import RevisionHelper
-
-revision_helper = RevisionHelper()
 
 
 class SettingsUpdateDialog(ft.AlertDialog):
@@ -31,6 +29,7 @@ class SettingsUpdateDialog(ft.AlertDialog):
         super().__init__()
         self.system_helper = create_system_helper()
         self.settings_sync_helper = create_settings_sync_helper()
+        self.revision_helper = create_revision_helper()
 
         self.download_dialog = DownloadDialog()
         self.error_dialog = ErrorDialog()
@@ -101,13 +100,13 @@ class SettingsUpdateDialog(ft.AlertDialog):
         self.reload(show_spinner=False)
 
     def fill_branches_list(self):
-        branches = revision_helper.get_branches()
+        branches = self.revision_helper.get_branches()
 
         self.branches_list.controls.clear()
         self.branches_list.controls = self._get_items(branches)
 
     def fill_tags_list(self):
-        tags = revision_helper.get_tags()
+        tags = self.revision_helper.get_tags()
 
         self.tags_list.controls.clear()
         self.tags_list.controls = self._get_items(tags)
@@ -173,4 +172,4 @@ class SettingsUpdateDialog(ft.AlertDialog):
         self.download_dialog.close_dialog()
 
     def _get_current_revision(self):
-        return revision_helper.get_current_revision()
+        return self.revision_helper.get_current_revision()

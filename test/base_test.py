@@ -37,7 +37,6 @@ from core.settings.pi.startup_error import PiStartupErrorSettings
 from core.settings.pi.strip import PiStripSettings
 from core.settings.pi.treble_steps import PiTrebleStepsSettings
 from helper.constants import Constants
-from helper.revision_helper import RevisionHelper
 from helper.splashscreen_helper import SplashscreenHelper
 
 
@@ -107,14 +106,17 @@ class BaseTest(unittest.TestCase):
         )
         self.load_effects_dispatcher.start()
 
-        self.patcher_current = patch.object(
-            RevisionHelper, "get_current_revision", return_value="develop"
+        self.patcher_current = patch(
+            "core.helpers.pi.revision.PiRevisionHelper.get_current_revision",
+            return_value="develop",
         )
-        self.patcher_local = patch.object(
-            RevisionHelper, "get_local_branches", return_value=["develop"]
+        self.patcher_local = patch(
+            "core.helpers.pi.revision.PiRevisionHelper.get_local_branches",
+            return_value=["develop"],
         )
-        self.patcher_remote = patch.object(
-            RevisionHelper, "get_branches", return_value=[{"name": "develop"}]
+        self.patcher_remote = patch(
+            "core.helpers.pi.revision.PiRevisionHelper.get_branches",
+            return_value=[{"name": "develop"}],
         )
 
         self.mock_current_revision = self.patcher_current.start()

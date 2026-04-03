@@ -1,9 +1,6 @@
 import flet as ft
 
 from core.factories.helper_factories import create_qrcode_helper
-from helper.revision_helper import RevisionHelper
-
-revision_helper = RevisionHelper()
 
 
 class Documentation(ft.Column):

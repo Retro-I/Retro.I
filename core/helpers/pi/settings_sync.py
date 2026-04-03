@@ -6,16 +6,20 @@ from copy import deepcopy
 import jsonschema_default
 from jsonschema import Draft7Validator
 
+from core.factories.helper_factories import create_revision_helper
 from core.helpers.base.settings_sync import BaseSettingsSyncHelper
 from helper.constants import Constants
-from helper.revision_helper import RevisionHelper
 
 logger = logging.getLogger(__name__)
 c = Constants()
-revision_helper = RevisionHelper()
 
 
 class PiSettingsSyncHelper(BaseSettingsSyncHelper):
+    def __init__(self):
+        super().__init__()
+
+        self.revision_helper = create_revision_helper()
+
     def _validate_by_path(self, path):
         files = [
             f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))
@@ -113,7 +117,7 @@ class PiSettingsSyncHelper(BaseSettingsSyncHelper):
         logger.info("Update default stations data...")
         self.update_default_stations_data()
         logger.info("Cleanup local branches...")
-        revision_helper.cleanup_local_branches()
+        self.revision_helper.cleanup_local_branches()
         logger.info("Settings validation completed!")
 
     def is_valid(self, data: dict | list, schema: dict) -> bool:

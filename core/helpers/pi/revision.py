@@ -2,10 +2,12 @@ import logging
 import subprocess
 from datetime import datetime
 
+from core.helpers.base.revision import BaseRevisionHelper
+
 logger = logging.getLogger(__name__)
 
 
-class RevisionHelper:
+class PiRevisionHelper(BaseRevisionHelper):
     def get_branches(self) -> list[dict]:
         # Update remote branches
         subprocess.run(["git", "fetch", "--prune"], check=True)

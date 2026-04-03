@@ -3,6 +3,7 @@ import subprocess
 
 from core.factories.helper_factories import (
     create_audio_helper,
+    create_revision_helper,
     create_system_helper,
     create_theme_helper,
 )
@@ -13,12 +14,11 @@ from core.factories.settings_factories import (
     create_strip_settings,
 )
 from helper.constants import Constants
-from helper.revision_helper import RevisionHelper
 
 logger = logging.getLogger(__name__)
 
 system_helper = create_system_helper()
-revision_helper = RevisionHelper()
+revision_helper = create_revision_helper()
 secured_mode_settings_helper = create_secured_mode_settings()
 audio_helper = create_audio_helper()
 party_mode_helper = create_party_mode_settings()
