@@ -24,7 +24,7 @@ audio_helper = create_audio_helper()
 party_mode_helper = create_party_mode_settings()
 
 
-class LogsHelper:
+class BaseLogsHelper:
     def __init__(self):
         self.theme_helper = create_theme_helper()
         self.scrollbar_settings_helper = create_scrollbar_settings()

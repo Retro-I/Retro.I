@@ -3,14 +3,14 @@ import time
 
 import flet as ft
 
-from helper.logs_helper import LogsHelper
-
-logs_helper = LogsHelper()
+from core.factories.helper_factories import create_logs_helper
 
 
 class SettingsLogsDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
+
+        self.logs_helper = create_logs_helper()
 
         self.get_logs = False
         self.logs_text_field = ft.TextField(
@@ -36,7 +36,7 @@ class SettingsLogsDialog(ft.AlertDialog):
 
     def update_logs(self):
         while self.get_logs:
-            self.logs_text_field.value = logs_helper.get_logs()
+            self.logs_text_field.value = self.logs_helper.get_logs()
             self.logs_text_field.update()
             time.sleep(0.5)
 

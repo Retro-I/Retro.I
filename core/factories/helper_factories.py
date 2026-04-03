@@ -111,3 +111,11 @@ def create_revision_helper():
             from core.helpers.pi.revision import PiRevisionHelper
 
             return PiRevisionHelper()
+
+
+def create_logs_helper():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.helpers.base.logs import BaseLogsHelper
+
+            return BaseLogsHelper()
