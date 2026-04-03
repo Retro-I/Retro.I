@@ -71,7 +71,9 @@ class SoundboardSearchDialog(ft.AlertDialog):
 
         query = self.search_textfield.value
 
-        sounds = await asyncio.to_thread(self.sounds_helper.search_sounds, query)
+        sounds = await asyncio.to_thread(
+            self.sounds_helper.search_sounds, query
+        )
 
         self.loading.visible = False
         self.not_found_text.visible = len(sounds) == 0

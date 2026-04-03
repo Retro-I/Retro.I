@@ -11,7 +11,6 @@ from components.dialogs.settings_display_dialog import SettingsDisplayDialog
 from components.dialogs.settings_info_dialog import SettingsInfoDialog
 from components.dialogs.settings_led_dialog import SettingsLedDialog
 from components.dialogs.settings_logs_dialog import SettingsLogsDialog
-from components.dialogs.settings_shutdown_dialog import SettingsShutdownDialog
 from components.dialogs.settings_update_dialog import SettingsUpdateDialog
 from components.scrollbar import with_scrollbar_space
 from components.settings_button import SettingsButton
