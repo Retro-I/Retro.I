@@ -40,7 +40,6 @@ class Taskbar(ft.AppBar):
 
         PageState.page.add(self.volume_dialog)
         PageState.page.add(self.audio_effects_dialog)
-        PageState.page.add(self.shutdown_dialog)
 
         self.ico_shutdown = ft.IconButton(
             icon=ft.Icons.POWER_SETTINGS_NEW,
@@ -68,18 +67,16 @@ class Taskbar(ft.AppBar):
             on_click=lambda e: self.on_ico_wifi_click(),
         )
         self.ico_bluetooth = ft.Icon(
-            name=ft.Icons.BLUETOOTH,
+            ft.Icons.BLUETOOTH,
             size=self.taskbar_icon_size,
         )
 
         self.ico_volume = ft.Icon(
-            name=ft.Icons.VOLUME_UP_ROUNDED, size=self.taskbar_icon_size
+            ft.Icons.VOLUME_UP_ROUNDED, size=self.taskbar_icon_size
         )
         self.txt_volume = ft.Text(f"{audio_helper.get_volume()}%", size=18)
 
-        self.ico_eq = ft.Icon(
-            name=ft.Icons.EQUALIZER, size=self.taskbar_icon_size
-        )
+        self.ico_eq = ft.Icon(ft.Icons.EQUALIZER, size=self.taskbar_icon_size)
         self.txt_eq = ft.Text(
             f"Bass: {Constants.current_bass_step}  |  "
             f"Treble: {Constants.current_treble_step}",
@@ -96,7 +93,9 @@ class Taskbar(ft.AppBar):
                             ft.VerticalDivider(),
                         ]
                     ),
-                    on_click=lambda e: self.volume_dialog.open_dialog(),
+                    on_click=lambda e: PageState.page.show_dialog(
+                        self.volume_dialog
+                    ),
                 ),
                 ft.Container(
                     content=ft.Row(
@@ -106,7 +105,9 @@ class Taskbar(ft.AppBar):
                             ft.VerticalDivider(),
                         ]
                     ),
-                    on_click=lambda e: self.audio_effects_dialog.open_dialog(),
+                    on_click=lambda e: PageState.page.show_dialog(
+                        self.audio_effects_dialog
+                    ),
                 ),
             ]
         )
@@ -183,7 +184,7 @@ class Taskbar(ft.AppBar):
 
     def update_bluetooth_icon(self):
         if self.bluetooth_helper.is_bluetooth_on():
-            self.ico_bluetooth.name = ft.Icons.BLUETOOTH_ROUNDED
+            self.ico_bluetooth.icon = ft.Icons.BLUETOOTH_ROUNDED
             self.ico_bluetooth.color = ft.Colors.ON_SURFACE
 
             if self.bluetooth_helper.is_discovery_on():
@@ -192,17 +193,17 @@ class Taskbar(ft.AppBar):
                 self.ico_bluetooth.color = ft.Colors.ON_SURFACE
 
         else:
-            self.ico_bluetooth.name = ft.Icons.BLUETOOTH_DISABLED_ROUNDED
+            self.ico_bluetooth.icon = ft.Icons.BLUETOOTH_DISABLED_ROUNDED
             self.ico_bluetooth.color = ft.Colors.ON_SURFACE
 
         if self.bluetooth_helper.is_connected():
-            self.ico_bluetooth.name = ft.Icons.BLUETOOTH_CONNECTED_ROUNDED
+            self.ico_bluetooth.icon = ft.Icons.BLUETOOTH_CONNECTED_ROUNDED
             self.ico_bluetooth.color = ft.Colors.GREEN
 
         self.ico_bluetooth.update()
 
     def update_volume_icon(self):
-        self.ico_volume.name = (
+        self.ico_volume.icon = (
             ft.Icons.VOLUME_OFF_ROUNDED
             if audio_helper.is_mute()
             else ft.Icons.VOLUME_UP_ROUNDED
@@ -234,7 +235,7 @@ class Taskbar(ft.AppBar):
         self.txt_eq.update()
 
     def on_ico_shutdown_click(self):
-        self.shutdown_dialog.open_dialog()
+        PageState.page.show_dialog(self.shutdown_dialog)
 
     def on_ico_toggle_theme_click(self):
         self.toggle_theme()
@@ -244,4 +245,4 @@ class Taskbar(ft.AppBar):
             self.system_helper.is_connection_over_wifi()
             or self.system_helper.get_current_ssid() == ""
         ) and not self.system_helper.is_connection_over_lan():
-            self.wifi_dialog.open_dialog()
+            self.page.run_task(self.wifi_dialog.open_dialog)

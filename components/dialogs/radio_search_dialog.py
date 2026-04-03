@@ -1,3 +1,5 @@
+import asyncio
+
 import flet as ft
 
 from components.base_text_field import BaseTextField
@@ -40,10 +42,10 @@ class RadioSearchDialog(ft.AlertDialog):
                     [
                         self.search_textfield,
                         ft.FilledButton(
-                            "Suchen", on_click=lambda e: self.search_stations()
+                            "Suchen", on_click=self.search_stations
                         ),
                     ],
-                    spacing=ft.MainAxisAlignment.SPACE_BETWEEN,
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 ),
                 ft.Column(
                     controls=[self.loading, self.not_found_text, self.listview],
@@ -61,28 +63,23 @@ class RadioSearchDialog(ft.AlertDialog):
         self.open = False
         self.update()
 
-    def search_stations(self):
+    async def search_stations(self, _):
         self.listview.visible = False
-        self.listview.update()
-
         self.not_found_text.visible = False
-        self.not_found_text.update()
-
         self.loading.visible = True
-        self.loading.update()
+        self.update()
 
         name = self.search_textfield.value
-        stations = self.radio_meta_helper.get_stations_by_name(name)
+        stations = await asyncio.to_thread(
+            self.radio_helper.get_stations_by_name, name
+        )
 
         self.loading.visible = False
-        self.loading.update()
 
         if len(stations) == 0:
             self.not_found_text.visible = True
         else:
             self.not_found_text.visible = False
-
-        self.not_found_text.update()
 
         self.listview.controls = []
         for el in stations:
@@ -92,7 +89,7 @@ class RadioSearchDialog(ft.AlertDialog):
             if el["logo"] != "":
                 img = ft.Image(
                     el["logo"],
-                    fit=ft.ImageFit.SCALE_DOWN,
+                    fit=ft.BoxFit.SCALE_DOWN,
                     border_radius=ft.border_radius.all(10),
                     width=50,
                     height=50,
@@ -119,4 +116,4 @@ class RadioSearchDialog(ft.AlertDialog):
             self.listview.controls.append(element)
 
         self.listview.visible = True
-        self.listview.update()
+        self.update()

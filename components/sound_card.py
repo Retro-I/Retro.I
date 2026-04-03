@@ -14,7 +14,7 @@ class SoundCard(ft.Column):
 
         self.controls = [
             ft.Container(
-                alignment=ft.alignment.bottom_center,
+                alignment=ft.Alignment.BOTTOM_CENTER,
                 on_click=lambda e, src=sound[
                     "mp3"
                 ]: self.audio_state.play_sound_board(src),
@@ -24,7 +24,7 @@ class SoundCard(ft.Column):
                 content=ft.Image(
                     src=c.get_button_img(),
                     border_radius=ft.border_radius.all(4),
-                    fit=ft.ImageFit.FIT_WIDTH,
+                    fit=ft.BoxFit.FIT_WIDTH,
                 ),
                 height=130,
             ),

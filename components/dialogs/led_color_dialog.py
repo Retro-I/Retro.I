@@ -5,6 +5,7 @@ from flet_contrib.color_picker.src.color_picker import ColorPicker
 
 from core.factories.helper_factories import create_color_helper
 from core.factories.settings_factories import create_strip_settings
+from helper.page_state import PageState
 
 
 class LedTypeEnum(StrEnum):
@@ -13,7 +14,7 @@ class LedTypeEnum(StrEnum):
 
 
 class LedColorDialog(ft.AlertDialog):
-    def __init__(self, strip, parent_dialog):
+    def __init__(self, strip):
         super().__init__(on_dismiss=self._on_dismiss)
         self.settings_helper = create_strip_settings()
 
@@ -26,7 +27,7 @@ class LedColorDialog(ft.AlertDialog):
 
         self.btn_back = ft.TextButton(
             "Zurück",
-            on_click=lambda e: parent_dialog.open_dialog(),
+            on_click=lambda e: PageState.page.pop_dialog(),
             icon=ft.Icons.ARROW_BACK,
         )
 

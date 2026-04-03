@@ -7,23 +7,22 @@ from core.factories.helper_factories import (
 
 
 class Info(ft.ListView):
-    version_text = ft.TextSpan("")
-    cpu_temp_text = ft.TextSpan("")
-    download_rate_text = ft.TextSpan("")
-    ssid_text = ft.TextSpan("")
-    ip_text = ft.TextSpan("")
-    hostname_text = ft.TextSpan("")
-    subnetmask_text = ft.TextSpan("")
-    mac_text = ft.TextSpan("")
-    gateway_text = ft.TextSpan("")
-    dns_pri_text = ft.TextSpan("")
-    dns_sec_text = ft.TextSpan("")
-
     def __init__(self):
         super().__init__()
-
         self.system_helper = create_system_helper()
         self.revision_helper = create_revision_helper()
+
+        self.version_text = ft.TextSpan("")
+        self.cpu_temp_text = ft.TextSpan("")
+        self.download_rate_text = ft.TextSpan("")
+        self.ssid_text = ft.TextSpan("")
+        self.ip_text = ft.TextSpan("")
+        self.hostname_text = ft.TextSpan("")
+        self.subnetmask_text = ft.TextSpan("")
+        self.mac_text = ft.TextSpan("")
+        self.gateway_text = ft.TextSpan("")
+        self.dns_pri_text = ft.TextSpan("")
+        self.dns_sec_text = ft.TextSpan("")
 
         self.expand = True
         self.controls = [
@@ -81,16 +80,11 @@ class Info(ft.ListView):
 
     def set_system_info(self):
         self.version_text.text = self.revision_helper.get_current_revision()
-        self.version_text.update()
-
         self.cpu_temp_text.text = self.system_helper.get_cpu_temp()
-        self.cpu_temp_text.update()
-
         self.download_rate_text.text = round(
             self.system_helper.get_download_rate(), 2
         )
-        self.download_rate_text.update()
-
+        self.update()
         self.update_ip_config()
 
     def update_ip_config(self):
@@ -108,11 +102,4 @@ class Info(ft.ListView):
         except IndexError:
             self.dns_sec_text.text = ""
 
-        self.ssid_text.update()
-        self.ip_text.update()
-        self.hostname_text.update()
-        self.subnetmask_text.update()
-        self.mac_text.update()
-        self.gateway_text.update()
-        self.dns_pri_text.update()
-        self.dns_sec_text.update()
+        self.update()
