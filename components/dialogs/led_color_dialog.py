@@ -5,6 +5,7 @@ from flet_contrib.color_picker.src.color_picker import ColorPicker
 
 from core.factories.helper_factories import create_color_helper
 from core.factories.settings_factories import create_strip_settings
+from helper.page_state import PageState
 
 
 class LedTypeEnum(StrEnum):

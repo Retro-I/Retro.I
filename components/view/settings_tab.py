@@ -14,7 +14,6 @@ from components.dialogs.settings_logs_dialog import SettingsLogsDialog
 from components.dialogs.settings_power_manager_dialog import (
     SettingsPowerManagerDialog,
 )
-from components.dialogs.settings_shutdown_dialog import SettingsShutdownDialog
 from components.dialogs.settings_update_dialog import SettingsUpdateDialog
 from components.scrollbar import with_scrollbar_space
 from components.settings_button import SettingsButton
