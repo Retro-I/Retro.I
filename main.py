@@ -32,12 +32,10 @@ from core.factories.settings_factories import (
 from helper.constants import Constants
 from helper.logs_helper import LogsHelper
 from helper.page_state import PageState
-from helper.radio_helper import RadioHelper
 
 logger = logging.getLogger(__name__)
 
 wifi_helper = create_wifi_helper()
-radio_helper = RadioHelper()
 bluetooth_helper = create_bluetooth_helper()
 system_helper = create_system_helper()
 startup_error_helper = create_startup_error_settings()

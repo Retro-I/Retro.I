@@ -4,10 +4,9 @@ from components.base_text_field import BaseTextField
 from components.dialogs.station_add_dialog import StationAddDialog
 from components.radio_grid import RadioGrid
 from components.scrollbar import with_scrollbar_space
+from core.factories.helper_factories import create_radio_meta_helper
 from helper.constants import Constants
-from helper.radio_helper import RadioHelper
 
-radio_helper = RadioHelper()
 constants = Constants()
 
 
@@ -25,6 +24,8 @@ class RadioSearchDialog(ft.AlertDialog):
 
     def __init__(self, radio_grid: RadioGrid):
         super().__init__()
+
+        self.radio_meta_helper = create_radio_meta_helper()
 
         self.station_add_dialog = StationAddDialog(radio_grid)
 
@@ -71,7 +72,7 @@ class RadioSearchDialog(ft.AlertDialog):
         self.loading.update()
 
         name = self.search_textfield.value
-        stations = radio_helper.get_stations_by_name(name)
+        stations = self.radio_meta_helper.get_stations_by_name(name)
 
         self.loading.visible = False
         self.loading.update()

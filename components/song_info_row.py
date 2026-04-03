@@ -2,12 +2,11 @@ import flet as ft
 
 from components.dialogs.radio_search_dialog import RadioSearchDialog
 from components.radio_grid import RadioGrid
+from core.factories.helper_factories import create_radio_meta_helper
 from helper.constants import Constants
 from helper.page_state import PageState
-from helper.radio_helper import RadioHelper
 
 constants = Constants()
-radio_helper = RadioHelper()
 
 
 class SongInfoRow(ft.Container):
@@ -22,6 +21,8 @@ class SongInfoRow(ft.Container):
 
     def __init__(self, radio_grid: RadioGrid):
         super().__init__()
+
+        self.radio_meta_helper = create_radio_meta_helper()
 
         self.radio_search_dialog = RadioSearchDialog(radio_grid)
         self.content = ft.Row(
@@ -43,7 +44,7 @@ class SongInfoRow(ft.Container):
 
     def reload(self):
         try:
-            title = radio_helper.get_song_info(
+            title = self.radio_meta_helper.get_song_info(
                 Constants.current_radio_station["src"]
             )
 

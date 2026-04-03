@@ -4,13 +4,15 @@ import struct
 import requests
 from requests import Response
 
+from core.helpers.base.radio_meta import BaseRadioMetaHelper
+
 try:
     import urllib2
 except ImportError:
     import urllib.request as urllib2
 
 
-class RadioHelper:
+class PiRadioMetaHelper(BaseRadioMetaHelper):
     def get_song_info(self, url) -> str:
         try:
             request = urllib2.Request(url, headers={"Icy-MetaData": 1})

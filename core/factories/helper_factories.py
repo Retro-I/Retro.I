@@ -95,3 +95,11 @@ def create_wifi_helper():
             from core.helpers.pi.wifi import PiWifiHelper
 
             return PiWifiHelper()
+
+
+def create_radio_meta_helper():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.helpers.pi.radio_meta import PiRadioMetaHelper
+
+            return PiRadioMetaHelper()

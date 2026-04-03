@@ -12,10 +12,8 @@ from core.factories.settings_factories import (
 )
 from helper.constants import Constants
 from helper.page_state import PageState
-from helper.radio_helper import RadioHelper
 
 constants = Constants()
-radio_helper = RadioHelper()
 
 
 class RadioGrid(ft.GridView):
