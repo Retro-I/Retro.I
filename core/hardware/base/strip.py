@@ -1,4 +1,4 @@
-class BaseStripInterface:
+class BaseStripHardware:
     def update_sound_strip(self, value):
         raise NotImplementedError
 

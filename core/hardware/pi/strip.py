@@ -14,7 +14,7 @@ from core.factories.settings_factories import (
     create_bass_settings,
     create_strip_settings,
 )
-from hardware.base_strip_interface import BaseStripInterface
+from core.hardware.base.strip import BaseStripHardware
 from helper.constants import Constants
 from utils.WaiterProcess import WaiterProcess
 
@@ -23,7 +23,7 @@ settings_helper = create_strip_settings()
 audio_helper = create_audio_helper()
 
 
-class PiStripHardware(BaseStripInterface):
+class PiStripHardware(BaseStripHardware):
     is_active = settings_helper.is_strip_active()
     sound_mode_active = False
     curr_color = GREEN

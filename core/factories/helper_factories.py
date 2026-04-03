@@ -84,7 +84,7 @@ def create_theme_helper():
 def create_strip_state():
     match get_app_platform():
         case AppPlatform.PI:
-            from hardware.pi.pi_strip_hardware import PiStripHardware
+            from core.hardware.pi.strip import PiStripHardware
 
             return PiStripHardware()
 
