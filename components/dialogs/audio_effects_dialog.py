@@ -1,0 +1,99 @@
+import flet as ft
+
+from core.app_state import AppState
+from core.factories.helper_factories import (
+    create_audio_effects_helper,
+    create_strip_state,
+)
+from core.factories.settings_factories import (
+    create_bass_settings,
+    create_treble_settings,
+)
+from helper.constants import Constants
+
+
+class AudioEffectsDialog(ft.AlertDialog):
+    def __init__(self):
+        super().__init__()
+
+        self.bass_steps = create_bass_settings()
+        self.treble_steps = create_treble_settings()
+        self.strip_state = create_strip_state()
+        self.audio_effects = create_audio_effects_helper()
+
+        self.bass_slider = ft.Slider(
+            on_change=lambda e: self.on_bass_change(),
+            min=self.bass_steps.get_min_step(),
+            max=self.bass_steps.get_max_step(),
+            divisions=self.bass_steps.get_steps_count() - 1,
+            width=350,
+            value=Constants.current_bass_step,
+        )
+
+        self.treble_slider = ft.Slider(
+            on_change=lambda e: self.on_treble_change(),
+            min=self.treble_steps.get_min_step(),
+            max=self.treble_steps.get_max_step(),
+            divisions=self.treble_steps.get_steps_count() - 1,
+            width=350,
+            value=Constants.current_treble_step,
+        )
+
+        self.bass_text = ft.Text(f"{Constants.current_bass_step}")
+        self.treble_text = ft.Text(f"{Constants.current_treble_step}")
+
+        self.title = ft.Text("Bässe/Treble")
+        self.content = ft.Column(
+            [
+                ft.Row(
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    expand=True,
+                    controls=[
+                        ft.Text("Bässe"),
+                        self.bass_text,
+                        self.bass_slider,
+                    ],
+                ),
+                ft.Row(
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    expand=True,
+                    controls=[
+                        ft.Text("Treble"),
+                        self.treble_text,
+                        self.treble_slider,
+                    ],
+                ),
+            ]
+        )
+
+    def update_content(self):
+        self.bass_slider.value = Constants.current_bass_step
+        self.bass_slider.update()
+        self.bass_text.value = f"{Constants.current_bass_step}"
+        self.bass_text.update()
+
+        self.treble_slider.value = Constants.current_treble_step
+        self.treble_slider.update()
+        self.treble_text.value = f"{Constants.current_treble_step}"
+        self.treble_text.update()
+
+    def on_bass_change(self):
+        Constants.current_bass_step = int(self.bass_slider.value)
+        self.audio_effects.update_bass(Constants.current_bass_step)
+        self.update_content()
+
+        self.strip_state.update_bass_strip(Constants.current_bass_step)
+        AppState.app_state.update_taskbar()
+
+    def on_treble_change(self):
+        Constants.current_treble_step = int(self.treble_slider.value)
+        self.audio_effects.update_treble(Constants.current_treble_step)
+        self.update_content()
+
+        self.strip_state.update_treble_strip(Constants.current_treble_step)
+        AppState.app_state.update_taskbar()
+
+    def open_dialog(self):
+        self.update_content()
+        self.open = True
+        self.update()

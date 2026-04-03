@@ -1,18 +1,18 @@
 import unittest
 from unittest.mock import patch
 
-from helper.RevisionHelper import RevisionHelper
+from core.factories.helper_factories import create_revision_helper
 
 
 class RevisionHelperTests(unittest.TestCase):
 
     def setUp(self):
-        self.revision_helper = RevisionHelper()
+        self.revision_helper = create_revision_helper()
 
-    @patch("helper.RevisionHelper.logger.info")
-    @patch("helper.RevisionHelper.subprocess.check_output")
-    @patch.object(RevisionHelper, "get_branches")
-    @patch.object(RevisionHelper, "get_current_revision")
+    @patch("core.helpers.pi.revision.logger.info")
+    @patch("core.helpers.pi.revision.subprocess.check_output")
+    @patch("core.helpers.pi.revision.PiRevisionHelper.get_branches")
+    @patch("core.helpers.pi.revision.PiRevisionHelper.get_current_revision")
     def test_delete_local_branch(
         self,
         mock_current_revision,
@@ -38,10 +38,10 @@ class RevisionHelperTests(unittest.TestCase):
 
         mock_logger.assert_any_call('Branch "feature1" deleted!')
 
-    @patch("helper.RevisionHelper.logger.info")
-    @patch("helper.RevisionHelper.subprocess.check_output")
-    @patch.object(RevisionHelper, "get_current_revision")
-    @patch.object(RevisionHelper, "get_current_revision")
+    @patch("core.helpers.pi.revision.logger.info")
+    @patch("core.helpers.pi.revision.subprocess.check_output")
+    @patch("core.helpers.pi.revision.PiRevisionHelper.get_branches")
+    @patch("core.helpers.pi.revision.PiRevisionHelper.get_current_revision")
     def test_delete_multiple_branches(
         self,
         mock_current_revision,
@@ -78,10 +78,10 @@ class RevisionHelperTests(unittest.TestCase):
         mock_logger.assert_any_call('Branch "feature2" deleted!')
         mock_logger.assert_any_call('Branch "renovate-123-456" deleted!')
 
-    @patch("helper.RevisionHelper.logger.info")
-    @patch("helper.RevisionHelper.subprocess.check_output")
-    @patch.object(RevisionHelper, "get_branches")
-    @patch.object(RevisionHelper, "get_current_revision")
+    @patch("core.helpers.pi.revision.logger.info")
+    @patch("core.helpers.pi.revision.subprocess.check_output")
+    @patch("core.helpers.pi.revision.PiRevisionHelper.get_branches")
+    @patch("core.helpers.pi.revision.PiRevisionHelper.get_current_revision")
     def test_not_delete_branches(
         self,
         mock_current_revision,
@@ -109,10 +109,10 @@ class RevisionHelperTests(unittest.TestCase):
         self.assertEqual(delete_calls, [])
         mock_logger.assert_not_called()
 
-    @patch("helper.RevisionHelper.logger.info")
-    @patch("helper.RevisionHelper.subprocess.check_output")
-    @patch.object(RevisionHelper, "get_branches")
-    @patch.object(RevisionHelper, "get_current_revision")
+    @patch("core.helpers.pi.revision.logger.info")
+    @patch("core.helpers.pi.revision.subprocess.check_output")
+    @patch("core.helpers.pi.revision.PiRevisionHelper.get_branches")
+    @patch("core.helpers.pi.revision.PiRevisionHelper.get_current_revision")
     def test_not_delete_branches_only_on_remote(
         self,
         mock_current_revision,
@@ -141,10 +141,10 @@ class RevisionHelperTests(unittest.TestCase):
         self.assertEqual(delete_calls, [])
         mock_logger.assert_not_called()
 
-    @patch("helper.RevisionHelper.logger.info")
-    @patch("helper.RevisionHelper.subprocess.check_output")
-    @patch.object(RevisionHelper, "get_branches")
-    @patch.object(RevisionHelper, "get_current_revision")
+    @patch("core.helpers.pi.revision.logger.info")
+    @patch("core.helpers.pi.revision.subprocess.check_output")
+    @patch("core.helpers.pi.revision.PiRevisionHelper.get_branches")
+    @patch("core.helpers.pi.revision.PiRevisionHelper.get_current_revision")
     def test_not_delete_when_branch_selected(
         self,
         mock_current_revision,

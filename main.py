@@ -4,47 +4,52 @@ import time
 
 import flet as ft
 
-from components.dialogs.StartupErrorDialog import StartupErrorDialog
-from components.GpioButton import GpioButton
-from components.RotaryBass import RotaryBass
-from components.RotaryTreble import RotaryTreble
-from components.RotaryVolume import RotaryVolume
-from components.view.Taskbar import Taskbar
-from components.view.Theme import Theme
-from helper.Audio import Audio
-from helper.AudioEffects import AudioEffects
-from helper.BluetoothHelper import BluetoothHelper
-from helper.Constants import Constants
-from helper.GpioHelper import GpioHelper
-from helper.LogsHelper import LogsHelper
-from helper.PageState import PageState
-from helper.RadioHelper import RadioHelper
-from helper.SettingsSyncHelper import SettingsSyncHelper
-from helper.Sounds import Sounds
-from helper.StartupErrorHelper import StartupErrorHelper
-from helper.Stations import Stations
-from helper.Strip import Strip
-from helper.SystemHelper import SystemHelper
-from helper.ThemeHelper import ThemeHelper
-from helper.WifiHelper import WifiHelper
+from components.dialogs.startup_error_dialog import StartupErrorDialog
+from components.gpio_button import GpioButton
+from components.rotary_bass import RotaryBass
+from components.rotary_treble import RotaryTreble
+from components.rotary_volume import RotaryVolume
+from components.view.taskbar import Taskbar
+from components.view.theme import Theme
+from core.app_state import AppState
+from core.factories.helper_factories import (
+    create_audio_effects_helper,
+    create_audio_helper,
+    create_bluetooth_helper,
+    create_logs_helper,
+    create_player_helper,
+    create_settings_sync_helper,
+    create_sounds_helper,
+    create_strip_state,
+    create_system_helper,
+    create_theme_helper,
+    create_wifi_helper,
+)
+from core.factories.settings_factories import (
+    create_gpio_settings,
+    create_radio_stations_settings,
+    create_startup_error_settings,
+)
+from helper.constants import Constants
+from helper.page_state import PageState
 
 logger = logging.getLogger(__name__)
 
-wifi_helper = WifiHelper()
-radio_helper = RadioHelper()
-bluetooth_helper = BluetoothHelper()
-system_helper = SystemHelper()
-startup_error_helper = StartupErrorHelper()
-settings_sync_helper = SettingsSyncHelper()
-stations_helper = Stations()
+wifi_helper = create_wifi_helper()
+bluetooth_helper = create_bluetooth_helper()
+system_helper = create_system_helper()
+startup_error_helper = create_startup_error_settings()
+settings_sync_helper = create_settings_sync_helper()
+stations_helper = create_radio_stations_settings()
 constants = Constants()
-sounds = Sounds()
-audio_helper = Audio()
+sounds = create_sounds_helper()
+audio_helper = create_audio_helper()
 page_helper = PageState()
-audio_effects = AudioEffects()
-theme_helper = ThemeHelper()
-gpio_helper = GpioHelper()
-logs_helper = LogsHelper()
+audio_effects = create_audio_effects_helper()
+theme_helper = create_theme_helper()
+gpio_helper = create_gpio_settings()
+logs_helper = create_logs_helper()
+player = create_player_helper()
 
 
 def on_error(e):
@@ -57,6 +62,7 @@ def init():
     settings_sync_helper.validate_and_repair_all_settings()
     audio_helper.init_sound()
     logs_helper.print_debug_infos()
+    AppState()
 
 
 def main(page: ft.Page):
@@ -72,10 +78,8 @@ def main(page: ft.Page):
 
     bluetooth_helper.on_startup()
 
-    strip = Strip()
+    strip = create_strip_state()
     taskbar = Taskbar(
-        on_volume_update=strip.update_sound_strip,
-        on_mute_update=strip.toggle_mute,
         on_bass_update=strip.update_bass_strip,
         on_treble_update=strip.update_treble_strip,
     )
@@ -110,18 +114,9 @@ def main(page: ft.Page):
 
     page.update()
 
-    RotaryVolume(
-        on_taskbar_update=taskbar.update,
-        on_strip_toggle_mute=strip.toggle_mute,
-        on_strip_update_sound=strip.update_sound_strip,
-    )
-    RotaryBass(
-        on_taskbar_update=taskbar.update, on_bass_update=strip.update_bass_strip
-    )
-    RotaryTreble(
-        on_taskbar_update=taskbar.update,
-        on_treble_update=strip.update_treble_strip,
-    )
+    RotaryVolume()
+    RotaryBass()
+    RotaryTreble()
 
     def background_processes():
         while True:
@@ -132,7 +127,7 @@ def main(page: ft.Page):
     process = threading.Thread(target=background_processes)
     process.start()
 
-    audio_helper.startup_sound()
+    player.startup_sound()
     audio_effects.start()
 
     if (

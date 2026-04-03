@@ -6,20 +6,38 @@ import unittest
 from unittest import mock
 from unittest.mock import patch
 
-from helper.AudioEffects import AudioEffects
-from helper.BassStepsHelper import BassStepsHelper
-from helper.Constants import Constants
-from helper.DeveloperModeHelper import DeveloperModeHelper
-from helper.PartyModeHelper import PartyModeHelper
-from helper.RevisionHelper import RevisionHelper
-from helper.ScrollbarSettingsHelper import ScrollbarSettingsHelper
-from helper.SecuredModeSettingsHelper import SecuredModeSettingsHelper
-from helper.Sounds import Sounds
-from helper.SplashscreenHelper import SplashscreenHelper
-from helper.StartupErrorHelper import StartupErrorHelper
-from helper.StripSettingsHelper import StripSettingsHelper
-from helper.ThemeHelper import ThemeHelper
-from helper.TrebleStepsHelper import TrebleStepsHelper
+from core.factories.helper_factories import (
+    create_audio_effects_helper,
+    create_audio_helper,
+    create_settings_sync_helper,
+    create_sounds_helper,
+    create_splashscreen_helper,
+    create_theme_helper,
+)
+from core.factories.settings_factories import (
+    create_bass_settings,
+    create_developer_mode_settings,
+    create_gpio_settings,
+    create_party_mode_settings,
+    create_radio_stations_settings,
+    create_scrollbar_settings,
+    create_secured_mode_settings,
+    create_startup_error_settings,
+    create_strip_settings,
+    create_treble_settings,
+)
+from core.helpers.pi.audio_effects import PiAudioEffectsHelper
+from core.helpers.pi.sounds import PiSoundsHelper
+from core.helpers.pi.theme import PiThemeHelper
+from core.settings.pi.bass_steps import PiBassStepsSettings
+from core.settings.pi.developer_mode import PiDeveloperModeSettings
+from core.settings.pi.party_mode import PiPartyModeSettings
+from core.settings.pi.scrollbar import PiScrollbarSettings
+from core.settings.pi.secured_mode import PiSecuredModeSettings
+from core.settings.pi.startup_error import PiStartupErrorSettings
+from core.settings.pi.strip import PiStripSettings
+from core.settings.pi.treble_steps import PiTrebleStepsSettings
+from helper.constants import Constants
 
 
 class BaseTest(unittest.TestCase):
@@ -41,10 +59,9 @@ class BaseTest(unittest.TestCase):
         },
     )
     def setUp(self):
-        from helper.Audio import Audio
-        from helper.GpioHelper import GpioHelper
-        from helper.SettingsSyncHelper import SettingsSyncHelper
-        from helper.Stations import Stations
+        from core.helpers.pi.audio import PiAudioHelper
+        from core.settings.pi.gpio import PiGpioSettings
+        from core.settings.pi.radio_stations import PiRadioStationsSettings
 
         self.test_dir = self._create_temp_files(
             src_dir="./settings", dst_dir=f"{tempfile.mkdtemp()}/settings"
@@ -79,23 +96,27 @@ class BaseTest(unittest.TestCase):
         self.assertTrue(os.path.exists(f"{self.test_effects_path}/retroi.json"))
 
         self.audio_settings_dispatcher = patch(
-            "helper.Audio.Audio.unmute", return_value=None
+            "core.helpers.pi.audio.PiAudioHelper._unmute", return_value=None
         )
         self.audio_settings_dispatcher.start()
 
         self.load_effects_dispatcher = patch(
-            "helper.AudioEffects.AudioEffects.load_effects", return_value=None
+            "core.helpers.pi.audio_effects.PiAudioEffectsHelper.load_effects",
+            return_value=None,
         )
         self.load_effects_dispatcher.start()
 
-        self.patcher_current = patch.object(
-            RevisionHelper, "get_current_revision", return_value="develop"
+        self.patcher_current = patch(
+            "core.helpers.pi.revision.PiRevisionHelper.get_current_revision",
+            return_value="develop",
         )
-        self.patcher_local = patch.object(
-            RevisionHelper, "get_local_branches", return_value=["develop"]
+        self.patcher_local = patch(
+            "core.helpers.pi.revision.PiRevisionHelper.get_local_branches",
+            return_value=["develop"],
         )
-        self.patcher_remote = patch.object(
-            RevisionHelper, "get_branches", return_value=[{"name": "develop"}]
+        self.patcher_remote = patch(
+            "core.helpers.pi.revision.PiRevisionHelper.get_branches",
+            return_value=[{"name": "develop"}],
         )
 
         self.mock_current_revision = self.patcher_current.start()
@@ -125,39 +146,37 @@ class BaseTest(unittest.TestCase):
         treble_steps_path = f"{self.test_dir}/treble-steps.json"
         effects_path = f"{self.test_effects_path}/retroi.json"
 
-        Audio.AUDIO_SETTINGS_PATH = audio_settings_path
-        GpioHelper.GPIO_SETTINGS_PATH = gpio_settings_path
-        Sounds.FAV_SOUNDS_PATH = sounds_settings_path
-        Stations.STATIONS_SETTINGS_PATH = radio_stations_path
-        StripSettingsHelper.STRIP_SETTINGS_PATH = strip_settings_path
-        ThemeHelper.THEME_SETTINGS_PATH = theme_settings_path
-        ScrollbarSettingsHelper.SCROLLBAR_SETTINGS_PATH = (
-            scrollbar_settings_path
-        )
-        SecuredModeSettingsHelper.SECURED_MODE_PATH = secured_mode_settings_path
-        StartupErrorHelper.STARTUP_ERROR_PATH = startup_error_helper
-        BassStepsHelper.BASS_STEPS_PATH = bass_steps_path
-        TrebleStepsHelper.TREBLE_STEPS_PATH = treble_steps_path
-        AudioEffects.EFFECTS_PATH = effects_path
-        DeveloperModeHelper.SETTINGS_PATH = developer_mode_settings_path
-        PartyModeHelper.SETTINGS_PATH = party_mode_path
+        PiAudioHelper.AUDIO_SETTINGS_PATH = audio_settings_path
+        PiGpioSettings.GPIO_SETTINGS_PATH = gpio_settings_path
+        PiSoundsHelper.FAV_SOUNDS_PATH = sounds_settings_path
+        PiRadioStationsSettings.STATIONS_SETTINGS_PATH = radio_stations_path
+        PiStripSettings.STRIP_SETTINGS_PATH = strip_settings_path
+        PiThemeHelper.THEME_SETTINGS_PATH = theme_settings_path
+        PiScrollbarSettings.SCROLLBAR_SETTINGS_PATH = scrollbar_settings_path
+        PiSecuredModeSettings.SECURED_MODE_PATH = secured_mode_settings_path
+        PiStartupErrorSettings.STARTUP_ERROR_PATH = startup_error_helper
+        PiBassStepsSettings.BASS_STEPS_PATH = bass_steps_path
+        PiTrebleStepsSettings.TREBLE_STEPS_PATH = treble_steps_path
+        PiAudioEffectsHelper.EFFECTS_PATH = effects_path
+        PiDeveloperModeSettings.SETTINGS_PATH = developer_mode_settings_path
+        PiPartyModeSettings.SETTINGS_PATH = party_mode_path
 
-        self.audio_helper = Audio()
-        self.gpio_helper = GpioHelper()
-        self.settings_sync_helper = SettingsSyncHelper()
-        self.sounds_helper = Sounds()
-        self.stations = Stations()
-        self.strip_settings_helper = StripSettingsHelper()
-        self.theme_helper = ThemeHelper()
-        self.scrollbar_settings_helper = ScrollbarSettingsHelper()
-        self.secured_mode_settings = SecuredModeSettingsHelper()
-        self.startup_error_helper = StartupErrorHelper()
-        self.bass_steps_helper = BassStepsHelper()
-        self.treble_steps_helper = TrebleStepsHelper()
-        self.audio_effects = AudioEffects()
-        self.splashscreen_helper = SplashscreenHelper()
-        self.developer_mode_settings_helper = DeveloperModeHelper()
-        self.party_mode_helper = PartyModeHelper()
+        self.audio_helper = create_audio_helper()
+        self.gpio_helper = create_gpio_settings()
+        self.settings_sync_helper = create_settings_sync_helper()
+        self.sounds_helper = create_sounds_helper()
+        self.stations = create_radio_stations_settings()
+        self.strip_settings_helper = create_strip_settings()
+        self.theme_helper = create_theme_helper()
+        self.scrollbar_settings_helper = create_scrollbar_settings()
+        self.secured_mode_settings = create_secured_mode_settings()
+        self.startup_error_helper = create_startup_error_settings()
+        self.bass_steps_helper = create_bass_settings()
+        self.treble_steps_helper = create_treble_settings()
+        self.audio_effects = create_audio_effects_helper()
+        self.splashscreen_helper = create_splashscreen_helper()
+        self.developer_mode_settings_helper = create_developer_mode_settings()
+        self.party_mode_helper = create_party_mode_settings()
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)

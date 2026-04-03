@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 
-from helper.DeveloperModeHelper import DeveloperModeHelper
+from core.factories.settings_factories import create_developer_mode_settings
 from test.base_test import BaseTest
 
 
@@ -9,23 +9,23 @@ class TestDeveloperModeHelper(BaseTest):
         super().setUp()
 
     def test_is_developer_mode_active(self):
-        actual = DeveloperModeHelper.is_developer_mode_active()
+        actual = create_developer_mode_settings().is_developer_mode_active()
         self.assertFalse(actual)
 
-        DeveloperModeHelper.toggle_developer_mode_active(
+        create_developer_mode_settings().toggle_developer_mode_active(
             MagicMock(control=MagicMock(value=True))
         )
-        actual = DeveloperModeHelper.is_developer_mode_active()
+        actual = create_developer_mode_settings().is_developer_mode_active()
         self.assertTrue(actual)
 
-        DeveloperModeHelper.toggle_developer_mode_active(
+        create_developer_mode_settings().toggle_developer_mode_active(
             MagicMock(control=MagicMock(value=False))
         )
-        actual = DeveloperModeHelper.is_developer_mode_active()
+        actual = create_developer_mode_settings().is_developer_mode_active()
         self.assertFalse(actual)
 
     def test_get_complete_settings(self):
-        actual = DeveloperModeHelper.get_settings()
+        actual = create_developer_mode_settings().get_settings()
         expected = {
             "isDeveloperModeActive": False,
         }

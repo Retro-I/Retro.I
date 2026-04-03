@@ -1,0 +1,86 @@
+import flet as ft
+
+from components.dialogs.sound_delete_dialog import SoundDeleteDialog
+from components.scrollbar import with_scrollbar_space
+from components.sound_card import SoundCard
+from components.soundboard_search_bar import SoundboardSearchBar
+from components.toast_card import ToastCard
+from core.factories.helper_factories import create_sounds_helper
+from helper.page_state import PageState
+
+
+class SoundboardTab(ft.Column):
+    soundboard_grid = None
+    sound_delete_dialog = None
+
+    def __init__(self):
+        super().__init__()
+
+        self.sounds_helper = create_sounds_helper()
+
+        self.sound_delete_dialog = SoundDeleteDialog()
+        PageState.page.add(self.sound_delete_dialog)
+
+        self.soundboard_grid = with_scrollbar_space(
+            ft.GridView(
+                [],
+                expand=True,
+                runs_count=5,
+                run_spacing=50,
+                max_extent=150,
+                spacing=80,
+                padding=ft.padding.only(bottom=100),
+            )
+        )
+        self.reload()
+
+        self.soundboard_search_bar = SoundboardSearchBar(
+            self.on_add_favorite_sound
+        )
+
+        self.expand = True
+        self.visible = False
+        self.controls = [
+            self.soundboard_search_bar,
+            self.soundboard_grid,
+        ]
+
+    def reload(self):
+        controls = [ToastCard()]
+
+        for i in range(len(self.sounds_helper.load_favorite_sounds())):
+            sound = self.sounds_helper.load_favorite_sounds()[i]
+            controls.append(SoundCard(sound, self.open_delete_dialog))
+
+        self.soundboard_grid.controls = controls
+
+    def open_delete_dialog(self, sound):
+        self.sound_delete_dialog.open_dialog(
+            submit_callback=lambda s=sound: self.on_delete_favorite_sound(s)
+        )
+
+    def on_add_favorite_sound(self, sound):
+        result = self.sounds_helper.add_favorite_sound(sound)
+        if result == 1:
+            return
+
+        self.soundboard_grid.controls.append(
+            SoundCard(sound, self.open_delete_dialog)
+        )
+        self.soundboard_grid.update()
+
+    def on_delete_favorite_sound(self, sound):
+        self.sounds_helper.delete_favorite_sound(sound)
+        self.reload()
+        self.soundboard_grid.update()
+        self.sound_delete_dialog.close()
+
+    def show(self):
+        self.visible = True
+        self.reload()
+        self.soundboard_grid.update()
+        self.update()
+
+    def hide(self):
+        self.visible = False
+        self.update()

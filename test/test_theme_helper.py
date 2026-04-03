@@ -1,6 +1,6 @@
 import flet as ft
 
-from helper.Constants import Constants
+from helper.constants import Constants
 from test.base_test import BaseTest
 
 constants = Constants()

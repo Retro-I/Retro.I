@@ -1,0 +1,108 @@
+import time
+
+import flet as ft
+
+from components.dialogs.bluetooth_device_edit_dialog import (
+    BluetoothDeviceEditDialog,
+)
+from components.scrollbar import with_scrollbar_space
+from core.app_state import AppState
+from core.factories.helper_factories import (
+    create_bluetooth_helper,
+    create_player_helper,
+)
+from helper.page_state import PageState
+
+
+class BluetoothDeviceConnected:
+    def __init__(self, on_connected, on_disconnected):
+        self.bluetooth_helper = create_bluetooth_helper()
+
+        self.listview = with_scrollbar_space(
+            ft.ListView(spacing=10, expand=True)
+        )
+
+        self.bluetooth_device_edit_dialog = BluetoothDeviceEditDialog()
+        self.on_connected = on_connected
+        self.on_disconnected = on_disconnected
+
+        self.paired_devices = []
+
+        self.player = create_player_helper()
+
+        PageState.page.add(self.bluetooth_device_edit_dialog)
+
+    def update_connected_device(self):
+        name = self.bluetooth_helper.get_connected_device_name()
+        if name != "":
+            self.player.bluetooth_connected()
+            self.on_connected()
+            while not any(obj["name"] == name for obj in self.paired_devices):
+                self.reload_devices()
+                time.sleep(1)
+
+        AppState.app_state.update_taskbar()
+
+        return name != ""
+
+    def reload_devices(self):
+        devices = self.bluetooth_helper.get_paired_devices()
+        self.paired_devices = devices
+        self.listview.controls = []
+        for device in devices:
+            ico = ft.Icon(ft.Icons.DONE, visible=False)
+            btn = ft.TextButton(
+                content=ft.Container(
+                    content=ft.Row(
+                        [
+                            ico,
+                            ft.Column(
+                                controls=[
+                                    ft.Text(
+                                        device["name"],
+                                        size=18,
+                                        weight=ft.FontWeight.BOLD,
+                                    ),
+                                    ft.Text(device["mac_address"], size=14),
+                                ]
+                            ),
+                        ]
+                    ),
+                    on_click=lambda e, name=device: self.on_device_click(name),
+                    on_long_press=lambda e, name=device: (
+                        self.on_device_long_click(name),
+                    ),
+                )
+            )
+
+            if (
+                self.bluetooth_helper.get_connected_device_mac().upper()
+                == device["mac_address"].upper()
+            ):
+                ico.visible = True
+
+            self.listview.controls.append(btn)
+        self.listview.update()
+
+    def on_device_click(self, device):
+        if (
+            self.bluetooth_helper.get_connected_device_mac().upper()
+            == device["mac_address"].upper()
+        ):
+            self.bluetooth_helper.disconnect(device["mac_address"])
+            self.player.bluetooth_disconnected()
+            self.on_disconnected()
+
+        self.reload_devices()
+
+    def on_device_long_click(self, device):
+        def on_device_remove():
+            self.bluetooth_helper.remove_device(device["mac_address"])
+            self.reload_devices()
+
+        self.bluetooth_device_edit_dialog.open_dialog(
+            device["name"], on_device_remove
+        )
+
+    def get(self):
+        return self.listview

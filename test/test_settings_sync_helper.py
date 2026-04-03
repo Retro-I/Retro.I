@@ -2,7 +2,7 @@ import json
 import os
 from unittest import mock
 
-from helper.Constants import Constants
+from helper.constants import Constants
 from test.base_test import BaseTest
 
 
@@ -94,7 +94,7 @@ class TestSyncValues(BaseTest):
         }
         self.assertEqual(data, expected)
 
-    @mock.patch("helper.SettingsSyncHelper.SettingsSyncHelper.is_valid")
+    @mock.patch("core.helpers.pi.settings_sync.PiSettingsSyncHelper.is_valid")
     def test_exception_for_not_valid_file_after_repair(self, is_valid_mock):
         def _modify_audio_settings():
             with open(self.audio_helper.AUDIO_SETTINGS_PATH, "r+") as f:

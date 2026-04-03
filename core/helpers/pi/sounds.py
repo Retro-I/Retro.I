@@ -1,0 +1,92 @@
+import json
+import os
+import random
+
+import requests
+
+from core.factories.helper_factories import create_settings_sync_helper
+from core.helpers.base.sounds import BaseSoundsHelper
+from helper.constants import Constants
+
+c = Constants()
+
+
+class PiSoundsHelper(BaseSoundsHelper):
+    last_toast = ""
+    SETTING = "favorite-sounds.json"
+    FAV_SOUNDS_PATH = f"{Constants.settings_path()}/{SETTING}"
+
+    def __init__(self):
+        self.settings_sync_helper = create_settings_sync_helper()
+
+    def search_sounds(self, query):
+        response = requests.get(
+            f"https://myinstants-api.vercel.app/search?q={query}"
+        ).json()
+        if response["status"] == "200":
+            return response["data"]
+
+        return []
+
+    def add_favorite_sound(self, item):
+        sounds = self.load_favorite_sounds()
+        for sound in sounds:
+            if sound["id"] == item["id"]:
+                return 1
+
+        with open(self.FAV_SOUNDS_PATH, "r+") as file:
+            file_data = json.load(file)
+            file_data.append(item)
+            file.seek(0)
+            json.dump(file_data, file, indent=4)
+            file.truncate()
+
+        return 0
+
+    def delete_favorite_sound(self, item):
+        with open(self.FAV_SOUNDS_PATH, "r+") as file:
+            file_data = json.load(file)
+            index = next(
+                (
+                    i
+                    for i, station in enumerate(file_data)
+                    if station.get("id") == item.get("id")
+                ),
+                None,
+            )
+            file_data.pop(index)
+            file.seek(0)
+            json.dump(file_data, file, indent=4)
+            file.truncate()
+
+    def load_favorite_sounds(self):
+        def _get_data():
+            with open(self.FAV_SOUNDS_PATH) as file:
+                data = json.load(file)
+                return data
+
+        try:
+            return _get_data()
+        except Exception:
+            self.settings_sync_helper.reset_settings_file(self.SETTING)
+            return _get_data()
+
+    def load_toasts(self):
+        directory = c.toast_path()
+        files = [
+            f
+            for f in os.listdir(directory)
+            if os.path.isfile(os.path.join(directory, f))
+        ]
+        return files
+
+    def get_random_toast(self):
+        try:
+            ran = random.choice(self.load_toasts())
+            while self.last_toast == ran:
+                ran = random.choice(self.load_toasts())
+
+            self.last_toast = ran
+            return ran
+        except FileNotFoundError:
+            pass

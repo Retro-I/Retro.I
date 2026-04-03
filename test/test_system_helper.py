@@ -35,13 +35,15 @@ class TestSystemHelper(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
-    def setUp(self, get_strip_settings):
+    @patch("core.factories.helper_factories.create_strip_state")
+    @patch("core.settings.pi.strip.PiStripSettings.get_strip_settings")
+    def setUp(self, get_strip_settings, create_strip_state):
         get_strip_settings.return_value = strip_mock
+        create_strip_state.return_value = MagicMock()
 
-        from helper.SystemHelper import SystemHelper
+        from core.factories.helper_factories import create_system_helper
 
-        self.system_helper = SystemHelper()
+        self.system_helper = create_system_helper()
 
     def tearDown(self):
         os.environ["PARTY_MODE"] = "0"
@@ -94,9 +96,25 @@ class TestSystemHelper(unittest.TestCase):
         expected = "https://test.test.de/image.png"
         self.assertEqual(actual, expected)
 
-    @unittest.skip
-    def test_change_curr_brightness(self):
-        pass
+    @mock.patch("os.system")
+    def test_change_curr_brightness(self, os_system_patch):
+        with self.subTest("with int"):
+            self.system_helper.change_screen_brightness(50)
+            os_system_patch.assert_any_call(
+                "xrandr --output HDMI-0 --brightness 0.5"
+            )
+            os_system_patch.assert_any_call(
+                "xrandr --output HDMI-1 --brightness 0.5"
+            )
+
+        with self.subTest("with decimal"):
+            self.system_helper.change_screen_brightness(12.3456)
+            os_system_patch.assert_any_call(
+                "xrandr --output HDMI-0 --brightness 0.123456"
+            )
+            os_system_patch.assert_any_call(
+                "xrandr --output HDMI-1 --brightness 0.123456"
+            )
 
     def test_get_curr_brightness(self):
         actual = self.system_helper.get_curr_brightness()
@@ -118,13 +136,15 @@ class TestSystemHelperWifiNetwork(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
-    def setUp(self, get_strip_settings):
+    @patch("core.factories.helper_factories.create_strip_state")
+    @patch("core.settings.pi.strip.PiStripSettings.get_strip_settings")
+    def setUp(self, get_strip_settings, create_strip_state):
         get_strip_settings.return_value = strip_mock
+        create_strip_state.return_value = MagicMock()
 
-        from helper.SystemHelper import SystemHelper
+        from core.factories.helper_factories import create_system_helper
 
-        self.system_helper = SystemHelper()
+        self.system_helper = create_system_helper()
 
     @patch("netifaces.gateways")
     @patch("netifaces.ifaddresses")
@@ -215,13 +235,15 @@ class TestSystemHelperLanNetwork(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
-    def setUp(self, get_strip_settings):
+    @patch("core.factories.helper_factories.create_strip_state")
+    @patch("core.settings.pi.strip.PiStripSettings.get_strip_settings")
+    def setUp(self, get_strip_settings, create_strip_state):
         get_strip_settings.return_value = strip_mock
+        create_strip_state.return_value = MagicMock()
 
-        from helper.SystemHelper import SystemHelper
+        from core.factories.helper_factories import create_system_helper
 
-        self.system_helper = SystemHelper()
+        self.system_helper = create_system_helper()
 
     @patch("netifaces.gateways")
     @patch("netifaces.ifaddresses")
@@ -283,13 +305,15 @@ class TestSystemHelperNoneNetwork(unittest.TestCase):
     @patch.dict(
         sys.modules, {"adafruit_led_animation.animation.pulse": MagicMock()}
     )
-    @patch("helper.StripSettingsHelper.StripSettingsHelper.get_strip_settings")
-    def setUp(self, get_strip_settings):
+    @patch("core.factories.helper_factories.create_strip_state")
+    @patch("core.settings.pi.strip.PiStripSettings.get_strip_settings")
+    def setUp(self, get_strip_settings, create_strip_state):
         get_strip_settings.return_value = strip_mock
+        create_strip_state.return_value = MagicMock()
 
-        from helper.SystemHelper import SystemHelper
+        from core.factories.helper_factories import create_system_helper
 
-        self.system_helper = SystemHelper()
+        self.system_helper = create_system_helper()
 
     @patch("netifaces.gateways")
     @patch("netifaces.ifaddresses")
