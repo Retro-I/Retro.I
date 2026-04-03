@@ -1,9 +1,10 @@
 import os
 
+from core.helpers.base.splashscreen import BaseSplashscreenHelper
 from helper.constants import Constants
 
 
-class SplashscreenHelper:
+class PiSplashscreenHelper(BaseSplashscreenHelper):
     def get_splashscreens(self) -> list[str]:
         filenames = [
             f

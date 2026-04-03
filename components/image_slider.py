@@ -1,8 +1,6 @@
 import flet as ft
 
-from helper.splashscreen_helper import SplashscreenHelper
-
-splashscreen_helper = SplashscreenHelper()
+from core.factories.helper_factories import create_splashscreen_helper
 
 
 class ImageSlider(ft.Container):
@@ -10,6 +8,8 @@ class ImageSlider(ft.Container):
 
     def __init__(self, images: list[ft.Image]):
         super().__init__()
+        self.splashscreen_helper = create_splashscreen_helper()
+
         self.images = images
         self.border_radius = 12
 
@@ -60,7 +60,7 @@ class ImageSlider(ft.Container):
         self.switcher.update()
 
         self.switcher_text.value = (
-            f"{index + 1}/{len(splashscreen_helper.get_splashscreens())}"
+            f"{index + 1}/{len(self.splashscreen_helper.get_splashscreens())}"
         )
         self.switcher_text.update()
 
@@ -72,7 +72,7 @@ class ImageSlider(ft.Container):
         index = (
             self.selected_index + 1
             if self.selected_index
-            < len(splashscreen_helper.get_splashscreens()) - 1
-            else len(splashscreen_helper.get_splashscreens()) - 1
+            < len(self.splashscreen_helper.get_splashscreens()) - 1
+            else len(self.splashscreen_helper.get_splashscreens()) - 1
         )
         self.set_current(index)

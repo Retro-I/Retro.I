@@ -119,3 +119,11 @@ def create_logs_helper():
             from core.helpers.base.logs import BaseLogsHelper
 
             return BaseLogsHelper()
+
+
+def create_splashscreen_helper():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.helpers.pi.splashscreen import PiSplashscreenHelper
+
+            return PiSplashscreenHelper()

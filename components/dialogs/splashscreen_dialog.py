@@ -1,15 +1,14 @@
 import flet as ft
 
 from components.image_slider import ImageSlider
+from core.factories.helper_factories import create_splashscreen_helper
 from helper.constants import Constants
-from helper.splashscreen_helper import SplashscreenHelper
-
-splashscreen_helper = SplashscreenHelper()
 
 
 class SplashscreenDialog(ft.AlertDialog):
     def __init__(self, display_dialog):
         super().__init__()
+        self.splashscreen_helper = create_splashscreen_helper()
 
         self.image_slider = ImageSlider(images=self.get_splashscreen_images())
         self.btn_back = ft.TextButton(
@@ -46,7 +45,7 @@ class SplashscreenDialog(ft.AlertDialog):
                 fit=ft.ImageFit.CONTAIN,
                 src=f"{Constants.pwd()}/assets/splashscreen/{i}",
             )
-            for i in splashscreen_helper.get_splashscreens()
+            for i in self.splashscreen_helper.get_splashscreens()
         ]
 
     def apply_splashscreen(self):
@@ -57,10 +56,10 @@ class SplashscreenDialog(ft.AlertDialog):
         self.btn_apply.text = "Wird gespeichert..."
         self.update()
 
-        selected_image = splashscreen_helper.get_splashscreens()[
+        selected_image = self.splashscreen_helper.get_splashscreens()[
             self.image_slider.selected_index
         ]
-        splashscreen_helper.update_splashscreen(selected_image)
+        self.splashscreen_helper.update_splashscreen(selected_image)
 
         self.loading_spinner.visible = False
         self.loading_spinner.update()

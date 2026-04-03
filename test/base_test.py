@@ -11,6 +11,7 @@ from core.factories.helper_factories import (
     create_audio_helper,
     create_settings_sync_helper,
     create_sounds_helper,
+    create_splashscreen_helper,
     create_theme_helper,
 )
 from core.factories.settings_factories import (
@@ -37,7 +38,6 @@ from core.settings.pi.startup_error import PiStartupErrorSettings
 from core.settings.pi.strip import PiStripSettings
 from core.settings.pi.treble_steps import PiTrebleStepsSettings
 from helper.constants import Constants
-from helper.splashscreen_helper import SplashscreenHelper
 
 
 class BaseTest(unittest.TestCase):
@@ -174,7 +174,7 @@ class BaseTest(unittest.TestCase):
         self.bass_steps_helper = create_bass_settings()
         self.treble_steps_helper = create_treble_settings()
         self.audio_effects = create_audio_effects_helper()
-        self.splashscreen_helper = SplashscreenHelper()
+        self.splashscreen_helper = create_splashscreen_helper()
         self.developer_mode_settings_helper = create_developer_mode_settings()
         self.party_mode_helper = create_party_mode_settings()
 
