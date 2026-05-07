@@ -51,6 +51,8 @@ gpio_helper = create_gpio_settings()
 logs_helper = create_logs_helper()
 player = create_player_helper()
 
+app_state = AppState()
+
 
 def on_error(e):
     startup_error_helper.write_startup_error(e)
@@ -62,7 +64,6 @@ def init():
     settings_sync_helper.validate_and_repair_all_settings()
     audio_helper.init_sound()
     logs_helper.print_debug_infos()
-    AppState()
 
 
 def main(page: ft.Page):
@@ -83,6 +84,7 @@ def main(page: ft.Page):
         on_bass_update=strip.update_bass_strip,
         on_treble_update=strip.update_treble_strip,
     )
+    app_state.subscribe(taskbar.update)
     theme = Theme(taskbar, strip)
 
     page.navigation_bar = theme.navbar
