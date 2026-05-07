@@ -1,3 +1,5 @@
+import asyncio
+
 import flet as ft
 
 from components.base_text_field import BaseTextField
@@ -41,11 +43,9 @@ class SoundboardSearchDialog(ft.AlertDialog):
                 ft.Row(
                     [
                         self.search_textfield,
-                        ft.FilledButton(
-                            "Suchen", on_click=lambda e: self.search_sounds()
-                        ),
+                        ft.FilledButton("Suchen", on_click=self.search_sounds),
                     ],
-                    spacing=ft.MainAxisAlignment.SPACE_BETWEEN,
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 ),
                 ft.Column(
                     controls=[self.loading, self.not_found_text, self.listview],
@@ -63,41 +63,32 @@ class SoundboardSearchDialog(ft.AlertDialog):
         self.open = False
         self.update()
 
-    def search_sounds(self):
+    async def search_sounds(self, _):
         self.listview.visible = False
-        self.listview.update()
-
-        self.not_found_text.visble = False
-        self.not_found_text.update()
-
+        self.not_found_text.visible = False
         self.loading.visible = True
-        self.loading.update()
+        self.update()
 
         query = self.search_textfield.value
-        sounds = self.sounds_helper.search_sounds(query)
+
+        sounds = await asyncio.to_thread(
+            self.sounds_helper.search_sounds, query
+        )
 
         self.loading.visible = False
-        self.loading.update()
-
         self.not_found_text.visible = len(sounds) == 0
-        self.not_found_text.update()
 
-        self.loading.visible = False
-        self.loading.update()
+        self.listview.controls.clear()
 
-        self.listview.controls = []
         for el in sounds:
             fav_btn = ft.IconButton(
                 icon=ft.Icons.PLAYLIST_ADD,
-                on_click=lambda e, item=el: on_add(item),
+                on_click=lambda e, item=el: self.on_favorite_add(item),
             )
-
-            def on_add(item):
-                self.on_favorite_add(item)
 
             img = ft.Image(
                 constants.get_button_img(),
-                fit=ft.ImageFit.SCALE_DOWN,
+                fit=ft.BoxFit.SCALE_DOWN,
                 border_radius=ft.border_radius.all(10),
                 width=66,
                 height=66,
@@ -126,7 +117,7 @@ class SoundboardSearchDialog(ft.AlertDialog):
             self.listview.controls.append(element)
 
         self.listview.visible = True
-        self.listview.update()
+        self.update()
 
     def play_sound(self, item):
         self.audio_state.play_sound_board(item["mp3"])

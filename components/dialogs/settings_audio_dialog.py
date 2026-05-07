@@ -15,7 +15,7 @@ class SettingsAudioDialog(ft.AlertDialog):
             editable=True,
             label="Ausgabegeräte",
             options=self.get_audio_output_options(),
-            on_change=self.on_audio_output_change,
+            on_select=self.on_audio_output_change,
             value=self.get_default_option(),
             expand=True,
         )
@@ -26,15 +26,19 @@ class SettingsAudioDialog(ft.AlertDialog):
             width=500,
             tight=True,
             controls=[
-                self.audio_dropdown,
+                ft.Row(
+                    controls=[
+                        self.audio_dropdown,
+                    ],
+                ),
                 ft.Divider(),
                 VolumeInputField(),
                 ft.Divider(),
                 VolumeStepInputField(),
                 ft.Divider(),
                 ft.Switch(
-                    "Lieblingsradiosender nach Systemstart abspielen",
-                    label_style=ft.TextStyle(size=18),
+                    label="Lieblingsradiosender nach Systemstart abspielen",
+                    label_text_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_enable_autoplay(),
                     value=(
                         self.audio_state.is_default_station_autoplay_enabled()

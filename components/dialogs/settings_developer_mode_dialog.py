@@ -4,7 +4,7 @@ from components.dialogs.updates_restart_dialog import UpdatesRestartDialog
 from core.factories.settings_factories import (
     create_developer_mode_settings as developer_settings,
 )
-from helper.page_state import PageState
+from helper.page_state import show_dialog
 
 
 class SettingsDeveloperModeDialog(ft.AlertDialog):
@@ -12,7 +12,6 @@ class SettingsDeveloperModeDialog(ft.AlertDialog):
         super().__init__()
 
         self.restart_dialog = UpdatesRestartDialog()
-        PageState.page.add(self.restart_dialog)
 
         self.title = ft.Text("Entwicklermodus")
         self.content = ft.Column(
@@ -21,8 +20,10 @@ class SettingsDeveloperModeDialog(ft.AlertDialog):
             tight=True,
             controls=[
                 ft.Switch(
-                    "Entwicklermodus einschalten (Neustart erforderlich!)",
-                    label_style=ft.TextStyle(size=18),
+                    label=(
+                        "Entwicklermodus einschalten (Neustart erforderlich!)"
+                    ),
+                    label_text_style=ft.TextStyle(size=18),
                     on_change=self.on_toggle,
                     value=(developer_settings().is_developer_mode_active()),
                 ),
@@ -31,7 +32,7 @@ class SettingsDeveloperModeDialog(ft.AlertDialog):
 
     def on_toggle(self, control):
         developer_settings().toggle_developer_mode_active(control)
-        self.restart_dialog.open_dialog()
+        show_dialog(self.restart_dialog)
 
     def open_dialog(self):
         self.open = True
