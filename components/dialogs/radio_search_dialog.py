@@ -71,7 +71,7 @@ class RadioSearchDialog(ft.AlertDialog):
 
         name = self.search_textfield.value
         stations = await asyncio.to_thread(
-            self.radio_helper.get_stations_by_name, name
+            self.radio_meta_helper.get_stations_by_name, name
         )
 
         self.loading.visible = False
