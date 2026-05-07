@@ -9,7 +9,7 @@ from components.dialogs.bluetooth_display_name_dialog import (
     BluetoothDisplayNameDialog,
 )
 from core.factories.helper_factories import create_bluetooth_helper
-from helper.page_state import PageState
+from helper.page_state import show_dialog
 
 
 class BluetoothTab(ft.Column):
@@ -93,7 +93,7 @@ class BluetoothTab(ft.Column):
         self.update()
 
     def open_change_bluetooth_display_name_dialog(self):
-        PageState.page.show_dialog(self.bluetooth_display_name_dialog)
+        show_dialog(self.bluetooth_display_name_dialog)
 
     def update_connected_device(self):
         while self.update_device_connection:

@@ -17,7 +17,7 @@ from components.settings_button import SettingsButton
 from core.factories.settings_factories import (
     create_developer_mode_settings as developer_settings,
 )
-from helper.page_state import PageState
+from helper.page_state import PageState, show_dialog
 
 
 class SettingsTab(ft.Column):
@@ -50,9 +50,7 @@ class SettingsTab(ft.Column):
                             ft.Icons.EXIT_TO_APP,
                             text="App",
                             callback=(
-                                lambda e: PageState.page.show_dialog(
-                                    self.app_control_dialog
-                                )
+                                lambda e: show_dialog(self.app_control_dialog)
                             ),
                             visible=(
                                 developer_settings().is_developer_mode_active()
@@ -61,23 +59,19 @@ class SettingsTab(ft.Column):
                         SettingsButton(
                             ft.Icons.AUDIOTRACK,
                             text="Audio",
-                            callback=lambda e: PageState.page.show_dialog(
-                                self.audio_dialog
-                            ),
+                            callback=lambda e: show_dialog(self.audio_dialog),
                         ),
                         SettingsButton(
                             ft.Icons.DISPLAY_SETTINGS,
                             text="Anzeige",
                             callback=lambda e: (
-                                PageState.page.show_dialog(self.display_dialog)
+                                show_dialog(self.display_dialog)
                             ),
                         ),
                         SettingsButton(
                             ft.Icons.COLOR_LENS,
                             text="LED-Streifen",
-                            callback=lambda e: PageState.page.show_dialog(
-                                self.led_dialog
-                            ),
+                            callback=lambda e: show_dialog(self.led_dialog),
                         ),
                         SettingsButton(
                             ft.Icons.INFO_OUTLINED,
@@ -104,9 +98,7 @@ class SettingsTab(ft.Column):
                             ft.Icons.BUILD,
                             text="Entwickler",
                             callback=lambda e: (
-                                PageState.page.show_dialog(
-                                    self.developer_mode_dialog
-                                )
+                                show_dialog(self.developer_mode_dialog)
                             ),
                         ),
                     ],

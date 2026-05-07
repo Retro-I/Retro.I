@@ -4,7 +4,7 @@ from components.dialogs.radio_search_dialog import RadioSearchDialog
 from components.radio_grid import RadioGrid
 from core.factories.helper_factories import create_radio_meta_helper
 from helper.constants import Constants
-from helper.page_state import PageState
+from helper.page_state import show_dialog
 
 constants = Constants()
 
@@ -33,9 +33,7 @@ class SongInfoRow(ft.Container):
                 ft.TextButton(
                     "Sendersuche",
                     icon=ft.Icons.SEARCH,
-                    on_click=lambda e: PageState.page.show_dialog(
-                        self.radio_search_dialog
-                    ),
+                    on_click=lambda e: show_dialog(self.radio_search_dialog),
                 ),
             ]
         )
