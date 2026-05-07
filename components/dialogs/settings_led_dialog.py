@@ -3,7 +3,7 @@ import flet as ft
 from components.dialogs.led_color_dialog import LedColorDialog, LedTypeEnum
 from core.factories.helper_factories import create_color_helper
 from core.factories.settings_factories import create_strip_settings
-from helper.page_state import PageState
+from helper.page_state import show_dialog
 
 
 class SettingsLedDialog(ft.AlertDialog):
@@ -85,7 +85,7 @@ class SettingsLedDialog(ft.AlertDialog):
         self.btn_open_led_dialog.update()
 
     def open_led_color_dialog(self):
-        PageState.page.show_dialog(self.led_color_dialog)
+        show_dialog(self.led_color_dialog)
 
     def open_dialog(self):
         self.btn_open_led_dialog.visible = (

@@ -1,7 +1,7 @@
 import flet as ft
 
 from components.dialogs.updates_restart_dialog import UpdatesRestartDialog
-from helper.page_state import PageState
+from helper.page_state import show_dialog
 
 
 class SuccessDialog(ft.AlertDialog):
@@ -25,9 +25,7 @@ class SuccessDialog(ft.AlertDialog):
         self.actions = [
             ft.FilledButton(
                 "Neustart",
-                on_click=lambda e: PageState.page.show_dialog(
-                    self.updates_restart_dialog
-                ),
+                on_click=lambda e: show_dialog(self.updates_restart_dialog),
             ),
         ]
         self.actions_alignment = ft.MainAxisAlignment.END

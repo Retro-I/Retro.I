@@ -4,7 +4,7 @@ from components.dialogs.updates_restart_dialog import UpdatesRestartDialog
 from core.factories.settings_factories import (
     create_developer_mode_settings as developer_settings,
 )
-from helper.page_state import PageState
+from helper.page_state import show_dialog
 
 
 class SettingsDeveloperModeDialog(ft.AlertDialog):
@@ -32,7 +32,7 @@ class SettingsDeveloperModeDialog(ft.AlertDialog):
 
     def on_toggle(self, control):
         developer_settings().toggle_developer_mode_active(control)
-        PageState.page.show_dialog(self.restart_dialog)
+        show_dialog(self.restart_dialog)
 
     def open_dialog(self):
         self.open = True

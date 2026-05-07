@@ -2,7 +2,7 @@ import flet as ft
 
 from components.dialogs.soundboard_search_dialog import SoundboardSearchDialog
 from helper.constants import Constants
-from helper.page_state import PageState
+from helper.page_state import show_dialog
 
 constants = Constants()
 
@@ -20,7 +20,7 @@ class SoundboardSearchBar(ft.Container):
                 ft.TextButton(
                     "Soundboard durchsuchen",
                     icon=ft.Icons.SEARCH,
-                    on_click=lambda e: PageState.page.show_dialog(
+                    on_click=lambda e: show_dialog(
                         self.soundboard_search_dialog
                     ),  # noqa:E501
                     # style=ft.ButtonStyle(

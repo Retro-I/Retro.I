@@ -13,7 +13,7 @@ from core.factories.helper_factories import (
     create_wifi_helper,
 )
 from helper.constants import Constants
-from helper.page_state import PageState
+from helper.page_state import PageState, show_dialog
 
 audio_helper = create_audio_helper()
 
@@ -93,9 +93,7 @@ class Taskbar(ft.AppBar):
                             ft.VerticalDivider(),
                         ]
                     ),
-                    on_click=lambda e: PageState.page.show_dialog(
-                        self.volume_dialog
-                    ),
+                    on_click=lambda e: show_dialog(self.volume_dialog),
                 ),
                 ft.Container(
                     content=ft.Row(
@@ -105,9 +103,7 @@ class Taskbar(ft.AppBar):
                             ft.VerticalDivider(),
                         ]
                     ),
-                    on_click=lambda e: PageState.page.show_dialog(
-                        self.audio_effects_dialog
-                    ),
+                    on_click=lambda e: show_dialog(self.audio_effects_dialog),
                 ),
             ]
         )
@@ -235,7 +231,7 @@ class Taskbar(ft.AppBar):
         self.txt_eq.update()
 
     def on_ico_shutdown_click(self):
-        PageState.page.show_dialog(self.shutdown_dialog)
+        show_dialog(self.shutdown_dialog)
 
     def on_ico_toggle_theme_click(self):
         self.toggle_theme()
