@@ -11,7 +11,7 @@ class SettingsDeveloperModeDialog(ft.AlertDialog):
     def __init__(self):
         super().__init__()
 
-        self.restart_dialog = UpdatesRestartDialog()
+        self.restart_dialog = UpdatesRestartDialog(modal=True)
         PageState.page.add(self.restart_dialog)
 
         self.title = ft.Text("Entwicklermodus")

@@ -5,8 +5,8 @@ from core.factories.helper_factories import create_system_helper
 
 
 class UpdatesRestartDialog(ft.AlertDialog):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.system_helper = create_system_helper()
 
         self.content = ft.Column(
