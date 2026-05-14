@@ -1,0 +1,8 @@
+services:
+  behave:
+    build: .
+    platform: linux/arm64
+    container_name: behave-tests
+    command: xvfb-run -a behave
+    volumes:
+      - .:/app
