@@ -16,7 +16,7 @@ class SettingsDisplayDialog(ft.AlertDialog):
         super().__init__()
         self.party_mode_settings = create_party_mode_settings()
 
-        self.updates_restart_dialog = UpdatesRestartDialog()
+        self.updates_restart_dialog = UpdatesRestartDialog(modal=True)
         self.splashscreen_dialog = SplashscreenDialog(self)
         self.admin_password_dialog = AdminPasswordDialog(
             self.updates_restart_dialog.open_dialog
