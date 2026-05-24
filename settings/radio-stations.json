@@ -45,7 +45,7 @@
         "id": "41db5229-9b6c-4e70-8087-5e74f94b8331",
         "logo": "https://www.ramasuri.de/storage/thumbs/192x192/r:1712659775/174120.png",
         "name": "Radio Ramasuri",
-        "src": "http://mp3.ramasuri.c.nmdn.net/ps-ramasuri/livestream.mp3"
+        "src": "https://ramasuri.radioho.st/ramasuri-live/mp3-192/"
     },
     {
         "color": "#003C65",
@@ -53,7 +53,7 @@
         "id": "21f7820c-6712-4f1e-9923-71200ea31439",
         "logo": "https://amberg-weiden.radiogalaxy.de/storage/thumbs/192x192/r:1677262065/17728.png",
         "name": "Radio Galaxy",
-        "src": "https://radiogalaxyweiden--di--nacs-ais-lgc--08--cdn.cast.addradio.de/radiogalaxyweiden/live/mp3/high?_art=dj0yJmlwPTkzLjE5Mi4xMTkuOTMmaWQ9aWNzY3hsLXd4anNlNWduYiZ0PTE2NDgwNzAwNjEmcz03ODY2ZjI5YyNkYTE0NDA5OWRiOTdmY2NmNGFkNmQ3ZWUzYTdiN2QxYg"
+        "src": "https://edge01.streamonkey.net/fhn-radiogalaxy/stream/mp3"
     },
     {
         "color": "#CC0000",
