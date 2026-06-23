@@ -97,6 +97,10 @@ class PiRevisionHelper(BaseRevisionHelper):
         return tags
 
     def get_current_revision(self) -> str:
+        commit = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], text=True
+        ).strip()
+
         try:
             # try with tag
             tag = subprocess.check_output(
@@ -105,7 +109,7 @@ class PiRevisionHelper(BaseRevisionHelper):
                 stderr=subprocess.DEVNULL,
             ).strip()
             if tag:
-                return tag
+                return f"{tag}@{commit}"
         except subprocess.CalledProcessError:
             pass
 
@@ -114,11 +118,8 @@ class PiRevisionHelper(BaseRevisionHelper):
             ["git", "rev-parse", "--abbrev-ref", "HEAD"], text=True
         ).strip()
         if branch != "HEAD":
-            return branch
+            return f"{branch}@{commit}"
 
-        commit = subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], text=True
-        ).strip()
         return commit
 
     def cleanup_local_branches(self):
