@@ -68,11 +68,13 @@ class AudioEffectsDialog(ft.AlertDialog):
 
     def update_content(self):
         self.bass_slider.value = Constants.current_bass_step
+        self.bass_slider.divisions = self.bass_steps.get_steps_count() - 1
         self.bass_slider.update()
         self.bass_text.value = f"{Constants.current_bass_step}"
         self.bass_text.update()
 
         self.treble_slider.value = Constants.current_treble_step
+        self.treble_slider.divisions = self.treble_steps.get_steps_count() - 1
         self.treble_slider.update()
         self.treble_text.value = f"{Constants.current_treble_step}"
         self.treble_text.update()
