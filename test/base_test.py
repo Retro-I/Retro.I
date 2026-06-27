@@ -19,13 +19,13 @@ from core.factories.settings_factories import (
     create_developer_mode_settings,
     create_gpio_settings,
     create_party_mode_settings,
+    create_power_management_settings,
     create_radio_stations_settings,
     create_scrollbar_settings,
     create_secured_mode_settings,
     create_startup_error_settings,
     create_strip_settings,
     create_treble_settings,
-    create_power_management_settings,
 )
 from core.helpers.pi.audio_effects import PiAudioEffectsHelper
 from core.helpers.pi.sounds import PiSoundsHelper

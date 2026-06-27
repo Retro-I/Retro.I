@@ -1,12 +1,6 @@
-import threading
-import time
-
 import flet as ft
 
-from components.dialogs.credits import Credits
-from components.dialogs.info import Info
 from core.factories.settings_factories import (
-    create_developer_mode_settings as developer_settings,
     create_power_management_settings,
 )
 
@@ -19,8 +13,6 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
         self.settings = self.power_management_settings.get_management_settings()
 
         self.update_rows()
-
-        self.info = Info()
 
         self.switch = ft.Switch(
             "Shutdown-Management aktiviert",
@@ -62,8 +54,14 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
     def update_rows(self):
         self.rows = [
             # TODO - maybe shorten this
-            ft.Row([
-                ft.Checkbox(value=item["enabled"], label=item["name"], on_change=lambda e: self.on_toggle_day(e, item)),
-            ])
+            ft.Row(
+                [
+                    ft.Checkbox(
+                        value=item["enabled"],
+                        label=item["name"],
+                        on_change=lambda e: self.on_toggle_day(e, item),
+                    ),
+                ]
+            )
             for item in self.power_management_settings.get_management_items()
         ]
