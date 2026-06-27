@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Wochentage-Konfiguration",
+  "description": "Schema für die Konfiguration einer Liste von Wochentagen mit Aktivierungsstatus und Zeitangabe",
+  "type": "object",
+  "required": ["enabled", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "description": "Gibt an, ob die gesamte Konfiguration aktiv ist"
+    },
+    "items": {
+      "type": "array",
+      "description": "Liste der Wochentage",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "description": "Ein einzelner Wochentag",
+        "required": ["id", "name", "enabled"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Eindeutiger Bezeichner des Wochentages auf Englisch",
+            "enum": [
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday",
+              "saturday",
+              "sunday"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Anzeigename des Wochentages auf Deutsch",
+            "minLength": 1
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Gibt an, ob dieser Wochentag aktiv ist"
+          },
+          "time": {
+            "type": "string",
+            "description": "Zeitstempel mit Stunden und Minuten im Format HH:MM (24-Stunden-Format)",
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+            "examples": ["08:00", "13:30", "23:59"]
+          }
+        }
+      }
+    }
+  }
+}

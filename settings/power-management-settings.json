@@ -1,0 +1,47 @@
+{
+  "enabled": false,
+  "items": [
+    {
+      "id": "monday",
+      "name": "Montag",
+      "enabled": false,
+      "time": "00:00"
+    },
+    {
+      "id": "tuesday",
+      "name": "Dienstag",
+      "enabled": false,
+      "time": "00:00"
+    },
+    {
+      "id": "wednesday",
+      "name": "Mittwoch",
+      "enabled": false,
+      "time": "00:00"
+    },
+    {
+      "id": "thursday",
+      "name": "Donnerstag",
+      "enabled": false,
+      "time": "00:00"
+    },
+    {
+      "id": "friday",
+      "name": "Freitag",
+      "enabled": false,
+      "time": "00:00"
+    },
+    {
+      "id": "saturday",
+      "name": "Samstag",
+      "enabled": false,
+      "time": "00:00"
+    },
+    {
+      "id": "sunday",
+      "name": "Sonntag",
+      "enabled": false,
+      "time": "00:00"
+    }
+  ]
+}

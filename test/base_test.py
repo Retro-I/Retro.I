@@ -25,6 +25,7 @@ from core.factories.settings_factories import (
     create_startup_error_settings,
     create_strip_settings,
     create_treble_settings,
+    create_power_management_settings,
 )
 from core.helpers.pi.audio_effects import PiAudioEffectsHelper
 from core.helpers.pi.sounds import PiSoundsHelper
@@ -32,6 +33,7 @@ from core.helpers.pi.theme import PiThemeHelper
 from core.settings.pi.bass_steps import PiBassStepsSettings
 from core.settings.pi.developer_mode import PiDeveloperModeSettings
 from core.settings.pi.party_mode import PiPartyModeSettings
+from core.settings.pi.power_management import PiPowerManagementSettings
 from core.settings.pi.scrollbar import PiScrollbarSettings
 from core.settings.pi.secured_mode import PiSecuredModeSettings
 from core.settings.pi.startup_error import PiStartupErrorSettings
@@ -141,6 +143,9 @@ class BaseTest(unittest.TestCase):
         developer_mode_settings_path = (
             f"{self.test_dir}/developer-mode-settings.json"
         )
+        power_management_path = (
+            f"{self.test_dir}/power-management-settings.json"
+        )
         startup_error_helper = f"{self.test_dir}/startup-error.json"
         bass_steps_path = f"{self.test_dir}/bass-steps.json"
         treble_steps_path = f"{self.test_dir}/treble-steps.json"
@@ -160,6 +165,7 @@ class BaseTest(unittest.TestCase):
         PiAudioEffectsHelper.EFFECTS_PATH = effects_path
         PiDeveloperModeSettings.SETTINGS_PATH = developer_mode_settings_path
         PiPartyModeSettings.SETTINGS_PATH = party_mode_path
+        PiPowerManagementSettings.SETTINGS_PATH = power_management_path
 
         self.audio_helper = create_audio_helper()
         self.gpio_helper = create_gpio_settings()
@@ -177,6 +183,7 @@ class BaseTest(unittest.TestCase):
         self.splashscreen_helper = create_splashscreen_helper()
         self.developer_mode_settings_helper = create_developer_mode_settings()
         self.party_mode_helper = create_party_mode_settings()
+        self.power_management_settings = create_power_management_settings()
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)

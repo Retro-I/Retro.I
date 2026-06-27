@@ -11,6 +11,9 @@ from components.dialogs.settings_display_dialog import SettingsDisplayDialog
 from components.dialogs.settings_info_dialog import SettingsInfoDialog
 from components.dialogs.settings_led_dialog import SettingsLedDialog
 from components.dialogs.settings_logs_dialog import SettingsLogsDialog
+from components.dialogs.settings_power_manager_dialog import (
+    SettingsPowerManagerDialog,
+)
 from components.dialogs.settings_shutdown_dialog import SettingsShutdownDialog
 from components.dialogs.settings_update_dialog import SettingsUpdateDialog
 from components.scrollbar import with_scrollbar_space
@@ -31,6 +34,7 @@ class SettingsTab(ft.Column):
         self.display_dialog = SettingsDisplayDialog()
         self.led_dialog = SettingsLedDialog(strip)
         self.info_dialog = SettingsInfoDialog()
+        self.power_manager_dialog = SettingsPowerManagerDialog()
         self.update_dialog = SettingsUpdateDialog()
         self.logs_dialog = SettingsLogsDialog()
         self.developer_mode_dialog = SettingsDeveloperModeDialog()
@@ -76,6 +80,13 @@ class SettingsTab(ft.Column):
                             callback=lambda e: self.led_dialog.open_dialog(),
                         ),
                         SettingsButton(
+                            ft.Icons.MORE_TIME_OUTLINED,
+                            text="Power-Manger",
+                            callback=lambda e: (
+                                self.power_manager_dialog.open_dialog()
+                            ),
+                        ),
+                        SettingsButton(
                             ft.Icons.INFO_OUTLINED,
                             text="Info's",
                             callback=lambda e: self.info_dialog.open_dialog(),
@@ -113,6 +124,7 @@ class SettingsTab(ft.Column):
         PageState.page.add(self.display_dialog)
         PageState.page.add(self.led_dialog)
         PageState.page.add(self.info_dialog)
+        PageState.page.add(self.power_manager_dialog)
         PageState.page.add(self.update_dialog)
         PageState.page.add(self.logs_dialog)
         PageState.page.add(self.developer_mode_dialog)

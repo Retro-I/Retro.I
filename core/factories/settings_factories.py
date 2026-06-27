@@ -87,3 +87,13 @@ def create_startup_error_settings():
             from core.settings.pi.startup_error import PiStartupErrorSettings
 
             return PiStartupErrorSettings()
+
+
+def create_power_management_settings():
+    match get_app_platform():
+        case AppPlatform.PI:
+            from core.settings.pi.power_management import (
+                PiPowerManagementSettings,
+            )
+
+            return PiPowerManagementSettings()
