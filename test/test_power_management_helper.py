@@ -70,52 +70,50 @@ class TestPowerManagementSettings(BaseTest):
             "name": "Montag",
             "time": "11:11",
         }
-        expected = (
-            [
-                {
-                    "enabled": True,
-                    "id": "monday",
-                    "name": "Montag",
-                    "time": "11:11",
-                },
-                {
-                    "enabled": False,
-                    "id": "tuesday",
-                    "name": "Dienstag",
-                    "time": "00:00",
-                },
-                {
-                    "enabled": False,
-                    "id": "wednesday",
-                    "name": "Mittwoch",
-                    "time": "00:00",
-                },
-                {
-                    "enabled": False,
-                    "id": "thursday",
-                    "name": "Donnerstag",
-                    "time": "00:00",
-                },
-                {
-                    "enabled": False,
-                    "id": "friday",
-                    "name": "Freitag",
-                    "time": "00:00",
-                },
-                {
-                    "enabled": False,
-                    "id": "saturday",
-                    "name": "Samstag",
-                    "time": "00:00",
-                },
-                {
-                    "enabled": False,
-                    "id": "sunday",
-                    "name": "Sonntag",
-                    "time": "00:00",
-                },
-            ],
-        )
+        expected = [
+            {
+                "enabled": True,
+                "id": "monday",
+                "name": "Montag",
+                "time": "11:11",
+            },
+            {
+                "enabled": False,
+                "id": "tuesday",
+                "name": "Dienstag",
+                "time": "00:00",
+            },
+            {
+                "enabled": False,
+                "id": "wednesday",
+                "name": "Mittwoch",
+                "time": "00:00",
+            },
+            {
+                "enabled": False,
+                "id": "thursday",
+                "name": "Donnerstag",
+                "time": "00:00",
+            },
+            {
+                "enabled": False,
+                "id": "friday",
+                "name": "Freitag",
+                "time": "00:00",
+            },
+            {
+                "enabled": False,
+                "id": "saturday",
+                "name": "Samstag",
+                "time": "00:00",
+            },
+            {
+                "enabled": False,
+                "id": "sunday",
+                "name": "Sonntag",
+                "time": "00:00",
+            },
+        ]
         self.power_management_settings.update_management_settings(new_item)
         actual = self.power_management_settings.get_management_settings()
         self.assertEqual(actual, expected)

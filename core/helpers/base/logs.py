@@ -9,6 +9,7 @@ from core.factories.helper_factories import (
 )
 from core.factories.settings_factories import (
     create_party_mode_settings,
+    create_power_management_settings,
     create_scrollbar_settings,
     create_secured_mode_settings,
     create_strip_settings,
@@ -22,6 +23,7 @@ revision_helper = create_revision_helper()
 secured_mode_settings_helper = create_secured_mode_settings()
 audio_helper = create_audio_helper()
 party_mode_helper = create_party_mode_settings()
+power_management_helper = create_power_management_settings()
 
 
 class BaseLogsHelper:
@@ -47,6 +49,11 @@ class BaseLogsHelper:
         logger.info(f"     Over WIFI: {system_helper.get_current_ssid()}")
         logger.info(f"     Hostname: {system_helper.get_hostname()}")
         logger.info(f" Party-Mode: {party_mode_helper.is_party_mode()}")
+        logger.info(f" Party-Mode: {party_mode_helper.is_party_mode()}")
+        logger.info(
+            f" Power-Management: {power_management_helper.is_enabled()}"
+        )
+        # TODO - add log for todays shutdown time and status
         logger.info(
             f" Secured-Mode: "
             f"{secured_mode_settings_helper.is_secured_mode_enabled()}"
