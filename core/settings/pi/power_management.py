@@ -62,3 +62,8 @@ class PiPowerManagementSettings(BasePowerManagementSettings):
             file.seek(0)
             json.dump(data, file, indent=4)
             file.truncate()
+
+    def shutdown_time_reached(self) -> bool:
+        return False
+        # TODO - check with current timestamp
+        # TODO - add tests with freeze_gun

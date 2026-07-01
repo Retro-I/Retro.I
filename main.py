@@ -124,6 +124,7 @@ def main(page: ft.Page):
         while True:
             theme.radio_tab.song_info_row.reload()
             taskbar.update()
+            # TODO - add check for power-management
             time.sleep(2)
 
     process = threading.Thread(target=background_processes)

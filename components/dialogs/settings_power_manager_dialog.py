@@ -18,13 +18,11 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
         self.selected_item = None
         self.update_rows()
 
-        self.updates_restart_dialog = UpdatesRestartDialog(modal=True)
-        PageState.page.add(self.updates_restart_dialog)
 
         self.rows_column = ft.Column(controls=self.rows)
 
         self.switch = ft.Switch(
-            "Shutdown-Management (Neustart erforderlich)",
+            "Shutdown-Management",
             label_style=ft.TextStyle(size=18),
             on_change=self.on_toggle,
             value=self.power_management_settings.is_enabled(),
@@ -56,7 +54,6 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
             self.power_management_settings.enable_power_management()
         else:
             self.power_management_settings.disable_power_management()
-        self.updates_restart_dialog.open_dialog()
 
         # TODO - make sure some thread is running that looks for shutdown time
 
