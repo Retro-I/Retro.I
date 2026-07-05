@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from core.factories.helper_factories import create_settings_sync_helper
@@ -10,6 +11,8 @@ c = Constants()
 class PiPowerManagementSettings(BasePowerManagementSettings):
     SETTING = "power-management-settings.json"
     SETTINGS_PATH = f"{Constants.settings_path()}/{SETTING}"
+
+    _last_shutdown_check = None
 
     def __init__(self):
         self.settings_sync_helper = create_settings_sync_helper()
@@ -64,6 +67,37 @@ class PiPowerManagementSettings(BasePowerManagementSettings):
             file.truncate()
 
     def shutdown_time_reached(self) -> bool:
-        return False
-        # TODO - check with current timestamp
-        # TODO - add tests with freeze_gun
+        now = datetime.datetime.now()
+        settings = self.get_settings()
+
+        if not settings["enabled"]:
+            return False
+
+        weekday = now.weekday()
+        settings_today = next(
+            (s for s in settings["items"] if s["id"] == weekday), None
+        )
+
+        if self._last_shutdown_check is None:
+            self._last_shutdown_check = now
+            return False
+
+        result = False
+
+        if settings_today["enabled"]:
+            shutdown_time = datetime.datetime.strptime(
+                settings_today["time"],
+                "%H:%M",
+            ).time()
+
+            crossed_today = (
+                self._last_shutdown_check.date() == now.date()
+                and self._last_shutdown_check.time()
+                <= shutdown_time
+                <= now.time()
+            )
+            result = crossed_today
+
+        self._last_shutdown_check = now
+
+        return result

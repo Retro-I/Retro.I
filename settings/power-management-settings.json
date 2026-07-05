@@ -2,43 +2,43 @@
   "enabled": false,
   "items": [
     {
-      "id": "monday",
+      "id": 0,
       "name": "Montag",
       "enabled": false,
       "time": "00:00"
     },
     {
-      "id": "tuesday",
+      "id": 1,
       "name": "Dienstag",
       "enabled": false,
       "time": "00:00"
     },
     {
-      "id": "wednesday",
+      "id": 2,
       "name": "Mittwoch",
       "enabled": false,
       "time": "00:00"
     },
     {
-      "id": "thursday",
+      "id": 3,
       "name": "Donnerstag",
       "enabled": false,
       "time": "00:00"
     },
     {
-      "id": "friday",
+      "id": 4,
       "name": "Freitag",
       "enabled": false,
       "time": "00:00"
     },
     {
-      "id": "saturday",
+      "id": 5,
       "name": "Samstag",
       "enabled": false,
       "time": "00:00"
     },
     {
-      "id": "sunday",
+      "id": 6,
       "name": "Sonntag",
       "enabled": false,
       "time": "00:00"

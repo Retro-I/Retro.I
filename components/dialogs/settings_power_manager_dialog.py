@@ -2,11 +2,9 @@ from datetime import time
 
 import flet as ft
 
-from components.dialogs.updates_restart_dialog import UpdatesRestartDialog
 from core.factories.settings_factories import (
     create_power_management_settings,
 )
-from helper.page_state import PageState
 
 
 class SettingsPowerManagerDialog(ft.AlertDialog):
@@ -17,7 +15,6 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
         self.settings = self.power_management_settings.get_management_settings()
         self.selected_item = None
         self.update_rows()
-
 
         self.rows_column = ft.Column(controls=self.rows)
 

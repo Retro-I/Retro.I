@@ -21,17 +21,8 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "type": "string",
-            "description": "Eindeutiger Bezeichner des Wochentages auf Englisch",
-            "enum": [
-              "monday",
-              "tuesday",
-              "wednesday",
-              "thursday",
-              "friday",
-              "saturday",
-              "sunday"
-            ]
+            "type": "integer",
+            "description": "Eindeutige Id des Wochentages"
           },
           "name": {
             "type": "string",
