@@ -27,6 +27,7 @@ from core.factories.helper_factories import (
 )
 from core.factories.settings_factories import (
     create_gpio_settings,
+    create_power_management_settings,
     create_radio_stations_settings,
     create_startup_error_settings,
 )
@@ -50,6 +51,7 @@ theme_helper = create_theme_helper()
 gpio_helper = create_gpio_settings()
 logs_helper = create_logs_helper()
 player = create_player_helper()
+power_management = create_power_management_settings()
 
 app_state = AppState()
 
@@ -124,7 +126,9 @@ def main(page: ft.Page):
         while True:
             theme.radio_tab.song_info_row.reload()
             taskbar.update()
-            # TODO - add check for power-management
+            if power_management.shutdown_time_reached():
+                system_helper.shutdown_system()
+
             time.sleep(2)
 
     process = threading.Thread(target=background_processes)
