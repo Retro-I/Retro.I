@@ -14,7 +14,7 @@ on:
 
 jobs:
   qualitygate:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     steps:
       - uses: actions/checkout@v7
 
@@ -50,7 +50,7 @@ jobs:
         run: exit 1
 
   test:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     needs: qualitygate
     steps:
       - uses: actions/checkout@v7
