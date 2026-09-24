@@ -71,7 +71,7 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
                         on_change=lambda e, i=item: self.on_toggle_day(e, i),
                     ),
                     ft.TextButton(
-                        text=item["time"],
+                        item["time"],
                         on_click=lambda e, i=item: self.open_time_picker(i),
                         style=ft.ButtonStyle(text_style=ft.TextStyle(size=16)),
                     ),
