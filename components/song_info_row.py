@@ -37,8 +37,8 @@ class SongInfoRow(ft.Container):
                 ),
             ]
         )
-        self.border = ft.border.only(bottom=ft.border.BorderSide(1, "gray"))
-        self.padding = ft.padding.only(bottom=10)
+        self.border = ft.Border.only(bottom=ft.border.BorderSide(1, "gray"))
+        self.padding = ft.Padding.only(bottom=10)
 
     def reload(self):
         try:
