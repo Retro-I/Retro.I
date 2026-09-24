@@ -1,4 +1,4 @@
-flet==0.82.2
+flet==1.0.1
 pillow==12.2.0
 CairoSVG==2.9.0
 requests==2.34.2
