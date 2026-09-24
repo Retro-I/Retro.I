@@ -146,4 +146,4 @@ def main(page: ft.Page):
         )
 
 
-ft.app(main, assets_dir="assets")
+ft.run(main, assets_dir="assets")
