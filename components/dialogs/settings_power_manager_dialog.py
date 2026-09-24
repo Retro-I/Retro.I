@@ -31,7 +31,7 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
             cancel_text="Abbrechen",
             help_text="Zeit auswählen",
             error_invalid_text="Falsche Eingabe",
-            time_picker_entry_mode=ft.TimePickerEntryMode.DIAL,
+            entry_mode=ft.TimePickerEntryMode.DIAL,
             on_change=self.handle_change,
         )
 
