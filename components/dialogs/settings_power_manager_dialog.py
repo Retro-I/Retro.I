@@ -19,8 +19,8 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
         self.rows_column = ft.Column(controls=self.rows)
 
         self.switch = ft.Switch(
-            "Shutdown-Management",
-            label_style=ft.TextStyle(size=18),
+            label="Shutdown-Management",
+            label_text_style=ft.TextStyle(size=18),
             on_change=self.on_toggle,
             value=self.power_management_settings.is_enabled(),
         )
