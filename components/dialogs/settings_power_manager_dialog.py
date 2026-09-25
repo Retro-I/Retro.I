@@ -16,7 +16,11 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
         self.selected_item = None
         self.update_rows()
 
-        self.rows_column = ft.Column(controls=self.rows)
+        self.rows_column = ft.Column(
+            controls=self.rows,
+            expand=True,
+            scroll=ft.ScrollMode.ALWAYS,
+        )
 
         self.switch = ft.Switch(
             label="Shutdown-Management",
@@ -37,6 +41,7 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
 
         self.content = ft.Column(
             width=500,
+            height=400,
             tight=True,
             controls=[
                 self.time_picker,
