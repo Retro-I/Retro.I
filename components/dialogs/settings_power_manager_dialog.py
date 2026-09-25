@@ -16,11 +16,15 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
         self.selected_item = None
         self.update_rows()
 
-        self.rows_column = ft.Column(controls=self.rows)
+        self.rows_column = ft.Column(
+            controls=self.rows,
+            expand=True,
+            scroll=ft.ScrollMode.ALWAYS,
+        )
 
         self.switch = ft.Switch(
-            "Shutdown-Management",
-            label_style=ft.TextStyle(size=18),
+            label="Shutdown-Management",
+            label_text_style=ft.TextStyle(size=18),
             on_change=self.on_toggle,
             value=self.power_management_settings.is_enabled(),
         )
@@ -31,12 +35,13 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
             cancel_text="Abbrechen",
             help_text="Zeit auswählen",
             error_invalid_text="Falsche Eingabe",
-            time_picker_entry_mode=ft.TimePickerEntryMode.DIAL,
+            entry_mode=ft.TimePickerEntryMode.DIAL,
             on_change=self.handle_change,
         )
 
         self.content = ft.Column(
             width=500,
+            height=400,
             tight=True,
             controls=[
                 self.time_picker,
@@ -71,7 +76,7 @@ class SettingsPowerManagerDialog(ft.AlertDialog):
                         on_change=lambda e, i=item: self.on_toggle_day(e, i),
                     ),
                     ft.TextButton(
-                        text=item["time"],
+                        item["time"],
                         on_click=lambda e, i=item: self.open_time_picker(i),
                         style=ft.ButtonStyle(text_style=ft.TextStyle(size=16)),
                     ),

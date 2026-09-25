@@ -3,7 +3,7 @@ import flet as ft
 from components.dialogs.led_color_dialog import LedColorDialog, LedTypeEnum
 from core.factories.helper_factories import create_color_helper
 from core.factories.settings_factories import create_strip_settings
-from helper.page_state import PageState
+from helper.page_state import show_dialog
 
 
 class SettingsLedDialog(ft.AlertDialog):
@@ -14,9 +14,7 @@ class SettingsLedDialog(ft.AlertDialog):
         self.color_helper = create_color_helper()
 
         self.strip = strip
-
-        self.led_color_dialog = LedColorDialog(strip, self)
-        PageState.page.add(self.led_color_dialog)
+        self.led_color_dialog = LedColorDialog(strip)
 
         self.radio_group = ft.RadioGroup(
             on_change=self.handle_selection_change,
@@ -46,8 +44,8 @@ class SettingsLedDialog(ft.AlertDialog):
             expand=True,
             controls=[
                 ft.Switch(
-                    "LED-Streifen einschalten",
-                    label_style=ft.TextStyle(size=18),
+                    label="LED-Streifen einschalten",
+                    label_text_style=ft.TextStyle(size=18),
                     on_change=strip.toggle_strip,
                     value=self.settings_helper.is_strip_active(),
                 ),
@@ -87,7 +85,7 @@ class SettingsLedDialog(ft.AlertDialog):
         self.btn_open_led_dialog.update()
 
     def open_led_color_dialog(self):
-        self.led_color_dialog.open_dialog()
+        show_dialog(self.led_color_dialog)
 
     def open_dialog(self):
         self.btn_open_led_dialog.visible = (
