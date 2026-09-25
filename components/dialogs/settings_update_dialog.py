@@ -21,15 +21,10 @@ class SettingsUpdateDialog(ft.AlertDialog):
         self.settings_sync_helper = create_settings_sync_helper()
         self.revision_helper = create_revision_helper()
 
-        self.branches_list = with_scrollbar_space(
-            ft.ListView(visible=False, expand=True)
-        )
-        self.tags_list = with_scrollbar_space(
-            ft.ListView(visible=False, expand=True)
-        )
+        self.branches_list = with_scrollbar_space(ft.ListView(expand=True))
+        self.tags_list = with_scrollbar_space(ft.ListView(expand=True))
 
-        self.branches_loading_spinner = ft.ProgressRing()
-        self.tags_loading_spinner = ft.ProgressRing()
+        self.loading_spinner = ft.ProgressRing()
 
         self.curr_revision_span = ft.TextSpan(
             "", style=ft.TextStyle(weight=ft.FontWeight.BOLD)
@@ -49,61 +44,58 @@ class SettingsUpdateDialog(ft.AlertDialog):
                 self.curr_revision_span,
             ]
         )
-        self.content = ft.Column(
-            width=500,
-            tight=True,
-            controls=[
-                ft.Divider(),
-                ft.Tabs(
-                    selected_index=0,
-                    length=2,
-                    animation_duration=300,
-                    content=ft.Column(
-                        [
-                            ft.TabBar(
-                                tabs=[
-                                    ft.Tab(
-                                        label="          Branches          "
-                                    ),
-                                    ft.Tab(
-                                        label="            Tags            "
-                                    ),
-                                ]
-                            ),
-                            ft.TabBarView(
-                                expand=True,
-                                controls=[
-                                    # TODO - this is not aligned yet.
-                                    #  maybe a flet bug??
-                                    ft.Column(
-                                        width=500,
-                                        expand=True,
-                                        alignment=ft.MainAxisAlignment.CENTER,
-                                        horizontal_alignment=(
-                                            ft.CrossAxisAlignment.CENTER
-                                        ),
-                                        controls=[
-                                            self.branches_list,
-                                            self.branches_loading_spinner,
-                                        ],
-                                    ),
-                                    ft.Column(
-                                        width=500,
-                                        expand=True,
-                                        alignment=ft.MainAxisAlignment.CENTER,
-                                        horizontal_alignment=(
-                                            ft.CrossAxisAlignment.CENTER
-                                        ),
-                                        controls=[
-                                            self.tags_list,
-                                            self.tags_loading_spinner,
-                                        ],
-                                    ),
-                                ],
-                            ),
+
+        self.tabs = ft.Tabs(
+            selected_index=0,
+            length=2,
+            animation_duration=300,
+            expand=True,
+            visible=False,
+            content=ft.Column(
+                [
+                    ft.TabBar(
+                        tabs=[
+                            ft.Tab(label="          Branches          "),
+                            ft.Tab(label="            Tags            "),
                         ]
                     ),
-                ),
+                    ft.TabBarView(
+                        expand=True,
+                        controls=[
+                            ft.Column(
+                                width=500,
+                                expand=True,
+                                controls=[
+                                    self.branches_list,
+                                ],
+                            ),
+                            ft.Column(
+                                width=500,
+                                expand=True,
+                                controls=[
+                                    self.tags_list,
+                                ],
+                            ),
+                        ],
+                    ),
+                ],
+                expand=True,
+            ),
+        )
+        self.spinner_container = ft.Container(
+            content=self.loading_spinner,
+            alignment=ft.Alignment.CENTER,
+            expand=True,
+        )
+        self.content = ft.Column(
+            width=500,
+            height=400,
+            tight=True,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            controls=[
+                ft.Divider(),
+                self.spinner_container,
+                self.tabs,
             ],
         )
 
@@ -138,10 +130,8 @@ class SettingsUpdateDialog(ft.AlertDialog):
         self.update()
 
     def reload(self, show_spinner: bool = True):
-        self.branches_loading_spinner.visible = show_spinner
-        self.branches_list.visible = not show_spinner
-        self.tags_loading_spinner.visible = show_spinner
-        self.tags_list.visible = not show_spinner
+        self.spinner_container.visible = show_spinner
+        self.tabs.visible = not show_spinner
         self.update()
 
     def _get_items(self, revisions: list[dict]):
