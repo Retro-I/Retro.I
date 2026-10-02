@@ -1,6 +1,6 @@
 flet==0.28.3
 pillow==12.2.0
-CairoSVG==2.9.0
+CairoSVG==2.9.1
 requests==2.34.2
 isort==9.0.1
 flake8==7.4.1
