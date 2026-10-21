@@ -15,7 +15,7 @@ class ToastCard(ft.Column):
         self.width = 300
         self.controls = [
             ft.Container(
-                alignment=ft.alignment.bottom_center,
+                alignment=ft.Alignment.BOTTOM_CENTER,
                 on_click=lambda e: self.audio_state.play_toast(),
                 height=130,
                 content=ft.Image(src=c.get_button_img(), opacity=0.7),

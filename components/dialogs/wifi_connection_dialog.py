@@ -44,7 +44,7 @@ class WifiConnectionDialog(ft.AlertDialog):
         self.open = True
 
         self.btn_connect.disabled = False
-        self.btn_connect.text = "Verbinden"
+        self.btn_connect.content = "Verbinden"
         self.btn_connect.update()
 
         self.update()
@@ -55,7 +55,7 @@ class WifiConnectionDialog(ft.AlertDialog):
 
     def connect(self, on_connect):
         self.btn_connect.disabled = True
-        self.btn_connect.text = "Wird verbunden..."
+        self.btn_connect.content = "Wird verbunden..."
         self.btn_connect.update()
         on_connect()
 
@@ -65,5 +65,5 @@ class WifiConnectionDialog(ft.AlertDialog):
 
         self.close()
         self.btn_connect.disabled = False
-        self.btn_connect.text = "Verbinden"
+        self.btn_connect.content = "Verbinden"
         on_connect()

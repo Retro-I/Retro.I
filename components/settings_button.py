@@ -5,7 +5,7 @@ class SettingsButton(ft.Container):
     def __init__(self, icon, text, callback, visible=True):
         super().__init__()
 
-        self.alignment = ft.alignment.center
+        self.alignment = ft.Alignment.CENTER
         self.on_click = callback
         self.border_radius = 10
         self.padding = 10

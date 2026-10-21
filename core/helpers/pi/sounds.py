@@ -20,13 +20,16 @@ class PiSoundsHelper(BaseSoundsHelper):
         self.settings_sync_helper = create_settings_sync_helper()
 
     def search_sounds(self, query):
-        response = requests.get(
-            f"https://myinstants-api.vercel.app/search?q={query}"
-        ).json()
-        if response["status"] == "200":
-            return response["data"]
+        try:
+            response = requests.get(
+                f"https://myinstants-api.vercel.app/search?q={query}"
+            )
+            if not response.ok or response.status_code != 200:
+                return []
 
-        return []
+            return response.json()["data"]
+        except Exception:
+            return []  # workaround until this api works again
 
     def add_favorite_sound(self, item):
         sounds = self.load_favorite_sounds()

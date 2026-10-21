@@ -9,7 +9,7 @@ from components.dialogs.bluetooth_display_name_dialog import (
     BluetoothDisplayNameDialog,
 )
 from core.factories.helper_factories import create_bluetooth_helper
-from helper.page_state import PageState
+from helper.page_state import show_dialog
 
 
 class BluetoothTab(ft.Column):
@@ -36,9 +36,8 @@ class BluetoothTab(ft.Column):
         self.bluetooth_display_name_dialog = BluetoothDisplayNameDialog(
             self.show
         )
-        PageState.page.add(self.bluetooth_display_name_dialog)
 
-        self.alignment = ft.alignment.center
+        self.alignment = ft.MainAxisAlignment.CENTER
         self.expand = True
         self.visible = False
         self.controls = [
@@ -94,7 +93,7 @@ class BluetoothTab(ft.Column):
         self.update()
 
     def open_change_bluetooth_display_name_dialog(self):
-        self.bluetooth_display_name_dialog.open_dialog()
+        show_dialog(self.bluetooth_display_name_dialog)
 
     def update_connected_device(self):
         while self.update_device_connection:

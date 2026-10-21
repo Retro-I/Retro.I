@@ -33,8 +33,8 @@ class VolumeDialog(ft.AlertDialog):
             tight=True,
             controls=[
                 ft.Switch(
-                    "Stummschalten",
-                    label_style=ft.TextStyle(size=18),
+                    label="Stummschalten",
+                    label_text_style=ft.TextStyle(size=18),
                     on_change=lambda e: self.toggle_mute(),
                     value=self.audio_state.is_mute(),
                 ),

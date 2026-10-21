@@ -1,3 +1,5 @@
+import asyncio
+
 import flet as ft
 
 from components.dialogs.download_dialog import DownloadDialog
@@ -13,23 +15,20 @@ from helper.page_state import PageState
 
 
 class SettingsUpdateDialog(ft.AlertDialog):
-    branches_list = with_scrollbar_space(
-        ft.ListView(visible=False, expand=True)
-    )
-    tags_list = with_scrollbar_space(ft.ListView(visible=False, expand=True))
-
-    branches_loading_spinner = ft.ProgressRing()
-    tags_loading_spinner = ft.ProgressRing()
-
-    curr_revision_span = ft.TextSpan(
-        "", style=ft.TextStyle(weight=ft.FontWeight.BOLD)
-    )
-
     def __init__(self):
         super().__init__()
         self.system_helper = create_system_helper()
         self.settings_sync_helper = create_settings_sync_helper()
         self.revision_helper = create_revision_helper()
+
+        self.branches_list = with_scrollbar_space(ft.ListView(expand=True))
+        self.tags_list = with_scrollbar_space(ft.ListView(expand=True))
+
+        self.loading_spinner = ft.ProgressRing()
+
+        self.curr_revision_span = ft.TextSpan(
+            "", style=ft.TextStyle(weight=ft.FontWeight.BOLD)
+        )
 
         self.download_dialog = DownloadDialog()
         self.error_dialog = ErrorDialog()
@@ -45,44 +44,58 @@ class SettingsUpdateDialog(ft.AlertDialog):
                 self.curr_revision_span,
             ]
         )
-        self.content = ft.Column(
-            width=500,
-            tight=True,
-            controls=[
-                ft.Divider(),
-                ft.Tabs(
-                    animation_duration=300,
-                    tab_alignment=ft.TabAlignment.CENTER,
-                    tabs=[
-                        ft.Tab(
-                            text="          Branches          ",
-                            content=ft.Column(
-                                alignment=ft.MainAxisAlignment.CENTER,
-                                horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER
-                                ),
+
+        self.tabs = ft.Tabs(
+            selected_index=0,
+            length=2,
+            animation_duration=300,
+            expand=True,
+            visible=False,
+            content=ft.Column(
+                [
+                    ft.TabBar(
+                        tabs=[
+                            ft.Tab(label="          Branches          "),
+                            ft.Tab(label="            Tags            "),
+                        ]
+                    ),
+                    ft.TabBarView(
+                        expand=True,
+                        controls=[
+                            ft.Column(
+                                width=500,
+                                expand=True,
                                 controls=[
                                     self.branches_list,
-                                    self.branches_loading_spinner,
                                 ],
                             ),
-                        ),
-                        ft.Tab(
-                            text="            Tags            ",
-                            content=ft.Column(
-                                alignment=ft.MainAxisAlignment.CENTER,
-                                horizontal_alignment=(
-                                    ft.CrossAxisAlignment.CENTER
-                                ),
+                            ft.Column(
+                                width=500,
+                                expand=True,
                                 controls=[
                                     self.tags_list,
-                                    self.tags_loading_spinner,
                                 ],
                             ),
-                        ),
-                    ],
-                    expand=True,
-                ),
+                        ],
+                    ),
+                ],
+                expand=True,
+            ),
+        )
+        self.spinner_container = ft.Container(
+            content=self.loading_spinner,
+            alignment=ft.Alignment.CENTER,
+            expand=True,
+        )
+        self.content = ft.Column(
+            width=500,
+            height=400,
+            tight=True,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            controls=[
+                ft.Divider(),
+                self.spinner_container,
+                self.tabs,
             ],
         )
 
@@ -90,39 +103,36 @@ class SettingsUpdateDialog(ft.AlertDialog):
         self.open = True
         self.update()
 
-        self.reload()
+        async def _retrieve_logs():
+            while self.open:
+                self.reload()
 
-        self.fill_branches_list()
-        self.fill_tags_list()
-        self.curr_revision_span.text = self._get_current_revision()
-        self.curr_revision_span.update()
+                self.fill_branches_list()
+                self.fill_tags_list()
+                self.curr_revision_span.text = self._get_current_revision()
+                self.update()
 
-        self.reload(show_spinner=False)
+                self.reload(show_spinner=False)
+                await asyncio.sleep(1)
+
+        self.page.run_task(_retrieve_logs)
 
     def fill_branches_list(self):
         branches = self.revision_helper.get_branches()
 
-        self.branches_list.controls.clear()
         self.branches_list.controls = self._get_items(branches)
+        self.update()
 
     def fill_tags_list(self):
         tags = self.revision_helper.get_tags()
 
-        self.tags_list.controls.clear()
         self.tags_list.controls = self._get_items(tags)
+        self.update()
 
     def reload(self, show_spinner: bool = True):
-        self.branches_loading_spinner.visible = show_spinner
-        self.branches_loading_spinner.update()
-
-        self.branches_list.visible = not show_spinner
-        self.branches_list.update()
-
-        self.tags_loading_spinner.visible = show_spinner
-        self.tags_loading_spinner.update()
-
-        self.tags_list.visible = not show_spinner
-        self.tags_list.update()
+        self.spinner_container.visible = show_spinner
+        self.tabs.visible = not show_spinner
+        self.update()
 
     def _get_items(self, revisions: list[dict]):
         return [

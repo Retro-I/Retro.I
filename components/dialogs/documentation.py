@@ -25,7 +25,7 @@ class Documentation(ft.Column):
             ft.Row(
                 [
                     ft.Image(
-                        src_base64=create_qrcode_helper().str_to_qr_code(
+                        src=create_qrcode_helper().str_to_qr_code(
                             "https://docs.retroi.de"
                         ),
                         width=200,

@@ -14,21 +14,19 @@ from components.dialogs.settings_logs_dialog import SettingsLogsDialog
 from components.dialogs.settings_power_manager_dialog import (
     SettingsPowerManagerDialog,
 )
-from components.dialogs.settings_shutdown_dialog import SettingsShutdownDialog
 from components.dialogs.settings_update_dialog import SettingsUpdateDialog
 from components.scrollbar import with_scrollbar_space
 from components.settings_button import SettingsButton
 from core.factories.settings_factories import (
     create_developer_mode_settings as developer_settings,
 )
-from helper.page_state import PageState
+from helper.page_state import PageState, show_dialog
 
 
 class SettingsTab(ft.Column):
     def __init__(self, strip):
         super().__init__()
 
-        self.shutdown_dialog = SettingsShutdownDialog()
         self.app_control_dialog = SettingsAppControlDialog()
         self.audio_dialog = SettingsAudioDialog()
         self.display_dialog = SettingsDisplayDialog()
@@ -56,7 +54,7 @@ class SettingsTab(ft.Column):
                             ft.Icons.EXIT_TO_APP,
                             text="App",
                             callback=(
-                                lambda e: self.app_control_dialog.open_dialog()
+                                lambda e: show_dialog(self.app_control_dialog)
                             ),
                             visible=(
                                 developer_settings().is_developer_mode_active()
@@ -65,25 +63,25 @@ class SettingsTab(ft.Column):
                         SettingsButton(
                             ft.Icons.AUDIOTRACK,
                             text="Audio",
-                            callback=lambda e: self.audio_dialog.open_dialog(),
+                            callback=lambda e: show_dialog(self.audio_dialog),
                         ),
                         SettingsButton(
                             ft.Icons.DISPLAY_SETTINGS,
                             text="Anzeige",
                             callback=lambda e: (
-                                self.display_dialog.open_dialog()
+                                show_dialog(self.display_dialog)
                             ),
                         ),
                         SettingsButton(
                             ft.Icons.COLOR_LENS,
                             text="LED-Streifen",
-                            callback=lambda e: self.led_dialog.open_dialog(),
+                            callback=lambda e: show_dialog(self.led_dialog),
                         ),
                         SettingsButton(
                             ft.Icons.MORE_TIME_OUTLINED,
                             text="Power-Manger",
-                            callback=lambda e: (
-                                self.power_manager_dialog.open_dialog()
+                            callback=lambda e: PageState.page.show_dialog(
+                                self.power_manager_dialog
                             ),
                         ),
                         SettingsButton(
@@ -111,23 +109,17 @@ class SettingsTab(ft.Column):
                             ft.Icons.BUILD,
                             text="Entwickler",
                             callback=lambda e: (
-                                self.developer_mode_dialog.open_dialog()
+                                show_dialog(self.developer_mode_dialog)
                             ),
                         ),
                     ],
                 ),
             ),
         ]
-        PageState.page.add(self.shutdown_dialog)
-        PageState.page.add(self.app_control_dialog)
-        PageState.page.add(self.audio_dialog)
-        PageState.page.add(self.display_dialog)
-        PageState.page.add(self.led_dialog)
+
         PageState.page.add(self.info_dialog)
-        PageState.page.add(self.power_manager_dialog)
         PageState.page.add(self.update_dialog)
         PageState.page.add(self.logs_dialog)
-        PageState.page.add(self.developer_mode_dialog)
 
     def show(self):
         self.visible = True
